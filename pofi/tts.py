@@ -124,9 +124,10 @@ class TTS:
                 self.report[spoken] = json.loads(meta.read_text(encoding="utf-8"))
             return np.fromfile(cached, dtype=np.float32)
         best, best_score, best_hyp = None, -1.0, ""
-        for _ in range(self.takes):
+        judged = self.judge is not None and len(spoken.split()) > 2  # Whisper is unreliable on 1-2 words
+        for _ in range(self.takes if judged else 1):
             audio = self._synth(spoken)
-            if self.judge is None:
+            if not judged:
                 best = audio
                 break
             score, hyp = self.judge.score(audio, spoken)
@@ -135,7 +136,7 @@ class TTS:
             if score >= 0.96:
                 break
         best.astype(np.float32).tofile(cached)
-        if self.judge is not None:
+        if judged:
             info = {"score": round(best_score, 3), "heard": best_hyp}
             meta.write_text(json.dumps(info, ensure_ascii=False), encoding="utf-8")
             self.report[spoken] = info

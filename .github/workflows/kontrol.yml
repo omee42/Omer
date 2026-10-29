@@ -1,0 +1,29 @@
+name: Senaryo kontrolü
+
+on:
+  push:
+    paths: ["bolumler/**", "pofi/**", "tests/**", "config.yaml", "takvim.yaml"]
+  pull_request:
+
+jobs:
+  kontrol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install numpy scipy pillow pyyaml pytest
+      - name: Emoji çizimlerini önbellekten al
+        uses: actions/cache@v4
+        with:
+          path: .cache/emoji3d
+          key: pofi-emoji-v1
+      - name: Testler
+        run: python -m pytest -q tests
+      - name: Senaryolar
+        run: python -m pofi validate
+      - name: Takvim
+        run: python -m pofi takvim --gun 14

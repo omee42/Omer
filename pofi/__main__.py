@@ -6,6 +6,8 @@
   render DOSYA               Videoyu, Shorts'u, kapağı, altyazıyı ve YouTube metnini üretir
   gunluk [--tarih T]         O günün bölümünü bulur ve üretir (GitHub Actions bunu kullanır)
   takvim [--gun N]           Yaklaşan günleri ve senaryosu hazır olanları listeler
+  seslendir DOSYA...         Sadece sesleri üretir ve net duyulmayan cümleleri raporlar
+  youtube --dir D --tarih T  Üretilen klasörü YouTube'a yükler (gizli anahtarlar gerekir)
 """
 import argparse
 import datetime as dt
@@ -206,6 +208,43 @@ def cmd_calendar(args):
     return 0
 
 
+def cmd_voice(args):
+    from .render import Timeline
+    from .schema import load_episode
+    from .tts import TTS
+    cfg = load_config()
+    tts = TTS(cfg)
+    worst = 0
+    for f in args.files:
+        ep = load_episode(f)
+        tts.report = {}
+        Timeline(cfg, ep, 1920, 1080, 30, tts)
+        out = OUT / ep["id"]
+        out.mkdir(parents=True, exist_ok=True)
+        write_voice_report(tts, out / "ses_raporu.txt")
+        weak = [(t, r) for t, r in tts.report.items() if r["score"] < args.esik]
+        worst += len(weak)
+        print(f"{Path(f).name}: {len(tts.report)} cümle, {len(weak)} zayıf")
+        for t, r in sorted(weak, key=lambda kv: kv[1]["score"]):
+            print(f"   [{r['score']:.2f}] {t}  →  {r['heard']}")
+    return 0
+
+
+def cmd_youtube(args):
+    import os
+    from .youtube import upload_dir
+    cfg = load_config()
+    if not cfg["youtube"].get("otomatik_yukle"):
+        print("YouTube yüklemesi kapalı (config.yaml → youtube.otomatik_yukle: true yapın).")
+        return 0
+    missing = [k for k in ("YT_CLIENT_ID", "YT_CLIENT_SECRET", "YT_REFRESH_TOKEN") if not os.environ.get(k)]
+    if missing:
+        print(f"YouTube yüklemesi atlandı; eksik gizli anahtarlar: {', '.join(missing)}")
+        return 0
+    upload_dir(Path(args.dir), cfg, args.tarih)
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="pofi", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -231,9 +270,16 @@ def main(argv=None):
     c = sub.add_parser("takvim")
     c.add_argument("--gun", type=int, default=30)
     c.add_argument("--baslangic")
+    sv = sub.add_parser("seslendir")
+    sv.add_argument("files", nargs="+")
+    sv.add_argument("--esik", type=float, default=0.6, help="bu puanın altındaki cümleler listelenir")
+    y = sub.add_parser("youtube")
+    y.add_argument("--dir", required=True)
+    y.add_argument("--tarih", required=True)
     args = ap.parse_args(argv)
     fn = {"setup": cmd_setup, "validate": cmd_validate, "preview": cmd_preview, "render": cmd_render,
-          "gunluk": cmd_daily, "takvim": cmd_calendar}[args.cmd]
+          "gunluk": cmd_daily, "takvim": cmd_calendar, "seslendir": cmd_voice,
+          "youtube": cmd_youtube}[args.cmd]
     return fn(args) or 0
 
 

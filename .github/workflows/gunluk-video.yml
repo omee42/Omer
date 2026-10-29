@@ -1,0 +1,94 @@
+name: Günlük video
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # her gün 06:17 (Türkiye saati)
+  workflow_dispatch:
+    inputs:
+      tarih:
+        description: "Bölüm tarihi (YYYY-AA-GG). Boş bırakılırsa bugün."
+        required: false
+        default: ""
+      shorts:
+        description: "Shorts videosu da üretilsin"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gunluk-video
+  cancel-in-progress: false
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: ffmpeg kur
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Python paketlerini kur
+        run: pip install -r requirements.txt
+
+      - name: Çizim, ses ve konuşma tanıma modellerini önbellekten al
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: pofi-varliklar-v1-${{ hashFiles('pofi/assets.py', 'pofi/asr.py', 'config.yaml') }}
+          restore-keys: pofi-varliklar-v1-
+
+      - name: Varlıkları indir
+        run: python -m pofi setup
+
+      - name: Senaryoları kontrol et
+        run: python -m pofi validate
+
+      - name: Bugünün bölümünü üret
+        id: render
+        env:
+          TARIH_GIRDI: ${{ inputs.tarih }}
+        run: |
+          TARIH="$TARIH_GIRDI"
+          if [ -z "$TARIH" ]; then TARIH=$(TZ=Europe/Istanbul date +%F); fi
+          [[ "$TARIH" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "Tarih YYYY-AA-GG olmalı"; exit 1; }
+          EXTRA=""
+          if [ "${{ inputs.shorts }}" = "false" ]; then EXTRA="--no-short"; fi
+          python -m pofi gunluk --tarih "$TARIH" --out "cikti/$TARIH" $EXTRA
+          echo "tarih=$TARIH" >> "$GITHUB_OUTPUT"
+
+      - name: GitHub Release olarak yayınla
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          T="${{ steps.render.outputs.tarih }}"
+          cd "cikti/$T"
+          BASLIK=$(python -c "import json; print(json.load(open('youtube.json'))['title'])")
+          if gh release view "bolum-$T" >/dev/null 2>&1; then
+            gh release upload "bolum-$T" ./* --clobber
+          else
+            gh release create "bolum-$T" ./* --title "$T · $BASLIK" --notes-file youtube.txt
+          fi
+
+      - name: YouTube'a yükle (isteğe bağlı)
+        if: env.YT_REFRESH_TOKEN != ''
+        run: python -m pofi youtube --dir "cikti/${{ steps.render.outputs.tarih }}" --tarih "${{ steps.render.outputs.tarih }}"
+
+      - name: Önizleme olarak sakla
+        uses: actions/upload-artifact@v4
+        with:
+          name: bolum-${{ steps.render.outputs.tarih }}
+          path: cikti/${{ steps.render.outputs.tarih }}
+          retention-days: 14

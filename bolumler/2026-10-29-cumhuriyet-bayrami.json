@@ -31,7 +31,7 @@
       "lines": [
         "Her yıl 29 Ekim'de Cumhuriyet Bayramı'nı kutlarız.",
         "Çünkü 29 Ekim 1923'te Cumhuriyetimiz ilan edildi.",
-        "Bu yıl Cumhuriyetimiz tam 103 yaşında!"
+        "Cumhuriyetimiz bu yıl tam 103 yaşında!"
       ]
     },
     {
@@ -124,7 +124,7 @@
       "items": [
         {"emoji": "🇹🇷", "label": "29 Ekim", "line": "29 Ekim, Cumhuriyet Bayramı'dır."},
         {"emoji": "🗳️", "label": "Cumhuriyet", "line": "Cumhuriyet, halkın kendi kendini yönetmesidir."},
-        {"emoji": "🎉", "label": "Kutlama", "line": "Bayramda bayrak asar, şarkılar söyleriz."}
+        {"emoji": "🎉", "label": "Kutlama", "line": "Bayramda bayraklar asar, şarkılar söyleriz."}
       ]
     },
     {

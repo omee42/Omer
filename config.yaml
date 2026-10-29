@@ -36,6 +36,7 @@ shorts:
 youtube:
   otomatik_yukle: false           # true ise ve gizli anahtarlar tanımlıysa YouTube'a yükler
   gizlilik: "private"             # private | unlisted | public
+  yayin_saati: "17:00"            # Otomatik yüklemede video bu saatte (Türkiye) yayına girer; boşsa hemen
   kategori: 27                    # 27 = Eğitim
   cocuklar_icin: true             # "Çocuklara özel" (COPPA) işareti
   etiketler: ["çocuk", "eğitici", "okul öncesi", "çocuklar için", "öğreniyorum", "Pofi"]
