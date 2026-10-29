@@ -13,7 +13,9 @@
   #stage { position: relative; overflow: hidden; }
   #stage canvas { position: absolute; left: 0; top: 0; }
   #ui { position: absolute; left: 0; top: 0; pointer-events: none; overflow: hidden; }
-  .el { position: absolute; left: 0; top: 0; box-sizing: border-box; transform-origin: 50% 50%; will-change: transform, opacity; white-space: nowrap; }
+  /* no will-change here: a promoted layer keeps the raster scale it first drew at, so text that pops in
+     from scale 0 would stay blurry for the rest of the scene */
+  .el { position: absolute; left: 0; top: 0; box-sizing: border-box; transform-origin: 50% 50%; white-space: nowrap; }
   .card { background: rgba(255,255,255,0.94); border-radius: 34px; box-shadow: 0 14px 34px rgba(40,25,80,0.22), 0 2px 0 rgba(255,255,255,0.8) inset; }
   .body { font-family: "Nunito"; font-weight: 900; text-align: center; line-height: 1.12; white-space: normal; }
   .title { font-family: "Baloo"; font-weight: 800; text-align: center; line-height: 1.02; white-space: normal; }

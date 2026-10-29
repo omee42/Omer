@@ -21,6 +21,16 @@ const mixHex = (a, b, k) => col(a).lerp(col(b), k);
 const isEmojiChar = ch => /\p{Extended_Pictographic}|‍|️/u.test(ch);
 const stripEmoji = s => [...String(s)].filter(c => !isEmojiChar(c)).join('').replace(/\s{2,}/g, ' ').trim();
 const trUpper = s => String(s).toLocaleUpperCase('tr-TR');
+// Contrast maths on sRGB hex strings, the same formulas as pofi/gfx.py. THREE.Color holds linear values,
+// so it must not be used for these checks.
+const hexRgb = c => { const h = String(c).replace('#', ''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); };
+const rgbHex = a => '#' + a.map(v => Math.round(clamp(v, 0, 255)).toString(16).padStart(2, '0')).join('');
+const srgbLum = c => { const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  const [r, g, b] = hexRgb(c); return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+const contrast = (a, b) => { const [x, y] = [srgbLum(a), srgbLum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const darken = (c, k) => rgbHex(hexRgb(c).map(v => v * (1 - k)));
+const inkOn = (bg, dark) => (contrast('#ffffff', bg) >= 3 ? '#ffffff' : dark);          // gfx.ink
+const readableOnWhite = (c, ratio = 3) => { for (let i = 0; i < 12 && contrast(c, '#ffffff') < ratio; i++) c = darken(c, 0.12); return c; };
 
 let P, W, H, S, portrait, renderer, scene, camera, camRef, font3d, ui, irisEl;
 const texCache = new Map();
@@ -30,8 +40,8 @@ let world, mascot, captionEl, captionText = null, chipEl;
 // ------------------------------------------------------------------ layout (same regions as the 2D engine)
 function layout() {
   if (portrait) {
-    return { content: [40 * S, 190 * S, W - 80 * S, 1130 * S], mascot: [W / 2, H - 40 * S, 420 * S],
-             caption: [W / 2, 1418 * S, W - 90 * S], chip: [W / 2, 95 * S] };
+    return { content: [40 * S, 190 * S, W - 80 * S, 1130 * S], mascot: [W / 2, H - 46 * S, 380 * S],
+             caption: [W / 2, 1400 * S, W - 90 * S], chip: [W / 2, 95 * S] };   // caption clear of the owl's tufts
   }
   return { content: [445 * S, 40 * S, W - 480 * S, 850 * S], mascot: [232 * S, H - 36 * S, 400 * S],
            caption: [445 * S + (W - 480 * S) / 2, H - 98 * S, 1340 * S], chip: [215 * S, 70 * S] };
@@ -71,6 +81,15 @@ function matte(color, opts = {}) {
   return matCache.get(key);
 }
 function shadowy(mesh, cast = true, receive = false) { mesh.castShadow = cast; mesh.receiveShadow = receive; return mesh; }
+// three compiles an opaque material with alpha forced to 1 and does not recompile when `transparent` flips,
+// so a fade would work or not depending on the frame that first drew the object. Recompile on every flip:
+// the program then depends only on the current state, and any frame renders the same on a cold page.
+function setOpacity(m, op) {
+  if (m.userData.baseTransparent === undefined) m.userData.baseTransparent = m.transparent;
+  const tr = op < 0.999 || m.userData.baseTransparent;
+  if (m.transparent !== tr) { m.transparent = tr; m.needsUpdate = true; }
+  m.opacity = op;
+}
 
 // ------------------------------------------------------------------ textures
 function loadTex(url) {
@@ -389,12 +408,11 @@ function coin3d(text, color, sizePx, z = 0.2) {
   g.add(body);
   const rim = new THREE.Mesh(new THREE.TorusGeometry(r * 0.98, r * 0.08, 12, 48), plastic('#' + mixHex(color, '#ffffff', 0.45).getHexString()));
   rim.position.z = r * 0.17; g.add(rim);
-  const ink = lumOf(color) > 0.6 ? '#3B2A6B' : '#ffffff';
+  const ink = inkOn(color, P.theme.dark);
   const tx = text3d(String(text), { heightPx: sizePx * 0.62, color: ink, z, maxWpx: sizePx * 0.8 });
   tx.position.z = r * 0.2; g.add(tx);
   return g;
 }
-function lumOf(c) { const x = col(c); return 0.2126 * x.r + 0.7152 * x.g + 0.0722 * x.b; }
 function star3d(color = '#FFC93C') {
   const m = shadowy(new THREE.Mesh(shapeGeo('yıldız'), plastic(color, { clearcoat: 1, roughness: 0.25, emissive: col(color), emissiveIntensity: 0.12 })));
   return m;
@@ -715,10 +733,10 @@ function updateMascot(t, fi, info) {
   const big = info.big && !portrait ? 1.12 : 1.0;
   const z = 1.0;
   // the owl model is ~2.3 units tall
-  const scale = mh * big * upp(z) / 2.3;
+  const scale = mh * big * upp(z) / 2.45;   // model height including the ear tufts
   const base = at(mx, my, z);
-  const jumpH = (info.jump || 0) * 0.9;
-  m.root.position.set(base.x, base.y + jumpH * scale + Math.sin(t * 2.6) * 0.03 * scale, base.z);
+  const jumpH = (info.jump || 0) * (portrait ? 45 : 70) * S * upp(z);   // 2D jump height; lower under the Shorts caption
+  m.root.position.set(base.x, base.y + jumpH + Math.sin(t * 2.6) * 0.03 * scale, base.z);
   m.root.scale.setScalar(scale);
   const squash = 1 + 0.03 * Math.sin(t * 2.6 * 2);
   m.rig.scale.set(1 / Math.sqrt(squash), squash, 1 / Math.sqrt(squash));
@@ -814,7 +832,7 @@ class Scene {
     if (g.userData.update) g.userData.update(t);
     if (opacity < 1 || g.userData.faded) {
       g.userData.faded = opacity < 1;
-      g.traverse(o => { if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { m.transparent = opacity < 1 || !!m.map; m.opacity = opacity; }); });
+      g.traverse(o => { if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => setOpacity(m, opacity)); });
     }
   }
   titleDom(text, maxW, maxH, sizePx = 96, color = '#ffffff') {
@@ -843,16 +861,18 @@ class Intro extends Scene {
     placeAt(this.title, x + w / 2, y + h * 0.24, 0.3); this.g.add(this.title);
     if (this.s.subtitle) {
       // a light accent (yellow on the space theme) needs a dark outline, a strong one a white outline
-      const ring = contrastWhite(this.th.accent) >= 2 ? '#ffffff' : this.th.dark;
+      const ring = contrast(this.th.accent, '#ffffff') >= 2 ? '#ffffff' : this.th.dark;
       this.sub = this.dom(esc(this.s.subtitle), 'title', { color: this.th.accent,
         webkitTextStroke: `${Math.round(9 * S)}px ${ring}`, paintOrder: 'stroke fill', textShadow: `0 6px 18px rgba(30,20,60,.3)` });
       fitText(this.sub, w * 0.8, h * 0.13, 84 * S);
     }
     const vs = (this.s.visuals || []).slice(0, 5); const n = vs.length;
+    // with 4-5 pictures the row reaches the left edge, where the big waving owl's wing would cover the first one
+    const lm = !portrait && n >= 4 ? w * 0.1 : 0, rw = w - lm;
     this.vs = vs.map((v, i) => {
       const fx = (i + 0.5) / n;
-      const size = Math.min(w / (n + 0.6), h * 0.3);
-      const cx = x + w * (0.5 + (fx - 0.5) * Math.min(1, 0.28 * n));
+      const size = Math.min(rw / (n + 0.6), h * 0.3);
+      const cx = x + lm + rw * (0.5 + (fx - 0.5) * Math.min(1, 0.28 * n));
       const cy = y + h * 0.77 - Math.sin(Math.PI * fx) * h * 0.04;
       return this.vis(v, cx, cy, size);
     });
@@ -888,7 +908,7 @@ class Outro extends Scene {
       const vsz = ch * (portrait ? 0.5 : 0.66);
       if (v) { this.nv = this.vis(v, cx - cw / 2 + vsz * 0.72, cy, vsz, 0.15); }
       const tx0 = v ? vsz * 1.45 : 0, avail = v ? cw - tx0 - 40 * S : cw * 0.9;
-      this.lab = this.dom('Sıradaki bölüm', 'body', { color: this.th.accent2, fontSize: Math.round(40 * S) + 'px' });
+      this.lab = this.dom('Sıradaki bölüm', 'body', { color: readableOnWhite(this.th.accent), fontSize: Math.round(40 * S) + 'px' });
       this.tx = this.label(nxt.text, avail, ch * 0.5, 72);
       this.txPos = [v ? cx - cw / 2 + tx0 + avail / 2 : cx, cy];
     } else {
@@ -975,9 +995,10 @@ class Fact extends Scene {
     const [x, y, w, h] = contentBox();
     const cw = w * 0.94, ch = h * 0.8; this.cx = x + w / 2; this.cy = y + h * 0.53;
     this.card = card3d(cw, ch, -0.4); placeAt(this.card, this.cx, this.cy, -0.4); this.g.add(this.card);
-    this.head = this.dom(`<img src="${P.emoji['💡']}" style="height:1.15em;vertical-align:-0.22em;margin-right:0.25em">${esc(this.s.title || 'Biliyor muydun?')}`, 'title pill',
-      { background: this.th.accent, color: lumOf(this.th.accent) > 0.6 ? this.th.dark : '#fff', padding: `${Math.round(6 * S)}px ${Math.round(40 * S)}px`,
+    this.head = this.dom(`<img src="${P.emoji['💡']}" style="width:1.15em;height:1.15em;vertical-align:-0.22em;margin-right:0.25em">${esc(this.s.title || 'Biliyor muydun?')}`, 'title pill',
+      { background: this.th.accent, color: inkOn(this.th.accent, this.th.dark), padding: `${Math.round(6 * S)}px ${Math.round(40 * S)}px`,
         boxShadow: '0 8px 20px rgba(40,25,80,.25)', fontSize: Math.round(62 * S) + 'px' });
+    fitText(this.head, cw * 0.9, ch * 0.16, 62 * S, 30 * S);
     this.headPos = [this.cx, this.cy - ch / 2 + 34 * S];
     if (portrait) {
       this.txt = this.label(this.s.text, cw * 0.86, ch * 0.34, 80); this.txtPos = [this.cx, this.cy + ch * 0.28];
@@ -1150,7 +1171,7 @@ class Letter extends Scene {
       const vs = rh * 0.7;
       const v = this.vis(wd.visual, wx + ww * 0.06 + vs * 0.6, cy, vs, 0.1);
       const word = wd.word; const k = Math.max(0, trUpper(word).indexOf(up));
-      const html = esc(word.slice(0, k)) + `<span style="color:${this.th.accent}">${esc(word.slice(k, k + 1))}</span>` + esc(word.slice(k + 1));
+      const html = esc(word.slice(0, k)) + `<span style="color:${readableOnWhite(this.th.accent)}">${esc(word.slice(k, k + 1))}</span>` + esc(word.slice(k + 1));
       const d = this.dom(html, 'title', { color: this.th.dark });
       fitText(d, ww * 0.6, rh * 0.62, Math.min(rh * 0.55, 92 * S));
       return { card, v, d, pos: [wx + ww * 0.06 + vs * 1.25, cy] };
@@ -1209,7 +1230,7 @@ class Quiz extends Scene {
     const [x, y, w, h] = contentBox();
     const qh = h * 0.2; this.qh = qh;
     let pillCol = this.th.accent2;
-    for (let i = 0; i < 8 && contrastWhite(pillCol) < 4; i++) pillCol = '#' + mixHex(pillCol, '#000', 0.12).getHexString();
+    for (let i = 0; i < 8 && contrast('#ffffff', pillCol) < 4; i++) pillCol = darken(pillCol, 0.12);   // white question text needs 4:1
     this.q = this.dom(esc(this.s.question), 'title pill', { background: pillCol, color: '#fff', padding: `${Math.round(10 * S)}px ${Math.round(44 * S)}px`,
       boxShadow: '0 10px 24px rgba(40,25,80,.25)' });
     fitText(this.q, w * 0.86, qh * 0.85, 90 * S);
@@ -1253,9 +1274,9 @@ class Quiz extends Scene {
       c.card.rotation.x = (!correct && t >= reveal) ? easeInOut(prog(t, reveal, 0.6)) * 0.35 : 0;
       c.card.position.copy(c.card.userData.home); c.card.position.z += (correct && t >= reveal) ? 0.6 : 0;
       cardGlow(c.card, correct && t >= reveal ? '#33C96B' : null, 0.4 * easeInOut(prog(t, reveal, 0.4)));
-      c.card.material.transparent = op < 1; c.card.material.opacity = op;
+      setOpacity(c.card.material, op);
       this.setVis(c.v, t, sc * k, wob(t, i, 0.05), bob(t, i, 5 * S), op);
-      c.v.rotation.y = spin;
+      c.v.rotation.y = Math.sin(spin) * 0.35;
       c.v.position.z += (correct && t >= reveal) ? 0.7 : 0;
       place(c.lab, c.cx, c.cy + c.side * 0.36, sc * k, op);
     });
@@ -1281,8 +1302,6 @@ class Quiz extends Scene {
     return { waving: false, happy: rv <= t && t < rv + 1.6, jump: (!calm && rv <= t && t < rv + 0.6) ? Math.sin(Math.PI * clamp((t - rv) / 0.6)) : 0, big: false };
   }
 }
-function contrastWhite(c) { const l = lumLinear(c); return 1.05 / (l + 0.05); }
-function lumLinear(c) { const x = col(c); const f = v => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)); return 0.2126 * f(x.r) + 0.7152 * f(x.g) + 0.0722 * f(x.b); }
 
 class Chant extends Scene {
   build() {
@@ -1310,7 +1329,7 @@ class Chant extends Scene {
       const a = this.t0('c' + i), beat = Math.abs(Math.sin((t - a) * 4.2));
       animateLetters(ln.tx, t, a, { stagger: 0.025, dur: 0.4, wave: 0.05 });
       ln.tx.rotation.y = Math.sin(t * 0.8) * 0.1;
-      if (ln.vg) { this.setVis(ln.vg, t, pop(t, a, 0.35), wob(t, i, 0.1), -beat * 20 * S); ln.vg.rotation.y = Math.sin(t * 1.4) * 0.4; }
+      if (ln.vg) { this.setVis(ln.vg, t, pop(t, a, 0.35), wob(t, i, 0.1), beat * 20 * S); ln.vg.rotation.y = Math.sin(t * 1.4) * 0.4; }
     });
   }
 }
@@ -1453,7 +1472,7 @@ class Action extends Scene {
     const [a, b] = this.T.go || [1e9, 1e9];
     const going = a <= t && t < b;
     const jump = going ? Math.abs(Math.sin((t - a) * Math.PI / 0.6)) * 60 * S : 0;
-    this.setVis(this.v, t, pop(t, 0.1), wob(t, 0, going ? 0.12 : 0.05), -jump + bob(t, 0, 6 * S));
+    this.setVis(this.v, t, pop(t, 0.1), wob(t, 0, going ? 0.12 : 0.05), jump + bob(t, 0, 6 * S));
     this.v.rotation.y = going ? Math.sin((t - a) * 4) * 0.5 : Math.sin(t) * 0.2;
     animateLetters(this.tx, t, 0.3, { stagger: 0.05, wave: going ? 0.06 : 0.02 });
     Object.values(this.coins).forEach(c => (c.visible = false));
@@ -1558,7 +1577,7 @@ function renderThumb() {
   updateMascot(3.0, 0, { waving: true, happy: false, jump: 0, big: false });
   mascot.rig.rotation.y = 0.35;
   world.update(3.0);
-  const band = el(esc(P.episode.channel || ''), 'title pill', { background: P.theme.accent, color: lumOf(P.theme.accent) > 0.6 ? P.theme.dark : '#ffffff',
+  const band = el(esc(P.episode.channel || ''), 'title pill', { background: P.theme.accent, color: inkOn(P.theme.accent, P.theme.dark),
     padding: `${Math.round(6 * k)}px ${Math.round(34 * k)}px`, fontSize: Math.round(34 * k) + 'px', boxShadow: '0 8px 20px rgba(40,25,80,.3)' });
   place(band, W * 0.69, H - 52 * k, 1, 1);
   chipEl.style.opacity = '0'; captionEl.style.opacity = '0'; irisEl.style.display = 'none';

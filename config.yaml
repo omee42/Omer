@@ -14,6 +14,7 @@ ses:
   yedek: "piper:fettah"
   azure_hiz: "-8%"                # Azure sesinin hızı: eksi değer yavaşlatır (çocuklar için hafif yavaş)
   azure_perde: "+3%"              # Azure sesinin tonu: artı değer biraz inceltir, daha sıcak duyulur
+  azure_aralik: 3.1               # Azure istekleri arası saniye (ücretsiz F0 katmanı dakikada 20 istek kabul eder)
   hiz: 1.12                       # Piper sesi için: 1.0 normal; büyüdükçe yavaşlar
   perde: 0                        # Piper sesi için yarım ton cinsinden inceltme/kalınlaştırma (ör. 2)
   satir_arasi: 0.45               # Cümleler arası sessizlik (saniye)

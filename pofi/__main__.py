@@ -57,8 +57,8 @@ def cmd_setup(args):
         if kind == "piper":
             ensure_voice(name)
     if str(cfg["video"].get("motor", "2d")).lower() == "3d":
-        from .render3d import available
-        why = available()
+        from .render3d import check_browser
+        why = check_browser()
         if why:
             print(f"⚠ 3D çizici hazır değil ({why}). Kurmak için: cd pofi/web && npm ci && npx playwright install chromium"
                   " — o zamana kadar videolar 2D çizilir.")
@@ -153,13 +153,15 @@ def cmd_preview(args):
     return 0
 
 
-def produce(path: Path, out_dir: Path, short=True, workers=None):
+def produce(path: Path, out_dir: Path, short=True, workers=None, air_date=None):
     from .publish import metadata, thumbnail, write_metadata
     from .render import make_short, render_episode, write_srt
     from .schema import load_episode
     from .tts import TTS
     cfg = load_config()
     ep = load_episode(path)
+    if air_date:  # a spare airs on a day it was not written for; the 3D world follows the real season
+        ep["date"] = air_date
     out_dir.mkdir(parents=True, exist_ok=True)
     tts = TTS(cfg)
     tl = render_episode(ep, out_dir / "video.mp4", cfg, "long", workers, tts)
@@ -211,7 +213,7 @@ def cmd_daily(args):
     candidates = [path] + [p for p in _spares() if p != path]
     for i, cand in enumerate(candidates):
         try:
-            produce(cand, out, short=not args.no_short, workers=args.workers)
+            produce(cand, out, short=not args.no_short, workers=args.workers, air_date=date)
             path, spare = cand, spare or i > 0
             break
         except EpisodeError as e:
@@ -243,14 +245,17 @@ def cmd_calendar(args):
 def cmd_voice(args):
     from .render import Timeline
     from .schema import load_episode
-    from .tts import TTS
+    from .tts import TTS, VoiceSwitched
     cfg = load_config()
     tts = TTS(cfg)
     worst = 0
     for f in args.files:
         ep = load_episode(f)
         tts.report = {}
-        Timeline(cfg, ep, 1920, 1080, 30, tts)
+        try:
+            Timeline(cfg, ep, 1920, 1080, 30, tts)
+        except VoiceSwitched:  # the main voice failed mid-way; check the episode with the backup voice
+            Timeline(cfg, ep, 1920, 1080, 30, tts)
         out = OUT / ep["id"]
         out.mkdir(parents=True, exist_ok=True)
         write_voice_report(tts, out / "ses_raporu.txt")

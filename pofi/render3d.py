@@ -5,11 +5,14 @@ music); pofi/web/app.js only draws. See pofi/web/render.mjs for the browser driv
 """
 import copy
 import json
+import os
 import shutil
 import subprocess
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
-from .assets import emoji_index, emoji_key
+from .assets import EMOJI_DIR, emoji_index, emoji_key
 from .render import theme_for
 from .schema import get_visual, get_visual_list
 
@@ -22,11 +25,23 @@ class Render3DError(RuntimeError):
 
 
 def available():
-    """Why 3D can't run here, or None when it can."""
+    """Why 3D can't run here, or None when it can (cheap file checks; see check_browser for the browser)."""
     if not shutil.which("node"):
         return "node bulunamadı"
-    if not (WEB / "node_modules" / "three").exists() or not (WEB / "node_modules" / "playwright").exists():
+    if not all((WEB / "node_modules" / m).exists() for m in ("three", "playwright", "polygon-clipping")):
         return "pofi/web içinde 'npm ci' çalıştırılmamış"
+    return None
+
+
+def check_browser():
+    """None when headless Chromium starts with WebGL, else the reason (used by `pofi setup`)."""
+    why = available()
+    if why:
+        return why
+    try:
+        _run(["--check"], 120)
+    except Exception as e:
+        return f"tarayıcı açılamadı ({e}); 'npx playwright install chromium' çalıştırılmamış olabilir"
     return None
 
 
@@ -107,9 +122,18 @@ def _theme(ep):
     return {"bg": list(th["bg"]), "accent": th["accent"], "accent2": th["accent2"], "dark": th["dark"], "name": th["name"]}
 
 
+def _air_date(ep):
+    """The date the world's season is chosen from. Spare episodes carry the placeholder 2000-01-01 and air
+    on whatever day needs them, so they get today's date (Turkey)."""
+    d = str(ep.get("date", ""))
+    if not d or d.startswith("2000-"):
+        d = datetime.now(ZoneInfo("Europe/Istanbul")).date().isoformat()
+    return d
+
+
 def _episode(ep, cfg):
     fmt = lambda s: str(s).replace("{maskot}", cfg["kanal"]["maskot"]).replace("{kanal}", cfg["kanal"]["ad"])
-    return {"title": fmt(ep["title"]), "category": ep.get("category", ""), "date": str(ep.get("date", "")),
+    return {"title": fmt(ep["title"]), "category": ep.get("category", ""), "date": _air_date(ep),
             "mood": ep.get("mood", "happy"), "channel": cfg["kanal"]["ad"]}, fmt
 
 
@@ -139,7 +163,9 @@ def _run(args, timeout):
     why = available()
     if why:
         raise Render3DError(why)
-    p = subprocess.run(["node", str(WEB / "render.mjs")] + args, stdout=subprocess.PIPE, timeout=timeout, text=True)
+    env = dict(os.environ, POFI_EMOJI_DIR=str(EMOJI_DIR))
+    p = subprocess.run(["node", str(WEB / "render.mjs")] + args, stdout=subprocess.PIPE, timeout=timeout, text=True,
+                       env=env)
     if p.returncode != 0:
         raise Render3DError(f"3D çizim başarısız (çıkış kodu {p.returncode})")
     lines = [l for l in p.stdout.splitlines() if l.startswith("{")]
@@ -148,8 +174,13 @@ def _run(args, timeout):
     return json.loads(lines[-1])
 
 
-def render_segments(tl, mouth_env, tmp, workers=3, frames=None, timeout=4 * 3600):
-    """Render all frames (or the range `frames=(a, b)`) to MP4 segments inside tmp; returns their paths."""
+def render_segments(tl, mouth_env, tmp, workers=2, frames=None, timeout=None):
+    """Render all frames (or the range `frames=(a, b)`) to MP4 segments inside tmp; returns their paths.
+
+    The default timeout allows about twice the measured speed on a GitHub runner (0.53 s a frame with two
+    workers), so a hopelessly slow render still leaves time for the 2D fallback inside the job limit."""
+    if timeout is None:
+        timeout = 300 + 1.1 * tl.n_frames
     tmp = Path(tmp)
     plan_path = tmp / "plan3d.json"
     plan_path.write_text(json.dumps(build_plan(tl, mouth_env), ensure_ascii=False), encoding="utf-8")

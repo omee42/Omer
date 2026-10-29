@@ -72,7 +72,8 @@ Anahtar girilmezse videolar internetsiz çalışan yedek sesle (Piper "fettah") 
    `[tts] ses: azure:tr-TR-EmelNeural` satırı görünüyorsa Emel sesi devrede demektir.
 
 Sesin hızını ve tonunu `config.yaml` içindeki `ses.azure_hiz` (varsayılan `-8%`, çocuklar için hafif yavaş)
-ve `ses.azure_perde` (varsayılan `+3%`, biraz daha sıcak) ile değiştirebilirsiniz. Azure bir gün yanıt
+ve `ses.azure_perde` (varsayılan `+3%`, biraz daha sıcak) ile değiştirebilirsiniz. Ücretsiz F0 katmanı dakikada
+20 istek kabul ettiği için cümleler 3,1 saniye arayla istenir (`ses.azure_aralik`; ücretli katmanda `0` yapılabilir). Azure bir gün yanıt
 vermezse o bölüm baştan sona yedek sesle seslendirilir; bir videoda asla iki farklı ses karışmaz.
 
 ## Otomatik YouTube yükleme (isteğe bağlı)
@@ -106,8 +107,8 @@ pip install -r requirements.txt          # ayrıca ffmpeg ve Node.js 20+ kurulu 
 (cd pofi/web && npm ci && npx playwright install chromium)   # 3D çizici (ilk sefer)
 python -m pofi setup                     # çizimler, ses ve kalite kontrol modeli (ilk sefer)
 python -m pofi validate                  # tüm senaryoları kontrol et
-python -m pofi preview bolumler/2026-10-30-sonbahar-yapraklari.json --hizli   # hızlı önizleme PNG
-python -m pofi render  bolumler/2026-10-30-sonbahar-yapraklari.json           # tam üretim → cikti/
+python -m pofi preview bolumler/2026-10-30-sonbahar-renkleri-ve-yapraklar.json --hizli   # hızlı önizleme PNG
+python -m pofi render  bolumler/2026-10-30-sonbahar-renkleri-ve-yapraklar.json           # tam üretim → cikti/
 python -m pofi takvim --gun 30           # önümüzdeki 30 günün senaryo durumu
 ```
 

@@ -27,7 +27,7 @@ concurrency:
 jobs:
   video:
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 180
     env:
       AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
       AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
@@ -55,6 +55,8 @@ jobs:
           cache-dependency-path: pofi/web/package-lock.json
 
       - name: 3D çizici (three.js + Chromium) kur
+        # if this fails (npm/CDN/apt outage) the day's video is still made, in 2D
+        continue-on-error: true
         working-directory: pofi/web
         run: |
           npm ci --no-audit --no-fund

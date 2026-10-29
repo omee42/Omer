@@ -3,6 +3,7 @@
 //   node render.mjs --plan plan.json --out DIR [--workers 3] [--from 0] [--to N]
 //   node render.mjs --plan plan.json --thumb out.jpg
 //   node render.mjs --plan plan.json --shots DIR --list 0,120,450      (single frames for checking)
+//   node render.mjs --check                                             (can the browser start here?)
 //
 // Each worker is its own browser (WebGL runs in one GPU process per browser), renders a contiguous
 // frame range and pipes JPEG screenshots into ffmpeg. Prints one JSON line {"segments":[...]} at the end.
@@ -29,8 +30,17 @@ function opts() {
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json',
   '.ttf': 'font/ttf', '.webp': 'image/webp', '.png': 'image/png' };
-const MOUNTS = [['/three/', path.join(HERE, 'node_modules', 'three')], ['/lib/', path.join(HERE, 'node_modules', 'polygon-clipping', 'dist')], ['/fonts/', path.join(ROOT, 'assets', 'fonts')],
-  ['/emoji/', path.join(ROOT, '.cache', 'emoji3d')], ['/', HERE]];
+// POFI_EMOJI_DIR comes from pofi/render3d.py, so a moved cache (POFI_CACHE) is served too
+const EMOJI_DIR = process.env.POFI_EMOJI_DIR || path.join(ROOT, '.cache', 'emoji3d');
+const MOUNTS = [['/three/', path.join(HERE, 'node_modules', 'three')], ['/lib/', path.join(HERE, 'node_modules', 'polygon-clipping', 'dist')],
+  ['/fonts/', path.join(ROOT, 'assets', 'fonts')], ['/emoji/', EMOJI_DIR], ['/', HERE]];
+const FRAME_TIMEOUT_MS = 120000;   // a stalled browser must fail fast so the caller can fall back to 2D
+
+function withTimeout(p, what) {
+  let timer;
+  return Promise.race([p, new Promise((_, rej) => { timer = setTimeout(() => rej(new Error(`${what}: ${FRAME_TIMEOUT_MS / 1000} sn içinde yanıt yok`)), FRAME_TIMEOUT_MS); })])
+    .finally(() => clearTimeout(timer));
+}
 
 function serve(port = 0) {
   const server = createServer(async (req, res) => {
@@ -77,11 +87,12 @@ async function renderRange(port, plan, a, b, out, onFrame) {
     '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-tune', 'animation', '-pix_fmt', 'yuv420p',
     '-g', String(plan.fps * 2), out], { stdio: ['pipe', 'inherit', 'inherit'] });
   const done = new Promise((res, rej) => ff.on('close', c => (c === 0 ? res() : rej(new Error(`ffmpeg ${out} çıkış kodu ${c}`)))));
+  done.catch(() => {});   // awaited below; a page error must not be masked by ffmpeg exiting on empty input
   try {
     for (let fi = a; fi < b; fi++) {
-      await page.evaluate(i => window.pofi.renderFrame(i), fi);
+      await withTimeout(page.evaluate(i => window.pofi.renderFrame(i), fi), `kare ${fi}`);
       if (errors.length) throw new Error('sayfa hatası: ' + errors.join('\n'));
-      const jpg = await shot(cdp);
+      const jpg = await withTimeout(shot(cdp), `kare ${fi} görüntüsü`);
       if (!ff.stdin.write(jpg)) await new Promise(r => ff.stdin.once('drain', r));
       onFrame();
     }
@@ -96,6 +107,15 @@ async function renderRange(port, plan, a, b, out, onFrame) {
 async function main() {
   const o = opts();
   if (o.serve) { const sv = await serve(Number(o.serve)); console.log('http://127.0.0.1:' + sv.address().port); return; }
+  if ('check' in o) {
+    const browser = await chromium.launch({ args: ARGS });
+    const page = await browser.newPage();
+    const ok = await page.evaluate(() => !!document.createElement('canvas').getContext('webgl2'));
+    await browser.close();
+    console.log(JSON.stringify({ ok }));
+    if (!ok) process.exitCode = 1;
+    return;
+  }
   const plan = JSON.parse(await readFile(o.plan, 'utf8'));
   const server = await serve();
   const port = server.address().port;

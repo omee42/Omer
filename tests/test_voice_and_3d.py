@@ -75,6 +75,25 @@ def test_azure_bad_key_is_clear(monkeypatch, tmp_path):
         tts_mod.AzureEngine("tr-TR-EmelNeural").synth_file("Merhaba", tmp_path / "x.wav")
 
 
+def test_azure_waits_out_rate_limit(monkeypatch, tmp_path):
+    monkeypatch.setenv("AZURE_SPEECH_KEY", "abc")
+    monkeypatch.setenv("AZURE_SPEECH_REGION", "westeurope")
+    sleeps, calls = [], {"n": 0}
+    monkeypatch.setattr(tts_mod.time, "sleep", lambda s: sleeps.append(s))
+
+    def fake_urlopen(req, timeout=0):
+        calls["n"] += 1
+        if calls["n"] <= 3:  # a burst over the F0 limit, then a dropped connection
+            raise tts_mod.urllib.error.HTTPError(req.full_url, 429, "Too Many Requests", {"Retry-After": "40"}, None)
+        if calls["n"] == 4:
+            raise tts_mod.http.client.RemoteDisconnected("closed")
+        return _Resp(_wav_bytes())
+
+    monkeypatch.setattr(tts_mod.urllib.request, "urlopen", fake_urlopen)
+    tts_mod.AzureEngine("tr-TR-EmelNeural", gap=0).synth_file("Merhaba", tmp_path / "a.wav")
+    assert calls["n"] == 5 and sleeps.count(40.0) == 3 and (tmp_path / "a.wav").exists()
+
+
 def test_plan_has_every_picture():
     pytest.importorskip("numpy")
     from pofi import render, render3d

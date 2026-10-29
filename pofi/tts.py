@@ -1,6 +1,7 @@
 """Text-to-speech with on-disk caching. Every clip is returned as mono float32 at audio.SR."""
 import asyncio
 import hashlib
+import http.client
 import json
 import os
 import subprocess
@@ -75,16 +76,19 @@ class AzureEngine:
     """Azure AI Speech neural voices through the official REST API.
 
     Needs the AZURE_SPEECH_KEY and AZURE_SPEECH_REGION environment variables (GitHub secrets).
-    The free F0 tier covers 500 000 characters a month; one episode uses about 3 000.
+    The free F0 tier covers 500 000 characters a month; one episode uses about 3 000. F0 also allows only
+    20 requests a minute, so requests are spaced `gap` seconds apart (an episode has ~60 lines: ~3 minutes).
     """
 
-    def __init__(self, voice: str, rate: str = "-8%", pitch: str = "+3%"):
+    def __init__(self, voice: str, rate: str = "-8%", pitch: str = "+3%", gap: float = 3.1):
         self.key = os.environ.get("AZURE_SPEECH_KEY", "").strip()
         region = os.environ.get("AZURE_SPEECH_REGION", "").strip().lower().replace(" ", "")
         if not self.key or not region:
             raise RuntimeError("AZURE_SPEECH_KEY ve AZURE_SPEECH_REGION tanımlı değil")
         self.url = f"https://{region}.tts.speech.microsoft.com/cognitiveservices/v1"
         self.voice, self.rate, self.pitch = voice, rate, pitch
+        self.gap = max(0.0, float(gap))
+        self._last = 0.0
         self.id = f"azure:{voice}:{rate}:{pitch}"
 
     def ssml(self, text: str) -> str:
@@ -99,7 +103,14 @@ class AzureEngine:
             "X-Microsoft-OutputFormat": "riff-48khz-16bit-mono-pcm",
             "User-Agent": "pofi-video",
         })
-        for k in range(5):
+        # 429 (rate limit) is waited out up to 8 times (Retry-After, at least 15 s each); other transient
+        # errors get 5 tries. Errors while reading the response (dropped connection, TLS reset) count too.
+        tries, limited = 0, 0
+        while True:
+            wait = self._last + self.gap - time.monotonic()
+            if wait > 0:
+                time.sleep(wait)
+            self._last = time.monotonic()
             try:
                 with urllib.request.urlopen(req, timeout=60) as r:
                     data = r.read()
@@ -107,12 +118,22 @@ class AzureEngine:
             except urllib.error.HTTPError as e:
                 if e.code in (401, 403):
                     raise RuntimeError("Azure anahtarı ya da bölge (region) hatalı") from e
-                if e.code not in (408, 429, 500, 502, 503, 504) or k == 4:
+                if e.code == 429 and limited < 8:
+                    limited += 1
+                    try:
+                        delay = float(e.headers.get("Retry-After") or 0)
+                    except (TypeError, ValueError):
+                        delay = 0
+                    time.sleep(min(60.0, max(delay, 15.0)))
+                    continue
+                tries += 1
+                if e.code not in (408, 500, 502, 503, 504) or tries >= 5:
                     raise
-            except (urllib.error.URLError, TimeoutError):
-                if k == 4:
+            except (urllib.error.URLError, TimeoutError, http.client.HTTPException, OSError):
+                tries += 1
+                if tries >= 5:
                     raise
-            time.sleep(2 ** (k + 1))
+            time.sleep(2 ** tries)
         if len(data) < 1000:
             raise RuntimeError("Azure boş ses döndürdü")
         out.write_bytes(data)
@@ -131,7 +152,7 @@ def _make_engine(spec: str, cfg_ses: dict):
         return EdgeEngine(name, speed)
     if kind == "azure":
         return AzureEngine(name or "tr-TR-EmelNeural", str(cfg_ses.get("azure_hiz", "-8%")),
-                           str(cfg_ses.get("azure_perde", "+3%")))
+                           str(cfg_ses.get("azure_perde", "+3%")), float(cfg_ses.get("azure_aralik", 3.1)))
     raise ValueError(f"Bilinmeyen ses motoru: {spec}")
 
 
@@ -200,9 +221,16 @@ class TTS:
         cached = TTS_CACHE / f"{key}.f32"
         meta = TTS_CACHE / f"{key}.json"
         if cached.exists():
+            audio = np.fromfile(cached, dtype=np.float32)
             if meta.exists():
                 self.report[spoken] = json.loads(meta.read_text(encoding="utf-8"))
-            return np.fromfile(cached, dtype=np.float32)
+            elif self.judge is not None and len(spoken.split()) > 2:
+                # made while Whisper was unavailable (one-take cloud voices share the cache key): score it now
+                score, hyp = self.judge.score(audio, spoken)
+                info = {"score": round(score, 3), "heard": hyp}
+                meta.write_text(json.dumps(info, ensure_ascii=False), encoding="utf-8")
+                self.report[spoken] = info
+            return audio
         best, best_score, best_hyp = None, -1.0, ""
         judged = self.judge is not None and len(spoken.split()) > 2  # Whisper is unreliable on 1-2 words
         for _ in range(self.takes if judged else 1):
