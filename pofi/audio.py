@@ -101,6 +101,23 @@ def _sfx(name: str) -> np.ndarray:
             o = int(i * 0.075 * SR)
             out[o: o + len(n)] += n[: len(out) - o] * (0.6 if i < 3 else 0.8)
         return out * 0.4
+    if name in ("jingle", "jingle_end"):
+        # the channel's signature motif: same notes every episode so children recognise it
+        notes = [67, 72, 76, 79, 84] if name == "jingle" else [84, 79, 76, 72, 79, 84]
+        step = 0.12 if name == "jingle" else 0.15
+        out = np.zeros(int(2.6 * SR))
+        for i, m in enumerate(notes):
+            last = i == len(notes) - 1
+            dur = 1.8 if last else 0.9
+            n = bell(_midi(m), dur, 0.55 if last else 0.25) * 0.55
+            n += pluck(_midi(m - 12), dur) * 0.35
+            o = int(i * step * SR)
+            out[o: o + len(n)] += n[: len(out) - o]
+        o = int(len(notes) * step * SR)
+        for m in (60, 64, 67, 72):
+            c = pluck(_midi(m), 1.5) * 0.18
+            out[o: o + len(c)] += c[: len(out) - o]
+        return out * 0.6
     if name == "sparkle":
         out = np.zeros(int(1.0 * SR))
         for i, m in enumerate([88, 91, 95, 100, 96]):
@@ -242,9 +259,12 @@ def make_music(duration: float, seed: int = 0, mood: str = "happy") -> np.ndarra
 
 # ---------------------------------------------------------------- mixing
 
-def envelope(x: np.ndarray, attack=0.02, release=0.35) -> np.ndarray:
+def envelope(x: np.ndarray, attack=0.12, release=0.35) -> np.ndarray:
+    """Loudness follower for ducking: a centred max-filter gives fast attack (and a little
+    look-ahead), the one-pole low-pass gives the slow release."""
+    from scipy.ndimage import maximum_filter1d
     from scipy.signal import lfilter
-    rect = np.abs(x)
+    rect = maximum_filter1d(np.abs(x), size=max(1, int(attack * SR)) * 2 + 1)
     a = np.exp(-1.0 / (release * SR))
     env = lfilter([1 - a], [1, -a], rect)
     peak = np.percentile(env[env > 1e-4], 95) if np.any(env > 1e-4) else 1.0
@@ -274,7 +294,9 @@ def mix(duration: float, voice_events, sfx_events, music: np.ndarray, music_leve
     out = m * (music_level * duck)[:, None]
     out += voice[:, None]
     out += (fx * sfx_level)[:, None]
-    out = np.tanh(out * 1.1) / np.tanh(1.1)
+    peak = float(np.abs(out).max())
+    if peak > 0.98:  # keep headroom instead of clipping; loudnorm sets the final level anyway
+        out *= 0.98 / peak
     return out.astype(np.float32), voice
 
 

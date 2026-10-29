@@ -6,6 +6,7 @@ Uploads the long video (and the Short), sets the thumbnail and uploads Turkish s
 import datetime as dt
 import json
 import os
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -23,15 +24,28 @@ def _access_token():
         "refresh_token": os.environ["YT_REFRESH_TOKEN"],
         "grant_type": "refresh_token",
     }).encode()
-    with urllib.request.urlopen(urllib.request.Request(TOKEN_URL, data=data), timeout=60) as r:
-        return json.loads(r.read())["access_token"]
+    try:
+        with urllib.request.urlopen(urllib.request.Request(TOKEN_URL, data=data), timeout=60) as r:
+            return json.loads(r.read())["access_token"]
+    except urllib.error.HTTPError as e:
+        body = e.read().decode(errors="replace")
+        if "invalid_grant" in body:
+            raise SystemExit("YouTube yenileme anahtarının (YT_REFRESH_TOKEN) süresi dolmuş ya da iptal edilmiş. "
+                             "README'deki adımlarla yeni bir anahtar alıp GitHub gizli anahtarını güncelleyin.")
+        raise SystemExit(f"YouTube erişim anahtarı alınamadı: {e.code} {body}")
 
 
 def _publish_at(cfg, date):
-    t = (cfg["youtube"].get("yayin_saati") or "").strip()
-    if not t:
+    """Scheduled publish time (only used when the configured privacy is public)."""
+    if cfg["youtube"].get("gizlilik", "private") != "public":
         return None
-    hh, mm = (int(x) for x in t.split(":"))
+    v = cfg["youtube"].get("yayin_saati")
+    if v in (None, ""):
+        return None
+    if isinstance(v, int):  # unquoted 17:00 in YAML 1.1 is read as 1020 (minutes)
+        hh, mm = divmod(v, 60)
+    else:
+        hh, mm = (int(x) for x in str(v).strip().split(":"))
     local = dt.datetime.fromisoformat(date).replace(hour=hh, minute=mm)
     utc = local - dt.timedelta(hours=3)  # Türkiye saati UTC+3
     if utc <= dt.datetime.utcnow() + dt.timedelta(minutes=20):
@@ -42,7 +56,7 @@ def _publish_at(cfg, date):
 def upload_video(token, video: Path, meta: dict, publish_at=None):
     status = {"privacyStatus": meta["privacyStatus"], "selfDeclaredMadeForKids": meta["madeForKids"],
               "embeddable": True}
-    if publish_at:
+    if publish_at:  # YouTube publishes a scheduled video only from private + publishAt
         status.update(privacyStatus="private", publishAt=publish_at)
     body = {
         "snippet": {"title": meta["title"], "description": meta["description"], "tags": meta["tags"],
@@ -80,21 +94,29 @@ def upload_caption(token, vid, srt: Path):
 
 
 def upload_dir(out_dir: Path, cfg: dict, date: str):
+    """Upload the long video and the Short; skips whatever youtube_linkler.json says is already up."""
     token = _access_token()
-    results = {}
-    meta = json.loads((out_dir / "youtube.json").read_text(encoding="utf-8"))
-    vid = upload_video(token, out_dir / "video.mp4", meta, _publish_at(cfg, date))
-    results["video"] = f"https://youtu.be/{vid}"
-    for step, fn in (("kapak", lambda: set_thumbnail(token, vid, out_dir / "kapak.jpg")),
-                     ("altyazi", lambda: upload_caption(token, vid, out_dir / "altyazi.srt"))):
-        try:
-            fn()
-        except Exception as e:  # thumbnails need a verified channel; keep the upload anyway
-            print(f"[youtube] {step} yüklenemedi: {e}")
-    if (out_dir / "shorts.mp4").exists() and (out_dir / "shorts.json").exists():
+    record_path = out_dir / "youtube_linkler.json"
+    results = json.loads(record_path.read_text(encoding="utf-8")) if record_path.exists() else {}
+
+    def save():
+        record_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
+
+    if "video" not in results:
+        meta = json.loads((out_dir / "youtube.json").read_text(encoding="utf-8"))
+        vid = upload_video(token, out_dir / "video.mp4", meta, _publish_at(cfg, date))
+        results["video"] = f"https://youtu.be/{vid}"
+        save()
+        for step, fn in (("kapak", lambda: set_thumbnail(token, vid, out_dir / "kapak.jpg")),
+                         ("altyazi", lambda: upload_caption(token, vid, out_dir / "altyazi.srt"))):
+            try:
+                fn()
+            except Exception as e:  # thumbnails need a verified channel; keep the upload anyway
+                print(f"[youtube] {step} yüklenemedi: {e}")
+    if "shorts" not in results and (out_dir / "shorts.mp4").exists() and (out_dir / "shorts.json").exists():
         smeta = json.loads((out_dir / "shorts.json").read_text(encoding="utf-8"))
         sid = upload_video(token, out_dir / "shorts.mp4", smeta, _publish_at(cfg, date))
         results["shorts"] = f"https://youtube.com/shorts/{sid}"
-    (out_dir / "youtube_linkler.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
+        save()
     print("[youtube] yüklendi:", results)
     return results

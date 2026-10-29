@@ -1,0 +1,1972 @@
+# Pofi ile Öğreniyorum — içerik takvimi
+# 2026-10-29 → 2027-10-28 (365 gün). Özel günler haftalık ritmin önüne geçer (ozel_gun: true).
+# 'not' alanı senaryo yazarı içindir (üslup, hassasiyetler, fikirler).
+haftalik_ritim:
+  Pazartesi: "Sayılar ve matematik: 1'den 20'ye sayılar (sırayla), sayma, büyük-küçük, karşılaştırma, örüntüler, nesnelerle toplama-çıkarma, zaman kavramları"
+  Salı: "Harfler ve dil: Türk alfabesinin 29 harfi sırayla (her salı bir harf), ardından alfabe tekrarı, zıt anlamlılar, kafiyeler, heceler, ilk kelimeler"
+  Çarşamba: "Hayvanlar, doğa ve bitkiler (mevsime uygun)"
+  Perşembe: "Bilim, uzay, vücudumuz, hava durumu ve basit deneyler"
+  Cuma: "Renkler, şekiller, sanat ve müzik"
+  Cumartesi: "Duygular, değerler ve görgü kuralları"
+  Pazar: "Günlük yaşam, sağlık, beslenme, meslekler, taşıtlar, trafik ve dünya"
+gunler:
+  - tarih: 2026-10-29
+    gun: Perşembe
+    kategori: ulusal-bayram
+    konu: "Cumhuriyet Bayramı"
+    hedefler: ["29 Ekim'in anlamı", "Bayrağımız", "Kutlama gelenekleri"]
+    ozel_gun: true
+    not: "Bölüm hazır: bolumler/2026-10-29-cumhuriyet-bayrami.json. Saygılı ve coşkulu üslup; outro yarını 'Sonbahar yaprakları' olarak duyuruyor."
+  - tarih: 2026-10-30
+    gun: Cuma
+    kategori: renkler
+    konu: "Sonbahar renkleri ve yapraklar"
+    hedefler: ["Sonbahar renkleri: sarı, turuncu, kırmızı, kahverengi", "Yapraklar sonbaharda renk değiştirir", "Yapraklarla baskı resmi yapalım"]
+    not: "29 Ekim bölümünün outrosunda 'Sonbahar yaprakları 🍂' olarak duyuruldu; başlık ve kapak buna uygun olsun."
+  - tarih: 2026-10-31
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Duygularımızı tanıyalım"
+    hedefler: ["Mutlu, üzgün, kızgın, şaşkın", "Yüz ifadelerinden duyguyu bulmak", "Bütün duygular normaldir"]
+  - tarih: 2026-11-01
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Ailemiz: Her aile farklı ve güzel"
+    hedefler: ["Aile bireyleri: anne, baba, kardeş, dede, nine", "Her aile farklıdır", "Ailemizle neler yaparız?"]
+    not: "Kapsayıcı ol: tek ebeveynli, büyükanne-büyükbabayla yaşayan, kalabalık ve küçük aileler."
+  - tarih: 2026-11-02
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 1: Bir tane"
+    hedefler: ["1 rakamını tanımak", "Bir güneş, bir ay, bir burun", "Tek bir nesne göstermek"]
+  - tarih: 2026-11-03
+    gun: Salı
+    kategori: harfler
+    konu: "A harfi"
+    hedefler: ["Büyük A, küçük a", "A ile başlayan kelimeler: arı, ayı, araba, armut", "A sesini kelimelerde duymak"]
+  - tarih: 2026-11-04
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Kış uykusuna yatan hayvanlar"
+    hedefler: ["Kış uykusu nedir?", "Ayı, kirpi, kaplumbağa, yarasa", "Baharda uyanırlar"]
+  - tarih: 2026-11-05
+    gun: Perşembe
+    kategori: hava
+    konu: "Rüzgâr: Görünmeyen ama hissedilen"
+    hedefler: ["Rüzgâr hareket eden havadır", "Rüzgâr yaprakları ve uçurtmayı uçurur", "Hafif ve sert rüzgâr"]
+  - tarih: 2026-11-06
+    gun: Cuma
+    kategori: renkler
+    konu: "Kırmızı renk"
+    hedefler: ["Kırmızıyı tanımak", "Elma, çilek, itfaiye aracı", "Kırmızı olanı bul"]
+  - tarih: 2026-11-07
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Paylaşmak güzeldir"
+    hedefler: ["Oyuncaklarımızı paylaşmak", "Paylaşınca herkes mutlu olur", "Sırayla oynamak"]
+  - tarih: 2026-11-08
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Mevsime göre giyiniyoruz: Kışlıklar geliyor"
+    hedefler: ["Hava soğuyunca mont, bere, atkı", "Katmanlı giyinmek", "Havaya uygun kıyafet seçmek"]
+  - tarih: 2026-11-09
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 2: Çiftler"
+    hedefler: ["2 rakamını tanımak", "İki göz, iki kulak, iki el", "Bir çift çorap, bir çift ayakkabı"]
+  - tarih: 2026-11-10
+    gun: Salı
+    kategori: ozel-gun
+    konu: "10 Kasım Atatürk'ü Anma Günü"
+    hedefler: ["Atatürk'ü sevgi ve saygıyla anmak", "Saat dokuzu beş geçe saygı duruşu", "Atatürk'ün çocuklara verdiği değer"]
+    ozel_gun: true
+    not: "Sakin ve saygılı üslup, mood: calm. Kutlama, konfeti, hareket molası ve 'yaşasın' yok. Ölüm ayrıntısı verme; 'Atatürk'ü özlemle ve saygıyla anıyoruz' gibi yumuşak ifadeler kullan."
+  - tarih: 2026-11-11
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Göç eden kuşlar"
+    hedefler: ["Göç nedir?", "Kuşlar sıcak yerlere uçar", "Baharda geri dönerler"]
+    not: "Leylek emojisi yok; genel kuş 🐦 ve kuğu 🦢 görselleri kullan."
+  - tarih: 2026-11-12
+    gun: Perşembe
+    kategori: uzay
+    konu: "Güneş: Bizim yıldızımız"
+    hedefler: ["Güneş bir yıldızdır", "Bize ışık ve sıcaklık verir", "Güneş'e asla doğrudan bakmayız"]
+  - tarih: 2026-11-13
+    gun: Cuma
+    kategori: sekiller
+    konu: "Daire"
+    hedefler: ["Daireyi tanımak", "Top, saat, Güneş", "Daire çizmek"]
+  - tarih: 2026-11-14
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Sihirli sözcükler: Lütfen ve teşekkür ederim"
+    hedefler: ["'Lütfen' demek", "'Teşekkür ederim' demek", "Rica ederim"]
+  - tarih: 2026-11-15
+    gun: Pazar
+    kategori: saglik
+    konu: "Ellerimizi yıkıyoruz"
+    hedefler: ["Ne zaman el yıkarız?", "Sabunla köpürt, ovala, durula", "Mikroplardan korunmak"]
+  - tarih: 2026-11-16
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 3: Üç tekerlekli bisiklet"
+    hedefler: ["3 rakamını tanımak", "Trafik lambasının 3 rengi", "Üçe kadar saymak"]
+  - tarih: 2026-11-17
+    gun: Salı
+    kategori: harfler
+    konu: "B harfi"
+    hedefler: ["Büyük B, küçük b", "B ile başlayan kelimeler: balık, balon, bulut, bebek", "B sesini kelimelerde duymak"]
+  - tarih: 2026-11-18
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Çiftlik hayvanları ve sesleri"
+    hedefler: ["İnek, koyun, tavuk, keçi", "Hayvanların sesleri", "Çiftlik hayvanları bize neler verir?"]
+  - tarih: 2026-11-19
+    gun: Perşembe
+    kategori: vucut
+    konu: "Beş duyumuz"
+    hedefler: ["Görmek, duymak, koklamak, tatmak, dokunmak", "Hangi organla?", "Duyularla tahmin oyunu"]
+  - tarih: 2026-11-20
+    gun: Cuma
+    kategori: ozel-gun
+    konu: "Dünya Çocuk Hakları Günü"
+    hedefler: ["Her çocuğun oyun oynama hakkı", "Okula gitme ve sağlıklı büyüme hakkı", "Sevilmek ve korunmak"]
+    ozel_gun: true
+    not: "Olumlu ve güçlendirici çerçeve; ihmal ya da istismar gibi korkutucu örnekler verme. Farklı ülkelerden çocuklar gösterilebilir."
+  - tarih: 2026-11-21
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Mutluluk: Mutluyum!"
+    hedefler: ["Mutlu olunca nasıl görünürüz?", "Bizi mutlu eden şeyler", "Mutluluğu paylaşmak"]
+  - tarih: 2026-11-22
+    gun: Pazar
+    kategori: meslekler
+    konu: "İtfaiyeciler"
+    hedefler: ["İtfaiyeciler ne yapar?", "İtfaiye aracı ve kıyafetleri", "Acil durumda büyüklerimiz 112'yi arar"]
+    not: "Yangın sahnesi gösterme; itfaiyeciyi kadın ve erkek olarak göster. Ateşle oynamayız mesajı."
+  - tarih: 2026-11-23
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Büyük ve küçük"
+    hedefler: ["Büyük ve küçük kavramı", "Fil büyük, fare küçük", "En büyüğü bulmak"]
+  - tarih: 2026-11-24
+    gun: Salı
+    kategori: ozel-gun
+    konu: "Öğretmenler Günü"
+    hedefler: ["Öğretmenler ne yapar?", "Öğretmenimize teşekkür etmek", "Öğretmenimize resim çizelim"]
+    ozel_gun: true
+    not: "Öğretmen kadın da erkek de olabilir; iki örneği de göster (🧑‍🏫). 24 Kasım 1928'de Atatürk'e 'Başöğretmen' unvanı verildi; bunu sade bir cümleyle anabilirsin."
+  - tarih: 2026-11-25
+    gun: Çarşamba
+    kategori: doga
+    konu: "Ormanda sonbahar: Kozalak ve meşe palamudu"
+    hedefler: ["Kozalak ve meşe palamudu", "Ağaçlar kışa hazırlanıyor", "Ormanda doğa yürüyüşü"]
+    not: "Kozalak ve palamut emojisi yok; 🌰 🌲 🍂 ve şekiller kullan. Yerden bulunan şeyleri ağza almayız."
+  - tarih: 2026-11-26
+    gun: Perşembe
+    kategori: hava
+    konu: "Bulutlar ve sis"
+    hedefler: ["Bulutlar küçük su damlacıklarından oluşur", "Bulutların şekilleri", "Sis, yere yakın buluttur"]
+  - tarih: 2026-11-27
+    gun: Cuma
+    kategori: renkler
+    konu: "Sarı renk"
+    hedefler: ["Sarıyı tanımak", "Muz, limon, civciv", "Sarı olanı bul"]
+  - tarih: 2026-11-28
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Yardımlaşma: Birlikte daha kolay"
+    hedefler: ["Yardım etmek güzeldir", "Evde ve okulda yardımlaşmak", "Yardım isteyene destek olmak"]
+  - tarih: 2026-11-29
+    gun: Pazar
+    kategori: trafik
+    konu: "Trafik ışıkları: Kırmızıda dur, yeşilde geç"
+    hedefler: ["Trafik lambasının renkleri", "Kırmızıda dur, yeşilde geç", "Yaya ışığı"]
+  - tarih: 2026-11-30
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 4: Dört ayak, dört tekerlek"
+    hedefler: ["4 rakamını tanımak", "Masanın dört ayağı, arabanın dört tekerleği", "Dörde kadar saymak"]
+  - tarih: 2026-12-01
+    gun: Salı
+    kategori: harfler
+    konu: "C harfi"
+    hedefler: ["Büyük C, küçük c", "C ile başlayan kelimeler: civciv, ceket, cetvel, cüzdan", "C sesini kelimelerde duymak"]
+  - tarih: 2026-12-02
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Evcil hayvanlar: Kedi ve köpek"
+    hedefler: ["Evcil hayvan nedir?", "Kedi ve köpeğin bakımı", "Evcil hayvanlara nazik davranmak"]
+  - tarih: 2026-12-03
+    gun: Perşembe
+    kategori: ozel-gun
+    konu: "Dünya Engelliler Günü: Herkes farklı, herkes değerli"
+    hedefler: ["Herkes farklıdır, herkes değerlidir", "Tekerlekli sandalye, işaret dili, beyaz baston", "Arkadaşlarımıza saygı ve yardım"]
+    ozel_gun: true
+    not: "Kapsayıcı ve olumlu dil; acıma dili kullanma, 'engelli birey' de. Farklılığı eksiklik değil çeşitlilik olarak anlat. Görseller: 🧑‍🦽 🦮 🧏 🦻."
+  - tarih: 2026-12-04
+    gun: Cuma
+    kategori: sekiller
+    konu: "Kare"
+    hedefler: ["Kareyi tanımak", "Dört eşit kenar", "Çevremizdeki kareler"]
+  - tarih: 2026-12-05
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Özür dilemek"
+    hedefler: ["Hata yapınca 'özür dilerim' deriz", "Özür dileyince içimiz rahatlar", "Barışmak"]
+  - tarih: 2026-12-06
+    gun: Pazar
+    kategori: beslenme
+    konu: "Kış meyveleri: Portakal ve mandalina"
+    hedefler: ["Kışın yetişen meyveler", "Portakal, mandalina, elma, armut", "Meyveleri yıkayıp yemek"]
+  - tarih: 2026-12-07
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 5: Bir elimde beş parmak"
+    hedefler: ["5 rakamını tanımak", "Bir elde 5 parmak", "Parmaklarla beşe kadar saymak"]
+  - tarih: 2026-12-08
+    gun: Salı
+    kategori: harfler
+    konu: "Ç harfi"
+    hedefler: ["Büyük Ç, küçük ç", "Ç ile başlayan kelimeler: çilek, çiçek, çanta, çorap", "Ç sesini kelimelerde duymak"]
+    not: "Ç, Türk alfabesine özgü bir harftir; C ile farkını (çengel) göster."
+  - tarih: 2026-12-09
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Kutup hayvanları: Penguen ve kutup ayısı"
+    hedefler: ["Kutuplar çok soğuktur", "Penguen ve kutup ayısı", "Soğuktan nasıl korunurlar?"]
+    not: "Doğruluk: penguenler güney kutbunda, kutup ayıları kuzey kutbunda yaşar; aynı sahnede birlikte yaşıyormuş gibi gösterme."
+  - tarih: 2026-12-10
+    gun: Perşembe
+    kategori: deneyler
+    konu: "Yüzen ve batan cisimler"
+    hedefler: ["Hangisi yüzer, hangisi batar?", "Tahmin et ve dene", "Küçük deney: su kabı ve nesneler"]
+    not: "Deneyi büyüklerimizle yaparız; küçük nesneleri ağza almayız."
+  - tarih: 2026-12-11
+    gun: Cuma
+    kategori: renkler
+    konu: "Mavi renk"
+    hedefler: ["Maviyi tanımak", "Gökyüzü, deniz, balina", "Mavi olanı bul"]
+  - tarih: 2026-12-12
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Üzüntü: Üzgün olduğumda"
+    hedefler: ["Üzüntü nasıl bir duygudur?", "Üzülünce ne yapabiliriz?", "Üzgün arkadaşımızı teselli etmek"]
+  - tarih: 2026-12-13
+    gun: Pazar
+    kategori: beslenme
+    konu: "Yerli Malı Haftası: Kuru meyveler"
+    hedefler: ["Yerli malı ne demek?", "Kuru üzüm, kuru kayısı, incir", "Kendi ülkemizin ürünleri"]
+    not: "12-18 Aralık Tutum, Yatırım ve Türk Malları Haftası (okullarda Yerli Malı Haftası). Fındık, fıstık gibi bütün kuruyemişler küçük çocuklarda boğulma riski taşır; 'büyüklerimizle, küçük parçalar halinde' notu ve alerji uyarısı ekle. Marka yok."
+  - tarih: 2026-12-14
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Çok ve az"
+    hedefler: ["Çok ve az kavramı", "Hangi tabakta daha çok elma var?", "Gruplara bakıp karşılaştırmak"]
+  - tarih: 2026-12-15
+    gun: Salı
+    kategori: harfler
+    konu: "D harfi"
+    hedefler: ["Büyük D, küçük d", "D ile başlayan kelimeler: dinozor, domates, deve, davul", "D sesini kelimelerde duymak"]
+  - tarih: 2026-12-16
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Kışın kuşlara yardım edelim"
+    hedefler: ["Kışın kuşlar yiyecek bulmakta zorlanır", "Kuşlara tohum ve su", "Kuş yemliği yapalım"]
+    not: "Kuşlara ekmek yerine tohum verildiğini söyle; yemliği büyüklerimizle hazırlarız."
+  - tarih: 2026-12-17
+    gun: Perşembe
+    kategori: hava
+    konu: "Kar taneleri: Kar nasıl yağar?"
+    hedefler: ["Kar, donmuş su damlacıklarıdır", "Kar tanesinin altı kolu vardır", "Karda güvenli oyun"]
+  - tarih: 2026-12-18
+    gun: Cuma
+    kategori: muzik
+    konu: "Ritim tutuyoruz: Alkış ve davul"
+    hedefler: ["Ritim nedir?", "Alkışla ve ayakla ritim", "Hızlı ve yavaş ritim"]
+  - tarih: 2026-12-19
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Sıra beklemek"
+    hedefler: ["Sırada beklemek", "Kaydırak ve lavaboda sıra", "Herkesin sırası gelir"]
+  - tarih: 2026-12-20
+    gun: Pazar
+    kategori: saglik
+    konu: "Uyku zamanı: İyi uykular"
+    hedefler: ["Uyku bizi dinlendirir ve büyütür", "Uyku öncesi rutin: banyo, diş, masal", "Erken yatmak"]
+    not: "Mood: calm; sakin, ninni tadında bir bölüm."
+  - tarih: 2026-12-21
+    gun: Pazartesi
+    kategori: mevsimler
+    konu: "Yılın en uzun gecesi: Kış başlıyor"
+    hedefler: ["21 Aralık yılın en uzun gecesi", "Kış mevsiminin başlangıcı", "Kışın gündüzler kısa, geceler uzun"]
+    ozel_gun: true
+    not: "Basit ve doğru anlat: kışın Güneş daha erken batar, daha geç doğar. Mevsimleri Dünya'nın Güneş'e uzaklığıyla açıklama."
+  - tarih: 2026-12-22
+    gun: Salı
+    kategori: harfler
+    konu: "E harfi"
+    hedefler: ["Büyük E, küçük e", "E ile başlayan kelimeler: elma, ev, ekmek, eldiven", "E sesini kelimelerde duymak"]
+  - tarih: 2026-12-23
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Her mevsim yeşil: Çam ağaçları"
+    hedefler: ["Çam ağacı kışın da yeşildir", "İğne yapraklar ve kozalak", "Yaprak döken ve dökmeyen ağaçlar"]
+    not: "Yılbaşı ağacı 🎄 görseli kullanma; doğadaki çam 🌲 göster."
+  - tarih: 2026-12-24
+    gun: Perşembe
+    kategori: uzay
+    konu: "Ay ve şekilleri"
+    hedefler: ["Ay'ın farklı görünüşleri: hilal, yarım, dolunay", "Ay kendi ışığını üretmez, Güneş'ten yansıtır", "Ay Dünya'nın etrafında döner"]
+  - tarih: 2026-12-25
+    gun: Cuma
+    kategori: sekiller
+    konu: "Üçgen"
+    hedefler: ["Üçgeni tanımak", "Üç kenar, üç köşe", "Çatı, dilim, dağ"]
+  - tarih: 2026-12-26
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Arkadaşlık: İyi bir arkadaş olmak"
+    hedefler: ["İyi arkadaş nasıldır?", "Birlikte oynamak", "Arkadaşımızı dinlemek"]
+  - tarih: 2026-12-27
+    gun: Pazar
+    kategori: tasitlar
+    konu: "Hava taşıtları: Uçak, helikopter, balon"
+    hedefler: ["Gökyüzünde giden taşıtlar", "Uçak, helikopter, sıcak hava balonu", "Pilotlar"]
+    not: "Pilot kadın da erkek de olabilir."
+  - tarih: 2026-12-28
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 6: Böceğin altı bacağı"
+    hedefler: ["6 rakamını tanımak", "Böceklerin 6 bacağı vardır", "Zarın altı yüzü"]
+  - tarih: 2026-12-29
+    gun: Salı
+    kategori: harfler
+    konu: "F harfi"
+    hedefler: ["Büyük F, küçük f", "F ile başlayan kelimeler: fil, fare, flamingo, fener", "F sesini kelimelerde duymak"]
+  - tarih: 2026-12-30
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Baykuşlar: Pofi'nin akrabaları"
+    hedefler: ["Baykuşlar çoğunlukla gece uyanıktır", "Büyük gözler ve dönebilen baş", "Sessizce uçarlar"]
+    not: "Maskot Pofi bir baykuş; bölümü Pofi kendi ailesini anlatıyormuş gibi kurabilirsin."
+  - tarih: 2026-12-31
+    gun: Perşembe
+    kategori: bilim
+    konu: "Sıcak ve soğuk"
+    hedefler: ["Sıcak ve soğuk nesneler", "Kışın neden üşürüz?", "Sıcak şeylere dokunmayız"]
+    not: "Ateş, ocak ve sıcak sıvı görseli kullanma; örnekleri güvenli seç (güneş, buz, çorba yerine ılık süt gibi)."
+  - tarih: 2027-01-01
+    gun: Cuma
+    kategori: ozel-gun
+    konu: "Yeni Yıl: Merhaba 2027!"
+    hedefler: ["Bir yılda 12 ay vardır", "Takvim nedir?", "Yeni yıl dileklerimiz"]
+    ozel_gun: true
+    not: "Kültürel ve kapsayıcı anlat. Havai fişek gösterilirse 'büyüklerimizle, uzaktan izleriz' güvenlik notu ekle."
+  - tarih: 2027-01-02
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Kızgınlık: Kızınca ne yaparız?"
+    hedefler: ["Kızgınlık normal bir duygudur", "Derin nefes al, sakinleş", "Kızgınlığı sözle anlatmak"]
+  - tarih: 2027-01-03
+    gun: Pazar
+    kategori: saglik
+    konu: "Hastalanınca: Dinlen ve iyileş"
+    hedefler: ["Hastalanınca dinleniriz", "Bol su ve sıcak çorba", "İlacı yalnızca büyüklerimiz verir"]
+  - tarih: 2027-01-04
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 7: Haftanın yedi günü"
+    hedefler: ["7 rakamını tanımak", "Bir haftada 7 gün vardır", "Yediye kadar saymak"]
+    not: "Günlerin adlarını ayrıntılı öğretme; 24 Mayıs 'Haftanın günleri' bölümüne bırak."
+  - tarih: 2027-01-05
+    gun: Salı
+    kategori: harfler
+    konu: "G harfi"
+    hedefler: ["Büyük G, küçük g", "G ile başlayan kelimeler: gemi, güneş, gitar, gözlük", "G sesini kelimelerde duymak"]
+  - tarih: 2027-01-06
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Orman hayvanları: Tilki, geyik, tavşan"
+    hedefler: ["Ormanda kimler yaşar?", "Tilki, geyik, tavşan", "Ormanın sesleri"]
+  - tarih: 2027-01-07
+    gun: Perşembe
+    kategori: deneyler
+    konu: "Buz eriyor: Donma ve erime"
+    hedefler: ["Su donunca buz olur", "Buz ısınınca erir", "Buz küpü deneyi"]
+  - tarih: 2027-01-08
+    gun: Cuma
+    kategori: renkler
+    konu: "Beyaz: Karın rengi"
+    hedefler: ["Beyazı tanımak", "Kar, bulut, süt", "Beyaz olanı bul"]
+  - tarih: 2027-01-09
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Dürüstlük: Doğruyu söylemek"
+    hedefler: ["Doğruyu söylemek önemlidir", "Hata yaptığımızda dürüst olmak", "Güven kazanmak"]
+  - tarih: 2027-01-10
+    gun: Pazar
+    kategori: meslekler
+    konu: "Fırıncı: Ekmek nasıl yapılır?"
+    hedefler: ["Fırıncı sabah erkenden çalışır", "Un, su, maya: hamur", "Ekmeğin fırında pişmesi"]
+  - tarih: 2027-01-11
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Uzun ve kısa"
+    hedefler: ["Uzun ve kısa kavramı", "Zürafanın boynu uzun", "Kalemleri boyuna göre karşılaştırmak"]
+  - tarih: 2027-01-12
+    gun: Salı
+    kategori: harfler
+    konu: "Ğ harfi"
+    hedefler: ["Büyük Ğ, küçük ğ: yumuşak g", "Ğ kelimenin başında değil, içinde ya da sonunda olur", "Ğ geçen kelimeler: dağ, ağaç, yağmur"]
+    not: "Türkçede hiçbir kelime Ğ ile başlamaz. 'letter' sahnesi kelimelerin o harfle başlamasını istediği için bu bölümde 'letter' yerine 'item'/'gallery' kullan; ğ'yi kelimenin içinde vurgula: dağ ⛰️, ağaç 🌳, yağmur 🌧️, buğday 🌾. Ğ'nin kendinden önceki sesi uzattığını basitçe anlat."
+  - tarih: 2027-01-13
+    gun: Çarşamba
+    kategori: doga
+    konu: "Karda hayvan izleri"
+    hedefler: ["Karda iz bırakan hayvanlar", "Kuş, kedi ve tavşan izi", "Bu iz kimin? oyunu"]
+  - tarih: 2027-01-14
+    gun: Perşembe
+    kategori: vucut
+    konu: "Kalbimiz küt küt atar"
+    hedefler: ["Kalp kanı vücudumuza gönderir", "Koşunca kalbimiz hızlanır", "Kalp atışımızı dinleyelim"]
+  - tarih: 2027-01-15
+    gun: Cuma
+    kategori: sekiller
+    konu: "Dikdörtgen"
+    hedefler: ["Dikdörtgeni tanımak", "Kapı, kitap, pencere", "Kare ile dikdörtgenin farkı"]
+  - tarih: 2027-01-16
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Selamlaşma: Günaydın, merhaba, iyi geceler"
+    hedefler: ["Günaydın, merhaba, iyi akşamlar", "Hoşça kal ve görüşürüz", "Gülümseyerek selam vermek"]
+  - tarih: 2027-01-17
+    gun: Pazar
+    kategori: evimiz
+    konu: "Evimizin odaları"
+    hedefler: ["Mutfak, salon, yatak odası, banyo", "Hangi odada ne yaparız?", "Eşyalar nerede?"]
+  - tarih: 2027-01-18
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 8: Ahtapotun sekiz kolu"
+    hedefler: ["8 rakamını tanımak", "Ahtapotun 8 kolu vardır", "Sekize kadar saymak"]
+  - tarih: 2027-01-19
+    gun: Salı
+    kategori: harfler
+    konu: "H harfi"
+    hedefler: ["Büyük H, küçük h", "H ile başlayan kelimeler: havuç, horoz, helikopter, hediye", "H sesini kelimelerde duymak"]
+  - tarih: 2027-01-20
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Savan hayvanları: Aslan, zürafa, zebra"
+    hedefler: ["Savan nedir?", "Aslan, zürafa, zebra", "Hayvanların desenleri ve boyları"]
+    not: "Avlanma sahnesi gösterme."
+  - tarih: 2027-01-21
+    gun: Perşembe
+    kategori: uzay
+    konu: "Gece ve gündüz: Dünya dönüyor"
+    hedefler: ["Dünya kendi etrafında döner", "Güneş'e bakan yarı gündüz, öteki yarı gece", "Fener ve top deneyi"]
+  - tarih: 2027-01-22
+    gun: Cuma
+    kategori: renkler
+    konu: "Renkleri karıştırıyoruz: Yeşil nasıl olur?"
+    hedefler: ["Ana renkler: kırmızı, sarı, mavi", "Mavi ve sarı yeşil olur", "Yeşil olanları bul"]
+  - tarih: 2027-01-23
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Korkmak normaldir: Karanlıktan korkuyorum"
+    hedefler: ["Korku nasıl bir duygudur?", "Karanlıkta gece lambası", "Korkunca büyüklerimize anlatırız"]
+    not: "Mood: calm. Korkutucu görsel kullanma; rahatlatıcı ve güven veren üslup."
+  - tarih: 2027-01-24
+    gun: Pazar
+    kategori: saglik
+    konu: "Dişlerimizi fırçalıyoruz"
+    hedefler: ["Sabah ve akşam diş fırçalamak", "İki dakika fırçalama", "Şekerden sonra dişler"]
+  - tarih: 2027-01-25
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 9: Dokuz balon"
+    hedefler: ["9 rakamını tanımak", "8'den sonra 9 gelir", "Dokuz balonu birlikte saymak"]
+  - tarih: 2027-01-26
+    gun: Salı
+    kategori: harfler
+    konu: "I harfi"
+    hedefler: ["Büyük I, küçük ı", "I ile başlayan kelimeler: ışık, ıspanak, ırmak, ıslak", "I sesini kelimelerde duymak"]
+    not: "Noktasız I. Emojiyle çizilebilen kelime az: ışık 💡, ıspanak 🥬, ırmak 🏞️, ıslak 💧. Gelecek salı noktalı İ geliyor; ikisini karıştırmamaya dikkat."
+  - tarih: 2027-01-27
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Balıklar: Suda yaşayan dostlar"
+    hedefler: ["Balıklar suda yaşar", "Solungaç ve yüzgeç", "Renkli balıklar"]
+  - tarih: 2027-01-28
+    gun: Perşembe
+    kategori: deneyler
+    konu: "Mıknatıs deneyi: Neleri çeker?"
+    hedefler: ["Mıknatıs bazı metalleri çeker", "Hangisi yapışır? tahmin oyunu", "Mıknatısın iki ucu"]
+    not: "Güvenlik: küçük mıknatısları asla ağza almayız; deney büyüklerle yapılır."
+  - tarih: 2027-01-29
+    gun: Cuma
+    kategori: muzik
+    konu: "Müzik aletlerini tanıyalım"
+    hedefler: ["Piyano, gitar, davul, keman", "Hangi alet nasıl ses çıkarır?", "Sesi dinle, aleti bul"]
+  - tarih: 2027-01-30
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Sorumluluk: Oyuncaklarımı topluyorum"
+    hedefler: ["Sorumluluk nedir?", "Oyuncaklarımı yerine koymak", "Evde küçük görevlerim"]
+  - tarih: 2027-01-31
+    gun: Pazar
+    kategori: dunya
+    konu: "Dünyanın farklı evleri: İglo, çadır, ağaç ev"
+    hedefler: ["İnsanlar farklı evlerde yaşar", "Buz ev, çadır, ağaç ev", "Bizim evimiz nasıl?"]
+  - tarih: 2027-02-01
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Örüntüler: Sırada ne var?"
+    hedefler: ["Örüntü nedir?", "Kırmızı-mavi-kırmızı-mavi", "Sıradakini tahmin etmek"]
+  - tarih: 2027-02-02
+    gun: Salı
+    kategori: harfler
+    konu: "İ harfi"
+    hedefler: ["Büyük İ, küçük i", "İ ile başlayan kelimeler: inek, istakoz, ip, ilkbahar", "İ sesini kelimelerde duymak"]
+    not: "Büyük İ noktalıdır: İ ve i. Geçen haftaki noktasız I ile farkını göster."
+  - tarih: 2027-02-03
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Sürüngenler: Kaplumbağa ve kertenkele"
+    hedefler: ["Sürüngen nedir?", "Kaplumbağa, kertenkele, timsah", "Pullu derileri vardır"]
+    not: "Yılan ve timsahı korkutucu gösterme."
+  - tarih: 2027-02-04
+    gun: Perşembe
+    kategori: vucut
+    konu: "Kemiklerimiz ve iskeletimiz"
+    hedefler: ["Kemikler vücudumuzu taşır", "Kafatası beynimizi korur", "Süt ve hareket kemikleri güçlendirir"]
+    not: "Kafatası/iskelet görselini korkutucu kullanma; 🦴 ve sevimli anlatım yeterli."
+  - tarih: 2027-02-05
+    gun: Cuma
+    kategori: renkler
+    konu: "Turuncu: Kırmızı ile sarının buluşması"
+    hedefler: ["Kırmızı ve sarı turuncu olur", "Portakal, havuç, tilki", "Turuncu olanı bul"]
+  - tarih: 2027-02-06
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Sofra görgüsü"
+    hedefler: ["Yemekten önce elleri yıkamak", "Ağzımız kapalı çiğnemek", "Afiyet olsun demek"]
+  - tarih: 2027-02-07
+    gun: Pazar
+    kategori: meslekler
+    konu: "Polisler: Bize yardım ederler"
+    hedefler: ["Polisler ne yapar?", "Kaybolunca polise başvurmak", "Trafik polisi"]
+    not: "Polisi korkutucu değil, yardımsever göster; kadın ve erkek polis."
+  - tarih: 2027-02-08
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 10: On parmak"
+    hedefler: ["10 rakamını tanımak", "İki elimizde 10 parmak", "Ona kadar saymak"]
+  - tarih: 2027-02-09
+    gun: Salı
+    kategori: harfler
+    konu: "J harfi"
+    hedefler: ["Büyük J, küçük j", "J ile başlayan kelimeler: jimnastik, judo, jeton, jöle", "J sesini kelimelerde duymak"]
+    not: "J ile başlayan Türkçe kelime azdır; emojiyle çizilebilenler: jimnastik 🤸, judo 🥋, jeton 🪙. Emojisi olmayan kelimeyi 'symbol' ya da yalnızca sesle kullan."
+  - tarih: 2027-02-10
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Hayvan yavruları: Kuzu, buzağı, civciv"
+    hedefler: ["Hayvan yavrularının adları", "Kuzu, buzağı, civciv, tay", "Yavrular annesiyle büyür"]
+  - tarih: 2027-02-11
+    gun: Perşembe
+    kategori: uzay
+    konu: "Gezegenler: Güneş'in ailesi"
+    hedefler: ["Güneş sisteminde 8 gezegen var", "Dünya, Güneş'e üçüncü yakın gezegen", "Gezegenleri sırayla sayalım"]
+  - tarih: 2027-02-12
+    gun: Cuma
+    kategori: sekiller
+    konu: "Yıldız ve kalp şekilleri"
+    hedefler: ["Yıldız şeklinin köşeleri", "Kalp şekli", "Şekillerle süsleme"]
+  - tarih: 2027-02-13
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Sevgimizi gösteriyoruz"
+    hedefler: ["Sevgi nasıl gösterilir?", "Sarılmak ve güzel sözler", "Sevdiklerimize resim yapmak"]
+    not: "Sarılmadan önce izin istemeyi de göster ('Sarılabilir miyim?')."
+  - tarih: 2027-02-14
+    gun: Pazar
+    kategori: tasitlar
+    konu: "Kara taşıtları: Araba, otobüs, kamyon"
+    hedefler: ["Yolda giden taşıtlar", "Araba, otobüs, kamyon, bisiklet", "Taşıtların tekerlekleri"]
+  - tarih: 2027-02-15
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "1'den 10'a hep birlikte sayıyoruz"
+    hedefler: ["1'den 10'a saymak", "10'dan geriye saymak", "Sayı tekerlemesi"]
+  - tarih: 2027-02-16
+    gun: Salı
+    kategori: harfler
+    konu: "K harfi"
+    hedefler: ["Büyük K, küçük k", "K ile başlayan kelimeler: kedi, köpek, kalem, kurbağa", "K sesini kelimelerde duymak"]
+  - tarih: 2027-02-17
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Hayvanların evleri: Yuva, kovan, ahır"
+    hedefler: ["Kuş yuvası, arı kovanı", "Ahır, kümes, in", "Kim nerede yaşar?"]
+  - tarih: 2027-02-18
+    gun: Perşembe
+    kategori: bilim
+    konu: "Işık ve gölge"
+    hedefler: ["Gölge nasıl oluşur?", "Işık engellenince gölge olur", "Gölge oyunu"]
+  - tarih: 2027-02-19
+    gun: Cuma
+    kategori: renkler
+    konu: "Mor: Kırmızı ile mavinin buluşması"
+    hedefler: ["Kırmızı ve mavi mor olur", "Üzüm, patlıcan, menekşe", "Mor olanı bul"]
+  - tarih: 2027-02-20
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Sabır: Beklemeyi öğreniyorum"
+    hedefler: ["Sabır nedir?", "Tohumun büyümesini beklemek", "Beklerken neler yapabiliriz?"]
+  - tarih: 2027-02-21
+    gun: Pazar
+    kategori: beslenme
+    konu: "Sağlıklı kahvaltı"
+    hedefler: ["Kahvaltı günün önemli öğünüdür", "Peynir, yumurta, domates, zeytin", "Kahvaltı tabağı hazırlamak"]
+  - tarih: 2027-02-22
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sıfır: Hiç yok!"
+    hedefler: ["0 rakamını tanımak", "Sıfır, hiç yok demektir", "Boş sepette sıfır elma"]
+  - tarih: 2027-02-23
+    gun: Salı
+    kategori: harfler
+    konu: "L harfi"
+    hedefler: ["Büyük L, küçük l", "L ile başlayan kelimeler: limon, lale, lamba, lokomotif", "L sesini kelimelerde duymak"]
+  - tarih: 2027-02-24
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Kardelen: Karı delen çiçek"
+    hedefler: ["Kardelen kışın sonunda açar", "Karın içinden çıkan çiçek", "Baharın ilk habercisi"]
+    not: "Kardelen emojisi yok; beyaz çiçek için şekil ya da 🌱 ❄️ kullan."
+  - tarih: 2027-02-25
+    gun: Perşembe
+    kategori: vucut
+    konu: "Nefes alıyoruz: Akciğerlerimiz"
+    hedefler: ["Akciğerler nefes almamızı sağlar", "Burnumuzdan nefes alırız", "Derin nefes egzersizi"]
+  - tarih: 2027-02-26
+    gun: Cuma
+    kategori: sanat
+    konu: "Yırt-yapıştır kolaj"
+    hedefler: ["Kolaj nedir?", "Renkli kâğıtları yırtıp yapıştırmak", "Kendi resmimizi yapalım"]
+    not: "Makas kullanma; kâğıtları elle yırtarız. Yapıştırıcıyı büyüklerle kullanırız."
+  - tarih: 2027-02-27
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Şaşkınlık: Şaşırdım!"
+    hedefler: ["Şaşırınca nasıl görünürüz?", "Güzel sürprizler", "Şaşırtan şeyler"]
+  - tarih: 2027-02-28
+    gun: Pazar
+    kategori: trafik
+    konu: "Yaya geçidi: Karşıya güvenle geçiyoruz"
+    hedefler: ["Yaya geçidi nerede?", "Sağa, sola bak, büyüğümüzün elini tut", "Koşmadan geçmek"]
+  - tarih: 2027-03-01
+    gun: Pazartesi
+    kategori: saglik
+    konu: "Yeşilay Haftası: Sağlıklı yaşıyorum"
+    hedefler: ["Sağlıklı yiyecekler ve bol su", "Spor, oyun ve temiz hava", "Bize zarar veren şeylerden uzak dururuz"]
+    ozel_gun: true
+    not: "1-7 Mart Yeşilay Haftası, çocuklara uygun çerçeve: sağlıklı alışkanlıklar. Sigara, alkol gibi maddeleri gösterme ve ayrıntı verme; yalnızca 'zararlı şeylerden uzak dururuz' de."
+  - tarih: 2027-03-02
+    gun: Salı
+    kategori: harfler
+    konu: "M harfi"
+    hedefler: ["Büyük M, küçük m", "M ile başlayan kelimeler: muz, maymun, mantar, mısır", "M sesini kelimelerde duymak"]
+  - tarih: 2027-03-03
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Tohumdan fidana: Bitki nasıl büyür?"
+    hedefler: ["Tohum, kök, gövde, yaprak", "Bitkiler su, ışık ve toprak ister", "Bir tohum ekelim"]
+  - tarih: 2027-03-04
+    gun: Perşembe
+    kategori: hava
+    konu: "Yağmur nereden gelir?"
+    hedefler: ["Su buharlaşır ve buluta dönüşür", "Bulut ağırlaşınca yağmur yağar", "Su döngüsü"]
+  - tarih: 2027-03-05
+    gun: Cuma
+    kategori: sekiller
+    konu: "Oval ve baklava şekilleri"
+    hedefler: ["Oval: yumurta şekli", "Baklava şekli: uçurtma gibi", "Şekilleri karşılaştırmak"]
+  - tarih: 2027-03-06
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Takım çalışması: Hep birlikte başarırız"
+    hedefler: ["Birlikte çalışmak", "Herkesin bir görevi var", "Takım olarak oyun"]
+  - tarih: 2027-03-07
+    gun: Pazar
+    kategori: meslekler
+    konu: "Postacı: Mektup nasıl gelir?"
+    hedefler: ["Postacı ne yapar?", "Mektup, zarf ve pul", "Bir büyüğümüze mektup yazalım"]
+  - tarih: 2027-03-08
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Toplama: Bir tane daha geldi"
+    hedefler: ["Toplama nedir? Bir şey eklemek", "Beşe kadar toplama", "Artı ve eşittir işaretleri"]
+  - tarih: 2027-03-09
+    gun: Salı
+    kategori: ozel-gun
+    konu: "Ramazan Bayramı"
+    hedefler: ["Bayramda aile ziyareti ve bayramlaşma", "Paylaşmak ve tatlı ikramı", "'İyi bayramlar!' demek"]
+    ozel_gun: true
+    not: "TARİH DOĞRULANMALI (tahmini: 9-11 Mart 2027, arife 8 Mart). Kültürel ve kapsayıcı anlat: aile, büyükleri ziyaret, paylaşma, iyilik, şeker ve tatlı. 'Şeker Bayramı' adını da an. Dini ayrıntı ve ayrım yok."
+  - tarih: 2027-03-10
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Tırtıldan kelebeğe"
+    hedefler: ["Kelebeğin yumurtası ve tırtıl", "Koza ve kelebek", "Kelebeğin hayat döngüsü"]
+  - tarih: 2027-03-11
+    gun: Perşembe
+    kategori: bilim
+    konu: "Ses nasıl oluşur?"
+    hedefler: ["Ses titreşimle oluşur", "Davul ve gitar titreşir", "Boğazımıza dokunarak sesi hissetmek"]
+  - tarih: 2027-03-12
+    gun: Cuma
+    kategori: ozel-gun
+    konu: "İstiklal Marşı'mız"
+    hedefler: ["İstiklal Marşı ulusal marşımızdır", "Marşımızı Mehmet Akif Ersoy yazdı", "Marş okunurken saygıyla dururuz"]
+    ozel_gun: true
+    not: "12 Mart 1921, İstiklal Marşı'nın kabulü. Sakin, saygılı ve gururlu üslup; savaş ayrıntısı yok. Mood: calm."
+  - tarih: 2027-03-13
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Misafirlik: Misafir ağırlıyoruz"
+    hedefler: ["Misafire 'hoş geldiniz' demek", "Misafirlikte nazik olmak", "Oyuncaklarımızı misafirle paylaşmak"]
+  - tarih: 2027-03-14
+    gun: Pazar
+    kategori: ozel-gun
+    konu: "Tıp Bayramı: Sağlığımızı koruyanlar"
+    hedefler: ["Doktorlar ve hemşireler ne yapar?", "Doktora gitmekten korkmayalım", "Sağlık çalışanlarına teşekkür"]
+    ozel_gun: true
+    not: "Doktor ve hemşire her iki cinsiyetten de olabilir (🧑‍⚕️). İğne ve aşıyı korkutucu anlatma; ilacı yalnızca büyüklerimiz verir."
+  - tarih: 2027-03-15
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Ağır ve hafif"
+    hedefler: ["Ağır ve hafif kavramı", "Karpuz ağır, tüy hafif", "Terazi ile karşılaştırmak"]
+  - tarih: 2027-03-16
+    gun: Salı
+    kategori: harfler
+    konu: "N harfi"
+    hedefler: ["Büyük N, küçük n", "N ile başlayan kelimeler: nota, nine, nane, nehir", "N sesini kelimelerde duymak"]
+  - tarih: 2027-03-17
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Kuşlar yuva yapıyor"
+    hedefler: ["Kuşlar baharda yuva yapar", "Yuva neyden yapılır?", "Yumurta ve yavru kuşlar"]
+    not: "Yuvalara ve yumurtalara dokunmayız; uzaktan izleriz."
+  - tarih: 2027-03-18
+    gun: Perşembe
+    kategori: uzay
+    konu: "Astronotlar: Uzayda bir gün"
+    hedefler: ["Astronotlar uzayda yaşar ve çalışır", "Uzayda her şey süzülür", "Astronot kıyafeti neden önemli?"]
+    not: "Astronot kadın da erkek de olabilir."
+  - tarih: 2027-03-19
+    gun: Cuma
+    kategori: renkler
+    konu: "Pembe: Bahar çiçeklerinin rengi"
+    hedefler: ["Pembeyi tanımak", "Kırmızı ve beyaz pembe olur", "Pembe çiçekler"]
+  - tarih: 2027-03-20
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Heyecan: Kalbim pır pır"
+    hedefler: ["Heyecan nasıl bir duygudur?", "Doğum günü, yolculuk, ilk gün", "Heyecanlanınca sakinleşmek"]
+  - tarih: 2027-03-21
+    gun: Pazar
+    kategori: mevsimler
+    konu: "Bahar geldi: Nevruz ve Ormancılık Günü"
+    hedefler: ["21 Mart: gece ile gündüz eşit", "Baharın gelişini kutlamak", "Ağaçlar ve ormanlar önemlidir"]
+    ozel_gun: true
+    not: "Nevruz'u bahar bayramı olarak kültürel anlat; siyasi çerçeve yok. Ateş üzerinden atlama gösterme ya da özendirme. Fidan dikme: büyüklerimizle birlikte."
+  - tarih: 2027-03-22
+    gun: Pazartesi
+    kategori: doga
+    konu: "Dünya Su Günü: Suyu koruyoruz"
+    hedefler: ["Su hayattır: bütün canlılar suya ihtiyaç duyar", "Musluğu açık bırakmayız", "Suyu tasarruflu kullanmak"]
+    ozel_gun: true
+  - tarih: 2027-03-23
+    gun: Salı
+    kategori: harfler
+    konu: "O harfi"
+    hedefler: ["Büyük O, küçük o", "O ile başlayan kelimeler: otobüs, oyuncak, orman, okul", "O sesini kelimelerde duymak"]
+  - tarih: 2027-03-24
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Uğur böceği ve minik böcekler"
+    hedefler: ["Uğur böceğinin benekleri", "Böceklerin 6 bacağı", "Bahçedeki minik dostlar"]
+  - tarih: 2027-03-25
+    gun: Perşembe
+    kategori: deneyler
+    konu: "Renk değiştiren çiçek deneyi"
+    hedefler: ["Bitkiler suyu köklerinden ve sapından çeker", "Beyaz çiçek renkli suda", "Birkaç gün boyunca izlemek"]
+    not: "Gıda boyasını büyüklerimizle kullanırız."
+  - tarih: 2027-03-26
+    gun: Cuma
+    kategori: renkler
+    konu: "Gökkuşağının renkleri"
+    hedefler: ["Gökkuşağında 7 renk", "Renkleri sırayla söylemek", "Gökkuşağı resmi"]
+  - tarih: 2027-03-27
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Nazik davranmak: Küçük iyilikler"
+    hedefler: ["Nezaket nedir?", "Kapıyı tutmak, gülümsemek", "Her gün bir iyilik"]
+  - tarih: 2027-03-28
+    gun: Pazar
+    kategori: tasitlar
+    konu: "Raylı taşıtlar: Tren, metro, tramvay"
+    hedefler: ["Raylar üstünde giden taşıtlar", "Tren, metro, tramvay", "Durakta güvenli bekleme"]
+  - tarih: 2027-03-29
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 11 ve 12"
+    hedefler: ["11 ve 12'yi tanımak", "On ve bir daha: on bir", "On iki yumurtalık kutu"]
+  - tarih: 2027-03-30
+    gun: Salı
+    kategori: harfler
+    konu: "Ö harfi"
+    hedefler: ["Büyük Ö, küçük ö", "Ö ile başlayan kelimeler: ördek, ödül, öğretmen, örümcek", "Ö sesini kelimelerde duymak"]
+    not: "Ö, Türk alfabesine özgü bir harftir; O ile farkını (iki nokta) göster."
+  - tarih: 2027-03-31
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Karıncalar: Çalışkan ekip"
+    hedefler: ["Karıncalar birlikte çalışır", "Karınca yuvası", "Kendinden ağır yük taşırlar"]
+  - tarih: 2027-04-01
+    gun: Perşembe
+    kategori: vucut
+    konu: "Yemekler nereye gider? Midemiz"
+    hedefler: ["Ağızda çiğneriz", "Yemek mideye gider", "Yavaş yemek ve iyi çiğnemek"]
+  - tarih: 2027-04-02
+    gun: Cuma
+    kategori: ozel-gun
+    konu: "Dünya Çocuk Kitapları Günü"
+    hedefler: ["Kitaplar bize hikâyeler anlatır", "Kitaplarımıza özen gösteririz", "Birlikte kitap okuma zamanı"]
+    ozel_gun: true
+    not: "2 Nisan, masal yazarı Hans Christian Andersen'in doğum günüdür. Belirli kitap, yayınevi ya da marka adı verme."
+  - tarih: 2027-04-03
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Dinlemek: Sözünü kesmeden dinliyorum"
+    hedefler: ["Konuşan kişiye bakmak", "Sözünü kesmemek", "Sırayla konuşmak"]
+  - tarih: 2027-04-04
+    gun: Pazar
+    kategori: saglik
+    konu: "Banyo zamanı"
+    hedefler: ["Neden banyo yaparız?", "Saç ve vücut temizliği", "Banyoda güvenlik: büyüklerimizle"]
+  - tarih: 2027-04-05
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Çıkarma: Bir tane gitti"
+    hedefler: ["Çıkarma nedir? Bir şeyin eksilmesi", "Beşten geriye çıkarma", "Eksi işareti"]
+  - tarih: 2027-04-06
+    gun: Salı
+    kategori: harfler
+    konu: "P harfi"
+    hedefler: ["Büyük P, küçük p", "P ile başlayan kelimeler: peynir, patates, penguen, papağan", "P sesini kelimelerde duymak"]
+  - tarih: 2027-04-07
+    gun: Çarşamba
+    kategori: saglik
+    konu: "Dünya Sağlık Günü: Sağlıklı büyüyorum"
+    hedefler: ["Uyku, hareket ve dengeli beslenme", "Temizlik bizi korur", "Her gün küçük sağlıklı adımlar"]
+    ozel_gun: true
+    not: "1 Mart Yeşilay bölümünü tekrar etme; bu bölüm günlük sağlık rutinine odaklansın."
+  - tarih: 2027-04-08
+    gun: Perşembe
+    kategori: hava
+    konu: "Gök gürültüsü ve şimşek: Korkmayalım"
+    hedefler: ["Şimşek gökyüzünde parlayan ışıktır", "Gök gürültüsü şimşeğin sesidir", "Fırtınada içeride kalırız"]
+    not: "Sakinleştirici üslup kullan; korkuyu normalleştir."
+  - tarih: 2027-04-09
+    gun: Cuma
+    kategori: muzik
+    konu: "Yüksek ses, alçak ses"
+    hedefler: ["Yüksek ve alçak ses", "Fısıltı ve şarkı", "Sesimizi ayarlamak"]
+  - tarih: 2027-04-10
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Kıskançlık: Herkesin sırası var"
+    hedefler: ["Kıskançlık nasıl bir duygudur?", "Kardeşimiz ya da arkadaşımız ilgi görünce", "Duygumuzu anlatmak"]
+    not: "Farklı aile yapıları var; kardeş örneğini tek örnek yapma."
+  - tarih: 2027-04-11
+    gun: Pazar
+    kategori: meslekler
+    konu: "Çiftçi: Tarlada neler yetişir?"
+    hedefler: ["Çiftçiler ne yapar?", "Tohum ekmek ve sulamak", "Tarladan sofraya"]
+  - tarih: 2027-04-12
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Sıra sayıları: Birinci, ikinci, üçüncü"
+    hedefler: ["Birinci, ikinci, üçüncü", "Yarışta kim kaçıncı?", "Sırayı söylemek"]
+    not: "Sıra sayılarını yazıyla yaz (birinci, ikinci); '1.' gibi yazma."
+  - tarih: 2027-04-13
+    gun: Salı
+    kategori: harfler
+    konu: "R harfi"
+    hedefler: ["Büyük R, küçük r", "R ile başlayan kelimeler: robot, roket, radyo, resim", "R sesini kelimelerde duymak"]
+  - tarih: 2027-04-14
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Lale ve bahar çiçekleri"
+    hedefler: ["Lale, papatya, sümbül", "Çiçeklerin renkleri ve kokuları", "Çiçekleri koparmayız"]
+  - tarih: 2027-04-15
+    gun: Perşembe
+    kategori: uzay
+    konu: "Roketler nasıl uçar?"
+    hedefler: ["Roketler uzaya gider", "Güçlü itiş ile yukarı çıkar", "Geri sayım: 5, 4, 3, 2, 1!"]
+  - tarih: 2027-04-16
+    gun: Cuma
+    kategori: sanat
+    konu: "Şekillerden resim yapıyoruz"
+    hedefler: ["Şekillerden ev ve araba yapmak", "Daire, kare ve üçgen birleşince", "Hayal gücümüzü kullanmak"]
+  - tarih: 2027-04-17
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Saygı: Herkese saygılıyız"
+    hedefler: ["Saygı nedir?", "Farklı düşüncelere saygı", "Eşyalara ve doğaya saygı"]
+  - tarih: 2027-04-18
+    gun: Pazar
+    kategori: dunya
+    konu: "Dünyadan merhaba: Farklı dillerde selam"
+    hedefler: ["Dünyada pek çok dil konuşulur", "Merhaba, hello, bonjour", "Farklı dillere saygı"]
+    not: "Yabancı kelimelerin okunuşunu ses motoru için Türkçe okunuşla yaz (ör. 'helo', 'bonjur')."
+  - tarih: 2027-04-19
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 13 ve 14"
+    hedefler: ["13 ve 14'ü tanımak", "On üç, on dört: on ve bir kaç daha", "On dörde kadar saymak"]
+  - tarih: 2027-04-20
+    gun: Salı
+    kategori: harfler
+    konu: "S harfi"
+    hedefler: ["Büyük S, küçük s", "S ile başlayan kelimeler: su, saat, salyangoz, sincap", "S sesini kelimelerde duymak"]
+  - tarih: 2027-04-21
+    gun: Çarşamba
+    kategori: doga
+    konu: "Toprağın altında kimler var? Solucanlar"
+    hedefler: ["Toprağın altında yaşayanlar", "Solucanlar toprağı havalandırır", "Toprak bitkilere yuva olur"]
+  - tarih: 2027-04-22
+    gun: Perşembe
+    kategori: doga
+    konu: "Dünya Günü: Gezegenimizi seviyoruz"
+    hedefler: ["Dünya hepimizin evi", "Çöpleri yere atmayız", "Ağaçları, suyu ve hayvanları korumak"]
+    ozel_gun: true
+  - tarih: 2027-04-23
+    gun: Cuma
+    kategori: ulusal-bayram
+    konu: "23 Nisan Ulusal Egemenlik ve Çocuk Bayramı"
+    hedefler: ["23 Nisan 1920: Meclisimiz açıldı", "Atatürk bu bayramı çocuklara armağan etti", "Dünya çocuklarıyla birlikte kutluyoruz"]
+    ozel_gun: true
+    not: "Yılın en büyük kutlama bölümü: coşkulu, şarkı, konfeti, hareket molası. 'Türkiye Büyük Millet Meclisi' adını kısaltmadan yaz. Farklı ülkelerin bayrakları ve çocukları gösterilebilir."
+  - tarih: 2027-04-24
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Kazanmak ve kaybetmek: Oyunda centilmenlik"
+    hedefler: ["Oyunun amacı eğlenmek", "Kaybedince de 'tebrikler' demek", "Kazanınca alçakgönüllü olmak"]
+  - tarih: 2027-04-25
+    gun: Pazar
+    kategori: trafik
+    konu: "Bisiklet ve kask: Güvenle sürüyoruz"
+    hedefler: ["Bisiklete binerken kask takarız", "Parkta ve güvenli alanda sürmek", "Dizlik ve dirseklik"]
+  - tarih: 2027-04-26
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Dün, bugün, yarın"
+    hedefler: ["Dün geçti, bugün şimdi, yarın gelecek", "Dün ne yaptık? Yarın ne yapacağız?", "Zamanı sıralamak"]
+  - tarih: 2027-04-27
+    gun: Salı
+    kategori: harfler
+    konu: "Ş harfi"
+    hedefler: ["Büyük Ş, küçük ş", "Ş ile başlayan kelimeler: şemsiye, şeker, şapka, şeftali", "Ş sesini kelimelerde duymak"]
+    not: "Ş, Türk alfabesine özgü bir harftir; S ile farkını (çengel) göster."
+  - tarih: 2027-04-28
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Kurbağanın hayatı: Yumurtadan kurbağaya"
+    hedefler: ["Kurbağa yumurtası ve iribaş", "İribaştan kurbağaya", "Kurbağalar zıplar ve vıraklar"]
+    not: "İribaş emojisi yok; şekil ve 🐸 🥚 💧 kullan."
+  - tarih: 2027-04-29
+    gun: Perşembe
+    kategori: deneyler
+    konu: "Hava her yerde: Balon deneyi"
+    hedefler: ["Hava görünmez ama yer kaplar", "Balonu şişirip hava ile oynamak", "Rüzgâr ve hava"]
+    not: "Patlamış balon parçalarını ağza almayız; balonu büyüklerimiz şişirir."
+  - tarih: 2027-04-30
+    gun: Cuma
+    kategori: renkler
+    konu: "Kahverengi: Toprağın ve ağaçların rengi"
+    hedefler: ["Kahverengiyi tanımak", "Toprak, ağaç gövdesi, ayı", "Kahverengi olanı bul"]
+  - tarih: 2027-05-01
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Utangaçlık: Yeni insanlarla tanışmak"
+    hedefler: ["Utangaç hissetmek normaldir", "Merhaba demeyi denemek", "Yavaş yavaş alışmak"]
+  - tarih: 2027-05-02
+    gun: Pazar
+    kategori: meslekler
+    konu: "Veteriner: Hayvanların doktoru"
+    hedefler: ["Veteriner ne yapar?", "Evcil hayvanların bakımı", "Hayvanları da muayene ederler"]
+  - tarih: 2027-05-03
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 15"
+    hedefler: ["15'i tanımak", "Beşer sayalım: beş, on, on beş", "On beşe kadar saymak"]
+  - tarih: 2027-05-04
+    gun: Salı
+    kategori: harfler
+    konu: "T harfi"
+    hedefler: ["Büyük T, küçük t", "T ile başlayan kelimeler: tavşan, top, tren, tırtıl", "T sesini kelimelerde duymak"]
+  - tarih: 2027-05-05
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Meyve ağaçları: Çiçekten meyveye"
+    hedefler: ["Meyve ağaçları baharda çiçek açar", "Çiçek meyveye dönüşür", "Kiraz, elma, şeftali ağaçları"]
+  - tarih: 2027-05-06
+    gun: Perşembe
+    kategori: vucut
+    konu: "Kaslarımız: Güçlü ve hareketli"
+    hedefler: ["Kaslar hareket etmemizi sağlar", "Spor kasları güçlendirir", "Gülümsemek de kas çalıştırır"]
+  - tarih: 2027-05-07
+    gun: Cuma
+    kategori: sekiller
+    konu: "Altıgen: Arı peteğinin şekli"
+    hedefler: ["Altı kenarlı şekil", "Arılar peteklerini altıgen yapar", "Altıgenleri sayalım"]
+  - tarih: 2027-05-08
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Hata yapmak normaldir: Tekrar deneriz"
+    hedefler: ["Herkes hata yapar", "Hatalardan öğreniriz", "Vazgeçme, tekrar dene"]
+  - tarih: 2027-05-09
+    gun: Pazar
+    kategori: ozel-gun
+    konu: "Anneler Günü"
+    hedefler: ["Annelerimiz bizim için neler yapar?", "Sevgimizi göstermek: sarılmak, teşekkür etmek", "Anneye resim ve kart hazırlamak"]
+    ozel_gun: true
+    not: "Mayıs'ın ikinci pazarı. Kapsayıcı ol: her çocuğun annesi yanında olmayabilir; 'annemiz ya da bize bakan, bizi seven büyüklerimiz' ifadesini de kullan. Hediye satın alma baskısı yok."
+  - tarih: 2027-05-10
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Günün bölümleri: Sabah, öğle, akşam"
+    hedefler: ["Sabah, öğle, akşam ve gece", "Günün hangi saatinde ne yaparız?", "Olayları sıraya koymak"]
+  - tarih: 2027-05-11
+    gun: Salı
+    kategori: harfler
+    konu: "U harfi"
+    hedefler: ["Büyük U, küçük u", "U ile başlayan kelimeler: uçak, uçurtma, uğur böceği, uzay", "U sesini kelimelerde duymak"]
+  - tarih: 2027-05-12
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Sebze bahçesi: Domates, biber, salatalık"
+    hedefler: ["Sebze bahçesi nedir?", "Domates, biber, salatalık fideleri", "Bahçeye su vermek"]
+  - tarih: 2027-05-13
+    gun: Perşembe
+    kategori: uzay
+    konu: "Yıldızlar ve takımyıldızlar"
+    hedefler: ["Yıldızlar çok uzaktaki güneşlerdir", "Gece gökyüzünde parlarlar", "Yıldızları birleştirip şekil yapmak"]
+  - tarih: 2027-05-14
+    gun: Cuma
+    kategori: muzik
+    konu: "Doğanın müziği: Yağmur, rüzgâr, kuş sesleri"
+    hedefler: ["Doğada duyduğumuz sesler", "Yağmur damlalarının ritmi", "Ses tahmin oyunu"]
+  - tarih: 2027-05-15
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Kütüphanede ve müzede görgü kuralları"
+    hedefler: ["Kütüphanede sessiz oluruz", "Müzede eserlere dokunmayız", "Kitaplara özen gösteririz"]
+  - tarih: 2027-05-16
+    gun: Pazar
+    kategori: ozel-gun
+    konu: "Kurban Bayramı"
+    hedefler: ["Bayramda büyüklerimizi ziyaret ederiz", "Paylaşmak ve yardımlaşmak", "Bayram sofrası ve tatlı ikramı"]
+    ozel_gun: true
+    not: "TARİH DOĞRULANMALI (tahmini: 16-19 Mayıs 2027, arife 15 Mayıs). Kurban kesimini ASLA gösterme ya da anlatma; hayvan görseli kullanma. Paylaşma, aile ve büyükleri ziyaret, iyilik üzerine kur; kültürel ve kapsayıcı üslup."
+  - tarih: 2027-05-17
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 16 ve 17"
+    hedefler: ["16 ve 17'yi tanımak", "Nesneleri sayıp gruplamak", "On yediye kadar saymak"]
+  - tarih: 2027-05-18
+    gun: Salı
+    kategori: harfler
+    konu: "Ü harfi"
+    hedefler: ["Büyük Ü, küçük ü", "Ü ile başlayan kelimeler: üzüm, üçgen, ülke, üşümek", "Ü sesini kelimelerde duymak"]
+    not: "Ü, Türk alfabesine özgü bir harftir; U ile farkını (iki nokta) göster. Ütü örneği kullanma (sıcak, tehlikeli)."
+  - tarih: 2027-05-19
+    gun: Çarşamba
+    kategori: ulusal-bayram
+    konu: "19 Mayıs Atatürk'ü Anma, Gençlik ve Spor Bayramı"
+    hedefler: ["19 Mayıs 1919: Atatürk Samsun'a çıktı", "Spor bizi güçlü ve sağlıklı yapar", "Bayram coşkusu ve gösteriler"]
+    ozel_gun: true
+    not: "Coşkulu ama saygılı; bol hareket molası. Savaş ayrıntısı yok. Bu yıl Kurban Bayramı'nın dördüncü gününe denk gelebilir; Kurban Bayramı tarihi kesinleşince kontrol et."
+  - tarih: 2027-05-20
+    gun: Perşembe
+    kategori: hayvanlar
+    konu: "Dünya Arı Günü: Çalışkan arılar"
+    hedefler: ["Arılar çiçeklerden bal yapar", "Arılar bitkilerin meyve vermesine yardım eder", "Arıları rahatsız etmeyiz"]
+    ozel_gun: true
+    not: "Arı sokmasını korkutucu anlatma; 'arıya dokunmayız, sakin uzaklaşırız' de."
+  - tarih: 2027-05-21
+    gun: Cuma
+    kategori: renkler
+    konu: "Siyah renk ve siyah-beyaz desenler"
+    hedefler: ["Siyahı tanımak", "Zebra ve panda", "Siyah ile beyazın karşıtlığı"]
+  - tarih: 2027-05-22
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Empati: Arkadaşım ne hissediyor?"
+    hedefler: ["Başkasının duygusunu anlamak", "Onun yerinde olsaydım?", "Arkadaşımıza nasıl yardım ederiz?"]
+  - tarih: 2027-05-23
+    gun: Pazar
+    kategori: beslenme
+    konu: "Sebzeler: Renkli tabaklar"
+    hedefler: ["Renk renk sebzeler", "Havuç, brokoli, domates, biber", "Sebzeler bizi güçlendirir"]
+  - tarih: 2027-05-24
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Haftanın günleri"
+    hedefler: ["Haftanın 7 gününün adları", "Pazartesiden pazara sıralamak", "Hafta sonu hangi günler?"]
+  - tarih: 2027-05-25
+    gun: Salı
+    kategori: harfler
+    konu: "V harfi"
+    hedefler: ["Büyük V, küçük v", "V ile başlayan kelimeler: vapur, vazo, valiz, voleybol", "V sesini kelimelerde duymak"]
+  - tarih: 2027-05-26
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Göldeki kuşlar: Ördek ve kuğu"
+    hedefler: ["Ördek ve kuğu", "Perdeli ayaklarla yüzerler", "Gölde yaşam"]
+  - tarih: 2027-05-27
+    gun: Perşembe
+    kategori: bilim
+    konu: "Katı mı, sıvı mı?"
+    hedefler: ["Katılar şeklini korur", "Sıvılar akar ve kabın şeklini alır", "Buz katı, su sıvı"]
+  - tarih: 2027-05-28
+    gun: Cuma
+    kategori: sanat
+    konu: "Parmak boyası: Ellerimizle resim"
+    hedefler: ["Parmaklarla boyamak", "El izinden resim", "Boyadan sonra el yıkama"]
+  - tarih: 2027-05-29
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Cesaret: Yeni şeyler denemek"
+    hedefler: ["Cesaret nedir?", "Yeni bir yemek, yeni bir oyun denemek", "Güvenli cesaret: tehlikeli şeyleri denemeyiz"]
+  - tarih: 2027-05-30
+    gun: Pazar
+    kategori: tasitlar
+    konu: "Deniz taşıtları: Gemi, vapur, kayık"
+    hedefler: ["Suda giden taşıtlar", "Gemi, vapur, kayık, yelkenli", "Teknede can yeleği"]
+  - tarih: 2027-05-31
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 18 ve 19"
+    hedefler: ["18 ve 19'u tanımak", "Yirmiye çok az kaldı", "On dokuza kadar saymak"]
+  - tarih: 2027-06-01
+    gun: Salı
+    kategori: beslenme
+    konu: "Dünya Süt Günü: Süt ve süt ürünleri"
+    hedefler: ["Süt nereden gelir?", "Süt, yoğurt ve peynir", "Süt kemiklerimizi güçlendirir"]
+    ozel_gun: true
+    not: "Süt içemeyen (alerjisi olan) çocuklar da olabilir; 'herkesin yiyebileceği besinler farklı olabilir' cümlesini ekle. Marka yok."
+  - tarih: 2027-06-02
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Gece uyanık olan hayvanlar"
+    hedefler: ["Gece aktif hayvanlar", "Yarasa, kirpi, rakun", "Gece nasıl yol bulurlar?"]
+  - tarih: 2027-06-03
+    gun: Perşembe
+    kategori: vucut
+    konu: "Beynimiz: Düşünen kafamız"
+    hedefler: ["Beyin düşünmemizi ve öğrenmemizi sağlar", "Beynimiz vücudumuzu yönetir", "Kask ve uyku beynimizi korur"]
+  - tarih: 2027-06-04
+    gun: Cuma
+    kategori: sekiller
+    konu: "Hilal ve yarım daire"
+    hedefler: ["Hilal şekli: Ay gibi", "Yarım daire: dairenin yarısı", "Bayrağımızdaki hilal"]
+  - tarih: 2027-06-05
+    gun: Cumartesi
+    kategori: doga
+    konu: "Dünya Çevre Günü: Doğayı koruyoruz"
+    hedefler: ["Çevremizi temiz tutarız", "Piknikte çöplerimizi toplarız", "Bitkileri ve hayvanları korumak"]
+    ozel_gun: true
+    not: "Geri dönüşüm ayrıntısını 26 Eylül bölümüne bırak; burada doğada temizlik ve koruma öne çıksın."
+  - tarih: 2027-06-06
+    gun: Pazar
+    kategori: saglik
+    konu: "Su içmeyi unutmuyoruz"
+    hedefler: ["Vücudumuzun suya ihtiyacı var", "Sıcakta daha çok su içeriz", "Şekerli içecek yerine su"]
+  - tarih: 2027-06-07
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı 20: Yirmi parmak"
+    hedefler: ["20'yi tanımak", "El ve ayak parmaklarımız: 20", "Onar onar iki grup"]
+  - tarih: 2027-06-08
+    gun: Salı
+    kategori: doga
+    konu: "Dünya Okyanuslar Günü: Büyük mavi denizler"
+    hedefler: ["Okyanuslar Dünya'nın büyük bölümünü kaplar", "Okyanus canlıları: balina, yunus, deniz kaplumbağası", "Denizleri temiz tutalım"]
+    ozel_gun: true
+  - tarih: 2027-06-09
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Çöl ve deve"
+    hedefler: ["Çöl sıcak ve kurudur", "Deve suyu az içerek yaşayabilir", "Çölde kaktüs yetişir"]
+    not: "Doğruluk: devenin hörgücünde su değil yağ depolanır."
+  - tarih: 2027-06-10
+    gun: Perşembe
+    kategori: hava
+    konu: "Sıcak yaz günleri: Güneşten korunuyoruz"
+    hedefler: ["Şapka, güneş gözlüğü ve gölge", "Bol su içmek", "Öğle sıcağında dinlenmek"]
+    not: "Marka adı verme; 'güneş kremini büyüklerimiz sürer' de."
+  - tarih: 2027-06-11
+    gun: Cuma
+    kategori: muzik
+    konu: "Ninniler: Sakin ve tatlı müzik"
+    hedefler: ["Ninni nedir?", "Sakin müzik bizi dinlendirir", "Birlikte ninni mırıldanmak"]
+    not: "Mood: calm. Geleneksel ya da özgün ninni kullan; telifli şarkı kullanma."
+  - tarih: 2027-06-12
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Gurur: Kendimle gurur duyuyorum"
+    hedefler: ["Başardığımızda gururlanırız", "Kendi kendine yapabildiğimiz şeyler", "Arkadaşımızın başarısına sevinmek"]
+  - tarih: 2027-06-13
+    gun: Pazar
+    kategori: meslekler
+    konu: "Aşçı: Mutfakta neler olur?"
+    hedefler: ["Aşçılar yemek yapar", "Mutfak araçları", "Mutfakta büyüklerimize yardım"]
+    not: "Bıçak, ocak ve sıcak tencereyle çocuğu gösterme; çocuğun görevi yıkamak, karıştırmak, sofrayı kurmak olsun."
+  - tarih: 2027-06-14
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "1'den 20'ye sayıyoruz"
+    hedefler: ["1'den 20'ye saymak", "Eksik sayıyı bulmak", "Sayı şarkısı"]
+  - tarih: 2027-06-15
+    gun: Salı
+    kategori: harfler
+    konu: "Y harfi"
+    hedefler: ["Büyük Y, küçük y", "Y ile başlayan kelimeler: yıldız, yumurta, yaprak, yunus", "Y sesini kelimelerde duymak"]
+  - tarih: 2027-06-16
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Dinozorlar: Çok eski zamanların devleri"
+    hedefler: ["Dinozorlar çok uzun zaman önce yaşadı", "Otçul ve etçil dinozorlar", "Dinozorları fosillerden öğreniyoruz"]
+    not: "Kavga ve avlanma sahnesi yok; sevimli ve meraklı üslup. İnsanlarla dinozorlar aynı zamanda yaşamadı."
+  - tarih: 2027-06-17
+    gun: Perşembe
+    kategori: bilim
+    konu: "Büyüteçle keşif"
+    hedefler: ["Büyüteç küçük şeyleri büyük gösterir", "Yaprak, taş ve böcek inceleme", "Gözlem yapmak"]
+    not: "Güvenlik: büyüteçle Güneş ışığını bir noktaya toplamayız."
+  - tarih: 2027-06-18
+    gun: Cuma
+    kategori: renkler
+    konu: "Gri: Bulutların ve fillerin rengi"
+    hedefler: ["Griyi tanımak", "Siyah ve beyaz gri olur", "Fil, bulut, taş"]
+  - tarih: 2027-06-19
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Sözünü tutmak"
+    hedefler: ["Söz vermek ne demek?", "Verdiğimiz sözü tutmak", "Sözünü tutan güvenilir olur"]
+  - tarih: 2027-06-20
+    gun: Pazar
+    kategori: ozel-gun
+    konu: "Babalar Günü"
+    hedefler: ["Babalarımızla neler yaparız?", "Sevgimizi ve teşekkürümüzü göstermek", "Babaya resim ve kart hazırlamak"]
+    ozel_gun: true
+    not: "Haziran'ın üçüncü pazarı. Kapsayıcı ol: her çocuğun babası yanında olmayabilir; 'babamız ya da bize bakan, bizi seven büyüklerimiz' ifadesini de kullan. Hediye satın alma baskısı yok."
+  - tarih: 2027-06-21
+    gun: Pazartesi
+    kategori: mevsimler
+    konu: "Yaz geldi: Yılın en uzun günü"
+    hedefler: ["21 Haziran yılın en uzun gündüzü", "Yaz mevsiminin özellikleri", "Yazın neler yaparız?"]
+    ozel_gun: true
+    not: "Mevsimleri Dünya'nın Güneş'e uzaklığıyla açıklama; 'yazın Güneş gökyüzünde daha uzun kalır' de."
+  - tarih: 2027-06-22
+    gun: Salı
+    kategori: harfler
+    konu: "Z harfi"
+    hedefler: ["Büyük Z, küçük z", "Z ile başlayan kelimeler: zürafa, zebra, zil, zeytin", "Z sesini kelimelerde duymak"]
+    not: "Alfabenin son harfi! Sonda kısa bir 'alfabeyi bitirdik' kutlaması yap; gelecek hafta alfabe tekrarı var."
+  - tarih: 2027-06-23
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Ayçiçeği: Güneşe bakan çiçek"
+    hedefler: ["Ayçiçeği yazın açar", "Genç ayçiçekleri Güneş'i izler", "Ayçiçeğinin tohumları"]
+    not: "Doğruluk: Güneş'i izleme hareketi daha çok genç bitkilerde görülür; büyümüş ayçiçeği genellikle doğuya bakar."
+  - tarih: 2027-06-24
+    gun: Perşembe
+    kategori: bilim
+    konu: "Basit makineler: Tekerlek ve rampa"
+    hedefler: ["Tekerlek işimizi kolaylaştırır", "Rampa ile yukarı taşımak", "Tahterevalli bir kaldıraçtır"]
+  - tarih: 2027-06-25
+    gun: Cuma
+    kategori: sanat
+    konu: "Kumdan kaleler: Kumla sanat"
+    hedefler: ["Islak kumla şekil yapmak", "Kumdan kale ve kabuk süsleri", "Kumu göze kaçırmamak"]
+  - tarih: 2027-06-26
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Toplu taşımada görgü: Otobüste ve metroda"
+    hedefler: ["Sıraya girip binmek", "Büyüklere yer vermek", "Sessiz ve kibar yolculuk"]
+  - tarih: 2027-06-27
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Denizde ve havuzda güvenlik"
+    hedefler: ["Suya büyüklerimizle gireriz", "Can yeleği ve kolluk", "Havuz kenarında koşmayız"]
+  - tarih: 2027-06-28
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Saat kaç? Tam saatler"
+    hedefler: ["Saatin akrebi ve yelkovanı", "Saat üç, saat beş: tam saatler", "Günlük işlerin saatleri"]
+  - tarih: 2027-06-29
+    gun: Salı
+    kategori: harfler
+    konu: "Alfabe şarkısı: 29 harfin hepsi"
+    hedefler: ["Türk alfabesinde 29 harf var", "Harfleri sırayla söylemek", "Sevdiğimiz harfi seçmek"]
+    not: "Harf serisinin kapanış tekrarı; hızlı bir 'harf geçidi' ve tekerleme kullan."
+  - tarih: 2027-06-30
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Deniz kenarında: Yengeç ve deniz kabukları"
+    hedefler: ["Kumsalda yaşayan canlılar", "Yengeç yan yan yürür", "Deniz kabukları"]
+  - tarih: 2027-07-01
+    gun: Perşembe
+    kategori: deneyler
+    konu: "Çözünme deneyi: Şeker suda kaybolur mu?"
+    hedefler: ["Şeker ve tuz suda çözünür", "Kum suda çözünmez", "Önce tahmin, sonra deney"]
+  - tarih: 2027-07-02
+    gun: Cuma
+    kategori: sekiller
+    konu: "Şekil avı: Çevremizdeki şekiller"
+    hedefler: ["Evde ve sokakta şekiller", "Hangi şekil nerede?", "Şekil avı oyunu"]
+  - tarih: 2027-07-03
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Sıkıldım! Can sıkıntısıyla baş etmek"
+    hedefler: ["Sıkılmak normaldir", "Hayal gücüyle yeni oyunlar", "Sıkılınca neler yapabiliriz?"]
+  - tarih: 2027-07-04
+    gun: Pazar
+    kategori: beslenme
+    konu: "Yaz meyveleri: Karpuz, kiraz, şeftali"
+    hedefler: ["Yazın yetişen meyveler", "Karpuz, kiraz, şeftali, kavun", "Sulu meyveler bizi serinletir"]
+  - tarih: 2027-07-05
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Ölçmek: Kaç adım, kaç karış?"
+    hedefler: ["Ölçmek ne demek?", "Adımla, karışla ölçmek", "Hangisi daha uzun?"]
+  - tarih: 2027-07-06
+    gun: Salı
+    kategori: harfler
+    konu: "Sesli harfler: a, e, ı, i, o, ö, u, ü"
+    hedefler: ["Türkçede 8 sesli harf vardır", "Sesli harfleri uzatarak söylemek", "Kelimelerde sesli harfi bulmak"]
+  - tarih: 2027-07-07
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Yazın şarkıcıları: Cırcır böceği ve ağustos böceği"
+    hedefler: ["Yaz gecelerinin sesleri", "Cırcır böceği kanatlarını sürterek ses çıkarır", "Böcekleri dinleyelim"]
+    not: "Ağustos böceği emojisi yok; cırcır böceği için 🦗 kullan."
+  - tarih: 2027-07-08
+    gun: Perşembe
+    kategori: vucut
+    konu: "Gözlerimiz: Nasıl görürüz?"
+    hedefler: ["Gözlerimiz ışık sayesinde görür", "Gözlük takan arkadaşlarımız", "Gözlerimizi korumak"]
+  - tarih: 2027-07-09
+    gun: Cuma
+    kategori: muzik
+    konu: "Müzikle dans ediyoruz"
+    hedefler: ["Müziği dinle, hareket et", "Müzik durunca dur: heykel oyunu", "Dans etmek eğlencelidir"]
+  - tarih: 2027-07-10
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Affetmek: Barışalım mı?"
+    hedefler: ["Affetmek nedir?", "Özür dileyen arkadaşımızı affetmek", "Barışınca içimiz rahatlar"]
+  - tarih: 2027-07-11
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Tatile gidiyoruz: Bavulumu hazırlıyorum"
+    hedefler: ["Bavula neler koyarız?", "Havaya uygun kıyafet", "Yolculukta neler yaparız?"]
+  - tarih: 2027-07-12
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Toplama oyunu: Meyve sepeti"
+    hedefler: ["Ona kadar toplama", "Meyveleri ekleyip saymak", "Toplama bilmeceleri"]
+  - tarih: 2027-07-13
+    gun: Salı
+    kategori: dil
+    konu: "Zıt kelimeler: Açık-kapalı, ıslak-kuru, temiz-kirli"
+    hedefler: ["Zıt anlam nedir?", "Açık-kapalı, ıslak-kuru, temiz-kirli", "Zıddını söyle oyunu"]
+  - tarih: 2027-07-14
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Yağmur ormanı: Maymun ve papağan"
+    hedefler: ["Yağmur ormanı sıcak ve yağmurludur", "Maymun, papağan, kurbağa", "Çok sayıda bitki ve hayvan"]
+  - tarih: 2027-07-15
+    gun: Perşembe
+    kategori: uzay
+    konu: "Mevsimler neden değişir?"
+    hedefler: ["Dünya Güneş'in etrafında dolanır", "Dünya biraz eğiktir", "Dört mevsim sırası"]
+    not: "Doğruluk: mevsimleri Dünya'nın Güneş'e uzaklığıyla AÇIKLAMA; eksen eğikliğiyle basitçe anlat."
+  - tarih: 2027-07-16
+    gun: Cuma
+    kategori: sanat
+    konu: "Taş boyama"
+    hedefler: ["Düz taşları boyamak", "Taşlardan uğur böceği ve balık", "Doğadan malzeme toplamak"]
+    not: "Taşları büyüklerimizle toplarız; küçük taşları ağza almayız."
+  - tarih: 2027-07-17
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Komşuluk: İyi komşu olmak"
+    hedefler: ["Komşularımızla selamlaşmak", "Komşuya yardım etmek", "Gürültü yapmamak"]
+  - tarih: 2027-07-18
+    gun: Pazar
+    kategori: tasitlar
+    konu: "İş makineleri: Kepçe, vinç, beton mikseri"
+    hedefler: ["İnşaatta çalışan makineler", "Kepçe kazar, vinç kaldırır", "İnşaat alanına girmeyiz"]
+  - tarih: 2027-07-19
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Eşleştirme: Aynısını bul"
+    hedefler: ["Aynı olanları eşleştirmek", "Eşini bul oyunu", "Benzer ve farklı"]
+  - tarih: 2027-07-20
+    gun: Salı
+    kategori: dil
+    konu: "Kafiyeli kelimeler: Sesi benzeyenler"
+    hedefler: ["Kafiye nedir? (kedi-yedi)", "Kafiyeli kelimeleri bulmak", "Kafiyeli mini şiir"]
+  - tarih: 2027-07-21
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Atlar: Dörtnala koşan dostlar"
+    hedefler: ["Atların yeleleri ve nalları", "Tay, at yavrusudur", "Atlar çok hızlı koşar"]
+  - tarih: 2027-07-22
+    gun: Perşembe
+    kategori: uzay
+    konu: "İnsanlar Ay'a gitti!"
+    hedefler: ["1969'da insanlar ilk kez Ay'a ayak bastı", "Ay'da hava yoktur", "Ay'daki ayak izleri"]
+  - tarih: 2027-07-23
+    gun: Cuma
+    kategori: renkler
+    konu: "Açık ve koyu renkler"
+    hedefler: ["Açık mavi, koyu mavi", "Beyaz ekleyince renk açılır", "Renk tonlarını sıralamak"]
+  - tarih: 2027-07-24
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Özlemek: Seni özledim"
+    hedefler: ["Özlem nasıl bir duygudur?", "Uzaktaki sevdiklerimiz", "Özleyince resim yapmak ya da aramak"]
+  - tarih: 2027-07-25
+    gun: Pazar
+    kategori: trafik
+    konu: "Emniyet kemeri ve çocuk koltuğu"
+    hedefler: ["Arabada her zaman kemer takarız", "Çocuk koltuğu bizi korur", "Arabada ayağa kalkmayız"]
+  - tarih: 2027-07-26
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Gruplama: Hangisi farklı?"
+    hedefler: ["Renge ve şekle göre gruplamak", "Gruba uymayanı bulmak", "Meyveler ve taşıtlar grubu"]
+  - tarih: 2027-07-27
+    gun: Salı
+    kategori: dil
+    konu: "Hece hece alkışlıyoruz"
+    hedefler: ["Hece nedir?", "Kelimeleri alkışla hecelemek: ba-lon, ke-di", "Kaç hece var?"]
+  - tarih: 2027-07-28
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Ağaçlar bize neler verir?"
+    hedefler: ["Gölge, meyve ve temiz hava", "Ağacın kökü, gövdesi, dalları", "Ağaçları korumak"]
+  - tarih: 2027-07-29
+    gun: Perşembe
+    kategori: uzay
+    konu: "Güneş tutulması"
+    hedefler: ["Ay, Güneş ile Dünya'nın arasına girer", "Gündüz kısa süre kararır", "Güneş'e asla çıplak gözle bakmayız"]
+    not: "2 Ağustos 2027'de bir Güneş tutulması var; Türkiye'den parçalı görünüp görünmeyeceği doğrulanmalı. Güvenlik uyarısını mutlaka ekle."
+  - tarih: 2027-07-30
+    gun: Cuma
+    kategori: muzik
+    konu: "Evde müzik aleti yapıyoruz"
+    hedefler: ["Kutudan davul, şişeden marakas", "Farklı sesler çıkarmak", "Kendi orkestramız"]
+    not: "Cam şişe kullanma; plastik şişe ve kutularla, büyüklerimizle yaparız. İçine koyulan küçük parçaları ağza almayız."
+  - tarih: 2027-07-31
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Büyüklerimize saygı, küçüklerimize sevgi"
+    hedefler: ["Dedelerimize ve ninelerimize saygı", "Küçük kardeşlere ve bebeklere şefkat", "Büyüklerimizden öğrendiklerimiz"]
+  - tarih: 2027-08-01
+    gun: Pazar
+    kategori: dunya
+    konu: "Dünya bayrakları: Ülkeleri tanıyalım"
+    hedefler: ["Her ülkenin bir bayrağı var", "Komşu ülkelerin bayrakları", "Bayrağımızı tanıyalım"]
+    not: "Siyasi olarak tartışmalı ülke/bölgeleri ve bayrakları kullanma."
+  - tarih: 2027-08-02
+    gun: Pazartesi
+    kategori: matematik
+    konu: "İkişer ikişer sayıyoruz"
+    hedefler: ["İkişer saymak: 2, 4, 6, 8, 10", "Çiftleri saymak", "Ritimle saymak"]
+  - tarih: 2027-08-03
+    gun: Salı
+    kategori: dil
+    konu: "Ses taklidi kelimeler: Şırıl şırıl, vızır vızır"
+    hedefler: ["Sesleri anlatan kelimeler", "Şırıl şırıl su, vızır vızır arı", "Hayvan seslerini taklit etmek"]
+  - tarih: 2027-08-04
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Hayvanlar nasıl uyur?"
+    hedefler: ["Flamingo tek ayak üstünde uyur", "Atlar ayakta uyuyabilir", "Yunuslar beyninin yarısıyla uyur"]
+  - tarih: 2027-08-05
+    gun: Perşembe
+    kategori: deneyler
+    konu: "Köpüren yanardağ deneyi"
+    hedefler: ["Yanardağ nedir?", "Karbonat ve sirke köpürür", "Deneyi büyüklerimizle yaparız"]
+    not: "Gerçek yanardağı korkutucu anlatma. Karbonat-sirke deneyi büyüklerle; göze kaçırmayız."
+  - tarih: 2027-08-06
+    gun: Cuma
+    kategori: sekiller
+    konu: "Top, küp, silindir: Üç boyutlu şekiller"
+    hedefler: ["Küre: top gibi", "Küp: zar gibi", "Silindir: bardak gibi"]
+  - tarih: 2027-08-07
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Yardım istemek: Bana yardım eder misin?"
+    hedefler: ["Yardım istemek cesarettir", "Kime yardım isteriz?", "Kibarca yardım istemek"]
+  - tarih: 2027-08-08
+    gun: Pazar
+    kategori: meslekler
+    konu: "Temizlik görevlileri: Şehrimizi temizleyenler"
+    hedefler: ["Çöp toplayan araçlar ve görevliler", "Sokakları temiz tutmak", "Emek verenlere teşekkür"]
+  - tarih: 2027-08-09
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Çıkarma oyunu: Kaç tane kaldı?"
+    hedefler: ["Ona kadar çıkarma", "Uçan balonlar: kaç tane kaldı?", "Çıkarma bilmeceleri"]
+  - tarih: 2027-08-10
+    gun: Salı
+    kategori: dil
+    konu: "Tekerlemeler: Dilimizi çalıştıralım"
+    hedefler: ["Tekerleme nedir?", "Kısa ve komik tekerlemeler", "Yavaş başla, hızlan"]
+    not: "Telifli tekerleme/şarkı kullanma; geleneksel ya da özgün tekerleme yaz."
+  - tarih: 2027-08-11
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Kuyruklar ne işe yarar?"
+    hedefler: ["Maymun kuyruğuyla tutunur", "Balık kuyruğuyla yüzer", "Köpek kuyruğunu sallar"]
+  - tarih: 2027-08-12
+    gun: Perşembe
+    kategori: uzay
+    konu: "Kayan yıldızlar: Meteorlar"
+    hedefler: ["Kayan yıldız aslında yıldız değildir", "Küçük taş parçaları gökyüzünde parlar", "Ağustos gecelerinde çok görülür"]
+    not: "Perseid meteor yağmuru Ağustos ortasında en yoğundur; karanlık bir yerde büyüklerle izlenir."
+  - tarih: 2027-08-13
+    gun: Cuma
+    kategori: sanat
+    konu: "Desenler: Çizgili, puantiyeli, kareli"
+    hedefler: ["Desen nedir?", "Çizgili, puantiyeli, kareli", "Kendi desenimizi yapmak"]
+  - tarih: 2027-08-14
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Kurallara uymak: Oyunun kuralları"
+    hedefler: ["Kurallar neden var?", "Oyunda kurallara uymak", "Evde ve okulda kurallar"]
+  - tarih: 2027-08-15
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Parkta güvenli oyun"
+    hedefler: ["Salıncakta güvenlik", "Kaydıraktan oturarak kaymak", "Büyüklerimizin göreceği yerde oynamak"]
+  - tarih: 2027-08-16
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Yarım ve bütün: Karpuzu paylaşalım"
+    hedefler: ["Bütün ve yarım", "İki eşit parça", "Paylaşırken yarım yarım"]
+    not: "Bıçak gösterme ve kesme anlatma; karpuzu büyüklerimiz keser."
+  - tarih: 2027-08-17
+    gun: Salı
+    kategori: dil
+    konu: "Soru kelimeleri: Ne? Kim? Nerede?"
+    hedefler: ["Ne, kim, nerede, ne zaman", "Soru sormayı öğrenmek", "Soruya cevap verme oyunu"]
+  - tarih: 2027-08-18
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Filler: Hortumlu devler"
+    hedefler: ["Karada yaşayan en büyük hayvan", "Hortumla su içer ve tutar", "Filler ailesiyle yaşar"]
+  - tarih: 2027-08-19
+    gun: Perşembe
+    kategori: vucut
+    konu: "Kulaklarımız: Nasıl duyarız?"
+    hedefler: ["Kulaklarımız sesleri toplar", "Yüksek ses kulaklarımızı yorar", "Kulağımıza bir şey sokmayız"]
+  - tarih: 2027-08-20
+    gun: Cuma
+    kategori: renkler
+    konu: "Sıcak renkler, soğuk renkler"
+    hedefler: ["Sıcak renkler: kırmızı, turuncu, sarı", "Soğuk renkler: mavi, yeşil, mor", "Renklerin bize hissettirdikleri"]
+  - tarih: 2027-08-21
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Ben özelim: Kendimi seviyorum"
+    hedefler: ["Herkes kendine özgüdür", "Sevdiğim yanlarım", "Kendime nazik davranmak"]
+  - tarih: 2027-08-22
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Market alışverişi: Listemizi yapıyoruz"
+    hedefler: ["Alışveriş listesi hazırlamak", "Market reyonları", "Kasada sıraya girmek"]
+    not: "Marka ve ürün adı yok."
+  - tarih: 2027-08-23
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Dolu ve boş"
+    hedefler: ["Dolu ve boş kavramı", "Bardak dolu mu, boş mu?", "Yarısı dolu"]
+  - tarih: 2027-08-24
+    gun: Salı
+    kategori: dil
+    konu: "Hareket kelimeleri: Koşmak, zıplamak, uyumak"
+    hedefler: ["Hareket bildiren kelimeler", "Koşmak, zıplamak, yüzmek, uyumak", "Söyle ve yap oyunu"]
+  - tarih: 2027-08-25
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Hayvanlar ne yer?"
+    hedefler: ["Ot yiyen hayvanlar", "Tohum, meyve ve bal sevenler", "Her hayvanın besini farklıdır"]
+    not: "Avlanma ya da yem olma sahnesi gösterme."
+  - tarih: 2027-08-26
+    gun: Perşembe
+    kategori: bilim
+    konu: "Taşlar ve kayalar"
+    hedefler: ["Taşların renkleri ve şekilleri", "Sert ve pürüzsüz taşlar", "Kumsal kumu küçük taşlardır"]
+  - tarih: 2027-08-27
+    gun: Cuma
+    kategori: muzik
+    konu: "Orkestra: Hep birlikte çalıyoruz"
+    hedefler: ["Orkestra nedir?", "Şef ve müzisyenler", "Birlikte çalmak, birbirini dinlemek"]
+  - tarih: 2027-08-28
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Merak: Soru sormak çok güzel"
+    hedefler: ["Merak etmek öğrenmenin başlangıcıdır", "Neden? Nasıl? soruları", "Cevabı birlikte aramak"]
+  - tarih: 2027-08-29
+    gun: Pazar
+    kategori: meslekler
+    konu: "Diş hekimi"
+    hedefler: ["Diş hekimi ne yapar?", "Diş kontrolüne gitmek", "Diş hekiminden korkmayalım"]
+  - tarih: 2027-08-30
+    gun: Pazartesi
+    kategori: ulusal-bayram
+    konu: "30 Ağustos Zafer Bayramı: Bağımsızlık ve birlik"
+    hedefler: ["30 Ağustos bir bayram günüdür", "Bağımsızlık: özgür bir ülke", "Birlik ve beraberlik"]
+    ozel_gun: true
+    not: "Savaş, şiddet ayrıntısı ve silah görseli yok. Sakin, gururlu ve yaşa uygun anlat: bayrak, tören, birlik ve beraberlik."
+  - tarih: 2027-08-31
+    gun: Salı
+    kategori: dil
+    konu: "Bir tane, çok tane: -ler ve -lar"
+    hedefler: ["Bir elma, elmalar", "-ler ve -lar ekleri", "Sayıdan sonra -ler gelmez: üç kedi"]
+  - tarih: 2027-09-01
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Buğday: Tarladan sofraya"
+    hedefler: ["Buğday tarlada yetişir", "Buğday una, un ekmeğe dönüşür", "Hasat zamanı"]
+  - tarih: 2027-09-02
+    gun: Perşembe
+    kategori: bilim
+    konu: "Fosiller: Taşlaşmış izler"
+    hedefler: ["Fosil nedir?", "Dinozor kemikleri ve deniz kabukları", "Fosil bilimciler"]
+  - tarih: 2027-09-03
+    gun: Cuma
+    kategori: sanat
+    konu: "Kâğıt katlama: Kayık ve şapka"
+    hedefler: ["Kâğıdı ikiye katlamak", "Kâğıttan kayık", "Kâğıttan şapka"]
+  - tarih: 2027-09-04
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Yeni arkadaşlar edinmek"
+    hedefler: ["Kendimizi tanıtmak: 'Benim adım...'", "Oyuna davet etmek", "Ortak oyunlar bulmak"]
+  - tarih: 2027-09-05
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Okul çantamı hazırlıyorum"
+    hedefler: ["Okul çantasına neler koyarız?", "Beslenme çantası", "Eşyalarımıza özen"]
+  - tarih: 2027-09-06
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Konumlar: Üstünde, altında, yanında"
+    hedefler: ["Üstünde, altında, yanında", "İçinde ve dışında", "Kedi nerede saklandı?"]
+  - tarih: 2027-09-07
+    gun: Salı
+    kategori: dil
+    konu: "Okul kelimeleri: Sınıfta neler var?"
+    hedefler: ["Sıra, tahta, kalem, defter", "Okul eşyalarının adları", "Okul çantasında ne var?"]
+  - tarih: 2027-09-08
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Dağ hayvanları: Keçi ve kartal"
+    hedefler: ["Dağ keçisi kayalara tırmanır", "Kartal yükseklerde uçar", "Dağların serin havası"]
+  - tarih: 2027-09-09
+    gun: Perşembe
+    kategori: bilim
+    konu: "Elektrik ve güvenlik"
+    hedefler: ["Elektrik lambayı yakar", "Prize asla dokunmayız", "Kabloları çekiştirmeyiz"]
+    not: "Elektrik deneyi önerme; yalnızca güvenlik kurallarını anlat."
+  - tarih: 2027-09-10
+    gun: Cuma
+    kategori: sanat
+    konu: "Çizgi çalışması: Düz, eğri, zikzak"
+    hedefler: ["Düz ve eğri çizgiler", "Zikzak ve dalgalı çizgiler", "Kalemi doğru tutmak"]
+    not: "Okula hazırlık haftası; yazıya hazırlık çizgileri."
+  - tarih: 2027-09-11
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Okulun ilk günleri: Ailem beni alacak"
+    hedefler: ["Ayrılırken üzülmek normaldir", "Ailemiz bizi okuldan alacak", "Okulda bizi bekleyen güzel şeyler"]
+    not: "Okul açılışından hemen önceki cumartesi. 'Annem/babam' yerine 'ailem, beni getiren büyüğüm' gibi kapsayıcı ifadeler de kullan."
+  - tarih: 2027-09-12
+    gun: Pazar
+    kategori: trafik
+    konu: "Okul yolunda güvenlik"
+    hedefler: ["Okula büyüğümüzle gideriz", "Okul servisinde kemer", "Kaldırımda yürümek"]
+    not: "Okul açılışından bir gün önce."
+  - tarih: 2027-09-13
+    gun: Pazartesi
+    kategori: gunluk-yasam
+    konu: "Okula başlıyoruz!"
+    hedefler: ["Okulda neler yaparız?", "Yeni arkadaşlar ve öğretmenimiz", "Heyecanlanmak normaldir"]
+    ozel_gun: true
+    not: "TARİH DOĞRULANMALI: MEB 2027-2028 öğretim yılının açılış tarihi açıklanınca bu bölümü ilk okul gününe taşı (genellikle Eylül'ün ikinci haftası, pazartesi). Kaygıyı normalleştir, okulun eğlenceli yanlarını göster."
+  - tarih: 2027-09-14
+    gun: Salı
+    kategori: harfler
+    konu: "Adımın ilk harfi"
+    hedefler: ["Herkesin adı bir harfle başlar", "Adımızın ilk harfini bulmak", "Arkadaşlarımızın adlarındaki harfler"]
+    not: "Okulun ilk haftası; çocuk adlarına örnek verirken farklı kültürlerden kız ve erkek adları kullan."
+  - tarih: 2027-09-15
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Elma bahçesinde hasat"
+    hedefler: ["Elmalar sonbaharda toplanır", "Kırmızı, sarı, yeşil elmalar", "Elma ağacının hayatı"]
+  - tarih: 2027-09-16
+    gun: Perşembe
+    kategori: uzay
+    konu: "Mars: Kırmızı gezegen"
+    hedefler: ["Mars kırmızımsı görünür", "Mars'ta keşif araçları dolaşır", "Mars, Dünya'dan küçüktür"]
+  - tarih: 2027-09-17
+    gun: Cuma
+    kategori: sanat
+    konu: "Kendi portremi çiziyorum"
+    hedefler: ["Portre nedir?", "Yüzümüzün parçaları", "Aynaya bakıp çizmek"]
+    not: "Farklı ten renkleri, saç tipleri ve gözlük takan çocuklar göster."
+  - tarih: 2027-09-18
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Sınıf kuralları: Parmak kaldırıyorum"
+    hedefler: ["Konuşmak için parmak kaldırmak", "Sınıfı birlikte toplamak", "Arkadaşlarımıza nazik olmak"]
+  - tarih: 2027-09-19
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Kendi kendime giyiniyorum"
+    hedefler: ["Giyinme sırası", "Düğme ve fermuar", "Ayakkabıyı doğru ayağa giymek"]
+  - tarih: 2027-09-20
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Simetri: Kelebeğin iki kanadı"
+    hedefler: ["Simetri: iki taraf aynı", "Kelebek ve yaprakta simetri", "Ayna oyunu"]
+  - tarih: 2027-09-21
+    gun: Salı
+    kategori: dil
+    konu: "Kelime avı: Aynı sesle başlayanlar"
+    hedefler: ["İlk sesi duymak", "Aynı sesle başlayan kelimeleri bulmak", "Farklı olanı bul"]
+  - tarih: 2027-09-22
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Örümcekler ve ağları"
+    hedefler: ["Örümceğin 8 bacağı vardır", "Örümcekler ağ örer", "Örümcekler böcek değildir"]
+    not: "Korkutucu değil, sevimli ve meraklı anlat; örümceklere dokunmayız."
+  - tarih: 2027-09-23
+    gun: Perşembe
+    kategori: mevsimler
+    konu: "Sonbahar başlıyor: Gece ile gündüz eşit"
+    hedefler: ["23 Eylül: gece ile gündüz eşit", "Sonbaharda havalar serinler", "Sonbaharda doğada neler değişir?"]
+    ozel_gun: true
+    not: "30 Ekim 2026 'Sonbahar renkleri ve yapraklar' bölümünü tekrar etme; gece-gündüz eşitliği ve mevsim değişimine odaklan."
+  - tarih: 2027-09-24
+    gun: Cuma
+    kategori: sanat
+    konu: "Mozaik: Küçük parçalarla büyük resim"
+    hedefler: ["Mozaik nedir?", "Küçük renkli parçaları birleştirmek", "Kâğıttan mozaik"]
+  - tarih: 2027-09-25
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Tutumluluk: Kumbaramda biriktiriyorum"
+    hedefler: ["Tutumlu olmak nedir?", "Kumbarada para biriktirmek", "Eşyalarımızı korumak, israf etmemek"]
+  - tarih: 2027-09-26
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Geri dönüşüm: Kâğıt, plastik, cam"
+    hedefler: ["Geri dönüşüm nedir?", "Kâğıt, plastik, cam kutuları", "Atıkları ayırmak"]
+    not: "Kırık cam gösterme; camı büyüklerimiz atar."
+  - tarih: 2027-09-27
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Hızlı ve yavaş"
+    hedefler: ["Hızlı ve yavaş kavramı", "Tavşan hızlı, kaplumbağa yavaş", "Hızlı ve yavaş hareket oyunu"]
+  - tarih: 2027-09-28
+    gun: Salı
+    kategori: dil
+    konu: "Masal zamanı: Başı, ortası, sonu"
+    hedefler: ["Hikâyenin başı, ortası ve sonu", "Resimleri sıraya koymak", "Kendi minik hikâyemizi anlatmak"]
+  - tarih: 2027-09-29
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Mantarlar: Ormanın minik şemsiyeleri"
+    hedefler: ["Mantarlar yağmurdan sonra çıkar", "Mantar bir bitki değildir", "Doğadaki mantarı asla toplamayız, yemeyiz"]
+    not: "Güvenlik: doğada bulunan mantar asla koparılmaz ve yenmez; yalnızca büyüklerimizin aldığı mantarları yeriz."
+  - tarih: 2027-09-30
+    gun: Perşembe
+    kategori: hava
+    konu: "Hava durumu: Bugün hava nasıl?"
+    hedefler: ["Güneşli, bulutlu, yağmurlu, karlı", "Hava durumu simgeleri", "Havaya göre giyinmek"]
+  - tarih: 2027-10-01
+    gun: Cuma
+    kategori: muzik
+    konu: "Notalar: Do, re, mi"
+    hedefler: ["Yedi nota: do, re, mi, fa, sol, la, si", "Notaları sırayla söylemek", "İnceden kalına sesler"]
+  - tarih: 2027-10-02
+    gun: Cumartesi
+    kategori: duygular
+    konu: "Hayal kırıklığı: İstediğim olmadığında"
+    hedefler: ["Her istediğimiz olmayabilir", "Hayal kırıklığını sözle anlatmak", "Başka bir güzel seçenek bulmak"]
+  - tarih: 2027-10-03
+    gun: Pazar
+    kategori: saglik
+    konu: "Acil durum: 112'yi biliyorum"
+    hedefler: ["112 acil yardım numarasıdır", "Yalnızca gerçek acil durumda aranır", "Adresimizi bilmek"]
+    not: "Şaka amaçlı aramanın doğru olmadığını nazikçe söyle; korkutucu kaza sahnesi yok."
+  - tarih: 2027-10-04
+    gun: Pazartesi
+    kategori: hayvanlar
+    konu: "Dünya Hayvanları Koruma Günü"
+    hedefler: ["Hayvanlar da sevgi ve ilgi ister", "Sokak hayvanlarına su ve mama", "Hayvanlara nazik davranmak"]
+    ozel_gun: true
+    not: "Güvenlik notu: tanımadığımız bir hayvanı sevmeden önce büyüğümüze sorarız; sokak hayvanlarına büyüklerimizle yaklaşırız."
+  - tarih: 2027-10-05
+    gun: Salı
+    kategori: dil
+    konu: "Eş anlamlı kelimeler: Aynı anlam, farklı kelime"
+    hedefler: ["Eş anlam nedir?", "Minik-küçük, kocaman-dev, hızlı-çabuk", "Başka nasıl söyleriz?"]
+  - tarih: 2027-10-06
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Sincaplar kışa hazırlanıyor"
+    hedefler: ["Sincaplar ceviz ve fındık saklar", "Kabarık kuyruk", "Kışa hazırlık"]
+  - tarih: 2027-10-07
+    gun: Perşembe
+    kategori: hava
+    konu: "Gökkuşağı nasıl oluşur?"
+    hedefler: ["Güneş ışığı ve yağmur damlaları", "Işık renklere ayrılır", "Gökkuşağı Güneş'in karşı tarafında görülür"]
+  - tarih: 2027-10-08
+    gun: Cuma
+    kategori: sanat
+    konu: "Gölge oyunu: Ellerimizle hayvanlar"
+    hedefler: ["Işık ve el ile gölge", "Gölgeden kuş, köpek, tavşan", "Gölge tiyatrosu"]
+  - tarih: 2027-10-09
+    gun: Cumartesi
+    kategori: gorgu
+    konu: "Kapıyı çalmak ve izin istemek"
+    hedefler: ["Kapıyı çalıp beklemek", "'Girebilir miyim?' demek", "Başkasının eşyasını sormadan almamak"]
+  - tarih: 2027-10-10
+    gun: Pazar
+    kategori: gunluk-yasam
+    konu: "Kaybolursam ne yaparım?"
+    hedefler: ["Olduğun yerde dur", "Bir görevliye ya da polise söyle", "Ailemizin adını ve telefonunu bilmek"]
+    not: "Korkutmadan, güven veren bir üslup kullan."
+  - tarih: 2027-10-11
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Sıralama: Küçükten büyüğe"
+    hedefler: ["Küçükten büyüğe dizmek", "Büyükten küçüğe dizmek", "Sırayı bozan hangisi?"]
+  - tarih: 2027-10-12
+    gun: Salı
+    kategori: dil
+    konu: "Bilmece günü: Ben neyim?"
+    hedefler: ["Bilmece nedir?", "İpuçlarını dinleyip tahmin etmek", "Kendi bilmecemizi sormak"]
+  - tarih: 2027-10-13
+    gun: Çarşamba
+    kategori: bitkiler
+    konu: "Zeytin ağacı ve zeytin hasadı"
+    hedefler: ["Zeytin ağacı çok uzun yaşar", "Sonbaharda zeytin toplanır", "Zeytinden zeytinyağı yapılır"]
+  - tarih: 2027-10-14
+    gun: Perşembe
+    kategori: uzay
+    konu: "Kuyruklu yıldızlar ve asteroitler"
+    hedefler: ["Kuyruklu yıldız buz ve tozdan oluşur", "Güneş'e yaklaşınca kuyruğu uzar", "Asteroitler uzaydaki kayalardır"]
+  - tarih: 2027-10-15
+    gun: Cuma
+    kategori: sekiller
+    konu: "Beşgen: Beş kenarlı şekil"
+    hedefler: ["Beşgeni tanımak", "Beş kenar, beş köşe", "Şekilleri kenarlarıyla sayalım"]
+  - tarih: 2027-10-16
+    gun: Cumartesi
+    kategori: beslenme
+    konu: "Dünya Gıda Günü: Yemeğimizi israf etmiyoruz"
+    hedefler: ["Yemekler emekle hazırlanır", "Tabağımıza yiyeceğimiz kadar alırız", "Yemeği paylaşmak güzeldir"]
+    ozel_gun: true
+    not: "Açlık konusunu korkutucu ya da suçlayıcı anlatma; olumlu, paylaşma odaklı kur."
+  - tarih: 2027-10-17
+    gun: Pazar
+    kategori: kultur
+    konu: "Ankara: Başkentimiz"
+    hedefler: ["Türkiye'nin başkenti Ankara'dır", "Anıtkabir ve Ankara'nın simgeleri", "Başkent ne demek?"]
+    not: "29 Ekim'e yaklaşırken; siyasi içerik yok."
+  - tarih: 2027-10-18
+    gun: Pazartesi
+    kategori: matematik
+    konu: "Toplama ve çıkarma bilmeceleri"
+    hedefler: ["Toplama ve çıkarma tekrarı", "Resimli matematik bilmeceleri", "İşareti bul: artı mı eksi mi?"]
+  - tarih: 2027-10-19
+    gun: Salı
+    kategori: dil
+    konu: "Tarif eden kelimeler: Yumuşak, sert, tüylü"
+    hedefler: ["Nesneleri anlatan kelimeler", "Yumuşak, sert, tüylü, pürüzsüz", "Bu nasıl bir şey? oyunu"]
+  - tarih: 2027-10-20
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Saklambaç ustaları: Kamuflaj"
+    hedefler: ["Kamuflaj nedir?", "Rengini değiştiren hayvanlar", "Saklanan hayvanı bul oyunu"]
+  - tarih: 2027-10-21
+    gun: Perşembe
+    kategori: vucut
+    konu: "Büyüyoruz: Bebeklikten bugüne"
+    hedefler: ["Bebekken neler yapardık?", "Boyumuz uzar, ayaklarımız büyür", "Büyüyünce neler yapabiliriz?"]
+  - tarih: 2027-10-22
+    gun: Cuma
+    kategori: sanat
+    konu: "Oyun hamurundan heykeller"
+    hedefler: ["Hamuru yuvarlamak ve uzatmak", "Hamurdan hayvanlar", "Heykel nedir?"]
+    not: "Marka adı kullanma; 'oyun hamuru' de."
+  - tarih: 2027-10-23
+    gun: Cumartesi
+    kategori: degerler
+    konu: "Oyuna katılabilir miyim? Arkadaşlarımızı oyuna çağırmak"
+    hedefler: ["Oyuna katılmayı kibarca istemek", "Yalnız kalan arkadaşı oyuna çağırmak", "Herkesle oynamak"]
+  - tarih: 2027-10-24
+    gun: Pazar
+    kategori: meslekler
+    konu: "Kuaför ve berber: Saçımızı kestiriyoruz"
+    hedefler: ["Kuaför ve berber ne yapar?", "Saç kestirmek acıtmaz", "Saçımızı taramak ve bakımı"]
+  - tarih: 2027-10-25
+    gun: Pazartesi
+    kategori: sayilar
+    konu: "Sayı avı: Çevremizdeki sayılar"
+    hedefler: ["Saatte, kapıda, takvimde sayılar", "Evde sayı avı", "Sayılar her yerde"]
+  - tarih: 2027-10-26
+    gun: Salı
+    kategori: dil
+    konu: "Kelime zinciri: Son sesten yeni kelime"
+    hedefler: ["Kelimenin son sesini duymak", "Son sesle yeni kelime bulmak", "Kelime zinciri oyunu"]
+  - tarih: 2027-10-27
+    gun: Çarşamba
+    kategori: hayvanlar
+    konu: "Kuşların tüyleri ve gagaları"
+    hedefler: ["Tüyler kuşu sıcak tutar", "Farklı gagalar, farklı besinler", "Kuşları tanıyalım"]
+  - tarih: 2027-10-28
+    gun: Perşembe
+    kategori: uzay
+    konu: "Teleskopla gökyüzünü gözlüyoruz"
+    hedefler: ["Teleskop uzaktakileri yakın gösterir", "Ay'ın kraterleri", "Gökyüzü gözlemi büyüklerle"]
+    not: "Takvimin son bölümü; outroda ertesi günün 29 Ekim Cumhuriyet Bayramı olduğunu hatırlat."

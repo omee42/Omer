@@ -13,7 +13,6 @@ import argparse
 import datetime as dt
 import json
 import sys
-import zlib
 from pathlib import Path
 
 from .config import ROOT, load_config
@@ -27,14 +26,20 @@ def _today_tr():
     return (dt.datetime.utcnow() + dt.timedelta(hours=3)).date()
 
 
+def _spares():
+    return sorted(SPARE.glob("*.json"))
+
+
 def find_episode(date: str):
+    """The dated script for `date`, else a spare chosen deterministically from the date."""
     hits = sorted(EPISODES.glob(f"{date}*.json"))
     if hits:
         return hits[0], False
-    spares = sorted(SPARE.glob("*.json"))
+    spares = _spares()
     if not spares:
         return None, False
-    return spares[zlib.crc32(date.encode()) % len(spares)], True
+    # round-robin by calendar day, so consecutive days never get the same spare
+    return spares[dt.date.fromisoformat(date).toordinal() % len(spares)], True
 
 
 def cmd_setup(args):
@@ -43,7 +48,10 @@ def cmd_setup(args):
     ensure_emoji()
     if cfg["ses"].get("kalite_kontrol", True) and int(cfg["ses"].get("deneme", 3)) > 1:
         from .asr import ensure_asr
-        ensure_asr()
+        try:
+            ensure_asr()
+        except Exception as e:  # optional: narration then uses a single take per line
+            print(f"⚠ Kalite kontrol modeli indirilemedi ({e}); her cümle tek seferde seslendirilecek.")
     for spec in (cfg["ses"]["motor"], cfg["ses"]["yedek"]):
         kind, _, name = spec.partition(":")
         if kind == "piper":
@@ -63,7 +71,10 @@ def cmd_validate(args):
             print(f"✗ {f.name}: JSON hatası: {e}")
             bad += 1
             continue
-        errs = validate(ep)
+        try:
+            errs = validate(ep)
+        except Exception as e:  # never let one odd file stop the check of the others
+            errs = [f"beklenmeyen alan türü: {e}"]
         if not errs and f.parent == EPISODES and not f.name.startswith(ep["date"]):
             errs.append(f"dosya adı '{ep['date']}' ile başlamalı")
         if ep.get("id") in ids:
@@ -77,6 +88,9 @@ def cmd_validate(args):
         else:
             print(f"✓ {f.name}")
     print(f"\n{len(files) - bad}/{len(files)} senaryo geçerli.")
+    if not args.files and not _spares():
+        print("✗ bolumler/yedek/ boş: senaryosu olmayan günlerde video üretilemez. En az bir yedek bölüm ekleyin.")
+        bad += 1
     return 1 if bad else 0
 
 
@@ -105,11 +119,11 @@ def cmd_preview(args):
     tl, fr = render_episode(ep, None, fmt=args.format, preview_only=True, tts=tts)
     frames = []
     for sc in tl.scenes:
-        marks = sorted(set([0.35 * sc.dur, 0.7 * sc.dur, max(0.0, sc.dur - 0.5)]))
+        marks = [0.35 * sc.dur, 0.7 * sc.dur, max(0.0, sc.dur - 0.5)]
         for tag in ("reveal", "done"):
-            if tag in sc.T:
-                marks.append(sc.T[tag][0] + 0.7)
-        for m in marks[:3]:
+            if tag in sc.T:  # show the payoff moment instead of the generic 70% frame
+                marks[1] = min(sc.dur - 0.4, sc.T[tag][0] + 0.7)
+        for m in sorted(marks):
             frames.append((sc.start + m, sc.spec["type"]))
     thumbs = []
     tw = 640 if args.format != "short" else 300
@@ -178,6 +192,7 @@ def cmd_render(args):
 
 
 def cmd_daily(args):
+    from .schema import EpisodeError
     date = args.tarih or _today_tr().isoformat()
     path, spare = find_episode(date)
     if path is None:
@@ -186,7 +201,17 @@ def cmd_daily(args):
     if spare:
         print(f"⚠ {date} için senaryo yok; yedek bölüm kullanılıyor: {path.name}")
     out = Path(args.out or OUT / date)
-    produce(path, out, short=not args.no_short, workers=args.workers)
+    candidates = [path] + [p for p in _spares() if p != path]
+    for i, cand in enumerate(candidates):
+        try:
+            produce(cand, out, short=not args.no_short, workers=args.workers)
+            path, spare = cand, spare or i > 0
+            break
+        except EpisodeError as e:
+            print(f"⚠ {cand.name} geçersiz, atlanıyor:\n{e}", file=sys.stderr)
+    else:
+        print("Kullanılabilir geçerli bir bölüm bulunamadı.", file=sys.stderr)
+        return 2
     (out / "bolum.txt").write_text(f"{date}\n{path.relative_to(ROOT)}\n{'yedek' if spare else 'planli'}\n")
     return 0
 

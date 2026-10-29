@@ -124,7 +124,7 @@ class MascotAnimator:
         self.fps = fps
 
     def mouth(self, t):
-        i = int(t * self.fps)
+        i = int(round(t * self.fps))
         if i < 0 or i >= len(self.env):
             return 0
         return int(round(min(1.0, self.env[i] * 1.25) * 5))

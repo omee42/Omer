@@ -105,7 +105,7 @@ def transformed(key: str, base: Image.Image, width: float, angle: float = 0.0) -
     """Scaled/rotated copy of a sprite, cached on quantised size/angle."""
     wq = max(2, int(round(width / 2.0)) * 2)
     aq = int(round(angle)) if abs(angle) >= 0.5 else 0
-    ck = (key, wq, aq)
+    ck = (key, base.size, wq, aq)
     hit = _TRANSFORM_CACHE.get(ck)
     if hit is not None:
         return hit

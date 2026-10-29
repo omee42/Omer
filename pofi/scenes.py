@@ -36,6 +36,7 @@ class Sfx:
     name: str
     gain: float = 1.0
     offset: float = 0.0
+    at: Optional[float] = None  # scene-local time; when None the sound plays at the current step + offset
 
 
 class Layout:
@@ -153,7 +154,7 @@ class Scene:
 
     # -- to override -----------------------------------------------------
     def steps(self):
-        return self.say_lines(self.spec.get("lines"), "l")
+        return self.say_lines(self.spec.get("lines"), "l") + self.say_lines(self.spec.get("after"), "a")
 
     def draw(self, canvas, t):
         pass
@@ -175,10 +176,10 @@ class Intro(Scene):
         self.visuals = get_visual_list(self.spec)[:5]
 
     def steps(self):
-        st = [Sfx("tada", 0.9, 0.15)]
+        st = [Sfx("jingle", 0.9, at=0.05)]
         for i in range(len(self.visuals)):
-            st.append(Sfx("pop", 0.5, 0.75 + 0.14 * i))
-        return st + self.say_lines(self.spec.get("lines"), "l")
+            st.append(Sfx("pop", 0.5, at=0.75 + 0.14 * i))
+        return st + self.say_lines(self.spec.get("lines"), "l") + self.say_lines(self.spec.get("after"), "a")
 
     def draw(self, canvas, t):
         x, y, w, h = self.L.content
@@ -206,10 +207,11 @@ class Intro(Scene):
 
 class Outro(Scene):
     chapter_default = "Kapanış"
-    tail = 1.8
+    tail = 2.6
 
     def steps(self):
-        return [Sfx("sparkle", 0.8, 0.1)] + self.say_lines(self.spec.get("lines"), "l")
+        return ([Sfx("sparkle", 0.8, at=0.1)] + self.say_lines(self.spec.get("lines"), "l")
+                + self.say_lines(self.spec.get("after"), "a") + [Sfx("jingle_end", 0.9, 0.2)])
 
     def draw(self, canvas, t):
         x, y, w, h = self.L.content
@@ -247,7 +249,7 @@ class Outro(Scene):
                 self.put_sprite(canvas, f"outro-next-{self.index}", layer, cx, cy + bob(t, 0, 5 * self.s), sc)
 
     def mascot(self, t):
-        return {"waving": True, "happy": t > self.dur - 1.6, "jump": 0.0, "big": True}
+        return {"waving": True, "happy": t > self.dur - 2.4, "jump": 0.0, "big": True}
 
 
 # ---------------------------------------------------------------- talk / item / fact
@@ -258,8 +260,8 @@ class Talk(Scene):
         self.visuals = get_visual_list(self.spec)[:3]
 
     def steps(self):
-        st = [Sfx("sparkle", 0.5, 0.15)] if self.visuals else []
-        return st + self.say_lines(self.spec.get("lines"), "l")
+        st = [Sfx("sparkle", 0.5, at=0.15)] if self.visuals else []
+        return st + self.say_lines(self.spec.get("lines"), "l") + self.say_lines(self.spec.get("after"), "a")
 
     def draw(self, canvas, t):
         x, y, w, h = self.L.content
@@ -289,7 +291,8 @@ class Item(Scene):
         self.color = self.spec.get("color") or self.theme["accent"]
 
     def steps(self):
-        return [Sfx("sparkle", 0.6, 0.15)] + self.say_lines(self.spec.get("lines"), "l")
+        return ([Sfx("sparkle", 0.6, at=0.15)] + self.say_lines(self.spec.get("lines"), "l")
+                + self.say_lines(self.spec.get("after"), "a"))
 
     def _halo(self, size):
         key = (self.color, int(size))
@@ -324,7 +327,8 @@ class Item(Scene):
 
 class Fact(Scene):
     def steps(self):
-        return [Sfx("sparkle", 0.7, 0.2)] + self.say_lines(self.spec.get("lines"), "l")
+        return ([Sfx("sparkle", 0.7, at=0.2)] + self.say_lines(self.spec.get("lines"), "l")
+                + self.say_lines(self.spec.get("after"), "a"))
 
     def draw(self, canvas, t):
         x, y, w, h = self.L.content
@@ -397,11 +401,13 @@ class Gallery(Scene):
         st = []
         if self.reveal_all:
             for i in range(len(self.items)):
-                st.append(Sfx("pop", 0.5, 0.15 + 0.14 * i))
+                st.append(Sfx("pop", 0.5, at=0.15 + 0.14 * i))
         st += self.say_lines(self.spec.get("lines"), "l")
         for i, it in enumerate(self.items):
             if it.get("line"):
                 st.append(Say(self.fmt(it["line"]), f"i{i}", None if self.reveal_all else "pop"))
+        if not any(isinstance(x, Say) for x in st) and not self.spec.get("after"):
+            st.append(Wait(1.5 + 0.7 * len(self.items), "hold"))  # nothing to say: still let children look
         return st + self.say_lines(self.spec.get("after"), "a")
 
     def appear(self, i):
@@ -512,10 +518,34 @@ class Letter(Scene):
         self.words = self.spec["words"]
 
     def steps(self):
-        st = [Sfx("sparkle", 0.7, 0.15)] + self.say_lines(self.spec.get("lines"), "l")
+        st = [Sfx("sparkle", 0.7, at=0.15)] + self.say_lines(self.spec.get("lines"), "l")
         for i, wd in enumerate(self.words):
             st.append(Say(self.fmt(wd["line"]), f"w{i}", "pop"))
         return st + self.say_lines(self.spec.get("after"), "a")
+
+    def _highlighted(self, word, fs):
+        """Word sprite with the scene's letter coloured (first occurrence, e.g. the 'ğ' in 'dağ')."""
+        key = ("hl", self.index, word, fs)
+        cache = self.ctx.cache
+        if key in cache:
+            return cache[key]
+        stroke = int(6 * self.s)
+        whole = text_sprite(word, "title", fs, rgb(self.theme["dark"]), stroke=stroke,
+                            stroke_fill=(255, 255, 255), align="left")
+        up = tr_upper(word)
+        k = up.find(self.letter)
+        if k < 0:
+            k = 0
+        ch = word[k]
+        mark = text_sprite(ch, "title", fs, rgb(self.theme["accent"]), stroke=stroke,
+                           stroke_fill=(255, 255, 255), align="left")
+        f = gfx.font("title", fs)
+        x_whole = -f.getbbox(word, stroke_width=stroke)[0] + f.getlength(word[:k])
+        x_mark = -f.getbbox(ch, stroke_width=stroke)[0]
+        combo = whole.copy()
+        blit(combo, mark, int(round(x_whole - x_mark)), 0, anchor="topleft")
+        cache[key] = combo
+        return combo
 
     def draw(self, canvas, t):
         x, y, w, h = self.L.content
@@ -559,12 +589,7 @@ class Letter(Scene):
             fs = int(min(rh * 0.55, 92 * self.s))
             while fs > 30 and gfx.font("title", fs).getlength(word) > ww * 0.6:
                 fs -= 4
-            whole = text_sprite(word, "title", fs, rgb(self.theme["dark"]), stroke=int(6 * self.s),
-                                stroke_fill=(255, 255, 255), align="left")
-            first = text_sprite(word[0], "title", fs, rgb(self.theme["accent"]), stroke=int(6 * self.s),
-                                stroke_fill=(255, 255, 255), align="left")
-            combo = whole.copy()
-            combo.alpha_composite(first, (0, 0))
+            combo = self._highlighted(word, fs)
             tx = wx + ww * 0.06 + vs * 1.25 + combo.width / 2
             self.put_sprite(canvas, f"lw-{self.index}-{i}", combo, tx, cy, sc * k)
 
@@ -619,9 +644,9 @@ class Quiz(Scene):
 
     def steps(self):
         lines = self.spec.get("lines") or [self.spec["question"]]
-        st = [Sfx("ding", 0.6, 0.05)]
+        st = [Sfx("ding", 0.6, at=0.05)]
         for i in range(len(self.opts)):
-            st.append(Sfx("pop", 0.45, 0.45 + 0.22 * i))
+            st.append(Sfx("pop", 0.45, at=0.45 + 0.22 * i))
         st += self.say_lines(lines, "l")
         st.append(Wait(0.25, "think"))
         for k in (3, 2, 1):
@@ -645,7 +670,7 @@ class Quiz(Scene):
             blit(pill, q, pill.width / 2, pill.height / 2 - 4 * s)
             cache[key] = pill
         counting = self.t0("cd3") <= t < self.t1("cd1")
-        pill_op = 0.0 if (counting and self.L.portrait) else 1.0
+        pill_op = 0.0 if counting else 1.0  # the countdown takes the question's place
         self.put_sprite(canvas, key, cache[key], x + w / 2, y + qh / 2, pop_scale(t, 0.05), opacity=pill_op)
         reveal = self.t0("reveal")
         n = len(self.opts)
@@ -685,9 +710,9 @@ class Quiz(Scene):
         for kk in (3, 2, 1):
             a, b = self.T.get(f"cd{kk}", (None, None))
             if a is not None and a <= t < b:
-                badge = number_badge(str(kk), self.theme["accent"], int(170 * s))
-                bx, by = (x + w - 100 * s, y + qh / 2) if not self.L.portrait else (x + w / 2, y + qh / 2)
-                self._ring(canvas, bx, by, 110 * s, (t - a) / (b - a))
+                badge = number_badge(str(kk), self.theme["accent"], int(min(170 * s, qh * 0.9)))
+                bx, by = x + w / 2, y + qh / 2
+                self._ring(canvas, bx, by, min(110 * s, qh * 0.58), (t - a) / (b - a))
                 self.put_sprite(canvas, f"cd-{kk}", badge, bx, by, pop_scale(t, a, 0.3))
         if self.confetti is not None and t >= reveal:
             self.confetti.draw(canvas, t - reveal)
@@ -713,7 +738,7 @@ class Chant(Scene):
 
     def init(self):
         self.items = self.spec["items"]
-        self.default_v = get_visual(self.spec) if any(k in self.spec for k in ("emoji", "visual", "shape")) else None
+        self.default_v = get_visual(self.spec)
 
     def steps(self):
         st = self.say_lines(self.spec.get("lines"), "l")
@@ -756,8 +781,10 @@ class Story(Scene):
 
     def steps(self):
         st = self.say_lines(self.spec.get("lines"), "l")
+        if not st:
+            st = [Sfx("sparkle", 0.6, at=0.3), Wait(1.6, "title")]  # show the title card before page one
         for j, p in enumerate(self.panels):
-            st += [Sfx("whoosh", 0.6), Wait(0.4, f"p{j}")]
+            st += [Sfx("whoosh", 0.6), Wait(0.45, f"p{j}")]
             st += self.say_lines(p.get("lines"), f"p{j}l")
         return st + self.say_lines(self.spec.get("after"), "a")
 
@@ -780,18 +807,20 @@ class Story(Scene):
         pw, ph = w * 0.96, h * 0.94
         cur = -1
         for j in range(len(self.panels)):
-            if t >= self.t0(f"p{j}") - 0.4:
+            if t >= self.t0(f"p{j}"):
                 cur = j
         if cur < 0:
             sp = self.title_text(self.fmt(self.spec.get("title", "Bir varmış, bir yokmuş...")), w * 0.9, h * 0.3, 110)
             self.put_sprite(canvas, f"st-{self.index}", sp, x + w / 2, y + h / 2, pop_scale(t, 0.1))
             return
-        a = self.t0(f"p{cur}") - 0.4
-        pr = ease_out_cubic(progress(t, a, 0.5))
+        a = self.t0(f"p{cur}")
+        pr = ease_out_cubic(progress(t, a, 0.45))
         for j, dx in ((cur - 1, -pr), (cur, 1 - pr)):
             if j < 0:
                 continue
-            ox = dx * (w + 200 * self.s)
+            if j == cur - 1 and pr >= 1:
+                continue
+            ox = dx * self.L.W  # far enough that the old page leaves the screen completely
             page = self._page(j, pw, ph)
             cx, cy = x + w / 2 + ox, y + h / 2
             blit(canvas, page, cx, cy)
@@ -839,7 +868,7 @@ class Math(Scene):
             in_row = cols if r < rows - 1 else count - cols * (rows - 1)
             px = cx - in_row * cell / 2 + (c + 0.5) * cell
             py = cy - rows * cell / 2 + (r + 0.5) * cell
-            sc = pop_scale(t, appear + 0.06 * i, 0.4)
+            sc = pop_scale(t, appear + min(0.06, 0.6 / count) * i, 0.4)
             self.put(canvas, self.v, px, py + bob(t, i, 3 * self.s), size, sc, wobble(t, i, 3), opacity=opacity)
             if crossed and sc > 0.5:
                 self.put(canvas, "❌", px + size * 0.25, py - size * 0.25, size * 0.5, sc)
@@ -882,8 +911,8 @@ class Action(Scene):
     def steps(self):
         sec = float(self.spec.get("seconds", 5))
         st = self.say_lines(self.spec.get("lines"), "l") + [Sfx("boing", 0.8)]
-        for k in range(int(sec)):
-            st.append(Sfx("tick", 0.5, k + 1.0))
+        for left in range(math.ceil(sec), 0, -1):
+            st.append(Sfx("tick", 0.5, max(0.0, sec - left)))
         st += [Wait(sec, "go"), Sfx("tada", 0.8)]
         after = self.spec.get("after") or ["Harika! Çok güzel yaptın!"]
         return st + self.say_lines(after, "a")

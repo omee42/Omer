@@ -6,6 +6,7 @@ Voices: Piper Turkish voices (CC0) re-packaged in the sherpa-onnx GitHub release
 import io
 import shutil
 import tarfile
+import time
 import urllib.request
 from functools import lru_cache
 from pathlib import Path
@@ -30,15 +31,27 @@ VOICE_DIR = CACHE / "voices"
 FREE_VOICES = {"fahrettin", "fettah"}  # CC0; 'dfki' is CC BY-NC-SA and must not be used commercially
 
 
-def _download(url: str) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "pofi-video/1.0"})
-    with urllib.request.urlopen(req, timeout=300) as r:
-        return r.read()
+def _download(url: str, tries: int = 4) -> bytes:
+    for k in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "pofi-video/1.0"})
+            with urllib.request.urlopen(req, timeout=300) as r:
+                return r.read()
+        except Exception as e:
+            if k == tries - 1:
+                raise
+            print(f"[assets] indirme hatası ({e}); {2 ** (k + 1)} sn sonra tekrar denenecek")
+            time.sleep(2 ** (k + 1))
+
+
+def _fresh(marker: Path, source: str) -> bool:
+    """True when the cached asset was downloaded from the same source URL."""
+    return marker.exists() and marker.read_text().strip() == source
 
 
 def ensure_emoji() -> Path:
     marker = EMOJI_DIR / ".ok"
-    if marker.exists():
+    if _fresh(marker, EMOJI_URL):
         return EMOJI_DIR
     print("[assets] Fluent Emoji 3D indiriliyor...")
     data = _download(EMOJI_URL)
@@ -51,7 +64,7 @@ def ensure_emoji() -> Path:
                 (tmp / Path(m.name).name).write_bytes(tf.extractfile(m).read())
     shutil.rmtree(EMOJI_DIR, ignore_errors=True)
     tmp.rename(EMOJI_DIR)
-    marker.touch()
+    marker.write_text(EMOJI_URL)
     return EMOJI_DIR
 
 
@@ -60,16 +73,24 @@ def ensure_voice(name: str) -> Path:
         raise ValueError(f"'{name}' sesi kullanılamaz. Ticari kullanıma uygun sesler: {sorted(FREE_VOICES)}")
     d = VOICE_DIR / name
     onnx = d / f"tr_TR-{name}-medium.onnx"
-    if onnx.exists() and onnx.with_suffix(".onnx.json").exists():
+    url = VOICE_URL.format(name=name)
+    if _fresh(d / ".ok", url) and onnx.exists():
         return onnx
     print(f"[assets] '{name}' sesi indiriliyor...")
-    data = _download(VOICE_URL.format(name=name))
-    d.mkdir(parents=True, exist_ok=True)
+    data = _download(url)
+    tmp = d.with_suffix(".tmp")
+    shutil.rmtree(tmp, ignore_errors=True)
+    tmp.mkdir(parents=True)
     with tarfile.open(fileobj=io.BytesIO(data), mode="r:bz2") as tf:
         for m in tf.getmembers():
             base = Path(m.name).name
             if m.isfile() and (base.endswith(".onnx") or base.endswith(".onnx.json") or base == "MODEL_CARD"):
-                (d / base).write_bytes(tf.extractfile(m).read())
+                (tmp / base).write_bytes(tf.extractfile(m).read())
+    if not (tmp / onnx.name).exists() or not (tmp / (onnx.name + ".json")).exists():
+        raise RuntimeError(f"'{name}' ses paketi eksik dosya içeriyor")
+    (tmp / ".ok").write_text(url)
+    shutil.rmtree(d, ignore_errors=True)
+    tmp.rename(d)
     return onnx
 
 

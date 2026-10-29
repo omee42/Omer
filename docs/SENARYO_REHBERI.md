@@ -83,8 +83,12 @@ Sahnelerde görsel `"emoji": "🍎"` ya da doğrudan `"shape": ...`, `"flag": ..
 ### Ortak alanlar
 
 - `lines`: Sahnenin başında söylenecek cümleler (liste, en fazla 8).
-- `after`: Sahnenin sonunda söylenecek cümleler (isteğe bağlı).
+- `after`: Sahnenin sonunda söylenecek cümleler (isteğe bağlı; her sahne türünde çalışır).
 - `chapter`: YouTube bölüm başlığı (isteğe bağlı; intro/quiz/recap/outro gibi sahnelerde otomatik).
+- **Ekranda yazan alanlarda emoji kullanma** (`title`, `subtitle`, `text`, `word`, `label`, `question`, `caption`,
+  tekerleme satırları, `next.text`, kapak yazısı): yazı tipi emojiyi çizemez. Emoji yalnızca görsel alanlarına
+  ve konuşma cümlelerine (`lines`, `line`) yazılabilir; konuşmada okunmaz, altyazıdan da silinir.
+- Etiketler ve metinler her zaman tırnak içinde metin olmalı: `"label": "5"` (sayı değil).
 
 ## Sahne türleri
 
@@ -96,12 +100,12 @@ Sahnelerde görsel `"emoji": "🍎"` ya da doğrudan `"shape": ...`, `"flag": ..
 | `gallery` | Öğeler tek tek belirir, her biri kendi cümlesiyle | `items`: 1-6 × `{görsel, label (≤22), line}`; isteğe bağlı `title` |
 | `recap` | Hepsi birden görünür, sırayla vurgulanır (tekrar) | `items`: 1-6 × `{görsel, label, line?}`; isteğe bağlı `title` |
 | `count` | Nesneleri tek tek sayar (sayılar otomatik okunur) | görsel, `n` (1-20); isteğe bağlı `label`, `lines`, `after` |
-| `letter` | Büyük/küçük harf ve o harfle başlayan kelimeler | `letter`, `words`: 1-4 × `{word, görsel, line}` |
-| `compare` | İki şeyi yan yana karşılaştırır | `left`/`right`: `{görsel, label, line, scale?}`; isteğe bağlı `title` |
+| `letter` | Büyük/küçük harf ve o harfle başlayan kelimeler (harf kelimede renkli görünür) | `letter`, `words`: 1-4 × `{word, görsel, line}`. **Ğ** için kelimenin ğ içermesi yeterli (dağ, ağaç, yağmur) |
+| `compare` | İki şeyi yan yana karşılaştırır | `left`/`right`: `{görsel, label, line, scale?}`; isteğe bağlı `title`. `scale` 0.2-1.0 arası küçültmedir: büyük–küçük karşılaştırmasında küçük olana 0.4-0.6 yaz |
 | `fact` | “Biliyor muydun?” bilgi kartı | görsel, `text` (≤90), `lines` |
 | `quiz` | Soru + 2-4 seçenek + 3-2-1 geri sayım + doğru cevap kutlaması | `question` (≤50), `options`: `{görsel, label}`, `answer` (0'dan başlayan sıra); `lines` (soruyu sesli sor), `after` (cevabı açıkla) |
-| `chant` | Tekerleme / ritimli tekrar: her satır ekranda büyük | `items`: 1-8 × `{line (≤60), görsel?}`; isteğe bağlı `title` |
-| `story` | Sayfa sayfa minik hikâye | `panels`: 1-6 × `{emoji: [1-3 görsel], caption? (≤50), lines (1-4)}`; isteğe bağlı `title` |
+| `chant` | Tekerleme / ritimli tekrar: her satır ekranda büyük | `items`: 1-8 × `{line (≤60), görsel?}`; isteğe bağlı `title` ve tüm satırlar için ortak görsel (`emoji`) |
+| `story` | Sayfa sayfa minik hikâye | `panels`: 1-6 × `{emoji: [1-3 görsel], caption? (≤50), lines (1-4)}`; isteğe bağlı `title` (sahne `lines` yoksa başta 1,6 sn gösterilir) |
 | `math` | Toplama/çıkarma görsellerle (otomatik okunur: “İki artı üç eşittir beş!”) | görsel, `a`, `b` (0-10), `op` (`+`/`-`) |
 | `action` | Hareket molası: zıpla/alkışla/dön + geri sayım | görsel, `text` (≤18, ör. “ZIPLA!”), `seconds` (2-12), `lines` |
 | `outro` | Kapanış, maskot el sallar, sıradaki bölüm kartı | `lines`; isteğe bağlı `title`, `next`: `{text (≤30), emoji}` |

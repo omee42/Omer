@@ -43,18 +43,25 @@ Releases sayfasında hazır olur.
 
 ## Otomatik YouTube yükleme (isteğe bağlı)
 
-1. [Google Cloud Console](https://console.cloud.google.com/)'da bir proje açın, **YouTube Data API v3**'ü etkinleştirin.
-2. OAuth izin ekranı oluşturun (Harici), kendinizi test kullanıcısı ekleyin; **OAuth istemci kimliği**
-   (Masaüstü uygulaması) oluşturun.
-3. [OAuth 2.0 Playground](https://developers.google.com/oauthplayground/) ile kendi istemci kimliğinizi kullanarak
-   `https://www.googleapis.com/auth/youtube.upload` ve `https://www.googleapis.com/auth/youtube.force-ssl`
-   izinleri için bir **refresh token** alın.
-4. GitHub depo → Settings → Secrets and variables → Actions: `YT_CLIENT_ID`, `YT_CLIENT_SECRET`, `YT_REFRESH_TOKEN`.
-5. `config.yaml` → `youtube.otomatik_yukle: true`. Videolar `yayin_saati` (varsayılan 17:00) saatinde yayına girer.
+1. [Google Cloud Console](https://console.cloud.google.com/)'da bir proje açın ve **YouTube Data API v3**'ü etkinleştirin.
+2. **OAuth izin ekranı** oluşturun (Harici). Yayın durumunu **"Üretimde" (In production)** yapın; "Test" durumunda
+   alınan anahtarlar 7 günde geçersiz olur. Kendi kullanımınız için uygulamanın doğrulanması gerekmez.
+3. **OAuth istemci kimliği** oluşturun: tür **Web uygulaması**, yetkili yönlendirme adresi
+   `https://developers.google.com/oauthplayground`.
+4. [OAuth 2.0 Playground](https://developers.google.com/oauthplayground/) → sağ üstteki ayardan "Use your own OAuth
+   credentials" ile kendi kimliğinizi girin → `https://www.googleapis.com/auth/youtube.upload` ve
+   `https://www.googleapis.com/auth/youtube.force-ssl` izinlerini seçip kanal hesabınızla onaylayın →
+   **refresh token** değerini kopyalayın.
+5. GitHub depo → Settings → Secrets and variables → Actions: `YT_CLIENT_ID`, `YT_CLIENT_SECRET`, `YT_REFRESH_TOKEN`.
+6. `config.yaml` → `youtube.otomatik_yukle: true`. `gizlilik: "public"` seçerseniz video `yayin_saati`
+   (varsayılan 17:00) saatinde yayına girer; `private`/`unlisted` seçerseniz o gizlilikle yüklenir ve siz
+   YouTube Studio'dan kontrol edip yayınlarsınız (önerilen başlangıç).
 
-> Not: Google'ın doğrulamadığı API projeleriyle yüklenen videolar YouTube tarafından **gizli** kilitlenir;
-> herkese açık yayın için projenin YouTube API denetiminden geçmesi gerekir. O zamana kadar elle yükleme
-> daha pratiktir.
+Aynı gün iş akışı tekrar çalıştırılırsa yüklenen videolar `youtube_linkler.json` kaydı sayesinde ikinci kez yüklenmez.
+
+> Not: Google'ın denetlemediği API projeleriyle yüklenen videolar YouTube tarafından **gizli** kilitlenebilir;
+> herkese açık otomatik yayın için projenin YouTube API denetiminden geçmesi gerekir. O zamana kadar elle
+> yükleme daha pratiktir.
 
 ## Yeni bölüm yazmak
 
@@ -94,3 +101,5 @@ python -m pofi takvim --gun 30           # önümüzdeki 30 günün senaryo duru
   seslendirmeyi kendi sesinizle yapın (senaryo metni `youtube.txt` ve JSON dosyasında hazır).
 - Bilgilerin doğruluğu bir kez daha bir yetişkin tarafından kontrol edilmelidir; özellikle sağlık ve
   güvenlik konularında.
+- GitHub, herkese açık depolarda 60 gün hiç değişiklik olmazsa zamanlanmış iş akışlarını durdurur. Depoya
+  düzenli olarak yeni senaryo eklendikçe bu sorun olmaz; durursa Actions sekmesinden yeniden etkinleştirin.

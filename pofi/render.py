@@ -66,7 +66,7 @@ class Ctx:
         self.channel = cfg["kanal"]["ad"]
 
     def fmt(self, s):
-        return s.replace("{maskot}", self.mascot_name).replace("{kanal}", self.channel)
+        return str(s).replace("{maskot}", self.mascot_name).replace("{kanal}", self.channel)
 
 
 # ---------------------------------------------------------------- background
@@ -154,7 +154,8 @@ class Timeline:
             lt = sc.lead
             for st in sc.steps():
                 if isinstance(st, Sfx):
-                    self.sfx.append((t + lt + st.offset, st.name, st.gain))
+                    when = st.at if st.at is not None else lt + st.offset
+                    self.sfx.append((t + when, st.name, st.gain))
                 elif isinstance(st, Wait):
                     sc.T[st.tag] = (lt, lt + st.seconds)
                     lt += st.seconds
@@ -383,9 +384,10 @@ def render_episode(ep, out_path, cfg=None, fmt="long", workers=None, tts=None, p
         W, H = cfg["video"]["genislik"], cfg["video"]["yukseklik"]
     fps = int(cfg["video"]["fps"])
     tts = tts or TTS(cfg)
+    gfx._TRANSFORM_CACHE.clear()  # sprite keys are only unique within one render
     tl = Timeline(cfg, ep, W, H, fps, tts)
-    seed = zlib.crc32(ep["id"].encode())
-    music = audio.make_music(tl.duration + 1, seed, ep.get("mood", "happy"))
+    seed = zlib.crc32(str(ep["id"]).encode())
+    music = audio.make_music(tl.duration, seed, ep.get("mood", "happy"))
     mixed, voice = audio.mix(tl.duration, tl.voice, tl.sfx, music, float(cfg["video"]["muzik_seviyesi"]),
                              float(cfg["video"]["efekt_seviyesi"]))
     env = mouth_envelope(voice, fps, tl.n_frames)

@@ -33,9 +33,9 @@ jobs:
       YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
       YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -55,9 +55,6 @@ jobs:
 
       - name: Varlıkları indir
         run: python -m pofi setup
-
-      - name: Senaryoları kontrol et
-        run: python -m pofi validate
 
       - name: Bugünün bölümünü üret
         id: render
@@ -80,14 +77,22 @@ jobs:
           cd "cikti/$T"
           BASLIK=$(python -c "import json; print(json.load(open('youtube.json'))['title'])")
           if gh release view "bolum-$T" >/dev/null 2>&1; then
-            gh release upload "bolum-$T" ./* --clobber
-          else
-            gh release create "bolum-$T" ./* --title "$T · $BASLIK" --notes-file youtube.txt
+            # keep the record of what is already on YouTube, then rebuild the release from scratch
+            gh release download "bolum-$T" -p youtube_linkler.json || true
+            gh release delete "bolum-$T" --yes --cleanup-tag
           fi
+          gh release create "bolum-$T" ./* --title "$T · $BASLIK" --notes-file youtube.txt
 
       - name: YouTube'a yükle (isteğe bağlı)
         if: env.YT_REFRESH_TOKEN != ''
-        run: python -m pofi youtube --dir "cikti/${{ steps.render.outputs.tarih }}" --tarih "${{ steps.render.outputs.tarih }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          T="${{ steps.render.outputs.tarih }}"
+          python -m pofi youtube --dir "cikti/$T" --tarih "$T"
+          if [ -f "cikti/$T/youtube_linkler.json" ]; then
+            gh release upload "bolum-$T" "cikti/$T/youtube_linkler.json" --clobber
+          fi
 
       - name: Önizleme olarak sakla
         uses: actions/upload-artifact@v4

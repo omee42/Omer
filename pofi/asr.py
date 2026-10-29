@@ -8,6 +8,7 @@ import io
 import re
 import shutil
 import tarfile
+import time
 import urllib.request
 
 import numpy as np
@@ -21,19 +22,31 @@ FILES = ("small-encoder.int8.onnx", "small-decoder.int8.onnx", "small-tokens.txt
 
 
 def ensure_asr():
-    if all((ASR_DIR / f).exists() for f in FILES):
+    marker = ASR_DIR / ".ok"
+    if marker.exists() and marker.read_text().strip() == ASR_URL and all((ASR_DIR / f).exists() for f in FILES):
         return ASR_DIR
     print("[asr] Whisper modeli indiriliyor (~640 MB, bir kez)...")
     tmp = ASR_DIR.with_suffix(".tmp")
-    shutil.rmtree(tmp, ignore_errors=True)
-    tmp.mkdir(parents=True)
-    req = urllib.request.Request(ASR_URL, headers={"User-Agent": "pofi-video/1.0"})
-    with urllib.request.urlopen(req, timeout=900) as r:
-        with tarfile.open(fileobj=r, mode="r|bz2") as tf:
-            for m in tf:
-                name = m.name.rsplit("/", 1)[-1]
-                if m.isfile() and name in FILES:
-                    (tmp / name).write_bytes(tf.extractfile(m).read())
+    for k in range(3):
+        shutil.rmtree(tmp, ignore_errors=True)
+        tmp.mkdir(parents=True)
+        try:
+            req = urllib.request.Request(ASR_URL, headers={"User-Agent": "pofi-video/1.0"})
+            with urllib.request.urlopen(req, timeout=900) as r:
+                with tarfile.open(fileobj=r, mode="r|bz2") as tf:
+                    for m in tf:
+                        name = m.name.rsplit("/", 1)[-1]
+                        if m.isfile() and name in FILES:
+                            (tmp / name).write_bytes(tf.extractfile(m).read())
+            if all((tmp / f).exists() for f in FILES):
+                break
+            raise RuntimeError("Whisper paketi eksik dosya içeriyor")
+        except Exception as e:
+            if k == 2:
+                raise
+            print(f"[asr] indirme hatası ({e}); tekrar deneniyor")
+            time.sleep(5 * (k + 1))
+    (tmp / ".ok").write_text(ASR_URL)
     shutil.rmtree(ASR_DIR, ignore_errors=True)
     tmp.rename(ASR_DIR)
     return ASR_DIR
