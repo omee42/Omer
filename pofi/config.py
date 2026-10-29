@@ -10,9 +10,10 @@ CACHE = Path(os.environ.get("POFI_CACHE", ROOT / ".cache"))
 
 DEFAULTS = {
     "kanal": {"ad": "Pofi ile Öğreniyorum", "maskot": "Pofi", "yas_grubu": "3-7 yaş", "web": ""},
-    "ses": {"motor": "piper:fettah", "yedek": "piper:fettah", "hiz": 1.12, "perde": 0,
+    "ses": {"motor": "piper:fettah", "yedek": "piper:fettah", "azure_hiz": "-8%", "azure_perde": "+3%",
+            "hiz": 1.12, "perde": 0,
             "satir_arasi": 0.45, "deneme": 3, "kalite_kontrol": True, "sozluk": {}},
-    "video": {"genislik": 1920, "yukseklik": 1080, "fps": 30, "altyazi_goster": True,
+    "video": {"motor": "2d", "isci_3d": 2, "genislik": 1920, "yukseklik": 1080, "fps": 30, "altyazi_goster": True,
               "muzik_seviyesi": 0.16, "efekt_seviyesi": 0.55, "hedef_loudness": -14},
     "shorts": {"aktif": True, "genislik": 1080, "yukseklik": 1920},
     "youtube": {"otomatik_yukle": False, "gizlilik": "private", "yayin_saati": "17:00", "kategori": 27,

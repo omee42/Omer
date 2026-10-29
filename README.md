@@ -1,8 +1,10 @@
 # Pofi ile Öğreniyorum — Günlük Çocuk Eğitici Video Fabrikası
 
 3–7 yaş çocuklar için **her gün farklı bir konuda** eğitici video üreten otomatik sistem.
-Baykuş maskot **Pofi** konuşur, göz kırpar, el sallar; sahneler 3D emoji çizimleri, Türkçe seslendirme,
-neşeli arka plan müziği, ses efektleri ve altyazılarla otomatik canlandırılır.
+Videolar **üç boyutludur**: baykuş maskot **Pofi** 3D bir dünyada (mevsime göre bahçe, oyun odası ya da
+uzay) konuşur, göz kırpar, kanat çırpar; yazılar, kartlar, şekiller ve sayılar gerçek ışık ve gölgeyle
+canlanır. Seslendirmeyi Microsoft Azure'un sıcak ve kibar kadın sesi **Emel** yapar; neşeli arka plan
+müziği, ses efektleri ve altyazılar otomatik eklenir.
 
 Her bölüm için üretilenler:
 
@@ -41,8 +43,37 @@ Her bölüm için üretilenler:
 
 ### Elle üretim (isteğe bağlı)
 
-Actions sekmesi → **Günlük video** → **Run workflow** → tarih girin (ör. `2026-11-05`). Birkaç dakika sonra
-Releases sayfasında hazır olur.
+Actions sekmesi → **Günlük video** → **Run workflow** → tarih girin (ör. `2026-11-05`). 3D çizim yazılım ile
+(ekran kartı olmadan) yapıldığı için ana video ve Shorts birlikte yaklaşık bir saatte Releases sayfasında hazır
+olur; sabah 06:17'de başlayan günlük üretim de aynı sürede biter.
+
+## Azure "Emel" sesini açma (bir kerelik, ~10 dakika, ücretsiz)
+
+Anahtar girilmezse videolar internetsiz çalışan yedek sesle (Piper "fettah") üretilir. Emel sesi için:
+
+1. [portal.azure.com](https://portal.azure.com) adresinde Microsoft hesabınızla oturum açın. Azure hesabınız
+   yoksa **ücretsiz hesap** açın (kimlik doğrulaması için kart bilgisi istenir; ücretsiz katmanda ücret alınmaz).
+2. Üstteki arama kutusuna **Speech** yazın → **Speech services** → **+ Create** (Oluştur).
+3. Formu doldurun:
+   - **Subscription:** kendi aboneliğiniz
+   - **Resource group:** *Create new* → `pofi`
+   - **Region:** `West Europe` (ya da size yakın başka bir bölge)
+   - **Name:** benzersiz bir ad, ör. `pofi-ses-2026`
+   - **Pricing tier:** **Free F0** (ayda 500.000 karakter ücretsiz; bir bölüm yaklaşık 3.000 karakter)
+   
+   **Review + create** → **Create**. Kurulum bir dakika sürer → **Go to resource**.
+4. Sol menüde **Keys and Endpoint** (Anahtarlar ve Uç Nokta) sayfasından **KEY 1** değerini ve
+   **Location/Region** değerini (ör. `westeurope`) kopyalayın.
+5. GitHub'da depo → **Settings → Secrets and variables → Actions → New repository secret** ile iki gizli
+   anahtar ekleyin:
+   - `AZURE_SPEECH_KEY` → KEY 1 değeri
+   - `AZURE_SPEECH_REGION` → bölge değeri, ör. `westeurope`
+6. Deneyin: **Actions → Günlük video → Run workflow** (tarih boş). Çalışma kaydında
+   `[tts] ses: azure:tr-TR-EmelNeural` satırı görünüyorsa Emel sesi devrede demektir.
+
+Sesin hızını ve tonunu `config.yaml` içindeki `ses.azure_hiz` (varsayılan `-8%`, çocuklar için hafif yavaş)
+ve `ses.azure_perde` (varsayılan `+3%`, biraz daha sıcak) ile değiştirebilirsiniz. Azure bir gün yanıt
+vermezse o bölüm baştan sona yedek sesle seslendirilir; bir videoda asla iki farklı ses karışmaz.
 
 ## Otomatik YouTube yükleme (isteğe bağlı)
 
@@ -71,7 +102,8 @@ Aynı gün iş akışı tekrar çalıştırılırsa yüklenen videolar `youtube_
 Rehber: [`docs/SENARYO_REHBERI.md`](docs/SENARYO_REHBERI.md). Kısaca:
 
 ```bash
-pip install -r requirements.txt          # ayrıca ffmpeg kurulu olmalı
+pip install -r requirements.txt          # ayrıca ffmpeg ve Node.js 20+ kurulu olmalı
+(cd pofi/web && npm ci && npx playwright install chromium)   # 3D çizici (ilk sefer)
 python -m pofi setup                     # çizimler, ses ve kalite kontrol modeli (ilk sefer)
 python -m pofi validate                  # tüm senaryoları kontrol et
 python -m pofi preview bolumler/2026-10-30-sonbahar-yapraklari.json --hizli   # hızlı önizleme PNG
@@ -82,17 +114,22 @@ python -m pofi takvim --gun 30           # önümüzdeki 30 günün senaryo duru
 ## Ayarlar (`config.yaml`)
 
 - `kanal.ad`, `kanal.maskot` — kanal ve maskot adı (senaryolarda `{maskot}` bu isimle değişir).
-- `ses.motor` — `piper:fettah` (varsayılan) veya `piper:fahrettin`. İnternetli ortamda `edge:tr-TR-EmelNeural`
-  gibi bir Microsoft sesi denenebilir (lisans koşullarını kendiniz değerlendirin).
-- `ses.hiz`, `ses.deneme` (her cümle kaç kez seslendirilip en nettinin seçileceği), `ses.sozluk` (okunuş düzeltmeleri).
+- `ses.motor` — `azure:tr-TR-EmelNeural` (varsayılan; yukarıdaki anahtarlar gerekir), `ses.yedek` —
+  `piper:fettah` (internetsiz). `ses.azure_hiz`, `ses.azure_perde` Emel sesinin hızı ve tonu.
+- `ses.hiz`, `ses.deneme` (Piper sesinde her cümle kaç kez seslendirilip en nettinin seçileceği),
+  `ses.sozluk` (okunuş düzeltmeleri, ör. `Atatürk: "Atatürk"`).
+- `video.motor` — `3d` (varsayılan, three.js ile üç boyutlu sahneler) veya `2d` (çok hızlı düz çizim).
+  3D çizim bir sorun yüzünden yapılamazsa o günün videosu otomatik olarak 2D üretilir.
 - `video.altyazi_goster`, `video.muzik_seviyesi`, `shorts.aktif`, `youtube.*`.
 
 ## Lisanslar ve kaynaklar
 
 - **Çizimler:** [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) 3D — MIT lisansı.
 - **Yazı tipleri:** Baloo 2 ve Nunito — SIL Open Font License (`assets/fonts`).
-- **Ses:** Piper Türkçe sesleri `fettah` ve `fahrettin` — CC0 (ticari kullanım serbest). `dfki` sesi ticari
-  olmayan lisanslı olduğu için bilinçli olarak kullanılmaz.
+- **Ses:** Microsoft Azure AI Speech (tr-TR-EmelNeural) — kendi Azure aboneliğiniz üzerinden, Microsoft'un
+  hizmet koşullarıyla. Yedek ses: Piper Türkçe sesleri `fettah` ve `fahrettin` — CC0 (ticari kullanım serbest).
+  `dfki` sesi ticari olmayan lisanslı olduğu için bilinçli olarak kullanılmaz.
+- **3D çizim:** [three.js](https://threejs.org) (MIT) ve Playwright ile başsız Chromium (Apache 2.0).
 - **Müzik ve efektler:** Program her bölüm için kendisi besteler (telif yok).
 - **Maskot Pofi:** Bu projede kodla çizilmiştir.
 

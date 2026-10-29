@@ -33,6 +33,17 @@ def _main_visuals(ep):
 
 
 def thumbnail(ep, path, cfg, W=1280, H=720):
+    text = (ep["youtube"].get("thumbnail") or {}).get("text") or ep["title"]
+    if str(cfg["video"].get("motor", "2d")).lower() == "3d":
+        from . import render3d
+        try:
+            return render3d.render_thumbnail(ep, cfg, text, _main_visuals(ep), path)
+        except Exception as e:
+            print(f"[kapak] UYARI: 3D kapak çizilemedi ({e}); 2D kapak kullanılıyor")
+    return thumbnail_2d(ep, path, cfg, W, H)
+
+
+def thumbnail_2d(ep, path, cfg, W=1280, H=720):
     th = theme_for(ep)
     img = gfx.radial_gradient((W, H), gfx.lighten(th["bg"][0], 0.2), th["bg"][1], 0.5, 0.4, 0.9).convert("RGBA")
     # sunburst rays for energy

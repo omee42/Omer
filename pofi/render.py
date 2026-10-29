@@ -376,9 +376,24 @@ def write_srt(tl, path):
     Path(path).write_text("\n".join(rows), encoding="utf-8")
 
 
+def _render_2d(renderer, tl, ep, fmt, tmp, workers):
+    fps = tl.fps
+    workers = workers or max(1, (os.cpu_count() or 2))
+    n = tl.n_frames
+    chunk = max(fps * 4, math.ceil(n / (workers * 3)))
+    jobs = [(a, min(n, a + chunk), tmp / f"seg_{k:04d}.mp4") for k, a in enumerate(range(0, n, chunk))]
+    _WORKER["renderer"] = renderer
+    print(f"[render] {ep['id']} ({fmt}) {tl.duration:.1f} sn, {n} kare, {len(jobs)} parça, {workers} işçi, 2D")
+    if workers > 1:
+        ctx = mp.get_context("fork")
+        with ctx.Pool(workers) as pool:
+            return pool.map(_encode_chunk, jobs, chunksize=1)
+    return [_encode_chunk(j) for j in jobs]
+
+
 def render_episode(ep, out_path, cfg=None, fmt="long", workers=None, tts=None, preview_only=False):
     """Render an episode dict to out_path (.mp4). Returns the Timeline."""
-    from .tts import TTS
+    from .tts import TTS, VoiceSwitched
 
     cfg = cfg or load_config()
     if fmt == "short":
@@ -388,7 +403,10 @@ def render_episode(ep, out_path, cfg=None, fmt="long", workers=None, tts=None, p
     fps = int(cfg["video"]["fps"])
     tts = tts or TTS(cfg)
     gfx._TRANSFORM_CACHE.clear()  # sprite keys are only unique within one render
-    tl = Timeline(cfg, ep, W, H, fps, tts)
+    try:
+        tl = Timeline(cfg, ep, W, H, fps, tts)
+    except VoiceSwitched:  # the whole episode is re-voiced with the backup, never a mix of two voices
+        tl = Timeline(cfg, ep, W, H, fps, tts)
     seed = zlib.crc32(str(ep["id"]).encode())
     music = audio.make_music(tl.duration, seed, ep.get("mood", "happy"))
     mixed, voice = audio.mix(tl.duration, tl.voice, tl.sfx, music, float(cfg["video"]["muzik_seviyesi"]),
@@ -404,18 +422,17 @@ def render_episode(ep, out_path, cfg=None, fmt="long", workers=None, tts=None, p
         raw_wav, norm_wav = tmp / "mix.wav", tmp / "mix_norm.wav"
         audio.write_wav(raw_wav, mixed)
         audio.loudnorm(raw_wav, norm_wav, float(cfg["video"]["hedef_loudness"]))
-        workers = workers or max(1, (os.cpu_count() or 2))
-        n = tl.n_frames
-        chunk = max(fps * 4, math.ceil(n / (workers * 3)))
-        jobs = [(a, min(n, a + chunk), tmp / f"seg_{k:04d}.mp4") for k, a in enumerate(range(0, n, chunk))]
-        _WORKER["renderer"] = renderer
-        print(f"[render] {ep['id']} ({fmt}) {tl.duration:.1f} sn, {n} kare, {len(jobs)} parça, {workers} işçi")
-        if workers > 1:
-            ctx = mp.get_context("fork")
-            with ctx.Pool(workers) as pool:
-                segs = pool.map(_encode_chunk, jobs, chunksize=1)
-        else:
-            segs = [_encode_chunk(j) for j in jobs]
+        segs = None
+        if str(cfg["video"].get("motor", "2d")).lower() == "3d":
+            from . import render3d
+            try:
+                print(f"[render] {ep['id']} ({fmt}) {tl.duration:.1f} sn, {tl.n_frames} kare, 3D")
+                segs = render3d.render_segments(tl, env, tmp, workers=int(cfg["video"].get("isci_3d", 2)))
+            except Exception as e:  # a missing browser must not cost the day's video
+                print(f"[render] UYARI: 3D çizim yapılamadı ({e}); video 2D çizimle üretiliyor")
+                segs = None
+        if segs is None:
+            segs = _render_2d(renderer, tl, ep, fmt, tmp, workers)
         lst = tmp / "list.txt"
         lst.write_text("".join(f"file '{p}'\n" for p in segs))
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lst),

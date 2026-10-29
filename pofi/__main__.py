@@ -56,6 +56,12 @@ def cmd_setup(args):
         kind, _, name = spec.partition(":")
         if kind == "piper":
             ensure_voice(name)
+    if str(cfg["video"].get("motor", "2d")).lower() == "3d":
+        from .render3d import available
+        why = available()
+        if why:
+            print(f"⚠ 3D çizici hazır değil ({why}). Kurmak için: cd pofi/web && npm ci && npx playwright install chromium"
+                  " — o zamana kadar videolar 2D çizilir.")
     print("Hazır.")
 
 

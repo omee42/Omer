@@ -23,6 +23,8 @@ jobs:
           key: pofi-emoji-v1-${{ hashFiles('pofi/assets.py') }}
       - name: Testler
         run: python -m pytest -q tests
+      - name: 3D çizici sözdizimi
+        run: node --check pofi/web/app.js && node --check pofi/web/render.mjs
       - name: Senaryolar
         run: python -m pofi validate
       - name: Takvim

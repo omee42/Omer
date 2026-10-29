@@ -1,0 +1,11 @@
+{
+  "name": "pofi-3d",
+  "private": true,
+  "type": "module",
+  "description": "three.js renderer for Pofi episodes (frames captured in headless Chromium)",
+  "dependencies": {
+    "playwright": "1.63.0",
+    "polygon-clipping": "0.15.7",
+    "three": "0.169.0"
+  }
+}

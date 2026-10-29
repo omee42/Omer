@@ -6,13 +6,16 @@ kanal:
   web: ""                         # İsterseniz açıklamaya eklenecek bağlantı
 
 ses:
-  # piper:fahrettin ve piper:fettah ticari kullanıma uygun (CC0) Türkçe seslerdir.
-  # edge:tr-TR-EmelNeural gibi bir değer yalnızca internet erişimi olan ortamlarda
-  # (ör. GitHub Actions) çalışır; başarısız olursa yedek ses kullanılır.
-  motor: "piper:fettah"
+  # azure:tr-TR-EmelNeural → Microsoft Azure'un sıcak, kibar kadın sesi (ücretsiz F0 katmanı ayda
+  #   500.000 karakter; bir bölüm ~3.000 karakter). AZURE_SPEECH_KEY ve AZURE_SPEECH_REGION
+  #   gizli anahtarları gerekir (README → "Azure sesi"). Anahtar yoksa yedek ses kullanılır.
+  # piper:fahrettin ve piper:fettah internetsiz çalışan, ticari kullanıma uygun (CC0) seslerdir.
+  motor: "azure:tr-TR-EmelNeural"
   yedek: "piper:fettah"
-  hiz: 1.12                       # 1.0 normal; büyüdükçe yavaşlar (çocuklar için biraz yavaş)
-  perde: 0                        # Yarım ton cinsinden ses inceltme/kalınlaştırma (ör. 2)
+  azure_hiz: "-8%"                # Azure sesinin hızı: eksi değer yavaşlatır (çocuklar için hafif yavaş)
+  azure_perde: "+3%"              # Azure sesinin tonu: artı değer biraz inceltir, daha sıcak duyulur
+  hiz: 1.12                       # Piper sesi için: 1.0 normal; büyüdükçe yavaşlar
+  perde: 0                        # Piper sesi için yarım ton cinsinden inceltme/kalınlaştırma (ör. 2)
   satir_arasi: 0.45               # Cümleler arası sessizlik (saniye)
   deneme: 3                       # Her cümle kaç kez seslendirilsin? En anlaşılır olanı seçilir
   kalite_kontrol: true            # Seçimi Whisper konuşma tanıma ile yap (ilk kurulumda ~640 MB indirir)
@@ -20,6 +23,8 @@ ses:
     Pofi: "Pofi"
 
 video:
+  motor: "3d"                     # 3d: three.js ile üç boyutlu sahneler | 2d: hızlı düz çizim
+  isci_3d: 2                      # 3D çizimde aynı anda çalışan tarayıcı sayısı
   genislik: 1920
   yukseklik: 1080
   fps: 30
