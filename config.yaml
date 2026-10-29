@@ -1,0 +1,41 @@
+# Kanal ayarları — videoların tamamı bu dosyadaki değerlerle üretilir.
+kanal:
+  ad: "Pofi ile Öğreniyorum"      # Kanal adı (açıklamalarda ve kapakta kullanılır)
+  maskot: "Pofi"                  # Senaryolarda {maskot} yazan her yer bu isimle değişir
+  yas_grubu: "3-7 yaş"
+  web: ""                         # İsterseniz açıklamaya eklenecek bağlantı
+
+ses:
+  # piper:fahrettin ve piper:fettah ticari kullanıma uygun (CC0) Türkçe seslerdir.
+  # edge:tr-TR-EmelNeural gibi bir değer yalnızca internet erişimi olan ortamlarda
+  # (ör. GitHub Actions) çalışır; başarısız olursa yedek ses kullanılır.
+  motor: "piper:fettah"
+  yedek: "piper:fettah"
+  hiz: 1.12                       # 1.0 normal; büyüdükçe yavaşlar (çocuklar için biraz yavaş)
+  perde: 0                        # Yarım ton cinsinden ses inceltme/kalınlaştırma (ör. 2)
+  satir_arasi: 0.45               # Cümleler arası sessizlik (saniye)
+  deneme: 3                       # Her cümle kaç kez seslendirilsin? En anlaşılır olanı seçilir
+  kalite_kontrol: true            # Seçimi Whisper konuşma tanıma ile yap (ilk kurulumda ~640 MB indirir)
+  sozluk:                         # Yanlış okunan kelimeler için okunuş düzeltmeleri
+    Pofi: "Pofi"
+
+video:
+  genislik: 1920
+  yukseklik: 1080
+  fps: 30
+  altyazi_goster: true            # Konuşulan cümle ekranın altında yazsın mı?
+  muzik_seviyesi: 0.16            # Arka plan müziği yüksekliği (0-1)
+  efekt_seviyesi: 0.55
+  hedef_loudness: -14             # YouTube için LUFS
+
+shorts:
+  aktif: true                     # Her bölümden ayrıca dikey bir Shorts videosu üret
+  genislik: 1080
+  yukseklik: 1920
+
+youtube:
+  otomatik_yukle: false           # true ise ve gizli anahtarlar tanımlıysa YouTube'a yükler
+  gizlilik: "private"             # private | unlisted | public
+  kategori: 27                    # 27 = Eğitim
+  cocuklar_icin: true             # "Çocuklara özel" (COPPA) işareti
+  etiketler: ["çocuk", "eğitici", "okul öncesi", "çocuklar için", "öğreniyorum", "Pofi"]

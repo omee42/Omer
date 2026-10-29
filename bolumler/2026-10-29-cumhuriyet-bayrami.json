@@ -1,0 +1,141 @@
+{
+  "id": "2026-10-29-cumhuriyet-bayrami",
+  "date": "2026-10-29",
+  "category": "ulusal-bayram",
+  "title": "Cumhuriyet Bayramı",
+  "mood": "happy",
+  "youtube": {
+    "title": "29 Ekim Cumhuriyet Bayramı Çocuklar İçin 🇹🇷 Bayrağımız, Bilmece ve Tekerleme",
+    "short_title": "Bayrağımız hangisi? 🇹🇷 29 Ekim Bilmecesi",
+    "description": "29 Ekim Cumhuriyet Bayramı'nı Pofi ile öğreniyoruz! Cumhuriyet ne demek, bayramda neler yaparız, bayrağımızda neler var? Bayrakları sayıyor, bilmeceyi çözüyor ve hep birlikte tekerleme söylüyoruz. Okul öncesi ve ilkokul çağındaki çocuklar için eğlenceli ve eğitici bir bölüm.\n\nCumhuriyet Bayramınız kutlu olsun! 🇹🇷",
+    "tags": ["29 ekim", "cumhuriyet bayramı", "cumhuriyet bayramı çocuklar için", "29 ekim okul öncesi", "türk bayrağı", "cumhuriyet nedir", "bayram etkinliği"],
+    "thumbnail": {"text": "29 Ekim", "emoji": [{"flag": "tr"}, "🎈"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Cumhuriyet Bayramı",
+      "subtitle": "29 Ekim",
+      "emoji": [{"flag": "tr"}, "🎉", "🎈"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün çok özel bir gün. Bugün Cumhuriyet Bayramı!",
+        "Hadi, bu güzel bayramı birlikte öğrenelim!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "29 Ekim neden özel?",
+      "emoji": [{"flag": "tr"}],
+      "text": "29 Ekim 1923",
+      "lines": [
+        "Her yıl 29 Ekim'de Cumhuriyet Bayramı'nı kutlarız.",
+        "Çünkü 29 Ekim 1923'te Cumhuriyetimiz ilan edildi.",
+        "Bu yıl Cumhuriyetimiz tam 103 yaşında!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Cumhuriyet ne demek?",
+      "emoji": ["🗳️", "👨‍👩‍👧‍👦"],
+      "text": "Halk kendi kendini yönetir",
+      "lines": [
+        "Peki, Cumhuriyet ne demek?",
+        "Cumhuriyet, halkın kendi kendini yönetmesidir.",
+        "Büyükler, ülkemizi yönetecek kişileri seçimle, hep birlikte seçer."
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "🏛️",
+      "text": "İlk Cumhurbaşkanımız Mustafa Kemal Atatürk'tür.",
+      "lines": [
+        "Biliyor muydun?",
+        "Cumhuriyetimizin ilk Cumhurbaşkanı Mustafa Kemal Atatürk'tür.",
+        "Atatürk çocukları çok severdi."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Bayramda neler yaparız?",
+      "title": "Bayramda neler yaparız?",
+      "lines": ["Bayramda neler yaparız? Hadi bakalım!"],
+      "items": [
+        {"emoji": "🇹🇷", "label": "Bayrak asarız", "line": "Evlerimize ve okullarımıza bayraklar asarız."},
+        {"emoji": "🎶", "label": "Şarkı söyleriz", "line": "Hep birlikte marşlar ve şarkılar söyleriz."},
+        {"emoji": "🥁", "label": "Tören yaparız", "line": "Okullarda törenler ve gösteriler yapılır."},
+        {"emoji": "🎆", "label": "Havai fişek", "line": "Akşam gökyüzünde rengârenk havai fişekler patlar."}
+      ],
+      "after": ["Havai fişekleri her zaman büyüklerimizle birlikte, uzaktan izleriz."]
+    },
+    {
+      "type": "compare",
+      "chapter": "Bayrağımız",
+      "title": "Bayrağımızda neler var?",
+      "lines": ["Şimdi bayrağımıza dikkatlice bakalım."],
+      "left": {"shape": "hilal", "color": "#E30A17", "label": "Ay", "line": "Bayrağımızda bir ay var."},
+      "right": {"shape": "yıldız", "color": "#E30A17", "label": "Yıldız", "line": "Bir de yıldız var!"},
+      "after": ["Bayrağımız kırmızıdır. Ay ve yıldızı ise beyazdır."]
+    },
+    {
+      "type": "count",
+      "chapter": "Bayrakları sayalım",
+      "emoji": "🇹🇷",
+      "n": 5,
+      "label": "bayrak",
+      "lines": ["Hadi, bayrakları birlikte sayalım!"],
+      "after": ["Tam beş bayrak! Aferin sana!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Bizim bayrağımız hangisi?",
+      "lines": ["Şimdi bir bilmece! Bizim bayrağımız hangisi?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🇯🇵", "label": "Japonya"},
+        {"emoji": "🇹🇷", "label": "Türkiye"},
+        {"emoji": "🇮🇹", "label": "İtalya"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Kırmızı üstünde beyaz ay ve yıldız. İşte bizim bayrağımız!"]
+    },
+    {
+      "type": "chant",
+      "title": "Hep birlikte söyleyelim!",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Kırmızı beyaz bayrağım!", "emoji": "🇹🇷"},
+        {"line": "Gökyüzünde dalgalanır!", "emoji": "🌤️"},
+        {"line": "Yaşasın Cumhuriyet!", "emoji": "🎉"},
+        {"line": "Mutlu bayramlar!", "emoji": "🎈"}
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "👏",
+      "text": "Alkışla!",
+      "seconds": 5,
+      "lines": ["Şimdi hareket zamanı!", "Cumhuriyetimiz için hep birlikte alkışlayalım!"],
+      "after": ["Harika! Ne güzel alkışladın!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🇹🇷", "label": "29 Ekim", "line": "29 Ekim, Cumhuriyet Bayramı'dır."},
+        {"emoji": "🗳️", "label": "Cumhuriyet", "line": "Cumhuriyet, halkın kendi kendini yönetmesidir."},
+        {"emoji": "🎉", "label": "Kutlama", "line": "Bayramda bayrak asar, şarkılar söyleriz."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Mutlu Bayramlar!",
+      "lines": [
+        "Bugün harika bir gündü!",
+        "Cumhuriyet Bayramın kutlu olsun!",
+        "Yarın yeni bir konuda görüşmek üzere. Hoşça kal!"
+      ],
+      "next": {"text": "Sonbahar yaprakları", "emoji": "🍂"}
+    }
+  ]
+}

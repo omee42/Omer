@@ -1,0 +1,5 @@
+.cache/
+cikti/
+__pycache__/
+*.pyc
+.venv/
