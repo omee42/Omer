@@ -1,6 +1,9 @@
 name: Günlük video
 
 on:
+  push:
+    branches: [master]
+    paths: [".github/workflows/gunluk-video.yml"]
   schedule:
     - cron: "17 3 * * *"   # her gün 06:17 (Türkiye saati)
   workflow_dispatch:
