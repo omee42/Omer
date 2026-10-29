@@ -7,7 +7,7 @@
   "youtube": {
     "title": "Sayı 3: Yoncanın Üç Yaprağı ☘️ Çocuklar İçin Sayıları Öğreniyorum | Üç Ördek, Üçgen",
     "short_title": "Yoncanın kaç yaprağı var? ☘️ Sayı bilmecesi",
-    "description": "Pofi ile 3 rakamını tanıyoruz! Üç rakamını havada çiziyor, yoncanın üç yaprağını ve gölde yüzen üç küçük ördeği sayıyoruz. Trafik lambası ve üçgen gibi üç tane olan şeyleri buluyor, bilmeceleri çözüyoruz. Okul öncesi çocuklar için eğlenceli bir sayı bölümü.",
+    "description": "Pofi ile 3 rakamını tanıyoruz! Üç rakamını havada çiziyor, yoncanın üç yaprağını ve gölde yüzen üç küçük ördeği sayıyoruz. Trafik lambasının üç ışığını ve üçgenin üç köşesini buluyor, bilmeceleri çözüyoruz. Okul öncesi çocuklar için eğlenceli bir sayı bölümü.",
     "tags": ["sayı 3", "3 rakamı", "sayıları öğreniyorum", "okul öncesi sayılar", "çocuklar için sayılar", "üçe kadar saymak", "yonca", "rakamlar", "okul öncesi matematik"],
     "thumbnail": {"text": "Sayı 3", "emoji": [{"symbol": "3", "color": "#2FAE5F"}, "☘️", "🦆"]}
   },
@@ -86,16 +86,16 @@
       "lines": ["Şimdi minik bir hikaye dinleyelim."],
       "panels": [
         {"emoji": ["🦆"], "caption": "Bir ördek", "lines": ["Gölde bir ördek yüzüyordu. Vak!"]},
-        {"emoji": ["🦆", "🦆"], "caption": "İki ördek", "lines": ["Bir ördek daha geldi.", "Şimdi iki ördek oldular. Vak vak!"]},
-        {"emoji": ["🦆", "🦆", "🦆"], "caption": "Üç ördek", "lines": ["Bir ördek daha geldi!", "Bir, iki, üç! Şimdi üç ördek oldular. Vak vak vak!"]}
+        {"emoji": ["🦆", "🦆"], "caption": "İki ördek", "lines": ["Bir ördek daha geldi.", "Şimdi iki ördek oldu. Vak vak!"]},
+        {"emoji": ["🦆", "🦆", "🦆"], "caption": "Üç ördek", "lines": ["Bir ördek daha geldi!", "Bir, iki, üç! Şimdi üç ördek oldu. Vak vak vak!"]}
       ],
-      "after": ["İki ördeğe bir ördek gelince, üç ördek oldu!"]
+      "after": ["İki ördeğin yanına bir ördek daha geldi. Üç ördek oldu!"]
     },
     {
       "type": "gallery",
-      "chapter": "Üç tane olanlar",
+      "chapter": "Nerelerde üç var?",
       "title": "Hepsinde üç var!",
-      "lines": ["Üç tane olan başka neler var? Hadi, bakalım!"],
+      "lines": ["Başka nerelerde üç var? Hadi, bakalım!"],
       "items": [
         {"emoji": "☘️", "label": "Yonca", "line": "Yoncanın üç yaprağı var."},
         {"emoji": "🚦", "label": "Trafik lambası", "line": "Trafik lambasının üç ışığı var: kırmızı, sarı, yeşil."},
@@ -166,7 +166,7 @@
       "title": "Hoşça kal!",
       "lines": [
         "Bugün 3 rakamını öğrendik. Harikaydın!",
-        "Evde üç tane olan şeyleri bulabilir misin?",
+        "Evde üç oyuncak bulup sayabilir misin?",
         "Yarın B harfiyle tanışacağız. Görüşmek üzere!"
       ],
       "next": {"text": "B harfi", "emoji": "🎈"}

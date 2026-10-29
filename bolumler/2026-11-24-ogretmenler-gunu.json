@@ -20,7 +20,7 @@
       "lines": [
         "Merhaba arkadaşlar! Ben {maskot}!",
         "Bugün çok güzel bir gün. Bugün Öğretmenler Günü!",
-        "Hadi, öğretmenlerimizi birlikte konuşalım!"
+        "Hadi, bu güzel günü birlikte öğrenelim!"
       ]
     },
     {
@@ -41,8 +41,8 @@
       "text": "Atatürk'e Başöğretmen denir.",
       "lines": [
         "Biliyor muydun?",
-        "24 Kasım 1928'de Atatürk'e Başöğretmen unvanı verildi.",
         "Atatürk, herkesin okuma yazma öğrenmesini çok isterdi.",
+        "24 Kasım 1928'de Atatürk'e Başöğretmen unvanı verildi.",
         "Bu yüzden 24 Kasım'ı Öğretmenler Günü olarak kutlarız."
       ]
     },
@@ -54,8 +54,8 @@
       "items": [
         {"emoji": "📖", "label": "Kitap okur", "line": "Öğretmenimiz bize güzel kitaplar okur."},
         {"symbol": "ABC", "color": "#7C5CFA", "label": "Harfleri öğretir", "line": "Bize harfleri öğretir."},
-        {"emoji": "🎨", "label": "Resim yapar", "line": "Bizimle birlikte resim yapar."},
-        {"emoji": "🎶", "label": "Şarkı söyler", "line": "Bizimle birlikte şarkı söyler."},
+        {"emoji": "🎨", "label": "Resim yapar", "line": "Bizimle resim yapar."},
+        {"emoji": "🎶", "label": "Şarkı söyler", "line": "Bizimle şarkı söyler."},
         {"emoji": "🤝", "label": "Yardım eder", "line": "Zorlandığımızda bize yardım eder."}
       ]
     },

@@ -1,0 +1,161 @@
+{
+  "id": "2026-11-28-yardimlasma-birlikte-daha-kolay",
+  "date": "2026-11-28",
+  "category": "degerler",
+  "title": "Yardımlaşma",
+  "mood": "happy",
+  "youtube": {
+    "title": "Yardımlaşma Çocuklar İçin 🤝 Birlikte Daha Kolay! Evde ve Okulda Yardım Etmek",
+    "short_title": "Arkadaşın yardım istedi, ne yaparsın? 🤝 Değerler bilmecesi",
+    "description": "Pofi ile yardımlaşmayı öğreniyoruz! Evde ve okulda birbirimize nasıl yardım edebileceğimizi, yardım isteyen birine nasıl destek olacağımızı konuşuyoruz. Ağır sepet hikayesini dinliyor, bilmeceleri çözüyor ve hep birlikte tekerleme söylüyoruz. Okul öncesi çocuklar için sıcak ve eğitici bir değerler bölümü.",
+    "tags": ["yardımlaşma", "yardım etmek", "birlikte daha kolay", "değerler eğitimi", "okul öncesi değerler", "yardımlaşma çocuklar için", "evde yardım", "iyilik", "karakter eğitimi"],
+    "thumbnail": {"text": "Yardımlaşma", "emoji": ["🤝", "🧺"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Yardımlaşma",
+      "subtitle": "Birlikte daha kolay",
+      "emoji": ["🤝", "🧺", "😊"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün çok güzel bir şeyi konuşacağız: Yardımlaşma!",
+        "Birlikte yapınca işler daha kolay olur. Hadi görelim!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Yardımlaşma nedir?",
+      "emoji": ["👧🏽", "🤝", "👦🏻"],
+      "text": "Birbirimize yardım etmek",
+      "lines": [
+        "Yardımlaşma, birbirimize yardım etmektir.",
+        "Ben sana yardım ederim, sen de bana.",
+        "Yardım etmek çok güzeldir!"
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Ağır sepet",
+      "title": "Ağır sepet",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["👧🏽", "🧺", "🍎"], "caption": "Ağır bir sepet", "lines": ["Zeynep, bahçede elma topladı.", "Sepet çok ağırdı. Zeynep onu tek başına taşıyamadı."]},
+        {"emoji": ["👦🏻"], "caption": "Efe geldi", "lines": ["Arkadaşı Efe geldi ve sordu: Yardım edeyim mi?"]},
+        {"emoji": ["👧🏽", "🧺", "👦🏻"], "caption": "Birlikte taşıdılar", "lines": ["Sepeti iki yandan tutup birlikte taşıdılar.", "Birlikte taşıyınca çok daha kolay oldu!"]},
+        {"emoji": ["🍎", "😊"], "caption": "Teşekkür ederim!", "lines": ["Zeynep, Efe'ye teşekkür etti.", "Sonra elmaları yıkayıp birlikte yediler."]}
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Evde yardımlaşma",
+      "title": "Evde yardımlaşma",
+      "lines": ["Evde nasıl yardımlaşırız? Hadi bakalım!"],
+      "items": [
+        {"emoji": "🍽️", "label": "Sofrayı kurarız", "line": "Yemekten önce sofrayı birlikte kurarız."},
+        {"emoji": "🧸", "label": "Oyuncakları toplarız", "line": "Oyuncaklarımızı birlikte toplarız."},
+        {"emoji": "🧺", "label": "Çamaşır katlarız", "line": "Kuru çamaşırları katlamaya yardım ederiz."},
+        {"emoji": "🪴", "label": "Çiçekleri sularız", "line": "Saksıdaki çiçekleri sularız."}
+      ],
+      "after": ["Evde herkes yardım eder. Büyükler de, küçükler de!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Okulda yardımlaşma",
+      "title": "Okulda yardımlaşma",
+      "lines": ["Okulda da yardımlaşırız!"],
+      "items": [
+        {"emoji": "✏️", "label": "Düşen kalemler", "line": "Arkadaşımızın düşen kalemlerini birlikte toplarız."},
+        {"emoji": "🧹", "label": "Sınıf düzeni", "line": "Etkinlikten sonra sınıfı hep birlikte düzenleriz."},
+        {"emoji": "🧥", "label": "Mont giymek", "line": "Montunu giyemeyen arkadaşımıza yardım ederiz."}
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Yardım edeyim mi?",
+      "emoji": "🙋🏽",
+      "word": "Yardım",
+      "lines": [
+        "Bir arkadaşın senden yardım isterse ne yaparsın?",
+        "Ona destek olursun. Elinden geldiğince yardım edersin.",
+        "Zorlanan birini görünce de sorabilirsin: Yardım edeyim mi?",
+        "Sen de söyle: Yardım edeyim mi?"
+      ],
+      "after": ["Tanımadığın biri yardım isterse, önce bir büyüğüne söyle.", "Sen de zorlanınca yardım isteyebilirsin. Bu da çok güzeldir!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🐜",
+      "text": "Karıncalar büyük yiyecekleri birlikte taşır.",
+      "lines": [
+        "Biliyor muydun?",
+        "Karıncalar yardımlaşmayı çok iyi bilir.",
+        "Büyük bir yiyeceği hep birlikte taşırlar!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Sofra kuruluyor. Nasıl yardım edersin?",
+      "lines": ["Bilmece zamanı!", "Sofra kuruluyor. Sen nasıl yardım edersin?"],
+      "options": [
+        {"emoji": "😴", "label": "Uyurum"},
+        {"emoji": "🥄", "label": "Kaşıkları koyarım"},
+        {"emoji": "🧸", "label": "Oyun oynarım"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Sofraya kaşıkları koyarak yardım edebilirsin. Aferin!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Arkadaşın yardım istedi. Ne yaparsın?",
+      "lines": ["Bir bilmece daha! Arkadaşın yardım istedi. Ne yaparsın?"],
+      "options": [
+        {"emoji": "🤝", "label": "Yardım ederim"},
+        {"emoji": "🙈", "label": "Görmezden gelirim"}
+      ],
+      "answer": 0,
+      "after": ["Evet! Yardım isteyen arkadaşımıza destek oluruz."]
+    },
+    {
+      "type": "chant",
+      "title": "Yardımlaşma tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Sen bir ucundan, ben bir ucundan!", "emoji": "🧺"},
+        {"line": "El ele verelim, işi bitirelim!", "emoji": "🤝"},
+        {"line": "Evde, okulda, her yerde!", "emoji": "🏡"},
+        {"line": "Birlikte daha kolay!", "emoji": "😊"}
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "👏",
+      "text": "Alkışla!",
+      "seconds": 5,
+      "lines": ["Şimdi hareket zamanı!", "Yardım eden herkes için alkışlayalım!"],
+      "after": ["Harika! Sen de çok yardımseversin!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🤝", "label": "Yardım etmek", "line": "Yardım etmek çok güzeldir."},
+        {"emoji": "🏡", "label": "Evde", "line": "Evde sofrayı kurmaya yardım ederiz."},
+        {"emoji": "🏫", "label": "Okulda", "line": "Okulda arkadaşlarımıza yardım ederiz."},
+        {"emoji": "🙋🏽", "label": "Yardım edeyim mi?", "line": "Yardım isteyene destek oluruz."},
+        {"emoji": "🐜", "label": "Birlikte daha kolay", "line": "Birlikte yapınca işler daha kolay olur."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün yardımlaşmayı öğrendik. Harikasın!",
+        "Sen de evde birine yardım etmeye ne dersin?",
+        "Yarın trafik ışıklarını öğreneceğiz. Hoşça kal!"
+      ],
+      "next": {"text": "Trafik ışıkları", "emoji": "🚦"}
+    }
+  ]
+}

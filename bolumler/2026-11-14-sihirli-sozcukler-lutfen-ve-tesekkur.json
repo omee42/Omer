@@ -98,7 +98,7 @@
           "lines": ["Deniz, dedesiyle kahvaltı yapıyordu.", "Deniz sordu: Dedeciğim, ekmek verir misin, lütfen?"]
         },
         {
-          "emoji": ["👴", "🍞"],
+          "emoji": ["👴", "🍞", "🧒"],
           "caption": "Teşekkür ederim!",
           "lines": ["Dedesi ekmeği hemen uzattı.", "Deniz gülümsedi: Teşekkür ederim, dedeciğim!"]
         },
@@ -113,7 +113,7 @@
           "lines": ["Sofrada herkes çok mutluydu.", "Sihirli sözcükler işe yaradı!"]
         }
       ],
-      "after": ["Deniz üç sihirli sözcüğü de kullandı. Sen fark ettin mi?"]
+      "after": ["Deniz ve dedesi üç sihirli sözcüğü de kullandı. Sen fark ettin mi?"]
     },
     {
       "type": "fact",

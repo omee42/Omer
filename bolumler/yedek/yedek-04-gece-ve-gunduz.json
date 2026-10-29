@@ -7,7 +7,7 @@
   "youtube": {
     "title": "Gece ve Gündüz 🌙 Çocuklar İçin Neden Gece Olur? | Güneş, Ay ve Yıldızlar",
     "short_title": "Gece gökyüzünde ne görürüz? 🌙 Gece ve gündüz",
-    "description": "Pofi ile gece ve gündüzü öğreniyoruz! Dünyamız kendi etrafında döndüğü için gece ve gündüzün nasıl oluştuğunu, gündüz ve gece neler yaptığımızı keşfediyoruz. Gece uyanık olan hayvanlarla tanışıyor, bilmeceleri çözüp hep birlikte tekerleme söylüyoruz. Okul öncesi çocuklar için eğlenceli bir bilim bölümü.",
+    "description": "Pofi ile gece ve gündüzü öğreniyoruz! Dünyamız döndükçe gece ve gündüzün nasıl oluştuğunu, gündüz ve gece neler yaptığımızı keşfediyoruz. Gece uyanık olan hayvanlarla tanışıyor, bilmeceleri çözüp hep birlikte tekerleme söylüyoruz. Okul öncesi çocuklar için eğlenceli bir bilim bölümü.",
     "tags": ["gece ve gündüz", "gece neden olur", "çocuklar için bilim", "okul öncesi bilim", "güneş ve ay", "dünya döner", "yıldızlar", "gece hayvanları", "uyku zamanı"],
     "thumbnail": {"text": "Gece ve gündüz", "emoji": ["☀️", "🌙"]}
   },
@@ -110,7 +110,7 @@
         "Şimdi oyun zamanı! Gece oldu, hadi uyuyalım.",
         "Gözlerini kapat. Mışıl mışıl!"
       ],
-      "after": ["Günaydın! Güneş doğdu. Hadi, kollarını uzat ve uyan!"]
+      "after": ["Günaydın! Güneş doğdu. Gözlerini aç, kollarını uzat!"]
     },
     {
       "type": "chant",

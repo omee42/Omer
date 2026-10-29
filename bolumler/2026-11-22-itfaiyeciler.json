@@ -77,7 +77,7 @@
       "lines": ["İtfaiyecilerin özel kıyafetleri vardır. Hadi bakalım!"],
       "items": [
         {"emoji": "⛑️", "label": "Kask", "line": "Kask başlarını korur."},
-        {"emoji": "🧑‍🚒", "label": "Özel kıyafet", "line": "Özel kıyafetleri onları sıcaktan korur."},
+        {"emoji": "🧑‍🚒", "label": "Kıyafet", "line": "Özel kıyafetleri onları sıcaktan korur."},
         {"emoji": "🧤", "label": "Eldiven", "line": "Kalın eldivenler ellerini korur."},
         {"emoji": "🥾", "label": "Bot", "line": "Sağlam botlar ayaklarını korur."}
       ],

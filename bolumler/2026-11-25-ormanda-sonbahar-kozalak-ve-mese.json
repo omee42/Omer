@@ -29,7 +29,7 @@
       "emoji": ["🌳", "🍂"],
       "text": "Sonbaharda yapraklar dökülür",
       "lines": [
-        "Sonbaharda orman rengarenk olur.",
+        "Sonbaharda ormanın renkleri değişir.",
         "Birçok ağacın yaprakları sararır ve yere düşer.",
         "Kuru yapraklar ayağımızın altında hışır hışır eder!"
       ]
@@ -69,8 +69,8 @@
       "panels": [
         {"emoji": ["🐿️", "🌰"], "caption": "Sincap palamut topluyor", "lines": ["Sonbaharda minik bir sincap meşe palamudu topladı."]},
         {"emoji": ["🐿️", "🕳️"], "caption": "Toprağa sakladı", "lines": ["Palamutları küçük çukurlara gömüp sakladı.", "Kışın yemek için!"]},
-        {"emoji": ["❄️", "🐿️"], "caption": "Kış geldi", "lines": ["Kış gelince sincap palamutlarını buldu.", "Ama birini unuttu!"]},
-        {"emoji": ["🌱"], "caption": "Bahar geldi", "lines": ["Baharda unutulan palamut filizlendi."]},
+        {"emoji": ["❄️", "🐿️"], "caption": "Kış geldi", "lines": ["Sonra kış geldi. Sincap palamutlarını aradı.", "Çoğunu buldu ama birini unuttu!"]},
+        {"emoji": ["🌱"], "caption": "Bahar geldi", "lines": ["Baharda unutulan palamuttan minik bir filiz çıktı."]},
         {"emoji": ["🌳"], "caption": "Kocaman bir meşe", "lines": ["Yıllar sonra kocaman bir meşe ağacı oldu!"]}
       ],
       "after": ["Sincaplar böylece ormana yeni ağaçlar kazandırır."]
@@ -80,7 +80,7 @@
       "chapter": "Ağaçlar kışa hazırlanıyor",
       "title": "Ağaçlar kışa hazırlanıyor",
       "lines": ["Ağaçlar da kışa hazırlanır. Bak!"],
-      "left": {"emoji": "🌳", "label": "Meşe ağacı", "line": "Meşe ağaçlarının çoğu sonbaharda yapraklarını döker."},
+      "left": {"emoji": "🌳", "label": "Meşe ağacı", "line": "Birçok meşe ağacı sonbaharda yapraklarını döker."},
       "right": {"emoji": "🌲", "label": "Çam ağacı", "line": "Çam ağacı ise kışın da yeşil kalır."},
       "after": ["Yapraklarını döken ağaçlar kışın dinlenir.", "Baharda yeniden yeşil yapraklar açar."]
     },
@@ -132,14 +132,14 @@
     {
       "type": "quiz",
       "question": "Kozalak hangi ağaçta büyür?",
-      "lines": ["Bilmece zamanı! Kozalak hangi ağaçta büyür?", "Düşün bakalım!"],
+      "lines": ["Bilmece zamanı! Kozalak, hangi ağaçta büyür?", "Düşün bakalım!"],
       "options": [
-        {"emoji": "🌴", "label": "Palmiye"},
-        {"emoji": "🌵", "label": "Kaktüs"},
-        {"emoji": "🌲", "label": "Çam ağacı"}
+        {"emoji": "🌳", "label": "Meşe ağacı"},
+        {"emoji": "🌲", "label": "Çam ağacı"},
+        {"emoji": "🌴", "label": "Palmiye"}
       ],
-      "answer": 2,
-      "after": ["Evet! Kozalak, çam ağacında büyür. Harikasın!"]
+      "answer": 1,
+      "after": ["Evet! Kozalak, çam ağacında büyür. Meşe ağacında ise palamut büyür. Harikasın!"]
     },
     {
       "type": "action",

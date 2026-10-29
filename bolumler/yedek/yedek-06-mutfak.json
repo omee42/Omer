@@ -1,0 +1,158 @@
+{
+  "id": "yedek-06-mutfak",
+  "date": "2000-01-01",
+  "category": "evimiz",
+  "title": "Mutfakta Neler Var?",
+  "mood": "happy",
+  "youtube": {
+    "title": "Mutfakta Neler Var? 🍽️ Çocuklar İçin Mutfak Eşyaları, Mutfakta Güvenlik ve Kahvaltı",
+    "short_title": "Çorbayı neyle içeriz? 🥄 Mutfak bilmecesi",
+    "description": "Pofi ile evimizin mutfağını tanıyoruz! Tabak, kaşık, bardak ve tencere gibi mutfak eşyalarını öğreniyor, mutfakta nelere dikkat etmemiz gerektiğini konuşuyoruz. Ailece kahvaltı hikayesini dinliyor, kaşıkları sayıyor ve bilmeceleri çözüyoruz. Okul öncesi çocuklar için eğlenceli ve eğitici bir günlük yaşam bölümü.",
+    "tags": ["mutfak", "mutfak eşyaları", "mutfakta güvenlik", "evimizi tanıyalım", "mutfak eşyaları çocuklar için", "okul öncesi eğitim", "kahvaltı", "sıcak ve soğuk", "günlük yaşam becerileri"],
+    "thumbnail": {"text": "Mutfak", "emoji": ["🍽️", "🍲", "🥄"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Mutfakta Neler Var?",
+      "subtitle": "Evimizi tanıyalım",
+      "emoji": ["🍽️", "🍲", "🥄"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün evimizin çok lezzetli bir yerine gidiyoruz: Mutfağa!",
+        "Hadi, mutfakta neler var, birlikte bakalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Mutfak",
+      "emoji": ["🏠", "🍲"],
+      "text": "Mutfakta yemekler hazırlanır",
+      "lines": [
+        "Mutfak, evimizde yemeklerin hazırlandığı yerdir.",
+        "Bazı aileler mutfakta yemek de yer.",
+        "Mutfaktan ne güzel kokular gelir!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Mutfak eşyaları",
+      "title": "Mutfak eşyaları",
+      "lines": ["Mutfakta hangi eşyalar var? Hadi bakalım!"],
+      "items": [
+        {"emoji": "🍽️", "label": "Tabak", "line": "Yemeğimizi tabağa koyarız."},
+        {"emoji": "🥄", "label": "Kaşık", "line": "Çorbamızı kaşıkla içeriz."},
+        {"emoji": "🥛", "label": "Bardak", "line": "Sütümüzü bardaktan içeriz."},
+        {"emoji": "🍲", "label": "Tencere", "line": "Yemekler tencerede pişer."}
+      ],
+      "after": ["Sen de söyle: Tabak, kaşık, bardak, tencere!"]
+    },
+    {
+      "type": "count",
+      "chapter": "Kaşıkları sayalım",
+      "emoji": "🥄",
+      "n": 4,
+      "label": "kaşık",
+      "lines": ["Sofraya kaç kaşık koyduk? Hadi birlikte sayalım!"],
+      "after": ["Dört kaşık! Aferin sana!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Ailece kahvaltı",
+      "title": "Ailece kahvaltı",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🧼", "🙌"], "caption": "Önce eller yıkanır", "lines": ["Bir sabah Ela ve ailesi kahvaltı hazırlamaya başladı.", "Önce hepsi ellerini sabunla yıkadı."]},
+        {"emoji": ["🍞", "🧀", "🫒"], "caption": "Kahvaltı hazırlığı", "lines": ["Sofraya ekmek, peynir ve zeytin kondu."]},
+        {"emoji": ["🍳"], "caption": "Yumurta pişiyor", "lines": ["Ela'nın babası ocakta yumurta pişirdi.", "Ocak çok sıcaktı. Ela uzaktan izledi."]},
+        {"emoji": ["👧🏽", "🥄", "🍽️"], "caption": "Ela sofrayı kurdu", "lines": ["Ela da sofraya tabakları ve kaşıkları koydu."]},
+        {"emoji": ["😋"], "caption": "Afiyet olsun!", "lines": ["Sonra hep birlikte afiyetle kahvaltı ettiler!"]}
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Mutfakta dikkat!",
+      "emoji": "⚠️",
+      "word": "Dikkat!",
+      "lines": [
+        "Mutfakta dikkatli olmalıyız.",
+        "Ocak ve fırın çalışırken çok sıcak olur. Dokunmayız!",
+        "Bıçak keskindir. Onu büyüklerimiz kullanır.",
+        "Mutfakta koşmayız, yavaşça yürürüz."
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Sıcak mı, soğuk mu?",
+      "title": "Sıcak mı, soğuk mu?",
+      "lines": ["Mutfakta sıcak şeyler de var, soğuk şeyler de."],
+      "left": {"emoji": "🍲", "label": "Sıcak çorba", "line": "Çorba sıcaktır. Önce üfleriz, sonra yavaşça içeriz."},
+      "right": {"emoji": "🧊", "label": "Soğuk buz", "line": "Buz soğuktur. Dondurucuda durur."},
+      "after": ["Sıcak şeyleri her zaman büyüklerimiz taşır."]
+    },
+    {
+      "type": "fact",
+      "emoji": "🍞",
+      "text": "Ekmeklerin çoğu buğday unundan yapılır.",
+      "lines": [
+        "Biliyor muydun?",
+        "Ekmeklerin çoğu buğdaydan yapılır!",
+        "Buğday öğütülür ve un olur. Undan da ekmek yapılır."
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Çorbayı neyle içeriz?",
+      "lines": ["Bilmece zamanı! Çorbayı neyle içeriz?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "✏️", "label": "Kalem"},
+        {"emoji": "🧦", "label": "Çorap"},
+        {"emoji": "🥄", "label": "Kaşık"}
+      ],
+      "answer": 2,
+      "after": ["Evet, kaşıkla! Çorbayı kaşıkla içeriz."]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi mutfakta olur?",
+      "lines": ["Bir bilmece daha! Hangisi mutfakta olur?"],
+      "options": [
+        {"emoji": "🍲", "label": "Tencere"},
+        {"emoji": "🛏️", "label": "Yatak"},
+        {"emoji": "🚗", "label": "Araba"}
+      ],
+      "answer": 0,
+      "after": ["Evet, tencere! Tencere mutfakta olur. Harikasın!"]
+    },
+    {
+      "type": "action",
+      "emoji": "🥣",
+      "text": "Karıştır!",
+      "seconds": 6,
+      "lines": ["Şimdi hayali bir çorba yapalım!", "Elinde kocaman bir kaşık var gibi düşün. Karıştır, karıştır!"],
+      "after": ["Çorban hazır! Afiyet olsun!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🍽️", "label": "Tabak", "line": "Yemeğimizi tabağa koyarız."},
+        {"emoji": "🥄", "label": "Kaşık", "line": "Çorbayı kaşıkla içeriz."},
+        {"emoji": "🍲", "label": "Tencere", "line": "Yemekler tencerede pişer."},
+        {"emoji": "⚠️", "label": "Dikkat", "line": "Ocağa dokunmayız. Bıçağı büyüklerimiz kullanır."},
+        {"emoji": "🧼", "label": "Elleri yıkarız", "line": "Yemekten önce ellerimizi yıkarız."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün mutfağımızı tanıdık. Harikasın!",
+        "Sen de mutfakta büyüklerine yardım edebilirsin.",
+        "Yeni bir macerada görüşmek üzere. Hoşça kal!"
+      ],
+      "next": {"text": "Yeni bir macera!", "emoji": "✨"}
+    }
+  ]
+}

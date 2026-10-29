@@ -82,7 +82,7 @@
       "type": "gallery",
       "chapter": "B sesini dinle",
       "title": "B sesini duydun mu?",
-      "lines": ["B sesi kelimelerin içinde de saklanır.", "Kulağını aç ve dikkatle dinle!"],
+      "lines": ["B sesi kelimelerin içinde de saklanır.", "Kulaklarını aç. Dikkatle dinle!"],
       "items": [
         {"emoji": "🦋", "label": "Kelebek", "line": "Kelebek! İçinde bir ses saklı: B!"},
         {"emoji": "🦓", "label": "Zebra", "line": "Zebra! Bunda da saklı: B!"},

@@ -42,7 +42,7 @@
       "lines": ["Mutlu olunca nasıl görünürüz? Hadi bakalım!"],
       "items": [
         {"emoji": "😊", "label": "Gülümseriz", "line": "Mutlu olunca gülümseriz."},
-        {"emoji": "😆", "label": "Kahkaha atarız", "line": "Bazen kahkahayla güleriz. Ha ha ha!"},
+        {"emoji": "😆", "label": "Güleriz", "line": "Bazen kahkahayla güleriz. Ha ha ha!"},
         {"emoji": "👏", "label": "El çırparız", "line": "Sevinince el çırparız."},
         {"emoji": "🙌", "label": "Eller havaya", "line": "Bazen sevinçten ellerimizi havaya kaldırırız!"}
       ],

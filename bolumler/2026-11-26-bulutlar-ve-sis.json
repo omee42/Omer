@@ -30,7 +30,7 @@
       "word": "Bulut",
       "lines": [
         "İşte bir bulut! Pamuk gibi, değil mi?",
-        "Ama bulut pamuktan yapılmamıştır.",
+        "Ama bulut pamuk değildir.",
         "Bulut, minicik su damlacıklarından oluşur!",
         "Sen de söyle: Bulut!"
       ]
@@ -56,7 +56,7 @@
       "items": [
         {"emoji": "☁️", "label": "Pamuk gibi", "line": "Bazı bulutlar pamuk gibi kabarıktır."},
         {"emoji": "🪶", "label": "Tüy gibi", "line": "Bazıları ince, uzun bir tüy gibidir."},
-        {"emoji": "🌥️", "label": "Örtü gibi", "line": "Bazıları gökyüzünü bir örtü gibi kaplar. Güneş'i saklar."},
+        {"emoji": "🌥️", "label": "Örtü gibi", "line": "Bazıları gökyüzünü bir örtü gibi kaplar. Güneşi saklar."},
         {"emoji": "🌧️", "label": "Yağmur bulutu", "line": "Koyu gri bulutlar yağmur getirebilir."}
       ],
       "after": ["Bazen bulutlar hayvanlara benzer. Sen bulutlarda neler görüyorsun?"]
@@ -90,7 +90,7 @@
       "chapter": "Bulut mu, sis mi?",
       "title": "Bulut mu, sis mi?",
       "lines": ["Şimdi bulut ile sisi karşılaştıralım."],
-      "left": {"emoji": "☁️", "label": "Bulut", "line": "Bulut, gökyüzünde, yukarıdadır."},
+      "left": {"emoji": "☁️", "label": "Bulut", "line": "Bulut, gökyüzünde yukarıdadır."},
       "right": {"emoji": "🌁", "label": "Sis", "line": "Sis ise yere yakındır. Hemen yanımızdadır!"},
       "after": ["İkisi de minicik su damlacıklarından oluşur!"]
     },
@@ -122,7 +122,7 @@
       "text": "Hohla!",
       "seconds": 4,
       "lines": ["Şimdi küçük bir deney yapalım!", "Avucunu ağzına yaklaştır ve hohla!"],
-      "after": ["Soğuk bir cama hohlarsan cam buğulanır.", "Bu buğu da minicik su damlacıklarıdır!"]
+      "after": ["Nefesin ılık, değil mi? Soğuk bir cama hohlarsan cam buğulanır.", "Bu buğu da minicik su damlacıklarıdır!"]
     },
     {
       "type": "quiz",
@@ -162,7 +162,7 @@
       "type": "outro",
       "title": "Görüşmek üzere!",
       "lines": [
-        "Bugün bulutları ve sisi öğrendik. Harikasın!",
+        "Bugün bulutları ve sisi tanıdık. Harikasın!",
         "Dışarı çıkınca gökyüzüne bakmayı unutma!",
         "Yarın sarı rengi öğreneceğiz. Hoşça kal!"
       ],

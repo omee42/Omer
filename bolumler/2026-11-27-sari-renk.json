@@ -1,0 +1,159 @@
+{
+  "id": "2026-11-27-sari-renk",
+  "date": "2026-11-27",
+  "category": "renkler",
+  "title": "Sarı Renk",
+  "mood": "happy",
+  "youtube": {
+    "title": "Sarı Rengi Öğreniyorum 🍌 Çocuklar İçin Renkler: Muz, Limon, Civciv",
+    "short_title": "Hangisi sarı? 🐥 Renk bilmecesi",
+    "description": "Pofi ile sarı rengi öğreniyoruz! Sapsarı muzu, ekşi limonu ve minik civcivi tanıyor, sarı arkadaşlarını arayan civcivin hikayesini dinliyoruz. Civcivleri sayıyor, bilmecelerde sarı olanı buluyor ve etrafımızdaki sarı şeyleri arıyoruz. Okul öncesi çocuklar için renkleri öğreten eğlenceli bir bölüm.",
+    "tags": ["sarı renk", "renkleri öğreniyorum", "renkler çocuklar için", "okul öncesi renkler", "sarı", "renk öğrenme", "muz limon civciv", "renk bilmecesi", "sarı olanı bul"],
+    "thumbnail": {"text": "Sarı", "emoji": ["🍌", "🍋", "🐥"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Sarı Renk",
+      "emoji": ["🍌", "🍋", "🐥"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün parlak ve neşeli bir renk öğreneceğiz.",
+        "Muz gibi, limon gibi bir renk. Bil bakalım hangisi?"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Sarıyla tanışalım",
+      "emoji": "🟡",
+      "word": "Sarı",
+      "color": "#F5B400",
+      "lines": [
+        "İşte sarı! Ne kadar parlak, değil mi?",
+        "Sen de söyle: Sarı!",
+        "Çok güzel! Hadi bir daha söyleyelim: Sarı!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Muz, limon, civciv",
+      "title": "Muz, limon, civciv",
+      "lines": ["Neler sarı? Hadi bakalım!"],
+      "items": [
+        {"emoji": "🍌", "label": "Muz", "line": "Olgun muz sapsarıdır."},
+        {"emoji": "🍋", "label": "Limon", "line": "Limon sarıdır. Tadı da ekşidir!"},
+        {"emoji": "🐥", "label": "Civciv", "line": "Minik civcivin tüyleri sarı ve yumuşacıktır."}
+      ],
+      "after": ["Muz, limon ve civciv. Hepsi sarı!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Civciv sarı arıyor",
+      "title": "Civciv sarı arıyor",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🐥"], "caption": "Minik civciv", "lines": ["Bir varmış, bir yokmuş. Sarı bir civciv varmış.", "Civciv, kendisi gibi sarı arkadaşlar arıyormuş."]},
+        {"emoji": ["🐥", "🌽"], "caption": "Sarı mısır", "lines": ["Önce bir mısır görmüş. Mısır taneleri sarıymış!"]},
+        {"emoji": ["🐥", "🌻"], "caption": "Sarı ayçiçeği", "lines": ["Sonra kocaman bir ayçiçeği bulmuş. Çiçek yaprakları sapsarıymış!"]},
+        {"emoji": ["🐥", "🐥", "🐥"], "caption": "Sarı kardeşler", "lines": ["En sonunda sarı kardeşlerini görmüş.", "Civciv çok sevinmiş: Ne çok sarı arkadaşım var!"]}
+      ]
+    },
+    {
+      "type": "count",
+      "chapter": "Civcivleri sayalım",
+      "emoji": "🐥",
+      "n": 5,
+      "label": "civciv",
+      "lines": ["Hadi, sarı civcivleri birlikte sayalım!"],
+      "after": ["Beş sarı civciv! Aferin sana!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🍌",
+      "text": "Muz önce yeşildir. Olgunlaşınca sararır.",
+      "lines": [
+        "Biliyor muydun?",
+        "Muz önce yeşildir.",
+        "Olgunlaştıkça sararır ve tatlanır!"
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Sarı mı, turuncu mu?",
+      "title": "Sarı mı, turuncu mu?",
+      "lines": ["Şimdi bu iki meyveye dikkatlice bakalım."],
+      "left": {"emoji": "🍋", "label": "Limon", "line": "Limon sarıdır."},
+      "right": {"emoji": "🍊", "label": "Mandalina", "line": "Mandalina ise turuncudur."},
+      "after": ["Sarı ile turuncu birbirine benzer ama farklıdır.", "Sarı limonu ekranda gösterebilir misin?"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi sarı?",
+      "lines": ["Bilmece zamanı! Hangisi sarı?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🍓", "label": "Çilek"},
+        {"emoji": "🍌", "label": "Muz"},
+        {"emoji": "🍇", "label": "Üzüm"}
+      ],
+      "answer": 1,
+      "after": ["Evet, muz! Muz sarıdır. Çilek kırmızı, üzüm mor."]
+    },
+    {
+      "type": "chant",
+      "title": "Sarı tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Sarı, sarı, muz sarı!", "emoji": "🍌"},
+        {"line": "Sarı, sarı, limon sarı!", "emoji": "🍋"},
+        {"line": "Sarı, sarı, civciv sarı!", "emoji": "🐥"},
+        {"line": "Sarı, sarı, ayçiçeği sarı!", "emoji": "🌻"}
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Sarı olan hangisi?",
+      "lines": ["Bir bilmece daha! Sarı olan hangisi?"],
+      "options": [
+        {"shape": "kalp", "color": "#E53935", "label": "Kalp"},
+        {"shape": "kare", "color": "#1E88E5", "label": "Kare"},
+        {"shape": "yıldız", "color": "#FDD835", "label": "Yıldız"}
+      ],
+      "answer": 2,
+      "after": ["Evet, yıldız sarı! Kalp kırmızı, kare mavi."]
+    },
+    {
+      "type": "action",
+      "emoji": "🔍",
+      "text": "Sarıyı bul!",
+      "seconds": 8,
+      "lines": [
+        "Şimdi bir oyun oynayalım!",
+        "Oturduğun yerden etrafına bak.",
+        "Sarı bir şey görünce parmağınla göster!"
+      ],
+      "after": ["Sarı bir şey buldun mu? Harikasın!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🟡", "label": "Sarı", "line": "Bugün sarı rengi öğrendik."},
+        {"emoji": "🍌", "label": "Muz", "line": "Olgun muz sarıdır."},
+        {"emoji": "🍋", "label": "Limon", "line": "Limon sarı ve ekşidir."},
+        {"emoji": "🐥", "label": "Civciv", "line": "Civcivin tüyleri sarıdır."},
+        {"emoji": "🔍", "label": "Sarıyı bul", "line": "Sarı olanı bulmayı öğrendik."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün sarı rengi öğrendik. Aferin sana!",
+        "Evde sarı şeyler aramayı unutma!",
+        "Yarın yardımlaşmayı konuşacağız. Hoşça kal!"
+      ],
+      "next": {"text": "Yardımlaşma", "emoji": "🤝"}
+    }
+  ]
+}

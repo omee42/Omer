@@ -32,7 +32,7 @@
         "Çiftlik, hayvanların ve çiftçilerin yaşadığı bir yerdir.",
         "Çiftçiler hayvanlara çok iyi bakar.",
         "Onlara yem ve su verir, yerlerini temizler.",
-        "Biz de çiftliğe büyüklerimizle birlikte gideriz."
+        "Biz de büyüklerimizle birlikte çiftliğe gidebiliriz."
       ]
     },
     {
@@ -145,7 +145,7 @@
       "items": [
         {"emoji": "🐄", "label": "İnek", "line": "İnek möö der. Bize süt verir."},
         {"emoji": "🐑", "label": "Koyun", "line": "Koyun mee der. Bize yün verir."},
-        {"emoji": "🐔", "label": "Tavuk", "line": "Tavuk gıt gıt gıdak der. Yumurtlar."},
+        {"emoji": "🐔", "label": "Tavuk", "line": "Tavuk gıt gıt gıdak der. Bize yumurta verir."},
         {"emoji": "🐐", "label": "Keçi", "line": "Keçi de mee der. Bize süt verir."}
       ]
     },
