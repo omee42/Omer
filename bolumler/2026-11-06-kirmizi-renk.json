@@ -72,11 +72,11 @@
     {
       "type": "fact",
       "emoji": "🍓",
-      "text": "Çileğin üstündeki minik noktalar, onun tohumlarıdır.",
+      "text": "Çileğin üstündeki minik noktaların içinde tohumlar var.",
       "lines": [
         "Biliyor muydun?",
-        "Çileğin üstündeki minik noktalar, onun tohumlarıdır!",
-        "Çilek, tohumları dışında olan bir meyvedir."
+        "Çileğin üstünde minik noktalar vardır.",
+        "Her noktanın içinde minicik bir tohum saklıdır!"
       ]
     },
     {

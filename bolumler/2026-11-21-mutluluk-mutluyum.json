@@ -42,9 +42,9 @@
       "lines": ["Mutlu olunca nasıl görünürüz? Hadi bakalım!"],
       "items": [
         {"emoji": "😊", "label": "Gülümseriz", "line": "Mutlu olunca gülümseriz."},
-        {"emoji": "😆", "label": "Kahkaha", "line": "Bazen kahkahayla güleriz. Ha ha ha!"},
+        {"emoji": "😆", "label": "Kahkaha atarız", "line": "Bazen kahkahayla güleriz. Ha ha ha!"},
         {"emoji": "👏", "label": "El çırparız", "line": "Sevinince el çırparız."},
-        {"emoji": "🤸", "label": "Hoplarız", "line": "Bazen sevinçten hoplar, zıplarız!"}
+        {"emoji": "🙌", "label": "Eller havaya", "line": "Bazen sevinçten ellerimizi havaya kaldırırız!"}
       ],
       "after": ["Sen mutlu olunca ne yaparsın?"]
     },
@@ -78,7 +78,7 @@
       "title": "Elif'in hediyesi",
       "lines": ["Şimdi minik bir hikaye dinleyelim."],
       "panels": [
-        {"emoji": ["👧", "🎨"], "caption": "Elif resim yapıyor", "lines": ["Elif, rengarenk bir resim yaptı.", "Resimde kocaman, gülen bir güneş vardı."]},
+        {"emoji": ["👧", "🎨", "🌞"], "caption": "Elif resim yapıyor", "lines": ["Elif, rengarenk bir resim yaptı.", "Resimde kocaman, gülen bir güneş vardı."]},
         {"emoji": ["👧", "🖼️", "👴"], "caption": "Dedesine bir hediye", "lines": ["Elif, resmini dedesine hediye etti."]},
         {"emoji": ["👴", "😊"], "caption": "Dedesi çok mutlu", "lines": ["Dedesi resme bakınca kocaman gülümsedi.", "Elif'e sarıldı ve teşekkür etti."]},
         {"emoji": ["👧", "😄"], "caption": "Elif de çok mutlu", "lines": ["Dedesi mutlu olunca, Elif de çok mutlu oldu.", "Mutluluk paylaşınca çoğalır!"]}
@@ -87,13 +87,13 @@
     {
       "type": "talk",
       "chapter": "Mutluluğu paylaşalım",
-      "emoji": ["😊", "🤝", "🎁"],
+      "emoji": ["😊", "🤝", "🖼️"],
       "text": "Mutluluk paylaşınca çoğalır",
       "lines": [
         "Biz de mutluluğumuzu paylaşabiliriz.",
         "Birine gülümseyebiliriz.",
         "Arkadaşımızla birlikte oynayabiliriz.",
-        "Sevdiklerimize güzel bir resim yapabiliriz."
+        "Sevdiklerimiz için güzel bir resim yapabiliriz."
       ]
     },
     {

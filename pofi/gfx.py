@@ -311,12 +311,14 @@ def vertical_gradient(size, top, bottom):
     return Image.fromarray(arr.astype(np.uint8), "RGB")
 
 
-def shaded(mask: Image.Image, color, highlight=0.45, shade=0.35):
+def shaded(mask: Image.Image, color, highlight=0.45, shade=0.35, gloss=True):
     """Fill a mask with a soft 3D-looking gradient in the Fluent emoji spirit."""
     g = radial_gradient(mask.size, lighten(color, highlight * 0.6), darken(color, shade * 0.7), 0.35, 0.28, 1.05,
                         mid=color)
     out = g.convert("RGBA")
     out.putalpha(mask)
+    if not gloss:
+        return out
     # glossy highlight blob
     w, h = mask.size
     hl = Image.new("L", mask.size, 0)
@@ -394,7 +396,13 @@ def shape_sprite(kind: str, color="#FF5A5F", size=512):
     sm.paste(m.point(lambda v: v * 0.35), (0, size // 14))
     sh.putalpha(sm.filter(ImageFilter.GaussianBlur(size / 40)))
     out.alpha_composite(sh)
-    out.alpha_composite(shaded(m, color), (0, 0))
+    # geometric shapes are flat ideas (a circle is not a ball): gentle gradient, no gloss, light outline
+    flat = shaded(m, color, 0.18, 0.12, gloss=False)
+    edge = m.filter(ImageFilter.MaxFilter(5))
+    rim = Image.new("RGBA", m.size, darken(color, 0.25) + (0,))
+    rim.putalpha(ImageChops.subtract(edge, m.filter(ImageFilter.MinFilter(5))))
+    flat.alpha_composite(rim)
+    out.alpha_composite(flat, (0, 0))
     return out
 
 

@@ -136,7 +136,7 @@
       "title": "Bugün neler öğrendik?",
       "lines": ["Bugün neler öğrendik?"],
       "items": [
-        {"emoji": "🎈", "label": "Büyük ve küçük", "line": "Bir balon büyük, bir balon küçük olabilir."},
+        {"emoji": "🎈", "label": "Büyük ve küçük", "line": "Bazı şeyler büyük, bazı şeyler küçüktür."},
         {"emoji": "🐘", "label": "Fil büyük", "line": "Fil büyük bir hayvandır."},
         {"emoji": "🐭", "label": "Fare küçük", "line": "Fare küçük bir hayvandır."},
         {"emoji": "🐋", "label": "En büyük", "line": "Dünyanın en büyük hayvanı mavi balinadır."},

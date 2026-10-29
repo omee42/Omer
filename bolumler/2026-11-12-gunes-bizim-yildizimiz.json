@@ -63,7 +63,7 @@
       "title": "Güneş bize neler verir?",
       "lines": ["Güneş bize neler verir? Hadi bakalım!"],
       "items": [
-        {"emoji": "💡", "label": "Işık", "line": "Güneş bize ışık verir. Her yer aydınlanır."},
+        {"emoji": "🔆", "label": "Işık", "line": "Güneş bize ışık verir. Her yer aydınlanır."},
         {"emoji": "🌡️", "label": "Sıcaklık", "line": "Güneş bize sıcaklık verir. Bizi ısıtır."},
         {"emoji": "🌱", "label": "Bitkiler büyür", "line": "Bitkiler, Güneş ışığıyla büyür."}
       ],
@@ -75,7 +75,7 @@
       "title": "Gündüz mü, gece mi?",
       "lines": ["Şimdi bu iki resme bak."],
       "left": {"emoji": "☀️", "label": "Gündüz", "line": "Güneş gökyüzündeyken gündüz olur. Her yer aydınlıktır."},
-      "right": {"emoji": "🌙", "label": "Gece", "line": "Güneş batınca gece olur. Her yer karanlıktır."},
+      "right": {"emoji": "🌙", "label": "Gece", "line": "Güneş batınca gece olur. Gökyüzü kararır."},
       "after": ["Gece olunca Güneş sönmez! Dünya döndüğü için onu göremeyiz."]
     },
     {
@@ -139,7 +139,7 @@
       "lines": ["Bugün neler öğrendik?"],
       "items": [
         {"emoji": "⭐", "label": "Bir yıldız", "line": "Güneş bir yıldızdır."},
-        {"emoji": "💡", "label": "Işık", "line": "Güneş bize ışık verir."},
+        {"emoji": "🔆", "label": "Işık", "line": "Güneş bize ışık verir."},
         {"emoji": "🌡️", "label": "Sıcaklık", "line": "Güneş bizi ısıtır."},
         {"emoji": "🙈", "label": "Bakmayız", "line": "Güneş'e asla doğrudan bakmayız."}
       ]
@@ -149,10 +149,10 @@
       "title": "Hoşça kal!",
       "lines": [
         "Bugün Güneş'i tanıdık. Harikaydın!",
-        "Gökyüzünde Güneş yuvarlak bir daire gibi görünür.",
+        "Gökyüzünde Güneş bir daire gibi görünür.",
         "Yarın daireyi öğreneceğiz. Görüşmek üzere!"
       ],
-      "next": {"text": "Daire", "shape": "daire", "color": "#8A5CF6"}
+      "next": {"text": "Daire", "shape": "daire", "color": "#1E9BF0"}
     }
   ]
 }

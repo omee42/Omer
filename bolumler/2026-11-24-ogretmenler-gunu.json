@@ -1,0 +1,164 @@
+{
+  "id": "2026-11-24-ogretmenler-gunu",
+  "date": "2026-11-24",
+  "category": "ozel-gun",
+  "title": "Öğretmenler Günü",
+  "mood": "happy",
+  "youtube": {
+    "title": "24 Kasım Öğretmenler Günü Çocuklar İçin 🧑‍🏫 Öğretmenimize Teşekkür Ediyoruz",
+    "short_title": "Hangisi öğretmen? 🧑‍🏫 Öğretmenler Günü bilmecesi",
+    "description": "24 Kasım Öğretmenler Günü'nü Pofi ile kutluyoruz! Öğretmenlerin neler yaptığını öğreniyor, öğretmenimize nasıl teşekkür edeceğimizi konuşuyoruz. Atatürk'e neden Başöğretmen dendiğini dinliyor, öğretmenimize resim çizmeyi planlıyor ve hep birlikte tekerleme söylüyoruz. Okul öncesi ve ilkokul çağındaki çocuklar için sıcak bir özel gün bölümü.",
+    "tags": ["öğretmenler günü", "24 kasım", "öğretmenler günü çocuklar için", "24 kasım öğretmenler günü etkinliği", "öğretmenime teşekkür", "başöğretmen atatürk", "okul öncesi özel günler", "öğretmenime resim", "öğretmenler günü tekerleme"],
+    "thumbnail": {"text": "Öğretmenler Günü", "emoji": ["👩🏻‍🏫", "👨🏻‍🏫"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Öğretmenler Günü",
+      "subtitle": "24 Kasım",
+      "emoji": ["👩🏻‍🏫", "🏫", "👨🏻‍🏫"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün çok güzel bir gün. Bugün Öğretmenler Günü!",
+        "Hadi, öğretmenlerimizi birlikte konuşalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Öğretmen kimdir?",
+      "emoji": ["👩🏻‍🏫", "👨🏻‍🏫"],
+      "text": "Öğretmenler bize yeni şeyler öğretir",
+      "lines": [
+        "Her yıl 24 Kasım'da Öğretmenler Günü'nü kutlarız.",
+        "Öğretmen, bize yeni şeyler öğreten kişidir.",
+        "Öğretmenler kadın da olabilir, erkek de!"
+      ]
+    },
+    {
+      "type": "fact",
+      "chapter": "Başöğretmen",
+      "emoji": {"flag": "tr"},
+      "text": "Atatürk'e Başöğretmen denir.",
+      "lines": [
+        "Biliyor muydun?",
+        "24 Kasım 1928'de Atatürk'e Başöğretmen unvanı verildi.",
+        "Atatürk, herkesin okuma yazma öğrenmesini çok isterdi.",
+        "Bu yüzden 24 Kasım'ı Öğretmenler Günü olarak kutlarız."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Öğretmenler ne yapar?",
+      "title": "Öğretmenler ne yapar?",
+      "lines": ["Öğretmenler neler yapar? Hadi bakalım!"],
+      "items": [
+        {"emoji": "📖", "label": "Kitap okur", "line": "Öğretmenimiz bize güzel kitaplar okur."},
+        {"symbol": "ABC", "color": "#7C5CFA", "label": "Harfleri öğretir", "line": "Bize harfleri öğretir."},
+        {"emoji": "🎨", "label": "Resim yapar", "line": "Bizimle birlikte resim yapar."},
+        {"emoji": "🎶", "label": "Şarkı söyler", "line": "Bizimle birlikte şarkı söyler."},
+        {"emoji": "🤝", "label": "Yardım eder", "line": "Zorlandığımızda bize yardım eder."}
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi öğretmen?",
+      "lines": ["Bilmece zamanı! Hangisi öğretmen?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🧑‍🍳", "label": "Aşçı"},
+        {"emoji": "🧑‍🚒", "label": "İtfaiyeci"},
+        {"emoji": "🧑🏾‍🏫", "label": "Öğretmen"}
+      ],
+      "answer": 2,
+      "after": ["Evet! Öğretmen, bize yeni şeyler öğretir. Aferin sana!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Can'ın resmi",
+      "title": "Can'ın resmi",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🧒", "🖍️", "❤️"], "caption": "Can resim çiziyor", "lines": ["Can, öğretmeni için bir resim çizdi.", "Resmin ortasına kocaman bir kalp yaptı."]},
+        {"emoji": ["🧒", "🖼️", "👩🏻‍🏫"], "caption": "Öğretmenine bir hediye", "lines": ["Okulda resmi öğretmenine verdi.", "Ve dedi ki: Teşekkür ederim, öğretmenim!"]},
+        {"emoji": ["👩🏻‍🏫", "😊"], "caption": "Öğretmen çok mutlu", "lines": ["Öğretmeni gülümsedi. Çok mutlu oldu.", "Resmi sınıfın panosuna astı."]}
+      ],
+      "after": ["Teşekkür etmek, insanları mutlu eder."]
+    },
+    {
+      "type": "item",
+      "chapter": "Teşekkür ederim",
+      "emoji": "🫶",
+      "word": "Teşekkür ederim",
+      "lines": [
+        "Öğretmenimize teşekkür etmek çok güzeldir.",
+        "Sen de söyle: Teşekkür ederim, öğretmenim!",
+        "Harika! Bir daha söyleyelim: Teşekkür ederim, öğretmenim!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Öğretmenimiz yardım etti. Ne deriz?",
+      "lines": ["Bir bilmece daha!", "Öğretmenimiz bize yardım etti. Ne deriz?"],
+      "options": [
+        {"emoji": "🌙", "label": "İyi geceler!"},
+        {"emoji": "🫶", "label": "Teşekkür ederim!"},
+        {"emoji": "🍽️", "label": "Afiyet olsun!"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Teşekkür ederim, deriz. Çok güzel!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Öğretmenimize resim çizelim",
+      "title": "Hadi, resim çizelim!",
+      "lines": ["Sen de öğretmenine bir resim çizmek ister misin?", "Hadi, nasıl yapacağımıza bakalım!"],
+      "items": [
+        {"emoji": "📄", "label": "Kağıt", "line": "Önce bir kağıt al."},
+        {"emoji": "🖍️", "label": "Boya kalemleri", "line": "Boya kalemlerini hazırla."},
+        {"emoji": "🏫", "label": "Okulunu çiz", "line": "Okulunu ya da öğretmenini çiz."},
+        {"emoji": "❤️", "label": "Kalp ekle", "line": "Yanına kocaman bir kalp ekle."},
+        {"emoji": "🖼️", "label": "Öğretmenine ver", "line": "Sonra resmini öğretmenine ver!"}
+      ]
+    },
+    {
+      "type": "chant",
+      "title": "Öğretmenim tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Öğretmenim, öğretmenim!", "emoji": "👨🏻‍🏫"},
+        {"line": "Kitap okur, masal anlatır!", "emoji": "📖"},
+        {"line": "Harfleri, sayıları öğretir!", "emoji": "✏️"},
+        {"line": "Teşekkürler, öğretmenim!", "emoji": "🫶"}
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "👏",
+      "text": "Alkışla!",
+      "seconds": 5,
+      "lines": ["Şimdi hareket zamanı!", "Bütün öğretmenlerimiz için kocaman bir alkış!"],
+      "after": ["Harika! Ne güzel alkışladın!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "👩🏻‍🏫", "label": "Öğretmenler Günü", "line": "24 Kasım, Öğretmenler Günü'dür."},
+        {"emoji": "📖", "label": "Öğretmenler öğretir", "line": "Öğretmenler bize yeni şeyler öğretir."},
+        {"emoji": "🫶", "label": "Teşekkür ederim", "line": "Öğretmenimize teşekkür ederiz."},
+        {"emoji": "🖍️", "label": "Resim çizelim", "line": "Öğretmenimize resim çizebiliriz."},
+        {"flag": "tr", "label": "Başöğretmen", "line": "Atatürk'e Başöğretmen denir."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün Öğretmenler Günü'nü öğrendik. Harikasın!",
+        "Bütün öğretmenlerimizin Öğretmenler Günü kutlu olsun!",
+        "Yarın ormanda kozalak ve meşe palamudu arayacağız. Hoşça kal!"
+      ],
+      "next": {"text": "Kozalak ve meşe palamudu", "emoji": "🌲"}
+    }
+  ]
+}

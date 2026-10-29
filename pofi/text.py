@@ -145,6 +145,8 @@ def normalize_for_tts(text: str, lexicon: dict = None) -> str:
     s = re.sub(r"(\d+)" + _SUFFIX, lambda m: _num_suffix(int(m.group(1)), m.group(2)), s)
     s = re.sub(r"\d+", lambda m: number_to_words(int(m.group(0))), s)
     s = s.replace("…", "...").replace("“", '"').replace("”", '"').replace("’", "'").replace("‘", "'")
+    # "Buna kızdım." dedi -> Buna kızdım, dedi (no sentence break inside the quote)
+    s = re.sub(r"[.!?]+[\"»]\s+(?=[a-zçğıöşü])", ", ", s)
     s = re.sub(r"[\"«»]", "", s)
     s = re.sub(r"\s*[-–—]\s+", ", ", s)
     for word, say in (lexicon or {}).items():

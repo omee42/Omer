@@ -34,7 +34,7 @@
           "lines": ["Ada, boya kalemleriyle resim yapıyordu."]
         },
         {
-          "emoji": ["👦", "😢"],
+          "emoji": ["👦", "🙁"],
           "caption": "Efe'nin kalemi yok",
           "lines": ["Efe de resim yapmak istedi.", "Ama Efe'nin hiç boya kalemi yoktu. Biraz üzüldü."]
         },
@@ -127,7 +127,7 @@
       "lines": ["Şimdi benimle birlikte söyle!"],
       "items": [
         {"line": "Önce sen, sonra ben!", "emoji": "🛝"},
-        {"line": "Sıramı beklerim, sabırla!", "emoji": "⏳"},
+        {"line": "Sabırla sıramı beklerim!", "emoji": "⏳"},
         {"line": "Paylaşırım, mutlu olurum!", "emoji": "🧸"},
         {"line": "Birlikte oynamak çok güzel!", "emoji": "😊"}
       ]

@@ -54,10 +54,10 @@
       "title": "Kum havuzunda",
       "lines": ["Şimdi minik bir hikaye dinleyelim."],
       "panels": [
-        {"emoji": ["👧", "🪣", "🏰"], "caption": "Ada kumdan kale yapıyor", "lines": ["Ada, parkta kumdan bir kale yapıyordu."]},
+        {"emoji": ["👧", "🪣", "🏰"], "caption": "Defne kumdan kale yapıyor", "lines": ["Defne, parkta kumdan bir kale yapıyordu."]},
         {"emoji": ["🧒"], "caption": "Yeni bir arkadaş", "lines": ["Yanına yeni bir çocuk geldi. Adı Deniz'di.", "Deniz de oynamak istiyordu ama biraz utanıyordu."]},
-        {"emoji": ["👧", "🤝", "🧒"], "caption": "Gel, birlikte oynayalım!", "lines": ["Ada gülümsedi ve dedi ki: Gel, birlikte oynayalım!"]},
-        {"emoji": ["🏰", "😄"], "caption": "Kocaman bir kale", "lines": ["Birlikte kocaman bir kale yaptılar.", "İkisi de çok mutlu oldu!"]}
+        {"emoji": ["👧", "🤝", "🧒"], "caption": "Gel, birlikte oynayalım!", "lines": ["Defne gülümsedi ve dedi ki: Gel, birlikte oynayalım!"]},
+        {"emoji": ["👧", "🏰", "🧒"], "caption": "Kocaman bir kale", "lines": ["Birlikte kocaman bir kale yaptılar.", "İkisi de çok mutlu oldu!"]}
       ],
       "after": ["Birlikte oynayınca oyun daha da güzel oldu, değil mi?"]
     },
@@ -67,9 +67,9 @@
       "emoji": "⏳",
       "word": "Sırayla",
       "lines": [
-        "Bazen aynı oyuncakla iki kişi birden oynayamayız.",
-        "O zaman sırayla oynarız.",
-        "Önce sen, sonra arkadaşın. Herkesin sırası gelir!"
+        "Birlikte oynarken sıramızı bekleriz.",
+        "Topu önce sen atarsın, sonra arkadaşın.",
+        "Herkesin sırası gelir! Sırayla oynayınca herkes eğlenir."
       ]
     },
     {
@@ -111,7 +111,7 @@
       "lines": ["Bir bilmece daha! Oyun bitti. Ne yaparız?"],
       "options": [
         {"emoji": "🧺", "label": "Toplarız"},
-        {"emoji": "🙈", "label": "Görmezden geliriz"}
+        {"emoji": "🚶", "label": "Bırakıp gideriz"}
       ],
       "answer": 0,
       "after": ["Evet! Oyuncaklarımızı toplarız. Aferin sana!"]

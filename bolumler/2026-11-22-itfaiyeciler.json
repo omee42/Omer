@@ -77,7 +77,7 @@
       "lines": ["İtfaiyecilerin özel kıyafetleri vardır. Hadi bakalım!"],
       "items": [
         {"emoji": "⛑️", "label": "Kask", "line": "Kask başlarını korur."},
-        {"emoji": "🦺", "label": "Özel kıyafet", "line": "Özel kıyafetleri onları sıcaktan korur."},
+        {"emoji": "🧑‍🚒", "label": "Özel kıyafet", "line": "Özel kıyafetleri onları sıcaktan korur."},
         {"emoji": "🧤", "label": "Eldiven", "line": "Kalın eldivenler ellerini korur."},
         {"emoji": "🥾", "label": "Bot", "line": "Sağlam botlar ayaklarını korur."}
       ],
@@ -94,7 +94,7 @@
       "lines": [
         "İtfaiyeciler nereye gideceklerini nasıl bilir?",
         "Acil bir durumda büyüklerimiz 112'yi arar.",
-        "112, sadece gerçek acil durumlarda aranır.",
+        "Bu numara sadece gerçek acil durumlarda aranır.",
         "Sen bir tehlike görürsen, hemen bir büyüğüne haber ver."
       ]
     },
@@ -106,6 +106,7 @@
       "lines": [
         "Şimdi çok önemli bir kural öğrenelim.",
         "Kibrit ve çakmakla asla oynamayız.",
+        "Kibrit ya da çakmak görürsen dokunma. Hemen bir büyüğüne söyle.",
         "Ocağa ve sobaya yaklaşmayız.",
         "Sen de söyle: Ateşle oynamayız!"
       ]

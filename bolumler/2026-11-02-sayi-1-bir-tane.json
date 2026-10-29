@@ -117,7 +117,7 @@
       "type": "action",
       "emoji": "🧸",
       "text": "Bir tane göster!",
-      "seconds": 6,
+      "seconds": 8,
       "lines": ["Şimdi oyun zamanı!", "Etrafına bak. Bir tane oyuncak bul ve bana göster!"],
       "after": ["Harika! Bir tane oyuncak buldun. Aferin sana!"]
     },

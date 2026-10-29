@@ -1,0 +1,174 @@
+{
+  "id": "yedek-01-orman-hayvanlari",
+  "date": "2000-01-01",
+  "category": "hayvanlar",
+  "title": "Orman Hayvanları",
+  "mood": "happy",
+  "youtube": {
+    "title": "Orman Hayvanları Çocuklar İçin 🦊 Tilki, Sincap, Ayı, Kirpi ve Baykuş",
+    "short_title": "Sırtı dikenli olan hangisi? 🦔 Orman Bilmecesi",
+    "description": "Pofi ile ormana gidiyoruz! Tilki, sincap, ayı, kirpi ve baykuşla tanışıyor, büyük ayı ile minik sincabı karşılaştırıyoruz. Kestaneleri sayıyor, bilmeceleri çözüyor ve sincabın kayıp kestanesini arkadaşlarıyla birlikte arıyoruz. Okul öncesi çocuklar için eğlenceli ve eğitici bir hayvanlar bölümü.",
+    "tags": ["orman hayvanları", "orman hayvanları çocuklar için", "hayvanları öğreniyorum", "okul öncesi hayvanlar", "çocuklar için hayvanlar", "hayvan isimleri", "tilki", "sincap", "kirpi", "baykuş"],
+    "thumbnail": {"text": "Orman Hayvanları", "emoji": ["🦊", "🐿️", "🦔"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Orman Hayvanları",
+      "subtitle": "Ormanda kimler yaşar?",
+      "emoji": ["🌲", "🦊", "🐿️", "🦔"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün ormana gidiyoruz!",
+        "Ormanda kimler yaşar? Hadi, birlikte bakalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Orman nedir?",
+      "emoji": ["🌲", "🌳", "🍄"],
+      "text": "Orman, ağaçlarla dolu büyük bir yerdir",
+      "lines": [
+        "Ormanda çok, çok ağaç vardır.",
+        "Orman, birçok hayvanın evidir.",
+        "Ormana her zaman büyüklerimizle birlikte gideriz."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Ormanda kimler yaşar?",
+      "title": "Ormanda kimler yaşar?",
+      "lines": ["Hadi, orman hayvanlarıyla tanışalım!"],
+      "items": [
+        {"emoji": "🦊", "label": "Tilki", "line": "Tilki! Turuncu tüyleri ve kabarık bir kuyruğu var."},
+        {"emoji": "🐿️", "label": "Sincap", "line": "Sincap! Daldan dala zıplar, kestane toplar."},
+        {"emoji": "🐻", "label": "Ayı", "line": "Ayı! Kocaman ve tüylüdür."},
+        {"emoji": "🦔", "label": "Kirpi", "line": "Kirpi! Sırtı diken dikendir."},
+        {"emoji": "🦉", "label": "Baykuş", "line": "Baykuş! Tıpkı benim gibi! Hu hu!"}
+      ],
+      "after": ["Tilki, sincap, ayı, kirpi, baykuş. Sen de söyle!"]
+    },
+    {
+      "type": "item",
+      "chapter": "Kirpi",
+      "emoji": "🦔",
+      "word": "Kirpi",
+      "color": "#8B5A2B",
+      "lines": [
+        "Bu bir kirpi!",
+        "Sırtında sivri dikenler var.",
+        "Kirpi korkunca top gibi kıvrılır.",
+        "Sen de kirpi gibi top ol! Kıvrıl bakalım!"
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Büyük mü, küçük mü?",
+      "title": "Büyük mü, küçük mü?",
+      "lines": ["Şimdi ayı ile sincabı karşılaştıralım."],
+      "left": {"emoji": "🐻", "label": "Büyük ayı", "line": "Ayı kocamandır!"},
+      "right": {"emoji": "🐿️", "label": "Küçük sincap", "scale": 0.5, "line": "Sincap ise minicik!"},
+      "after": ["Ayı büyük, sincap küçük. İkisi de ormanda yaşar!"]
+    },
+    {
+      "type": "count",
+      "chapter": "Kestaneleri sayalım",
+      "emoji": "🌰",
+      "n": 4,
+      "label": "kestane",
+      "lines": ["Sincap kestane topluyor! Hadi, birlikte sayalım!"],
+      "after": ["Tam dört kestane! Sincap bunları kış için saklar."]
+    },
+    {
+      "type": "quiz",
+      "question": "Sırtı dikenli olan hangisi?",
+      "lines": ["Bilmece zamanı! Sırtı dikenli olan hangisi?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🦊", "label": "Tilki"},
+        {"emoji": "🦔", "label": "Kirpi"},
+        {"emoji": "🐻", "label": "Ayı"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Kirpinin sırtı diken dikendir. Aferin sana!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🦉",
+      "text": "Çoğu baykuş gece uyanıktır. Karanlıkta çok iyi görür ve sessizce uçar.",
+      "lines": [
+        "Biliyor muydun?",
+        "Çoğu baykuş gündüz uyur, gece uyanır.",
+        "Karanlıkta çok iyi görürler.",
+        "Bir de çok sessiz uçarlar. Şşş!"
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "🐿️",
+      "text": "Sincap gibi zıpla!",
+      "seconds": 6,
+      "lines": ["Şimdi hareket zamanı!", "Sincap gibi yerinde zıpla! Hop, hop, hop!"],
+      "after": ["Harika! Tam bir sincap gibi zıpladın!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Kayıp kestane",
+      "title": "Kayıp kestane",
+      "lines": ["Şimdi ormandan küçük bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🐿️", "🌰"], "caption": "Kestane nerede?", "lines": ["Sincap bir kestane saklamıştı.", "Ama yerini unuttu! Kestane nerede?"]},
+        {"emoji": ["🦊", "🦔"], "caption": "Arkadaşları geldi", "lines": ["Tilki ile kirpi yardıma geldi. Aradılar, aradılar."]},
+        {"emoji": ["🦉", "🌳"], "caption": "Baykuş buldu", "lines": ["Baykuş ağacın tepesinden baktı.", "Şöyle dedi: \"İşte orada, ağacın dibinde!\""]},
+        {"emoji": ["🐿️", "🌰", "😊"], "caption": "Teşekkürler!", "lines": ["Sincap kestanesini buldu. Arkadaşlarına teşekkür etti."]}
+      ],
+      "after": ["Arkadaşlar birbirine yardım eder. Ne güzel!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi ormanda yaşar?",
+      "lines": ["Bir bilmece daha! Hangisi ormanda yaşar?"],
+      "options": [
+        {"emoji": "🦉", "label": "Baykuş"},
+        {"emoji": "🐄", "label": "İnek"},
+        {"emoji": "🐬", "label": "Yunus"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Baykuş ormanda yaşar. İnek çiftlikte, yunus denizde yaşar."]
+    },
+    {
+      "type": "chant",
+      "title": "Orman tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Tilki, tilki, kabarık kuyruk!", "emoji": "🦊"},
+        {"line": "Sincap, sincap, hop hop zıplar!", "emoji": "🐿️"},
+        {"line": "Kirpi, kirpi, diken diken!", "emoji": "🦔"},
+        {"line": "Baykuş, baykuş, hu hu der!", "emoji": "🦉"},
+        {"line": "Ayı, ayı, kocaman ayı!", "emoji": "🐻"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🌲", "label": "Orman", "line": "Orman, birçok hayvanın evidir."},
+        {"emoji": "🦊", "label": "Tilki", "line": "Tilki!"},
+        {"emoji": "🐿️", "label": "Sincap", "line": "Sincap!"},
+        {"emoji": "🐻", "label": "Ayı", "line": "Ayı!"},
+        {"emoji": "🦔", "label": "Kirpi", "line": "Kirpi!"},
+        {"emoji": "🦉", "label": "Baykuş", "line": "Baykuş!"}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Orman hayvanlarını tanıdık. Harikaydın!",
+        "Orman hayvanlarını uzaktan izleriz. Onlara dokunmayız.",
+        "Yeni bir macerada görüşmek üzere. Hoşça kal!"
+      ],
+      "next": {"text": "Yeni bir macera!", "emoji": "✨"}
+    }
+  ]
+}

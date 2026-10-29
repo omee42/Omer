@@ -115,7 +115,7 @@
     {
       "type": "talk",
       "chapter": "Önce yıkayalım",
-      "emoji": ["🚰", "🥕"],
+      "emoji": ["🚰", "🥕", "🧼"],
       "text": "Yemeden önce yıka!",
       "lines": [
         "Sebzeleri yemeden önce suyla iyice yıkarız.",

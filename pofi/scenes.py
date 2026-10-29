@@ -190,7 +190,9 @@ class Intro(Scene):
         sub = self.spec.get("subtitle")
         if sub:
             sp = fit_text(self.fmt(sub), "title", int(w * 0.8), int(h * 0.13), int(84 * self.s),
-                          fill=rgb(self.theme["accent"]), stroke=int(9 * self.s), stroke_fill=(255, 255, 255))
+                          fill=rgb(self.theme["accent"]), stroke=int(9 * self.s),
+                          stroke_fill=(255, 255, 255) if gfx.contrast(self.theme["accent"], (255, 255, 255)) >= 2
+                          else rgb(self.theme["dark"]))
             self.put_sprite(canvas, "intro-sub", sp, x + w / 2, y + h * 0.45, pop_scale(t, 0.65, 0.5))
         n = len(self.visuals)
         if n:
@@ -673,7 +675,8 @@ class Quiz(Scene):
         st.append(Wait(0.25, "think"))
         for k in (3, 2, 1):
             st += [Sfx("tick" if k > 1 else "tock", 0.9), Wait(1.0, f"cd{k}")]
-        st += [Sfx("correct", 1.0), Wait(0.3, "reveal")]
+        calm = self.ep.get("mood") == "calm"  # remembrance days: no fanfare, confetti or jumping
+        st += [Sfx("ding" if calm else "correct", 0.7 if calm else 1.0), Wait(0.3, "reveal")]
         after = self.spec.get("after") or [f"Doğru cevap: {self.opts[self.answer]['label']}!"]
         return st + self.say_lines(after, "a")
 
@@ -730,7 +733,7 @@ class Quiz(Scene):
             if t >= reveal and correct:
                 self.put(canvas, "✅", cx + side * 0.42 * k, cy - side * 0.42 * k, side * 0.3,
                          pop_scale(t, reveal + 0.1), 0)
-                if self.confetti is None:
+                if self.confetti is None and self.ep.get("mood") != "calm":
                     self.confetti = Confetti(1000 + self.index, self.L.W, self.L.H, origin=(cx, cy))
         # countdown
         for kk in (3, 2, 1):
@@ -753,6 +756,8 @@ class Quiz(Scene):
         rv = self.t0("reveal")
         happy = rv <= t < rv + 1.6
         jump = math.sin(math.pi * clamp((t - rv) / 0.6)) if rv <= t < rv + 0.6 else 0
+        if self.ep.get("mood") == "calm":
+            jump = 0
         return {"waving": False, "happy": happy, "jump": jump, "big": False}
 
 

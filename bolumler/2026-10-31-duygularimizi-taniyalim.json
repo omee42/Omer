@@ -103,7 +103,7 @@
       "panels": [
         {"emoji": ["🧒", "🧸", "😊"], "caption": "Mutlu", "lines": ["Sabah Deniz oyuncak ayısıyla oynadı.", "Deniz çok mutluydu!"]},
         {"emoji": ["🧒", "🎈", "😢"], "caption": "Üzgün", "lines": ["Sonra rüzgar Deniz'in balonunu uçurdu.", "Deniz üzüldü."]},
-        {"emoji": ["🧒", "🏰", "😠"], "caption": "Kızgın", "lines": ["Kardeşi, Deniz'in oyuncak kalesini yıktı.", "Deniz kızdı. Derin bir nefes aldı.", "Sonra kardeşine \"Buna çok kızdım.\" dedi."]},
+        {"emoji": ["🧒", "🏰", "😠"], "caption": "Kızgın", "lines": ["Kardeşi, Deniz'in oyuncak kalesini yıktı.", "Deniz kızdı. Derin bir nefes aldı.", "Sonra kardeşine şöyle dedi: \"Buna çok kızdım.\""]},
         {"emoji": ["🧒", "🎁", "😲"], "caption": "Şaşkın", "lines": ["Akşam dedesi ona bir hediye getirdi.", "Deniz çok şaşırdı!"]}
       ],
       "after": ["Bir günde ne çok duygu, değil mi?"]
@@ -117,7 +117,7 @@
         "Biliyor muydun?",
         "Herkes bazen üzülür, bazen kızar. Büyükler de!",
         "Bütün duygular normaldir.",
-        "Duygumuzu sözle anlatabiliriz. \"Ben şu an üzgünüm.\" deriz."
+        "Duygumuzu sözle anlatabiliriz: \"Ben şu an üzgünüm.\""
       ]
     },
     {

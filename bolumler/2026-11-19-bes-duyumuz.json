@@ -7,7 +7,7 @@
   "youtube": {
     "title": "Beş Duyumuz Çocuklar İçin 👀 Görmek, Duymak, Koklamak, Tatmak ve Dokunmak",
     "short_title": "Çiçeği neyle koklarız? 👃 Beş duyu bilmecesi",
-    "description": "Pofi ile beş duyumuzu öğreniyoruz! Gözlerimizle görmeyi, kulaklarımızla duymayı, burnumuzla koklamayı, dilimizle tatmayı ve ellerimizle dokunmayı keşfediyoruz. Hangi duyuyu hangi organla kullandığımızı buluyor, tahmin oyunu oynuyor ve duyu tekerlemesi söylüyoruz. Okul öncesi ve ilkokul çağındaki çocuklar için eğlenceli bir vücudumuz bölümü.",
+    "description": "Pofi ile beş duyumuzu öğreniyoruz! Gözlerimizle görmeyi, kulaklarımızla duymayı, burnumuzla koklamayı, dilimizle tatmayı ve ellerimizle dokunmayı keşfediyoruz. Hangi duyuyu hangi organla kullandığımızı buluyor, tahmin oyunu oynuyor ve duyu tekerlemesi söylüyoruz. Okul öncesi ve ilkokul çağındaki çocuklar için eğlenceli ve eğitici bir bölüm.",
     "tags": ["beş duyu", "beş duyumuz", "beş duyu organları", "duyu organları çocuklar için", "okul öncesi beş duyu", "görmek duymak koklamak tatmak dokunmak", "vücudumuzu tanıyalım", "okul öncesi fen etkinliği", "tahmin oyunu"],
     "thumbnail": {"text": "Beş Duyumuz", "emoji": ["👀", "👂", "👃"]}
   },
@@ -45,7 +45,7 @@
         {"emoji": "👂", "label": "Duymak", "line": "Kulaklarımızla duyarız."},
         {"emoji": "👃", "label": "Koklamak", "line": "Burnumuzla koklarız."},
         {"emoji": "👅", "label": "Tatmak", "line": "Dilimizle tadarız."},
-        {"emoji": "🖐️", "label": "Dokunmak", "line": "Ellerimizle dokunuruz."}
+        {"emoji": "🖐️", "label": "Dokunmak", "line": "Ellerimizle dokunuruz. Derimizle hissederiz."}
       ],
       "after": ["Sen de söyle: Görmek, duymak, koklamak, tatmak, dokunmak!"]
     },
@@ -65,11 +65,11 @@
     {
       "type": "fact",
       "emoji": "🦉",
-      "text": "Baykuşlar çok iyi duyar. Karanlıkta en küçük sesi bile duyabilirler.",
+      "text": "Baykuşlar çok iyi duyar. Karanlıkta çok küçük sesleri bile duyabilirler.",
       "lines": [
         "Biliyor muydun?",
         "Benim gibi baykuşların kulakları çok iyi duyar.",
-        "Karanlıkta en küçük hışırtıyı bile duyabiliriz!"
+        "Karanlıkta minicik hışırtıları bile duyabiliriz!"
       ]
     },
     {
@@ -102,7 +102,7 @@
       "type": "quiz",
       "chapter": "Tahmin oyunu",
       "question": "Hav hav! Bu kimin sesi?",
-      "lines": ["Şimdi tahmin oyunu! Gözlerini kapat ve dinle.", "Hav hav! Bu kimin sesi?"],
+      "lines": ["Şimdi tahmin oyunu! Gözlerini kapat ve dinle.", "Hav hav! Hav hav!", "Şimdi gözlerini aç. Bu kimin sesi?"],
       "options": [
         {"emoji": "🐶", "label": "Köpek"},
         {"emoji": "🐱", "label": "Kedi"},
@@ -115,7 +115,7 @@
       "type": "quiz",
       "chapter": "Dokunarak bulalım",
       "question": "Yumuşacık ve tüylü! Bu ne?",
-      "lines": ["Bir tahmin daha! Gözlerimiz kapalı, elimizle dokunuyoruz.", "Yumuşacık ve tüylü bir şey. Bu ne olabilir?"],
+      "lines": ["Bir tahmin daha! Düşün ki gözlerin kapalı.", "Elinle bir şeye dokunuyorsun. Yumuşacık ve tüylü!", "Bu ne olabilir?"],
       "options": [
         {"emoji": "🪨", "label": "Taş"},
         {"emoji": "🧊", "label": "Buz"},
@@ -157,7 +157,7 @@
         {"emoji": "👂", "label": "Duymak", "line": "Kulaklarımızla sesleri duyarız."},
         {"emoji": "👃", "label": "Koklamak", "line": "Burnumuzla kokuları alırız."},
         {"emoji": "👅", "label": "Tatmak", "line": "Dilimizle tatları tanırız."},
-        {"emoji": "🖐️", "label": "Dokunmak", "line": "Ellerimizle dokunur, hissederiz."}
+        {"emoji": "🖐️", "label": "Dokunmak", "line": "Ellerimizle dokunur, derimizle hissederiz."}
       ]
     },
     {

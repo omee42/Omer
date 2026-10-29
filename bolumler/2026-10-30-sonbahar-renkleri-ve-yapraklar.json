@@ -7,7 +7,7 @@
   "youtube": {
     "title": "Sonbahar Yaprakları Çocuklar İçin 🍂 Sonbahar Renkleri, Bilmece ve Yaprak Baskısı",
     "short_title": "Hangisi turuncu? 🍂 Sonbahar Renkleri Bilmecesi",
-    "description": "Pofi ile sonbahar yapraklarını tanıyoruz! Yapraklar sonbaharda nasıl renk değiştirir? Sarı, turuncu, kırmızı ve kahverengiyi öğreniyor, yaprakları sayıyor ve bilmeceleri çözüyoruz. Sonunda yapraklarla kolay bir baskı resmi yapıyoruz.",
+    "description": "Pofi ile sonbahar yapraklarını tanıyoruz! Yapraklar sonbaharda nasıl renk değiştirir? Sarı, turuncu, kırmızı ve kahverengiyi öğreniyor, yaprakları sayıyor ve bilmeceleri çözüyoruz. Yapraklarla kolay bir baskı resmi de yapıyoruz.",
     "tags": ["sonbahar", "sonbahar yaprakları", "sonbahar renkleri", "renkleri öğreniyorum", "okul öncesi renkler", "yaprak baskısı", "sonbahar etkinliği", "çocuklar için sonbahar"],
     "thumbnail": {"text": "Sonbahar", "emoji": ["🍂", "🍁"]}
   },
@@ -31,7 +31,7 @@
       "lines": [
         "Sonbahar geldi! Havalar serinledi.",
         "Ağaçlardaki yapraklar rengarenk oldu.",
-        "Sonra yapraklar birer birer yere düşer."
+        "Şimdi de birer birer yere düşüyorlar."
       ]
     },
     {
@@ -103,7 +103,7 @@
       "lines": ["Şimdi yapraklarla bir resim yapalım!"],
       "panels": [
         {"emoji": ["🍂", "🧺"], "caption": "Yaprak topla", "lines": ["Önce yerden birkaç yaprak topla."]},
-        {"emoji": ["🍂", "🖌️", "🎨"], "caption": "Boya sür", "lines": ["Yaprağın bir yüzüne fırçayla boya sür."]},
+        {"emoji": ["🍂", "🖌️", "🎨"], "caption": "Boya sür", "lines": ["Yaprağın arka yüzüne fırçayla boya sür."]},
         {"emoji": ["📄", "🍂", "✋"], "caption": "Kağıda bastır", "lines": ["Yaprağı çevir, boyalı yüzünü kağıda koy.", "Elinle üstüne bastır."]},
         {"emoji": ["📄", "🍁", "✨"], "caption": "Kaldır ve bak!", "lines": ["Şimdi yaprağı yavaşça kaldır.", "Kağıtta yaprağın resmi çıktı! Ne güzel!"]}
       ],

@@ -1,0 +1,175 @@
+{
+  "id": "2026-11-25-ormanda-sonbahar-kozalak-ve-mese",
+  "date": "2026-11-25",
+  "category": "doga",
+  "title": "Ormanda Sonbahar",
+  "mood": "happy",
+  "youtube": {
+    "title": "Ormanda Sonbahar Çocuklar İçin 🌲 Kozalak, Meşe Palamudu ve Sincap | Doğa Yürüyüşü",
+    "short_title": "Kozalak hangi ağaçta büyür? 🌲 Orman bilmecesi",
+    "description": "Pofi ile sonbaharda ormana gidiyoruz! Kozalağı ve meşe palamudunu tanıyor, ağaçların kışa nasıl hazırlandığını öğreniyoruz. Sincabın palamut hikayesini dinliyor, palamutları sayıyor ve doğa yürüyüşünün kurallarını konuşuyoruz. Okul öncesi çocuklar için eğlenceli ve eğitici bir doğa bölümü.",
+    "tags": ["ormanda sonbahar", "kozalak", "meşe palamudu", "sonbahar çocuklar için", "doğa yürüyüşü", "okul öncesi doğa", "sincap hikayesi", "ağaçlar kışa hazırlanıyor", "çam ağacı", "doğayı öğreniyorum"],
+    "thumbnail": {"text": "Kozalak ve Palamut", "emoji": ["🌲", "🌰", "🐿️"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Ormanda Sonbahar",
+      "subtitle": "Kozalak ve meşe palamudu",
+      "emoji": ["🌲", "🍂", "🌰"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün sonbaharda ormana gidiyoruz!",
+        "Ormanda neler bulacağız? Hadi bakalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Ormanda sonbahar",
+      "emoji": ["🌳", "🍂"],
+      "text": "Sonbaharda yapraklar dökülür",
+      "lines": [
+        "Sonbaharda orman rengarenk olur.",
+        "Birçok ağacın yaprakları sararır ve yere düşer.",
+        "Kuru yapraklar ayağımızın altında hışır hışır eder!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Kozalak",
+      "shape": "baklava",
+      "color": "#8B5A2B",
+      "word": "Kozalak",
+      "lines": [
+        "Bak, yerde bir kozalak var!",
+        "Kozalak, çam ağacında büyür.",
+        "Kozalak serttir. Üstü pul pul.",
+        "Pullarının arasında minik tohumlar saklanır.",
+        "Sen de söyle: Kozalak!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Meşe palamudu",
+      "emoji": "🌰",
+      "word": "Meşe palamudu",
+      "color": "#8B5A2B",
+      "lines": [
+        "Bu da bir meşe palamudu!",
+        "Meşe palamudu, meşe ağacında büyür.",
+        "İçinden yeni bir meşe ağacı çıkabilir!",
+        "Sen de söyle: Meşe palamudu!"
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Sincap ve palamut",
+      "title": "Sincap ve palamut",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🐿️", "🌰"], "caption": "Sincap palamut topluyor", "lines": ["Sonbaharda minik bir sincap meşe palamudu topladı."]},
+        {"emoji": ["🐿️", "🕳️"], "caption": "Toprağa sakladı", "lines": ["Palamutları küçük çukurlara gömüp sakladı.", "Kışın yemek için!"]},
+        {"emoji": ["❄️", "🐿️"], "caption": "Kış geldi", "lines": ["Kış gelince sincap palamutlarını buldu.", "Ama birini unuttu!"]},
+        {"emoji": ["🌱"], "caption": "Bahar geldi", "lines": ["Baharda unutulan palamut filizlendi."]},
+        {"emoji": ["🌳"], "caption": "Kocaman bir meşe", "lines": ["Yıllar sonra kocaman bir meşe ağacı oldu!"]}
+      ],
+      "after": ["Sincaplar böylece ormana yeni ağaçlar kazandırır."]
+    },
+    {
+      "type": "compare",
+      "chapter": "Ağaçlar kışa hazırlanıyor",
+      "title": "Ağaçlar kışa hazırlanıyor",
+      "lines": ["Ağaçlar da kışa hazırlanır. Bak!"],
+      "left": {"emoji": "🌳", "label": "Meşe ağacı", "line": "Meşe ağaçlarının çoğu sonbaharda yapraklarını döker."},
+      "right": {"emoji": "🌲", "label": "Çam ağacı", "line": "Çam ağacı ise kışın da yeşil kalır."},
+      "after": ["Yapraklarını döken ağaçlar kışın dinlenir.", "Baharda yeniden yeşil yapraklar açar."]
+    },
+    {
+      "type": "fact",
+      "shape": "baklava",
+      "color": "#8B5A2B",
+      "text": "Kozalak kuru havada açılır, yağmurlu havada kapanır.",
+      "lines": [
+        "Biliyor muydun?",
+        "Kozalak, kuru havada pullarını açar.",
+        "Yağmur yağınca pullarını kapatır.",
+        "Böylece içindeki tohumları korur!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Doğa yürüyüşü",
+      "title": "Doğa yürüyüşüne çıkalım!",
+      "lines": ["Hadi, ormanda doğa yürüyüşü yapalım!"],
+      "items": [
+        {"emoji": "👨‍👩‍👧", "label": "Büyüklerimizle", "line": "Ormana her zaman büyüklerimizle gideriz."},
+        {"emoji": "🥾", "label": "Rahat ayakkabı", "line": "Rahat ayakkabılarımızı giyeriz."},
+        {"emoji": "🐦", "label": "Kuşları dinleriz", "line": "Sessizce yürür, kuşların sesini dinleriz."},
+        {"emoji": "🧺", "label": "Sepete toplarız", "line": "Yerdeki kozalak ve yaprakları sepete toplarız."},
+        {"emoji": "🗑️", "label": "Çöp bırakmayız", "line": "Ormana hiç çöp bırakmayız."}
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Önemli bir kural",
+      "emoji": ["🌰", "🙅", "🧼"],
+      "text": "Yerden bulduğumuzu ağzımıza almayız",
+      "lines": [
+        "Dikkat! Önemli bir kuralımız var.",
+        "Yerden bulduğumuz şeyleri ağzımıza almayız.",
+        "Eve dönünce ellerimizi sabunla yıkarız."
+      ]
+    },
+    {
+      "type": "count",
+      "chapter": "Palamutları sayalım",
+      "emoji": "🌰",
+      "n": 6,
+      "label": "palamut",
+      "lines": ["Sepetimizde kaç meşe palamudu var? Hadi birlikte sayalım!"],
+      "after": ["Altı meşe palamudu! Aferin sana!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Kozalak hangi ağaçta büyür?",
+      "lines": ["Bilmece zamanı! Kozalak hangi ağaçta büyür?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🌴", "label": "Palmiye"},
+        {"emoji": "🌵", "label": "Kaktüs"},
+        {"emoji": "🌲", "label": "Çam ağacı"}
+      ],
+      "answer": 2,
+      "after": ["Evet! Kozalak, çam ağacında büyür. Harikasın!"]
+    },
+    {
+      "type": "action",
+      "emoji": "🥾",
+      "text": "Yerinde yürü!",
+      "seconds": 6,
+      "lines": ["Şimdi hareket zamanı!", "Ormanda yürüyormuş gibi yerinde yürü!"],
+      "after": ["Harika yürüdün! Aferin sana!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"shape": "baklava", "color": "#8B5A2B", "label": "Kozalak", "line": "Kozalak, çam ağacında büyür."},
+        {"emoji": "🌰", "label": "Meşe palamudu", "line": "Meşe palamudu, meşe ağacında büyür."},
+        {"emoji": "🍂", "label": "Kışa hazırlık", "line": "Birçok ağaç sonbaharda yapraklarını döker."},
+        {"emoji": "🥾", "label": "Doğa yürüyüşü", "line": "Ormana büyüklerimizle gideriz."},
+        {"emoji": "🙅", "label": "Ağzımıza almayız", "line": "Yerden bulduklarımızı ağzımıza almayız."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün ormanda harika bir yürüyüş yaptık!",
+        "Sen de büyüklerinle parkta kozalak arayabilirsin.",
+        "Yarın bulutları ve sisi öğreneceğiz. Hoşça kal!"
+      ],
+      "next": {"text": "Bulutlar ve sis", "emoji": "☁️"}
+    }
+  ]
+}

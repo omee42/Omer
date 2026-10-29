@@ -113,7 +113,7 @@
       "seconds": 5,
       "lines": [
         "Şimdi sarılma zamanı!",
-        "Yanındaki sevdiğin birine \"Sarılabilir miyim?\" diye sor.",
+        "Yanındaki sevdiğin birine sor: \"Sarılabilir miyim?\"",
         "Yanında kimse yoksa kendine sarıl!"
       ],
       "after": ["Ne güzel bir sarılma! Aferin sana!"]
@@ -159,7 +159,7 @@
       "title": "Hoşça kal!",
       "lines": [
         "Bugün aileleri tanıdık. Harikaydın!",
-        "Bugün ailene \"Seni seviyorum!\" de.",
+        "Ailene şöyle diyebilirsin: \"Seni seviyorum!\"",
         "Yarın 1 rakamıyla tanışacağız. Görüşmek üzere!"
       ],
       "next": {"text": "Sayı 1: Bir tane", "emoji": "1️⃣"}

@@ -1,0 +1,172 @@
+{
+  "id": "2026-11-26-bulutlar-ve-sis",
+  "date": "2026-11-26",
+  "category": "hava",
+  "title": "Bulutlar ve Sis",
+  "mood": "happy",
+  "youtube": {
+    "title": "Bulutlar ve Sis Çocuklar İçin ☁️ Bulut Nasıl Oluşur? Okul Öncesi Hava Durumu",
+    "short_title": "Bulut neyden oluşur? ☁️ Hava durumu bilmecesi",
+    "description": "Pofi ile bulutları ve sisi öğreniyoruz! Bulutların minicik su damlacıklarından nasıl oluştuğunu, farklı bulut şekillerini ve sisin yere yakın bir bulut olduğunu keşfediyoruz. Küçük bir hohlama deneyi yapıyor, bilmeceleri çözüyor ve tekerleme söylüyoruz. Okul öncesi çocuklar için eğlenceli bir hava durumu ve bilim bölümü.",
+    "tags": ["bulutlar", "sis", "bulut nasıl oluşur", "bulutlar çocuklar için", "hava durumu çocuklar için", "okul öncesi bilim", "su damlacıkları", "bulut şekilleri", "basit deney", "hava olayları"],
+    "thumbnail": {"text": "Bulutlar ve Sis", "emoji": ["☁️", "🌁"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Bulutlar ve Sis",
+      "subtitle": "Gökyüzüne bakalım",
+      "emoji": ["☁️", "🌁", "⛅"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün gökyüzüne bakıyoruz. Orada ne var?",
+        "Bulutlar! Bugün bulutları ve sisi öğreneceğiz."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Bulut",
+      "emoji": "☁️",
+      "word": "Bulut",
+      "lines": [
+        "İşte bir bulut! Pamuk gibi, değil mi?",
+        "Ama bulut pamuktan yapılmamıştır.",
+        "Bulut, minicik su damlacıklarından oluşur!",
+        "Sen de söyle: Bulut!"
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Bulut nasıl oluşur?",
+      "title": "Bulut nasıl oluşur?",
+      "lines": ["Peki, bulut nasıl oluşur? Hadi görelim!"],
+      "panels": [
+        {"emoji": ["☀️", "🌊"], "caption": "Güneş suyu ısıtır", "lines": ["Güneş, denizdeki suyu ısıtır.", "Suyun bir kısmı görünmez bir buhar olur."]},
+        {"emoji": ["⬆️", "💧"], "caption": "Buhar yükselir", "lines": ["Buhar, gökyüzüne doğru yükselir.", "Yukarılar soğuktur. Buhar orada soğur."]},
+        {"emoji": ["💧", "💧", "💧"], "caption": "Minicik damlacıklar", "lines": ["Soğuyan buhar, minicik su damlacıklarına dönüşür."]},
+        {"emoji": ["☁️"], "caption": "İşte bir bulut!", "lines": ["Çok çok fazla damlacık bir araya gelir.", "İşte sana bir bulut!"]},
+        {"emoji": ["🌧️"], "caption": "Yağmur yağıyor", "lines": ["Damlacıklar birleşip büyür ve ağırlaşır.", "Sonra yağmur olup yere düşer!"]}
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Bulutların şekilleri",
+      "title": "Bulutların şekilleri",
+      "lines": ["Bulutların pek çok şekli var. Hadi bakalım!"],
+      "items": [
+        {"emoji": "☁️", "label": "Pamuk gibi", "line": "Bazı bulutlar pamuk gibi kabarıktır."},
+        {"emoji": "🪶", "label": "Tüy gibi", "line": "Bazıları ince, uzun bir tüy gibidir."},
+        {"emoji": "🌥️", "label": "Örtü gibi", "line": "Bazıları gökyüzünü bir örtü gibi kaplar. Güneş'i saklar."},
+        {"emoji": "🌧️", "label": "Yağmur bulutu", "line": "Koyu gri bulutlar yağmur getirebilir."}
+      ],
+      "after": ["Bazen bulutlar hayvanlara benzer. Sen bulutlarda neler görüyorsun?"]
+    },
+    {
+      "type": "quiz",
+      "question": "Bulut neyden oluşur?",
+      "lines": ["Bilmece zamanı! Bulut neyden oluşur?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🧶", "label": "Yün"},
+        {"emoji": "💧", "label": "Su damlacıkları"},
+        {"emoji": "🪨", "label": "Taş"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Bulutlar minicik su damlacıklarından oluşur. Aferin!"]
+    },
+    {
+      "type": "item",
+      "chapter": "Sis",
+      "emoji": "🌁",
+      "word": "Sis",
+      "lines": [
+        "Bazı sabahlar dışarısı bembeyaz olur.",
+        "Uzağı göremeyiz. Buna sis denir.",
+        "Sis, yere yakın bir buluttur!",
+        "Sen de söyle: Sis!"
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Bulut mu, sis mi?",
+      "title": "Bulut mu, sis mi?",
+      "lines": ["Şimdi bulut ile sisi karşılaştıralım."],
+      "left": {"emoji": "☁️", "label": "Bulut", "line": "Bulut, gökyüzünde, yukarıdadır."},
+      "right": {"emoji": "🌁", "label": "Sis", "line": "Sis ise yere yakındır. Hemen yanımızdadır!"},
+      "after": ["İkisi de minicik su damlacıklarından oluşur!"]
+    },
+    {
+      "type": "talk",
+      "chapter": "Sisli havada",
+      "emoji": ["🌁", "🚗"],
+      "text": "Sisli havada dikkatli oluruz",
+      "lines": [
+        "Sisli havada uzağı göremeyiz.",
+        "Arabalar farlarını yakar ve yavaş gider.",
+        "Biz de büyüklerimizin elini sıkıca tutarız."
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "⛰️",
+      "text": "Dağın tepesindeki bulutun içine girersen, etrafın sisli görünür.",
+      "lines": [
+        "Biliyor muydun?",
+        "Bazı bulutlar dağların tepesine değer.",
+        "Oraya çıkan biri bulutun içinde kalır. Etrafı sisli görünür!"
+      ]
+    },
+    {
+      "type": "action",
+      "chapter": "Küçük bir deney",
+      "emoji": "😮‍💨",
+      "text": "Hohla!",
+      "seconds": 4,
+      "lines": ["Şimdi küçük bir deney yapalım!", "Avucunu ağzına yaklaştır ve hohla!"],
+      "after": ["Soğuk bir cama hohlarsan cam buğulanır.", "Bu buğu da minicik su damlacıklarıdır!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Yere yakın buluta ne denir?",
+      "lines": ["Bir bilmece daha! Yere yakın buluta ne denir?"],
+      "options": [
+        {"emoji": "🌈", "label": "Gökkuşağı"},
+        {"emoji": "❄️", "label": "Kar"},
+        {"emoji": "🌁", "label": "Sis"}
+      ],
+      "answer": 2,
+      "after": ["Evet, sis! Sis, yere yakın bir buluttur."]
+    },
+    {
+      "type": "chant",
+      "title": "Bulut tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Bulut, bulut, pamuk bulut!", "emoji": "☁️"},
+        {"line": "Minicik damlalardan oluşur!", "emoji": "💧"},
+        {"line": "Gri bulut yağmur getirir!", "emoji": "🌧️"},
+        {"line": "Yere değen bulut sis olur!", "emoji": "🌁"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "💧", "label": "Su damlacıkları", "line": "Bulutlar minicik su damlacıklarından oluşur."},
+        {"emoji": "☁️", "label": "Bulut şekilleri", "line": "Bulutlar pamuk gibi, tüy gibi olabilir."},
+        {"emoji": "🌧️", "label": "Yağmur bulutu", "line": "Koyu gri bulutlar yağmur getirebilir."},
+        {"emoji": "🌁", "label": "Sis", "line": "Sis, yere yakın bir buluttur."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün bulutları ve sisi öğrendik. Harikasın!",
+        "Dışarı çıkınca gökyüzüne bakmayı unutma!",
+        "Yarın sarı rengi öğreneceğiz. Hoşça kal!"
+      ],
+      "next": {"text": "Sarı renk", "emoji": "🍋"}
+    }
+  ]
+}

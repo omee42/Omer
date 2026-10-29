@@ -42,7 +42,7 @@
       "text": "Havada daire çizelim",
       "lines": [
         "Şimdi işaret parmağını havaya kaldır.",
-        "Bir noktadan başla. Yuvarlak çizerek dön.",
+        "Bir noktadan başla. Parmağını yavaşça döndür.",
         "Başladığın yere geri gel. İşte bir daire!",
         "Hadi, bir daha çizelim. Bu sefer kocaman bir daire!"
       ]
@@ -67,7 +67,7 @@
       "lines": ["Şimdi daireyi bir kareyle karşılaştıralım."],
       "left": {"shape": "daire", "color": "#1E9BF0", "label": "Daire", "line": "Daire yuvarlaktır. Hiç köşesi yoktur."},
       "right": {"shape": "kare", "color": "#FF8A3D", "label": "Kare", "line": "Karenin ise dört köşesi vardır."},
-      "after": ["Dairenin köşesi yok. Bu yüzden kolayca yuvarlanır!"]
+      "after": ["Dairenin hiç köşesi yok. Daire gibi yuvarlak şeyler kolayca yuvarlanır!"]
     },
     {
       "type": "count",
@@ -129,7 +129,7 @@
         {"line": "Daire, daire, yuvarlak daire!", "shape": "daire", "color": "#1E9BF0"},
         {"line": "Köşesi yok, döner durur!", "emoji": "🛞"},
         {"line": "Top yuvarlak, saat yuvarlak!", "emoji": "⚽"},
-        {"line": "Güneş de daire gibi parlar!", "emoji": "☀️"}
+        {"line": "Güneş de daire gibi görünür!", "emoji": "☀️"}
       ]
     },
     {
