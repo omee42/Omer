@@ -1,0 +1,171 @@
+{
+  "id": "2026-11-15-ellerimizi-yikiyoruz",
+  "date": "2026-11-15",
+  "category": "saglik",
+  "title": "Ellerimizi Yıkıyoruz",
+  "mood": "happy",
+  "youtube": {
+    "title": "Ellerimizi Yıkıyoruz 🧼 Çocuklar İçin El Yıkama Adımları | Sabun, Köpük ve Mikroplar",
+    "short_title": "Ellerimizi ne zaman yıkarız? 🧼 El yıkama",
+    "description": "Pofi ile ellerimizi nasıl yıkayacağımızı adım adım öğreniyoruz! Ellerimizi ne zaman yıkadığımızı, sabunla köpürtüp ovalamayı ve bol suyla durulamayı keşfediyoruz. Ovalarken hep birlikte yirmiye kadar sayıyor, tekerleme söylüyoruz. Okul öncesi çocuklar için eğlenceli bir sağlık ve temizlik bölümü.",
+    "tags": ["el yıkama", "ellerimizi yıkıyoruz", "el yıkama çocuklar için", "el yıkama adımları", "mikroplar", "temizlik", "sağlıklı yaşam", "okul öncesi sağlık", "hijyen", "sabun"],
+    "thumbnail": {"text": "El yıkama", "emoji": ["🧼", "🫧", "👐"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Ellerimizi Yıkıyoruz",
+      "subtitle": "Sabun, su ve bol köpük!",
+      "emoji": ["🧼", "🫧", "👐"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün ellerimizi yıkamayı öğreneceğiz.",
+        "Sabun ve su hazır mı? Hadi başlayalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Neden el yıkarız?",
+      "emoji": ["👐", "🦠"],
+      "text": "Ellerimizle her şeye dokunuruz",
+      "lines": [
+        "Ellerimizle her şeye dokunuruz.",
+        "Oyuncaklara, kapı kollarına, toprağa dokunuruz.",
+        "Ellerimize minicik mikroplar bulaşabilir.",
+        "Bazı mikroplar bizi hasta edebilir."
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "🦠",
+      "text": "Mikroplar çok küçüktür. Onları gözümüzle göremeyiz!",
+      "lines": [
+        "Biliyor muydun?",
+        "Mikroplar çok çok küçüktür.",
+        "Onları gözümüzle göremeyiz!",
+        "Bu yüzden ellerimiz temiz görünse de yıkarız."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Ne zaman yıkarız?",
+      "title": "Ne zaman yıkarız?",
+      "lines": ["Peki, ellerimizi ne zaman yıkarız?"],
+      "items": [
+        {"emoji": "🍽️", "label": "Yemekten önce", "line": "Yemek yemeden önce yıkarız."},
+        {"emoji": "🚽", "label": "Tuvaletten sonra", "line": "Tuvaletten sonra mutlaka yıkarız."},
+        {"emoji": "🛝", "label": "Oyundan sonra", "line": "Parkta oynadıktan sonra yıkarız."},
+        {"emoji": "🤧", "label": "Hapşırınca", "line": "Hapşırınca ya da burnumuzu silince yıkarız."},
+        {"emoji": "🐶", "label": "Hayvan sevince", "line": "Bir hayvanı sevdikten sonra da yıkarız."}
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Sabun",
+      "emoji": "🧼",
+      "word": "Sabun",
+      "color": "#1E9BF0",
+      "lines": [
+        "Ellerimizi yıkarken bir yardımcımız var: Sabun!",
+        "Sabun ve su, mikropları ellerimizden temizler.",
+        "Sadece su yetmez. Sabun da kullanırız.",
+        "Sen de söyle: Sabun!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Adım adım el yıkama",
+      "title": "Adım adım el yıkama",
+      "lines": ["Hadi, adım adım el yıkayalım!"],
+      "items": [
+        {"emoji": "🚰", "label": "Islat", "line": "Önce ellerimizi suyla ıslatırız."},
+        {"emoji": "🧼", "label": "Sabunla köpürt", "line": "Sabun alır, ellerimizi köpürtürüz."},
+        {"emoji": "🫧", "label": "Ovala", "line": "Köpüklü ellerimizi iyice ovalarız."},
+        {"emoji": "💧", "label": "Durula", "line": "Köpükleri bol suyla durularız."},
+        {"emoji": "👐", "label": "Kurula", "line": "En son temiz bir havluyla kurularız."}
+      ],
+      "after": ["Islat, köpürt, ovala, durula, kurula! Sen de söyle!"]
+    },
+    {
+      "type": "talk",
+      "chapter": "Nereleri ovalarız?",
+      "emoji": ["🤲", "🫧"],
+      "text": "Avuçlar, parmak araları, tırnaklar",
+      "lines": [
+        "Ovalarken hiçbir yeri unutmayalım!",
+        "Avuçlarımızı ve ellerimizin üstünü ovalarız.",
+        "Parmak aralarını ve başparmaklarımızı ovalarız.",
+        "Tırnaklarımızı da unutmayız!"
+      ]
+    },
+    {
+      "type": "count",
+      "chapter": "Yirmiye kadar sayalım",
+      "emoji": "🫧",
+      "n": 20,
+      "label": "köpük",
+      "lines": [
+        "Ellerimizi uzun uzun ovalarız.",
+        "Hadi, ellerini ovala ve benimle yirmiye kadar say!"
+      ],
+      "after": ["Harika! Şimdi köpükleri durulayabiliriz."]
+    },
+    {
+      "type": "quiz",
+      "question": "Yemekten önce ne yaparız?",
+      "lines": ["Bilmece zamanı! Yemekten önce ne yaparız?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🛝", "label": "Kaydıraktan kayarız"},
+        {"emoji": "🧼", "label": "Ellerimizi yıkarız"},
+        {"emoji": "😴", "label": "Uyuruz"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Yemekten önce ellerimizi yıkarız. Aferin sana!"]
+    },
+    {
+      "type": "chant",
+      "title": "El yıkama tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Islat, ıslat, ellerini ıslat!", "emoji": "🚰"},
+        {"line": "Sabunla köpürt, köpük köpük!", "emoji": "🧼"},
+        {"line": "Ovala, ovala, yirmiye kadar!", "emoji": "🫧"},
+        {"line": "Durula, kurula, tertemiz eller!", "emoji": "👐"}
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi ellerimizi temizler?",
+      "lines": ["Bir bilmece daha! Hangisi ellerimizi temizler?"],
+      "options": [
+        {"emoji": "🍯", "label": "Bal"},
+        {"emoji": "🖍️", "label": "Boya kalemi"},
+        {"emoji": "🧼", "label": "Sabun ve su"}
+      ],
+      "answer": 2,
+      "after": ["Bravo! Sabun ve su ellerimizi temizler."]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🦠", "label": "Mikroplar", "line": "Mikroplar çok küçüktür. Onları göremeyiz."},
+        {"emoji": "🍽️", "label": "Yemekten önce", "line": "Yemekten önce ve tuvaletten sonra el yıkarız."},
+        {"emoji": "🧼", "label": "Sabunla köpürt", "line": "Sabunla köpürtürüz."},
+        {"emoji": "🫧", "label": "Ovala", "line": "Yirmiye kadar sayarak ovalarız."},
+        {"emoji": "💧", "label": "Durula", "line": "Bol suyla durular, sonra kurularız."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün ellerimizi yıkamayı öğrendik. Harikaydın!",
+        "Yemekten önce ellerini yıkamayı unutma!",
+        "Yarın üç rakamıyla tanışacağız. Hoşça kal!"
+      ],
+      "next": {"text": "Sayı 3: Yoncanın üç yaprağı", "emoji": "☘️"}
+    }
+  ]
+}

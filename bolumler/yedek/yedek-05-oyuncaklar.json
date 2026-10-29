@@ -1,0 +1,164 @@
+{
+  "id": "yedek-05-oyuncaklar",
+  "date": "2000-01-01",
+  "category": "degerler",
+  "title": "Oyuncaklarımız",
+  "mood": "happy",
+  "youtube": {
+    "title": "Oyuncaklarımız 🧸 Çocuklar İçin Birlikte Oynamak, Sırayla Oynamak ve Toplamak",
+    "short_title": "Oyun bitti, ne yaparız? 🧺 Oyuncak bilmecesi",
+    "description": "Pofi ile oyuncaklarımızı tanıyor ve birlikte oynamanın ne kadar güzel olduğunu öğreniyoruz! Arkadaşlarımızı oyuna çağırmayı, sırayla oynamayı, oyuncaklarımıza özen göstermeyi ve oyun bitince toplamayı konuşuyoruz. Kum havuzu hikayesini dinliyor, bilmeceleri çözüyor ve tekerleme söylüyoruz. Okul öncesi çocuklar için sıcak ve eğlenceli bir değerler bölümü.",
+    "tags": ["oyuncaklar", "birlikte oynamak", "sırayla oynamak", "oyuncakları toplamak", "değerler eğitimi", "okul öncesi değerler", "arkadaşlık çocuklar için", "oyun oynamak", "oyuncak isimleri"],
+    "thumbnail": {"text": "Oyuncaklarımız", "emoji": ["🧸", "⚽", "🧩"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Oyuncaklarımız",
+      "subtitle": "Birlikte oynamak çok güzel",
+      "emoji": ["🧸", "⚽", "🧩"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Oyun oynamayı sever misin? Ben çok severim!",
+        "Hadi, oyuncaklarımızı ve birlikte oynamayı konuşalım!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Oyuncaklarımız",
+      "title": "Oyuncaklarımızla tanışalım",
+      "lines": ["Önce oyuncaklarımızla tanışalım!"],
+      "items": [
+        {"emoji": "🧸", "label": "Oyuncak ayı", "line": "Yumuşacık bir oyuncak ayı."},
+        {"emoji": "⚽", "label": "Top", "line": "Zıplayan, yuvarlanan bir top."},
+        {"emoji": "🧩", "label": "Yapboz", "line": "Parçaları birleşen bir yapboz."},
+        {"emoji": "🪁", "label": "Uçurtma", "line": "Rüzgarda uçan bir uçurtma."},
+        {"emoji": "🚂", "label": "Tren", "line": "Çuf çuf giden bir oyuncak tren."}
+      ],
+      "after": ["Sen en çok hangi oyuncağı seviyorsun?"]
+    },
+    {
+      "type": "talk",
+      "chapter": "Birlikte oynamak",
+      "emoji": ["🧒🏻", "🤝", "🧒🏿"],
+      "text": "Birlikte oynamak daha eğlenceli!",
+      "lines": [
+        "Tek başına oynamak da güzeldir.",
+        "Ama arkadaşlarla birlikte oynamak daha da eğlencelidir!",
+        "Birlikte oyun kurarız, birlikte güleriz."
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Kum havuzunda",
+      "title": "Kum havuzunda",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["👧", "🪣", "🏰"], "caption": "Ada kumdan kale yapıyor", "lines": ["Ada, parkta kumdan bir kale yapıyordu."]},
+        {"emoji": ["🧒"], "caption": "Yeni bir arkadaş", "lines": ["Yanına yeni bir çocuk geldi. Adı Deniz'di.", "Deniz de oynamak istiyordu ama biraz utanıyordu."]},
+        {"emoji": ["👧", "🤝", "🧒"], "caption": "Gel, birlikte oynayalım!", "lines": ["Ada gülümsedi ve dedi ki: Gel, birlikte oynayalım!"]},
+        {"emoji": ["🏰", "😄"], "caption": "Kocaman bir kale", "lines": ["Birlikte kocaman bir kale yaptılar.", "İkisi de çok mutlu oldu!"]}
+      ],
+      "after": ["Birlikte oynayınca oyun daha da güzel oldu, değil mi?"]
+    },
+    {
+      "type": "item",
+      "chapter": "Sırayla oynamak",
+      "emoji": "⏳",
+      "word": "Sırayla",
+      "lines": [
+        "Bazen aynı oyuncakla iki kişi birden oynayamayız.",
+        "O zaman sırayla oynarız.",
+        "Önce sen, sonra arkadaşın. Herkesin sırası gelir!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Oyuncaklarımıza iyi bakalım",
+      "title": "Oyuncaklarımıza iyi bakalım",
+      "lines": ["Oyuncaklarımıza nasıl iyi bakarız?"],
+      "items": [
+        {"emoji": "🧸", "label": "Özenle oynarız", "line": "Oyuncaklarımızla özenle oynarız. Onları fırlatmayız."},
+        {"emoji": "🧺", "label": "Toplarız", "line": "Oyun bitince oyuncaklarımızı toplarız."},
+        {"emoji": "📦", "label": "Yerine koyarız", "line": "Her oyuncağı yerine koyarız. Böylece kaybolmaz."}
+      ],
+      "after": ["Sonra onları kolayca buluruz!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "⚽",
+      "text": "Top çok eski bir oyuncaktır. Çocuklar binlerce yıldır topla oynuyor!",
+      "lines": [
+        "Biliyor muydun?",
+        "Top, çok eski bir oyuncaktır.",
+        "Çocuklar binlerce yıldır topla oynuyor!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Arkadaşın da oynamak istiyor!",
+      "lines": ["Bilmece zamanı! Topunla oynuyorsun.", "Arkadaşın da oynamak istiyor. Ne yaparsın?"],
+      "options": [
+        {"emoji": "🏃", "label": "Topu alıp kaçarım"},
+        {"emoji": "🤝", "label": "Birlikte oynarız"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Birlikte oynarız. Böylece ikimiz de eğleniriz."]
+    },
+    {
+      "type": "quiz",
+      "question": "Oyun bitti. Ne yaparız?",
+      "lines": ["Bir bilmece daha! Oyun bitti. Ne yaparız?"],
+      "options": [
+        {"emoji": "🧺", "label": "Toplarız"},
+        {"emoji": "🙈", "label": "Görmezden geliriz"}
+      ],
+      "answer": 0,
+      "after": ["Evet! Oyuncaklarımızı toplarız. Aferin sana!"]
+    },
+    {
+      "type": "chant",
+      "title": "Oyun tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Gel arkadaşım, birlikte oynayalım!", "emoji": "🤝"},
+        {"line": "Önce sen, sonra ben!", "emoji": "⏳"},
+        {"line": "Oyuncağıma iyi bakarım!", "emoji": "🧸"},
+        {"line": "Oyun bitti, toplayalım!", "emoji": "🧺"}
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "🧺",
+      "text": "Toplayalım!",
+      "seconds": 6,
+      "lines": [
+        "Şimdi hareket zamanı!",
+        "Oyuncakları topluyormuş gibi yapalım.",
+        "Eğil, oyuncağı al, sepete koy! Hadi!"
+      ],
+      "after": ["Harika! Her yer tertemiz oldu!"]
+    },
+    {
+      "type": "recap",
+      "title": "Neler öğrendik?",
+      "lines": ["Hadi, neler öğrendiğimizi hatırlayalım!"],
+      "items": [
+        {"emoji": "🤝", "label": "Birlikte", "line": "Arkadaşlarımızı oyuna çağırırız."},
+        {"emoji": "⏳", "label": "Sırayla", "line": "Sırayla oynarız. Herkesin sırası gelir."},
+        {"emoji": "🧸", "label": "İyi bakmak", "line": "Oyuncaklarımıza iyi bakarız."},
+        {"emoji": "🧺", "label": "Toplamak", "line": "Oyun bitince oyuncakları toplarız."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Birlikte oynamak çok güzel, değil mi?",
+        "Sen de arkadaşlarını oyuna çağır ve birlikte eğlen!",
+        "Yeni bir macerada görüşmek üzere. Hoşça kal!"
+      ],
+      "next": {"text": "Yeni bir macera!", "emoji": "✨"}
+    }
+  ]
+}

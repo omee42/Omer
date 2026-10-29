@@ -1,0 +1,150 @@
+{
+  "id": "yedek-03-muzik-aletleri",
+  "date": "2000-01-01",
+  "category": "muzik",
+  "title": "Müzik Aletleri ve Sesleri",
+  "mood": "happy",
+  "youtube": {
+    "title": "Müzik Aletleri ve Sesleri 🥁 Çocuklar İçin Müzik | Davul, Gitar, Piyano, Trompet",
+    "short_title": "Güm güm güm! Hangi alet? 🥁 Müzik bilmecesi",
+    "description": "Pofi ile müzik aletlerini ve seslerini tanıyoruz! Davul, gitar, piyano, trompet, keman ve marakasla tanışıyor, hangi aletin nasıl çalındığını öğreniyoruz. Sesleri dinleyip bilmeceleri çözüyor, kalın ve ince sesleri karşılaştırıyor ve hep birlikte müzik tekerlemesi söylüyoruz. Okul öncesi çocuklar için eğlenceli bir müzik bölümü.",
+    "tags": ["müzik aletleri", "müzik aletleri çocuklar için", "müzik aletleri ve sesleri", "okul öncesi müzik", "çocuklar için müzik", "müzik aletlerini öğreniyorum", "davul", "kalın ve ince ses", "enstrümanlar"],
+    "thumbnail": {"text": "Müzik Aletleri", "emoji": ["🥁", "🎸", "🎺"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Müzik Aletleri",
+      "subtitle": "Hangi alet nasıl ses çıkarır?",
+      "emoji": ["🥁", "🎸", "🎹"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Kulaklarını iyice aç, çünkü müzik zamanı!",
+        "Hadi, müzik aletleriyle ve sesleriyle tanışalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Müzik aleti nedir?",
+      "emoji": ["🎵", "🎶"],
+      "text": "Müzik aletleriyle müzik yaparız",
+      "lines": [
+        "Müzik aletleri, müzik yapmamıza yardım eder.",
+        "Her müzik aletinin sesi farklıdır.",
+        "Kimine vururuz, kimine üfleriz, kiminin tellerine dokunuruz."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Müzik aletleriyle tanışalım",
+      "title": "Müzik aletleriyle tanışalım",
+      "lines": ["Hadi, müzik aletleriyle tek tek tanışalım!"],
+      "items": [
+        {"emoji": "🥁", "label": "Davul", "line": "Davula vurarak çalarız. Güm güm güm!"},
+        {"emoji": "🎸", "label": "Gitar", "line": "Gitarın tellerine dokunuruz. Tıngır mıngır!"},
+        {"emoji": "🎹", "label": "Piyano", "line": "Piyanonun tuşlarına basarız. Tın tın tın!"},
+        {"emoji": "🎺", "label": "Trompet", "line": "Trompete üfleriz. Düt düt düt!"},
+        {"emoji": "🎻", "label": "Keman", "line": "Kemanı yayla çalarız. Sesi ince ve tatlıdır."},
+        {"emoji": "🪇", "label": "Marakas", "line": "Marakası sallarız. Şıkır şıkır!"}
+      ],
+      "after": ["Sen de söyle: davul, gitar, piyano, trompet, keman, marakas!"]
+    },
+    {
+      "type": "compare",
+      "chapter": "Kalın ses, ince ses",
+      "title": "Kalın mı, ince mi?",
+      "lines": ["Bazı sesler kalın, bazı sesler incedir. Dinle bakalım!"],
+      "left": {"emoji": "🥁", "label": "Kalın ses", "line": "Davulun sesi kalındır. Güm, güm!"},
+      "right": {"emoji": "🔔", "label": "İnce ses", "line": "Zilin sesi incedir. Çın, çın!"},
+      "after": ["Şimdi sen de kalın bir sesle söyle: güm!", "İnce bir sesle söyle: çın!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Orman konseri",
+      "title": "Orman konseri",
+      "lines": ["Şimdi küçük bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🐻", "🥁"], "caption": "Ayıcık davul çalıyor", "lines": ["Ormanda bir konser var!", "Ayıcık davul çalıyor. Güm güm güm!"]},
+        {"emoji": ["🐰", "🎸"], "caption": "Tavşan gitar çalıyor", "lines": ["Tavşan gitar çalıyor. Tıngır mıngır!"]},
+        {"emoji": ["🐸", "🎺"], "caption": "Kurbağa trompet çalıyor", "lines": ["Kurbağa trompet çalıyor. Düt düt düt!"]},
+        {"emoji": ["🐻", "🐰", "🐸"], "caption": "Hep birlikte!", "lines": ["Sonra hep birlikte çalıyorlar.", "Ne güzel bir müzik!"]}
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "🎻",
+      "text": "Pek çok müzik aleti birlikte çalınınca buna orkestra denir.",
+      "lines": [
+        "Biliyor muydun?",
+        "Pek çok kişi farklı müzik aletlerini birlikte çalınca, buna orkestra denir.",
+        "Orkestrada keman, flüt, davul ve başka birçok alet olur."
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi güm güm ses çıkarır?",
+      "lines": ["Bilmece zamanı! Dinle: güm, güm, güm!", "Bu ses hangi aletten geliyor?"],
+      "options": [
+        {"emoji": "🎹", "label": "Piyano"},
+        {"emoji": "🎺", "label": "Trompet"},
+        {"emoji": "🥁", "label": "Davul"}
+      ],
+      "answer": 2,
+      "after": ["Evet! Davul güm güm ses çıkarır."]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisine üfleriz?",
+      "lines": ["Bir bilmece daha! Hangi alete üfleyerek çalarız?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🎺", "label": "Trompet"},
+        {"emoji": "🎸", "label": "Gitar"},
+        {"emoji": "🪇", "label": "Marakas"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Trompete üfleriz. Düt düt düt!"]
+    },
+    {
+      "type": "action",
+      "emoji": "🥁",
+      "text": "Davul çal!",
+      "seconds": 6,
+      "lines": ["Şimdi hareket zamanı!", "Ellerinle dizlerine hafifçe vur. Davul çalıyormuş gibi yap!"],
+      "after": ["Güm güm güm! Harika bir davulcusun!"]
+    },
+    {
+      "type": "chant",
+      "title": "Müzik tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Davul der güm güm güm!", "emoji": "🥁"},
+        {"line": "Gitar der tıngır mıngır!", "emoji": "🎸"},
+        {"line": "Trompet der düt düt düt!", "emoji": "🎺"},
+        {"line": "Zil der çın çın çın!", "emoji": "🔔"},
+        {"line": "Hep birlikte müzik yapalım!", "emoji": "🎶"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Neler öğrendik?",
+      "lines": ["Neler öğrendik? Hadi hatırlayalım!"],
+      "items": [
+        {"emoji": "🥁", "label": "Davul", "line": "Davula vururuz. Sesi kalındır."},
+        {"emoji": "🎸", "label": "Gitar", "line": "Gitarın tellerine dokunuruz."},
+        {"emoji": "🎹", "label": "Piyano", "line": "Piyanonun tuşlarına basarız."},
+        {"emoji": "🎺", "label": "Trompet", "line": "Trompete üfleriz."},
+        {"emoji": "🔔", "label": "Zil", "line": "Zilin sesi incedir."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Müzik aletleriyle tanıştık. Harikaydın!",
+        "Büyüklerinden izin al. Bir tencere ve tahta kaşıkla davul çalabilirsin!",
+        "Yeni bir macerada görüşmek üzere. Hoşça kal!"
+      ],
+      "next": {"text": "Yeni bir macera!", "emoji": "✨"}
+    }
+  ]
+}

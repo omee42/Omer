@@ -26,6 +26,9 @@ Her bölüm için üretilenler:
    klasöründeki her zaman geçerli bölümlerden biri kullanılır.
 4. İsterseniz video YouTube'a otomatik yüklenir (aşağıya bakın); istemezseniz Releases sayfasından indirip
    kendiniz yüklersiniz.
+5. Her pazar 11:23'te bir **Claude zamanlanmış görevi** takvimdeki sonraki günlerin senaryolarını yazar,
+   kontrol eder ve depoya ekler (tampon en az 21 gün ileride tutulur). Görevi claude.ai → Claude Code →
+   zamanlanmış görevler bölümünden durdurabilir ya da silebilirsiniz.
 
 ### Videoyu YouTube'a elle yükleme (telefondan da olur)
 

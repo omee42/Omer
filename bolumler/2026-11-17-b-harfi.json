@@ -1,0 +1,161 @@
+{
+  "id": "2026-11-17-b-harfi",
+  "date": "2026-11-17",
+  "category": "harfler",
+  "title": "B Harfi",
+  "mood": "happy",
+  "youtube": {
+    "title": "B Harfi Çocuklar İçin 🎈 Balık, Balon, Bulut, Bebek | Harfleri Öğreniyorum",
+    "short_title": "Hangisi B ile başlar? 🎈 B Harfi Bilmecesi",
+    "description": "Pofi ile alfabemizin ikinci harfi B'yi öğreniyoruz! Büyük B ve küçük b'yi tanıyor, balık, balon, bulut ve bebek gibi B ile başlayan kelimeleri söylüyoruz. Kelimelerin içinde saklanan B sesini buluyor, bilmeceleri çözüp hep birlikte tekerleme söylüyoruz.",
+    "tags": ["b harfi", "harfleri öğreniyorum", "alfabe", "okul öncesi harfler", "çocuklar için alfabe", "b ile başlayan kelimeler", "türk alfabesi", "ilk okuma"],
+    "thumbnail": {"text": "B harfi", "emoji": [{"symbol": "B", "color": "#1E9BF0"}, "🎈", "🐟"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "B Harfi",
+      "subtitle": "Alfabemizin ikinci harfi",
+      "emoji": [{"symbol": "B", "color": "#1E9BF0"}, "🎈", "🐟"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün yeni bir harfle tanışıyoruz.",
+        "Bu harf B! Hadi, birlikte öğrenelim!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "B harfi",
+      "symbol": "B",
+      "color": "#1E9BF0",
+      "word": "B harfi",
+      "lines": [
+        "İşte B harfi!",
+        "B, alfabemizin ikinci harfidir.",
+        "Dudaklarını birleştir, sonra aç ve söyle: B!"
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Büyük B, küçük b",
+      "title": "Büyük B, küçük b",
+      "lines": ["B harfinin bir büyüğü, bir de küçüğü var."],
+      "left": {"symbol": "B", "color": "#1E9BF0", "label": "Büyük B", "line": "Bu büyük B. Dik bir çizgi ve iki yuvarlak göbek!"},
+      "right": {"symbol": "b", "color": "#FF7A45", "label": "Küçük b", "scale": 0.6, "line": "Bu da küçük b. Uzun bir çizgi ve altta bir yuvarlak!"},
+      "after": ["Büyük B ve küçük b. İkisi de B harfi!"]
+    },
+    {
+      "type": "letter",
+      "chapter": "B ile başlayan kelimeler",
+      "letter": "B",
+      "lines": ["Şimdi B ile başlayan kelimeleri dinle!"],
+      "words": [
+        {"word": "Balık", "emoji": "🐟", "line": "Balık! Suda yüzer, yüzgeçleri vardır."},
+        {"word": "Balon", "emoji": "🎈", "line": "Balon! Şişirince kocaman olur."},
+        {"word": "Bulut", "emoji": "☁️", "line": "Bulut! Gökyüzünde pamuk gibi durur."},
+        {"word": "Bebek", "emoji": "👶", "line": "Bebek! Minicik ve tatlıdır."}
+      ],
+      "after": ["Balık, balon, bulut, bebek. Hepsi B ile başlıyor!"]
+    },
+    {
+      "type": "count",
+      "chapter": "Balonları sayalım",
+      "emoji": "🎈",
+      "n": 5,
+      "label": "balon",
+      "lines": ["Bak, ne çok balon var! Hadi, balonları sayalım!"],
+      "after": ["Beş kırmızı balon! Balon, B ile başlar!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi B ile başlar?",
+      "lines": ["Bilmece zamanı! Hangisi B ile başlar?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🐱", "label": "Kedi"},
+        {"emoji": "🍎", "label": "Elma"},
+        {"emoji": "🐟", "label": "Balık"}
+      ],
+      "answer": 2,
+      "after": ["Evet! Balık, B ile başlar. Aferin sana!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "B sesini dinle",
+      "title": "B sesini duydun mu?",
+      "lines": ["B sesi kelimelerin içinde de saklanır.", "Kulağını aç ve dikkatle dinle!"],
+      "items": [
+        {"emoji": "🦋", "label": "Kelebek", "line": "Kelebek! İçinde bir ses saklı: B!"},
+        {"emoji": "🦓", "label": "Zebra", "line": "Zebra! Bunda da saklı: B!"},
+        {"emoji": "🐸", "label": "Kurbağa", "line": "Kurbağa! Yine duyduk: B!"},
+        {"emoji": "🤖", "label": "Robot", "line": "Robot! Bunda da var: B!"}
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "☁️",
+      "text": "Bulutlar minicik su damlacıklarından oluşur.",
+      "lines": [
+        "Biliyor muydun?",
+        "Bulutlar minicik su damlacıklarından oluşur.",
+        "Bulut kelimesi de B ile başlar!"
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "🎈",
+      "text": "Balon ol!",
+      "seconds": 5,
+      "lines": [
+        "Şimdi hareket zamanı! Hadi, balon olalım!",
+        "Yanaklarını şişir. Kollarını kocaman aç!"
+      ],
+      "after": ["Pof! Harika bir balon oldun!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisinde B sesi var?",
+      "lines": ["Bir bilmece daha! Hangisinde B sesi var?", "Dinle: zebra, kedi, limon."],
+      "options": [
+        {"emoji": "🦓", "label": "Zebra"},
+        {"emoji": "🐱", "label": "Kedi"},
+        {"emoji": "🍋", "label": "Limon"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Zebra dedik, B sesini duyduk!"]
+    },
+    {
+      "type": "chant",
+      "title": "B tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "B, b, balık! Suda yüzer!", "emoji": "🐟"},
+        {"line": "B, b, balon! Kocaman balon!", "emoji": "🎈"},
+        {"line": "B, b, bulut! Pamuk bulut!", "emoji": "☁️"},
+        {"line": "B, b, bebek! Minik bebek!", "emoji": "👶"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"symbol": "B", "color": "#1E9BF0", "label": "Büyük B", "line": "Büyük B!"},
+        {"symbol": "b", "color": "#FF7A45", "label": "Küçük b", "line": "Küçük b!"},
+        {"emoji": "🐟", "label": "Balık", "line": "Balık!"},
+        {"emoji": "🎈", "label": "Balon", "line": "Balon!"},
+        {"emoji": "☁️", "label": "Bulut", "line": "Bulut!"},
+        {"emoji": "👶", "label": "Bebek", "line": "Bebek!"}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün B harfini öğrendik. Harikaydın!",
+        "Evde B ile başlayan bir şey bulabilir misin?",
+        "Yarın çiftlik hayvanlarını ve seslerini öğreneceğiz. Görüşmek üzere!"
+      ],
+      "next": {"text": "Çiftlik hayvanları ve sesleri", "emoji": "🐄"}
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "id": "2026-11-20-dunya-cocuk-haklari-gunu",
+  "date": "2026-11-20",
+  "category": "ozel-gun",
+  "title": "Dünya Çocuk Hakları Günü",
+  "mood": "happy",
+  "youtube": {
+    "title": "20 Kasım Dünya Çocuk Hakları Günü Çocuklar İçin 🌍 Oyun, Okul, Sağlık ve Sevgi",
+    "short_title": "Oyun oynama hakkı kimin? 🌍 20 Kasım bilmecesi",
+    "description": "20 Kasım Dünya Çocuk Hakları Günü'nü Pofi ile öğreniyoruz! Her çocuğun oyun oynama, okula gitme, sağlıklı büyüme, sevilme ve korunma hakkı olduğunu keşfediyoruz. Dünyadaki bütün çocukların haklarının aynı olduğunu öğreniyor, bilmeceleri çözüyor ve hep birlikte tekerleme söylüyoruz. Okul öncesi ve ilkokul çağındaki çocuklar için sıcak ve eğitici bir özel gün bölümü.",
+    "tags": ["20 kasım", "dünya çocuk hakları günü", "çocuk hakları", "çocuk hakları çocuklar için", "çocuk hakları okul öncesi", "oyun oynama hakkı", "eğitim hakkı", "özel günler okul öncesi", "20 kasım etkinliği"],
+    "thumbnail": {"text": "Çocuk Hakları", "emoji": ["🧒🏻", "🌍", "🧒🏿"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Dünya Çocuk Hakları Günü",
+      "subtitle": "20 Kasım",
+      "emoji": ["🧒🏻", "🌍", "🧒🏿"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün 20 Kasım, Dünya Çocuk Hakları Günü!",
+        "Bugün bütün çocuklar için çok önemli bir gün. Hadi başlayalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Hak ne demek?",
+      "emoji": ["🧒", "❤️"],
+      "text": "Her çocuğun hakları vardır",
+      "lines": [
+        "Hak ne demek, biliyor musun?",
+        "Haklar, her çocuğun mutlu ve sağlıklı büyümesi için gereken şeylerdir.",
+        "Dünyadaki bütün çocukların hakları vardır. Senin de!"
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "🌍",
+      "text": "20 Kasım 1989'da dünya ülkeleri çocuk haklarını birlikte kabul etti.",
+      "lines": [
+        "Biliyor muydun?",
+        "Yıllar önce, dünyadaki ülkeler bir araya geldi.",
+        "Çocukların haklarını yazdılar ve 20 Kasım'da kabul ettiler.",
+        "Bu yüzden her yıl 20 Kasım'da çocuk haklarını hatırlarız."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Her çocuğun hakkı var",
+      "title": "Her çocuğun hakkı var!",
+      "lines": ["Hadi, çocuk haklarından bazılarını tanıyalım!"],
+      "items": [
+        {"emoji": "⚽", "label": "Oyun oynamak", "line": "Her çocuğun oyun oynama hakkı vardır."},
+        {"emoji": "🎒", "label": "Okula gitmek", "line": "Her çocuğun okula gitme hakkı vardır."},
+        {"emoji": "🥦", "label": "Sağlıklı büyümek", "line": "Her çocuğun sağlıklı büyüme hakkı vardır."},
+        {"emoji": "❤️", "label": "Sevilmek", "line": "Her çocuğun sevilme hakkı vardır."},
+        {"emoji": "🏡", "label": "Korunmak", "line": "Her çocuğun korunma ve güvende olma hakkı vardır."}
+      ],
+      "after": ["Bu haklar dünyadaki bütün çocuklar için!"]
+    },
+    {
+      "type": "talk",
+      "chapter": "Oyun oynama hakkı",
+      "emoji": ["⚽", "🪁", "🧩"],
+      "text": "Oyun oynamak her çocuğun hakkı",
+      "lines": [
+        "Oyun oynamak çok önemlidir.",
+        "Top oynarız, uçurtma uçururuz, yapboz yaparız.",
+        "Oyun oynarken hem eğleniriz hem de öğreniriz.",
+        "Sen en çok hangi oyunu seviyorsun?"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Okula gitmek ve sağlıklı büyümek",
+      "title": "Öğrenmek ve sağlıklı büyümek",
+      "lines": ["Her çocuk öğrenmeli ve sağlıklı büyümeli."],
+      "items": [
+        {"emoji": "🏫", "label": "Okul", "line": "Okula gider, yeni şeyler öğreniriz."},
+        {"emoji": "🍎", "label": "Sağlıklı yemek", "line": "Sağlıklı yiyecekler yer, güçlü büyürüz."},
+        {"emoji": "🛏️", "label": "Uyku", "line": "Geceleri iyi uyur, dinleniriz."},
+        {"emoji": "🧑‍⚕️", "label": "Doktor", "line": "Hastalanınca doktor bize yardım eder."}
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Sevilmek ve korunmak",
+      "title": "Sevilmek ve korunmak",
+      "lines": ["İki çok önemli hakkımız daha var."],
+      "left": {"emoji": "❤️", "label": "Sevilmek", "line": "Her çocuk sevilmeyi hak eder. Sen çok değerlisin!"},
+      "right": {"emoji": "🏡", "label": "Korunmak", "line": "Bize bakan büyükler bizi korur ve güvende tutar."},
+      "after": ["Sevildiğimizi ve güvende olduğumuzu bilmek bizi mutlu eder."]
+    },
+    {
+      "type": "talk",
+      "chapter": "Bütün çocuklar",
+      "emoji": ["🧒🏻", "🧒🏽", "🧒🏿"],
+      "text": "Bütün çocukların hakları aynıdır",
+      "lines": [
+        "Dünyada çok çeşitli çocuklar var.",
+        "Farklı ülkelerde yaşarlar, farklı dillerde konuşurlar.",
+        "Ama bütün çocukların hakları aynıdır!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Kimin oyun oynama hakkı var?",
+      "lines": ["Bilmece zamanı! Kimin oyun oynama hakkı var?", "Bazı çocukların mı, bütün çocukların mı? Düşün bakalım!"],
+      "options": [
+        {"emoji": "🧒", "label": "Bazı çocukların"},
+        {"emoji": "🌍", "label": "Bütün çocukların"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Dünyadaki bütün çocukların oyun oynama hakkı var."]
+    },
+    {
+      "type": "quiz",
+      "question": "Hastalanınca kim yardım eder?",
+      "lines": ["Bir bilmece daha! Hastalanınca bize kim yardım eder?"],
+      "options": [
+        {"emoji": "🧑‍🌾", "label": "Çiftçi"},
+        {"emoji": "🧑‍🍳", "label": "Aşçı"},
+        {"emoji": "🧑‍⚕️", "label": "Doktor"}
+      ],
+      "answer": 2,
+      "after": ["Evet, doktor! Sağlıklı büyümek de bizim hakkımız."]
+    },
+    {
+      "type": "chant",
+      "title": "Çocuk hakları tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Oyun oynamak hakkımız!", "emoji": "⚽"},
+        {"line": "Okula gitmek hakkımız!", "emoji": "🎒"},
+        {"line": "Sağlıklı büyümek hakkımız!", "emoji": "🥦"},
+        {"line": "Sevilmek, korunmak hakkımız!", "emoji": "❤️"},
+        {"line": "Bütün çocuklar için!", "emoji": "🌍"}
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "👋",
+      "text": "El salla!",
+      "seconds": 5,
+      "lines": [
+        "Şimdi hareket zamanı!",
+        "Dünyadaki bütün çocuklara kocaman el salla!",
+        "Merhaba çocuklar!"
+      ],
+      "after": ["Harika! Ne güzel el salladın!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "⚽", "label": "Oyun oynamak", "line": "Her çocuğun oyun oynama hakkı var."},
+        {"emoji": "🎒", "label": "Okula gitmek", "line": "Her çocuğun okula gitme hakkı var."},
+        {"emoji": "🥦", "label": "Sağlıklı büyümek", "line": "Her çocuğun sağlıklı büyüme hakkı var."},
+        {"emoji": "❤️", "label": "Sevilmek", "line": "Her çocuk sevilmeyi hak eder."},
+        {"emoji": "🏡", "label": "Korunmak", "line": "Her çocuk korunmayı ve güvende olmayı hak eder."},
+        {"emoji": "🌍", "label": "Bütün çocuklar", "line": "Bu haklar bütün çocuklar için."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün çocuk haklarını öğrendik. Harikaydın!",
+        "Unutma, bu haklar senin de hakların!",
+        "Yarın mutluluğu konuşacağız. Hoşça kal!"
+      ],
+      "next": {"text": "Mutluluk: Mutluyum!", "emoji": "😊"}
+    }
+  ]
+}

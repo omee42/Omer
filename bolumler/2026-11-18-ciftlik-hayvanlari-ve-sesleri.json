@@ -1,0 +1,163 @@
+{
+  "id": "2026-11-18-ciftlik-hayvanlari-ve-sesleri",
+  "date": "2026-11-18",
+  "category": "hayvanlar",
+  "title": "Çiftlik Hayvanları ve Sesleri",
+  "mood": "happy",
+  "youtube": {
+    "title": "Çiftlik Hayvanları ve Sesleri 🐄 Çocuklar İçin İnek, Koyun, Tavuk, Keçi | Hayvanları Öğreniyorum",
+    "short_title": "Möö diyen hayvan hangisi? 🐄 Hayvan sesleri bilmecesi",
+    "description": "Pofi ile çiftliğe gidiyoruz! İnek, koyun, tavuk ve keçiyle tanışıyor, hayvanların seslerini taklit ediyoruz. Çiftlik hayvanlarının bize süt, yumurta ve yün verdiğini öğreniyor, bilmeceleri çözüp hep birlikte tekerleme söylüyoruz. Okul öncesi çocuklar için eğlenceli bir hayvanlar bölümü.",
+    "tags": ["çiftlik hayvanları", "hayvan sesleri", "çiftlik hayvanları çocuklar için", "hayvanları öğreniyorum", "okul öncesi hayvanlar", "inek", "koyun", "tavuk", "keçi", "çocuklar için hayvan sesleri"],
+    "thumbnail": {"text": "Çiftlik hayvanları", "emoji": ["🐄", "🐑", "🐔"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Çiftlik Hayvanları",
+      "subtitle": "Hangi hayvan nasıl ses çıkarır?",
+      "emoji": ["🐄", "🐑", "🐔", "🐐"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün bir çiftliğe gidiyoruz.",
+        "Çiftlik hayvanlarını ve seslerini öğreneceğiz. Hadi gidelim!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Çiftlik nedir?",
+      "emoji": ["🧑‍🌾", "🚜", "🌾"],
+      "text": "Çiftlikte hayvanlar ve çiftçiler yaşar",
+      "lines": [
+        "Çiftlik, hayvanların ve çiftçilerin yaşadığı bir yerdir.",
+        "Çiftçiler hayvanlara çok iyi bakar.",
+        "Onlara yem ve su verir, yerlerini temizler.",
+        "Biz de çiftliğe büyüklerimizle birlikte gideriz."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Çiftlikte kimler var?",
+      "title": "Çiftlikte kimler var?",
+      "lines": ["Bak, çiftlikte kimler var!"],
+      "items": [
+        {"emoji": "🐄", "label": "İnek", "line": "Bu bir inek. İnek möö der!"},
+        {"emoji": "🐑", "label": "Koyun", "line": "Bu bir koyun. Koyun mee der!"},
+        {"emoji": "🐔", "label": "Tavuk", "line": "Bu bir tavuk. Tavuk gıt gıt gıdak der!"},
+        {"emoji": "🐐", "label": "Keçi", "line": "Bu bir keçi. Keçi de mee der!"}
+      ],
+      "after": ["İnek, koyun, tavuk, keçi! Sen de söyle!"]
+    },
+    {
+      "type": "compare",
+      "chapter": "Koyun mu, keçi mi?",
+      "title": "Koyun mu, keçi mi?",
+      "lines": ["Koyun ile keçi birbirine benzer. Hadi, bakalım!"],
+      "left": {"emoji": "🐑", "label": "Koyun", "line": "Koyunun kalın, yumuşacık bir yünü vardır."},
+      "right": {"emoji": "🐐", "label": "Keçi", "line": "Keçi ise tırmanmayı çok sever!"},
+      "after": ["İkisi de mee der. Sesleri birbirine çok benzer!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Möö diyen hayvan hangisi?",
+      "lines": ["Bilmece zamanı! Dinle: Möö! Möö!", "Bu hangi hayvanın sesi?"],
+      "options": [
+        {"emoji": "🐔", "label": "Tavuk"},
+        {"emoji": "🐑", "label": "Koyun"},
+        {"emoji": "🐄", "label": "İnek"}
+      ],
+      "answer": 2,
+      "after": ["Evet! İnek möö der. Aferin sana!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Bize neler verirler?",
+      "title": "Bize neler verirler?",
+      "lines": ["Çiftlik hayvanları bize neler verir? Hadi, bakalım!"],
+      "items": [
+        {"emoji": "🥛", "label": "Süt", "line": "İnekten süt alırız."},
+        {"emoji": "🧀", "label": "Peynir", "line": "Sütten peynir ve yoğurt yapılır."},
+        {"emoji": "🥚", "label": "Yumurta", "line": "Tavuk yumurtlar. Kahvaltıda yumurta yeriz."},
+        {"emoji": "🧶", "label": "Yün", "line": "Koyunun yününden sıcacık kazaklar örülür."}
+      ],
+      "after": ["Keçiden de süt alırız. Teşekkürler, çiftlik hayvanları!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🐑",
+      "text": "Koyunların yünü kesilirken canları acımaz. Tıpkı saç kestirmek gibi!",
+      "lines": [
+        "Biliyor muydun?",
+        "Koyunların yünü her yıl kesilir.",
+        "Bu hiç acıtmaz. Tıpkı saçımızı kestirmek gibi!"
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Çiftlikte bir sabah",
+      "title": "Çiftlikte bir sabah",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🌅", "🧑‍🌾"], "caption": "Günaydın, çiftlik!", "lines": ["Sabah oldu. Çiftçi erkenden uyandı."]},
+        {"emoji": ["🧑‍🌾", "🐄"], "caption": "İnekler uyandı", "lines": ["Önce ineklere yem verdi.", "İnekler sevindi: Möö! Möö!"]},
+        {"emoji": ["🐔", "🥚"], "caption": "Kümeste yumurtalar", "lines": ["Sonra kümese gitti.", "Tavuklar gıdakladı: Gıt gıt gıdak! Bak, yumurtalar var!"]},
+        {"emoji": ["🐑", "🐐"], "caption": "Çayırda", "lines": ["Koyunlarla keçiler çayıra çıktı. Mee! Mee!", "Çiftlikte güzel bir gün başladı!"]}
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi bize yumurta verir?",
+      "lines": ["Bir bilmece daha! Hangisi bize yumurta verir?"],
+      "options": [
+        {"emoji": "🐔", "label": "Tavuk"},
+        {"emoji": "🐄", "label": "İnek"},
+        {"emoji": "🐐", "label": "Keçi"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Tavuk yumurtlar."]
+    },
+    {
+      "type": "action",
+      "emoji": "🐔",
+      "text": "Kanat çırp!",
+      "seconds": 6,
+      "lines": [
+        "Şimdi hareket zamanı! Hadi, tavuk olalım!",
+        "Kollarını kanat gibi çırp. Gıt gıt gıdak!"
+      ],
+      "after": ["Harika! Ne güzel bir tavuk oldun!"]
+    },
+    {
+      "type": "chant",
+      "title": "Hayvan sesleri",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "İnek der: Möö, möö!", "emoji": "🐄"},
+        {"line": "Koyun der: Mee, mee!", "emoji": "🐑"},
+        {"line": "Tavuk der: Gıt gıt gıdak!", "emoji": "🐔"},
+        {"line": "Keçi der: Mee, mee!", "emoji": "🐐"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🐄", "label": "İnek", "line": "İnek möö der. Bize süt verir."},
+        {"emoji": "🐑", "label": "Koyun", "line": "Koyun mee der. Bize yün verir."},
+        {"emoji": "🐔", "label": "Tavuk", "line": "Tavuk gıt gıt gıdak der. Yumurtlar."},
+        {"emoji": "🐐", "label": "Keçi", "line": "Keçi de mee der. Bize süt verir."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün çiftlik hayvanlarını tanıdık. Harikaydın!",
+        "Hayvanlara dokunduktan sonra ellerini yıkamayı unutma!",
+        "Yarın beş duyumuzu öğreneceğiz. Hoşça kal!"
+      ],
+      "next": {"text": "Beş duyumuz", "emoji": "👀"}
+    }
+  ]
+}

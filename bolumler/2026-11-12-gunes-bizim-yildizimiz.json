@@ -1,0 +1,158 @@
+{
+  "id": "2026-11-12-gunes-bizim-yildizimiz",
+  "date": "2026-11-12",
+  "category": "uzay",
+  "title": "Güneş: Bizim Yıldızımız",
+  "mood": "happy",
+  "youtube": {
+    "title": "Güneş: Bizim Yıldızımız ☀️ Çocuklar İçin Uzay | Güneş Bir Yıldız mı?",
+    "short_title": "Güneş bir yıldız mı? ☀️ Uzay bilmecesi",
+    "description": "Pofi ile Güneş'i tanıyoruz! Güneş'in bize en yakın yıldız olduğunu, bize ışık ve sıcaklık verdiğini öğreniyoruz. Güneş'e asla doğrudan bakmamamız gerektiğini hatırlıyor, bilmeceleri çözüyor ve hep birlikte tekerleme söylüyoruz. Okul öncesi çocuklar için eğlenceli bir uzay bölümü.",
+    "tags": ["güneş", "güneş bir yıldızdır", "uzayı öğreniyorum", "çocuklar için uzay", "okul öncesi uzay", "gündüz ve gece", "okul öncesi bilim", "çocuklar için bilim", "yıldızlar"],
+    "thumbnail": {"text": "Güneş", "emoji": ["☀️", "⭐"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Güneş: Bizim Yıldızımız",
+      "subtitle": "Gökyüzünün en parlak dostu",
+      "emoji": ["☀️", "⭐", "🌍"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün gökyüzündeki çok parlak bir dostumuzu tanıyacağız.",
+        "Bil bakalım kim? Güneş!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Güneş",
+      "emoji": "☀️",
+      "word": "Güneş",
+      "lines": [
+        "İşte Güneş!",
+        "Güneş gündüzleri gökyüzünde parlar.",
+        "Sen de söyle: Güneş!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Güneş bir yıldızdır",
+      "emoji": ["☀️", "⭐"],
+      "text": "Güneş bir yıldızdır",
+      "lines": [
+        "Biliyor musun? Güneş bir yıldızdır!",
+        "Hem de bize en yakın yıldız.",
+        "Geceleri gördüğümüz yıldızlar da Güneş gibi yıldızlardır.",
+        "Ama çok çok uzakta oldukları için minicik görünürler."
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "☀️",
+      "text": "Güneş o kadar büyük ki içine bir milyondan fazla Dünya sığar!",
+      "lines": [
+        "Biliyor muydun?",
+        "Güneş, Dünya'dan çok çok büyüktür.",
+        "İçine bir milyondan fazla Dünya sığar!",
+        "Çok uzakta olduğu için bize küçük görünür."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Güneş bize neler verir?",
+      "title": "Güneş bize neler verir?",
+      "lines": ["Güneş bize neler verir? Hadi bakalım!"],
+      "items": [
+        {"emoji": "💡", "label": "Işık", "line": "Güneş bize ışık verir. Her yer aydınlanır."},
+        {"emoji": "🌡️", "label": "Sıcaklık", "line": "Güneş bize sıcaklık verir. Bizi ısıtır."},
+        {"emoji": "🌱", "label": "Bitkiler büyür", "line": "Bitkiler, Güneş ışığıyla büyür."}
+      ],
+      "after": ["Güneş sayesinde bitkiler, hayvanlar ve insanlar yaşar."]
+    },
+    {
+      "type": "compare",
+      "chapter": "Gündüz ve gece",
+      "title": "Gündüz mü, gece mi?",
+      "lines": ["Şimdi bu iki resme bak."],
+      "left": {"emoji": "☀️", "label": "Gündüz", "line": "Güneş gökyüzündeyken gündüz olur. Her yer aydınlıktır."},
+      "right": {"emoji": "🌙", "label": "Gece", "line": "Güneş batınca gece olur. Her yer karanlıktır."},
+      "after": ["Gece olunca Güneş sönmez! Dünya döndüğü için onu göremeyiz."]
+    },
+    {
+      "type": "talk",
+      "chapter": "Çok önemli bir kural",
+      "emoji": ["☀️", "🚫", "👀"],
+      "text": "Güneş'e asla doğrudan bakmayız",
+      "lines": [
+        "Şimdi çok önemli bir kural öğrenelim.",
+        "Güneş'e asla doğrudan bakmayız!",
+        "Güneş çok parlaktır. Gözlerimize zarar verir.",
+        "Güneş gözlüğü taksak bile ona bakmayız.",
+        "Sen de söyle: Güneş'e asla bakmayız!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Güneş aslında nedir?",
+      "lines": ["Bilmece zamanı! Güneş aslında nedir?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "⭐", "label": "Yıldız"},
+        {"emoji": "☁️", "label": "Bulut"},
+        {"emoji": "🌙", "label": "Ay"}
+      ],
+      "answer": 0,
+      "after": ["Evet! Güneş bir yıldızdır. Bize en yakın yıldız!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Güneş'e bakar mıyız?",
+      "lines": ["Bir bilmece daha! Güneş'e bakar mıyız?"],
+      "options": [
+        {"emoji": "👀", "label": "Evet, bakarız"},
+        {"emoji": "🙈", "label": "Hayır, bakmayız"}
+      ],
+      "answer": 1,
+      "after": ["Bravo! Güneş'e asla doğrudan bakmayız. Gözlerimizi koruruz."]
+    },
+    {
+      "type": "action",
+      "emoji": "☀️",
+      "text": "Kollarını aç!",
+      "seconds": 5,
+      "lines": ["Şimdi hareket zamanı!", "Güneş gibi kollarını kocaman aç. Işıklarını her yere gönder!"],
+      "after": ["Harika! Kocaman, parlak bir Güneş oldun!"]
+    },
+    {
+      "type": "chant",
+      "title": "Güneş tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Güneş, Güneş, parlak yıldız!", "emoji": "⭐"},
+        {"line": "Işık verir, bizi ısıtır!", "emoji": "☀️"},
+        {"line": "Bitkiler büyür, çiçek açar!", "emoji": "🌻"},
+        {"line": "Ona bakmam, gözümü korurum!", "emoji": "🙈"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "⭐", "label": "Bir yıldız", "line": "Güneş bir yıldızdır."},
+        {"emoji": "💡", "label": "Işık", "line": "Güneş bize ışık verir."},
+        {"emoji": "🌡️", "label": "Sıcaklık", "line": "Güneş bizi ısıtır."},
+        {"emoji": "🙈", "label": "Bakmayız", "line": "Güneş'e asla doğrudan bakmayız."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün Güneş'i tanıdık. Harikaydın!",
+        "Gökyüzünde Güneş yuvarlak bir daire gibi görünür.",
+        "Yarın daireyi öğreneceğiz. Görüşmek üzere!"
+      ],
+      "next": {"text": "Daire", "shape": "daire", "color": "#8A5CF6"}
+    }
+  ]
+}

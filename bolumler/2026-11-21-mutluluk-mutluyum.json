@@ -1,0 +1,167 @@
+{
+  "id": "2026-11-21-mutluluk-mutluyum",
+  "date": "2026-11-21",
+  "category": "duygular",
+  "title": "Mutluyum!",
+  "mood": "happy",
+  "youtube": {
+    "title": "Mutluyum! 😊 Çocuklar İçin Mutluluk Duygusu: Bizi Neler Mutlu Eder?",
+    "short_title": "Mutlu olunca ne yaparız? 😊 Duygu bilmecesi",
+    "description": "Pofi ile mutluluk duygusunu tanıyoruz! Mutlu olunca nasıl göründüğümüzü, bizi nelerin mutlu ettiğini ve mutluluğu nasıl paylaştığımızı öğreniyoruz. Elif'in hediye hikayesini dinliyor, bilmeceleri çözüyor ve mutluluk dansı yapıyoruz. Okul öncesi çocuklar için sıcak ve neşeli bir duygular bölümü.",
+    "tags": ["mutluluk", "mutlu olmak", "duygular", "duyguları öğreniyorum", "duygular çocuklar için", "okul öncesi duygular", "mutluluk paylaşınca çoğalır", "değerler eğitimi", "gülümsemek"],
+    "thumbnail": {"text": "Mutluyum!", "emoji": ["😄", "☀️"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Mutluyum!",
+      "subtitle": "Mutluluğu tanıyalım",
+      "emoji": ["😊", "☀️", "🎈"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün çok güzel bir duyguyu konuşacağız.",
+        "Bu duygunun adı mutluluk! Hadi, kocaman gülümse!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Mutlu olmak",
+      "emoji": "😄",
+      "word": "Mutlu",
+      "color": "#FFB703",
+      "lines": [
+        "Bu yüz mutlu. Bak, kocaman gülümsüyor!",
+        "Mutlu olunca içimiz sıcacık olur.",
+        "Sen de söyle: Ben mutluyum!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Mutlu olunca nasıl görünürüz?",
+      "title": "Mutlu olunca ne yaparız?",
+      "lines": ["Mutlu olunca nasıl görünürüz? Hadi bakalım!"],
+      "items": [
+        {"emoji": "😊", "label": "Gülümseriz", "line": "Mutlu olunca gülümseriz."},
+        {"emoji": "😆", "label": "Kahkaha", "line": "Bazen kahkahayla güleriz. Ha ha ha!"},
+        {"emoji": "👏", "label": "El çırparız", "line": "Sevinince el çırparız."},
+        {"emoji": "🤸", "label": "Hoplarız", "line": "Bazen sevinçten hoplar, zıplarız!"}
+      ],
+      "after": ["Sen mutlu olunca ne yaparsın?"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Bizi neler mutlu eder?",
+      "title": "Bizi neler mutlu eder?",
+      "lines": ["Peki, bizi neler mutlu eder?"],
+      "items": [
+        {"emoji": "⚽", "label": "Oyun oynamak", "line": "Arkadaşlarımızla oyun oynamak bizi mutlu eder."},
+        {"emoji": "🤗", "label": "Sarılmak", "line": "Sevdiklerimize sarılmak da bizi mutlu eder."},
+        {"emoji": "☀️", "label": "Güneşli bir gün", "line": "Güneşli bir günde dışarıda oynamak çok güzeldir."},
+        {"emoji": "🎨", "label": "Resim yapmak", "line": "Rengarenk resimler yapmak bizi mutlu eder."},
+        {"emoji": "🎶", "label": "Müzik", "line": "Şarkı söylemek ve dans etmek de bizi mutlu eder."}
+      ],
+      "after": ["Seni en çok ne mutlu eder? Düşün bakalım!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "😃",
+      "text": "Gülümseme bulaşıcıdır! Biri bize gülümseyince çoğu zaman biz de gülümseriz.",
+      "lines": [
+        "Biliyor muydun?",
+        "Gülümseme bulaşıcıdır!",
+        "Biri bize gülümseyince, çoğu zaman biz de gülümseriz."
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Elif'in hediyesi",
+      "title": "Elif'in hediyesi",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["👧", "🎨"], "caption": "Elif resim yapıyor", "lines": ["Elif, rengarenk bir resim yaptı.", "Resimde kocaman, gülen bir güneş vardı."]},
+        {"emoji": ["👧", "🖼️", "👴"], "caption": "Dedesine bir hediye", "lines": ["Elif, resmini dedesine hediye etti."]},
+        {"emoji": ["👴", "😊"], "caption": "Dedesi çok mutlu", "lines": ["Dedesi resme bakınca kocaman gülümsedi.", "Elif'e sarıldı ve teşekkür etti."]},
+        {"emoji": ["👧", "😄"], "caption": "Elif de çok mutlu", "lines": ["Dedesi mutlu olunca, Elif de çok mutlu oldu.", "Mutluluk paylaşınca çoğalır!"]}
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Mutluluğu paylaşalım",
+      "emoji": ["😊", "🤝", "🎁"],
+      "text": "Mutluluk paylaşınca çoğalır",
+      "lines": [
+        "Biz de mutluluğumuzu paylaşabiliriz.",
+        "Birine gülümseyebiliriz.",
+        "Arkadaşımızla birlikte oynayabiliriz.",
+        "Sevdiklerimize güzel bir resim yapabiliriz."
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Mutlu olunca ne yaparız?",
+      "lines": ["Bilmece zamanı! Mutlu olunca ne yaparız?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "😠", "label": "Kaş çatarız"},
+        {"emoji": "😊", "label": "Gülümseriz"},
+        {"emoji": "🥱", "label": "Esneriz"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Mutlu olunca gülümseriz. Aferin sana!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Elif dedesine ne hediye etti?",
+      "lines": ["Bir bilmece daha! Hikayeyi hatırlıyor musun?", "Elif dedesine ne hediye etti?"],
+      "options": [
+        {"emoji": "⚽", "label": "Top"},
+        {"emoji": "🍎", "label": "Elma"},
+        {"emoji": "🖼️", "label": "Resim"}
+      ],
+      "answer": 2,
+      "after": ["Evet, bir resim! Elif mutluluğunu dedesiyle paylaştı."]
+    },
+    {
+      "type": "chant",
+      "title": "Mutluluk tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle! Gülümsemeyi unutma!"],
+      "items": [
+        {"line": "Gülümserim, mutluyum!", "emoji": "😊"},
+        {"line": "El çırparım, mutluyum!", "emoji": "👏"},
+        {"line": "Paylaşırım, mutluyum!", "emoji": "🎁"},
+        {"line": "Mutluluk paylaşınca çoğalır!", "emoji": "💛"}
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "🎶",
+      "text": "Dans et!",
+      "seconds": 8,
+      "lines": [
+        "Şimdi hareket zamanı! Mutluluk dansı yapalım!",
+        "Sağa sallan, sola sallan, ellerini salla!"
+      ],
+      "after": ["Harika! Ne neşeli bir danstı!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "😊", "label": "Gülümseriz", "line": "Mutlu olunca gülümseriz."},
+        {"emoji": "⚽", "label": "Oyun oynamak", "line": "Oyun oynamak bizi mutlu eder."},
+        {"emoji": "🤗", "label": "Sarılmak", "line": "Sevdiklerimize sarılmak bizi mutlu eder."},
+        {"emoji": "🎁", "label": "Paylaşmak", "line": "Mutluluk paylaşınca çoğalır."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün mutluluğu konuştuk. Harikaydın!",
+        "Birine gülümsemeyi unutma!",
+        "Yarın itfaiyecileri tanıyacağız. Hoşça kal!"
+      ],
+      "next": {"text": "İtfaiyeciler", "emoji": "🚒"}
+    }
+  ]
+}

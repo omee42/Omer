@@ -1,0 +1,149 @@
+{
+  "id": "yedek-04-gece-ve-gunduz",
+  "date": "2000-01-01",
+  "category": "bilim",
+  "title": "Gece ve Gündüz",
+  "mood": "happy",
+  "youtube": {
+    "title": "Gece ve Gündüz 🌙 Çocuklar İçin Neden Gece Olur? | Güneş, Ay ve Yıldızlar",
+    "short_title": "Gece gökyüzünde ne görürüz? 🌙 Gece ve gündüz",
+    "description": "Pofi ile gece ve gündüzü öğreniyoruz! Dünyamız kendi etrafında döndüğü için gece ve gündüzün nasıl oluştuğunu, gündüz ve gece neler yaptığımızı keşfediyoruz. Gece uyanık olan hayvanlarla tanışıyor, bilmeceleri çözüp hep birlikte tekerleme söylüyoruz. Okul öncesi çocuklar için eğlenceli bir bilim bölümü.",
+    "tags": ["gece ve gündüz", "gece neden olur", "çocuklar için bilim", "okul öncesi bilim", "güneş ve ay", "dünya döner", "yıldızlar", "gece hayvanları", "uyku zamanı"],
+    "thumbnail": {"text": "Gece ve gündüz", "emoji": ["☀️", "🌙"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Gece ve Gündüz",
+      "subtitle": "Güneş, Ay ve yıldızlar",
+      "emoji": ["☀️", "🌙", "⭐"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Hadi, birlikte gece ile gündüzü öğrenelim!",
+        "Güneş, Ay ve yıldızlar da bizimle!"
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Gündüz ve gece",
+      "title": "Gündüz ve gece",
+      "lines": ["Gökyüzüne bak! Gündüz ve gece çok farklıdır."],
+      "left": {"emoji": "☀️", "label": "Gündüz", "line": "Gündüz Güneş parlar. Her yer aydınlıktır."},
+      "right": {"emoji": "🌙", "label": "Gece", "line": "Gece hava kararır. Ay'ı ve yıldızları görebiliriz."},
+      "after": ["Aydınlık gündüz, karanlık gece!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Ece'nin bir günü",
+      "title": "Ece'nin bir günü",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🌅", "🧒"], "caption": "Sabah", "lines": ["Sabah oldu. Güneş doğdu.", "Ece uyandı ve kahvaltı yaptı."]},
+        {"emoji": ["☀️", "⚽"], "caption": "Gündüz", "lines": ["Gündüz hava aydınlıktı.", "Ece parkta arkadaşlarıyla top oynadı."]},
+        {"emoji": ["🌇"], "caption": "Akşam", "lines": ["Akşam oldu. Güneş battı.", "Gökyüzü turuncuya boyandı."]},
+        {"emoji": ["🌙", "😴"], "caption": "Gece", "lines": ["Gece oldu. Gökyüzünde Ay parladı.", "Ece dişlerini fırçaladı ve mışıl mışıl uyudu."]}
+      ],
+      "after": ["Sabah, gündüz, akşam, gece. Ne güzel bir gün!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Gece gökyüzünde ne görürüz?",
+      "lines": ["Bilmece zamanı! Gece gökyüzünde ne görürüz?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "☀️", "label": "Güneş"},
+        {"emoji": "🌙", "label": "Ay"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Gece gökyüzünde Ay'ı görebiliriz. Aferin sana!"]
+    },
+    {
+      "type": "talk",
+      "chapter": "Neden gece olur?",
+      "emoji": ["🌍", "☀️"],
+      "text": "Dünya kendi etrafında döner",
+      "lines": [
+        "Peki, neden gece ve gündüz olur?",
+        "Dünyamız bir topaç gibi kendi etrafında döner.",
+        "Güneş'e bakan tarafta gündüz olur.",
+        "Öbür tarafta ise gece olur."
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Güneş'e bakan tarafta ne olur?",
+      "lines": ["Bir bilmece daha! Dünya'nın Güneş'e bakan tarafında ne olur?"],
+      "options": [
+        {"emoji": "☀️", "label": "Gündüz"},
+        {"emoji": "🌙", "label": "Gece"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Güneş'e bakan tarafta gündüz olur."]
+    },
+    {
+      "type": "fact",
+      "emoji": "⭐",
+      "text": "Yıldızlar gündüz de gökyüzündedir. Ama Güneş çok parlak olduğu için onları göremeyiz.",
+      "lines": [
+        "Biliyor muydun?",
+        "Yıldızlar gündüz de gökyüzündedir!",
+        "Ama Güneş çok parlak olduğu için onları göremeyiz."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Gece uyanık olan hayvanlar",
+      "title": "Gece kimler uyanık?",
+      "lines": ["Bazı hayvanlar gündüz uyur, gece uyanır."],
+      "items": [
+        {"emoji": "🦉", "label": "Baykuş", "line": "Baykuşların çoğu gece uyanıktır."},
+        {"emoji": "🦔", "label": "Kirpi", "line": "Kirpi de geceleri dolaşır."},
+        {"emoji": "🦇", "label": "Yarasa", "line": "Yarasalar da gece uçar."}
+      ],
+      "after": ["Ben de bir baykuşum. Ama gündüz de uyanığım, seninle öğrenmek için!"]
+    },
+    {
+      "type": "action",
+      "emoji": "😴",
+      "text": "Uyu ve uyan!",
+      "seconds": 5,
+      "lines": [
+        "Şimdi oyun zamanı! Gece oldu, hadi uyuyalım.",
+        "Gözlerini kapat. Mışıl mışıl!"
+      ],
+      "after": ["Günaydın! Güneş doğdu. Hadi, kollarını uzat ve uyan!"]
+    },
+    {
+      "type": "chant",
+      "title": "Gece ve gündüz",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Güneş doğdu, gündüz oldu!", "emoji": "☀️"},
+        {"line": "Oynadık, koştuk, güldük!", "emoji": "⚽"},
+        {"line": "Güneş battı, gece oldu!", "emoji": "🌙"},
+        {"line": "İyi geceler, mışıl mışıl!", "emoji": "😴"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Neler öğrendik?",
+      "lines": ["Hadi, neler öğrendik hatırlayalım!"],
+      "items": [
+        {"emoji": "☀️", "label": "Gündüz", "line": "Gündüz Güneş parlar, hava aydınlıktır."},
+        {"emoji": "🌙", "label": "Gece", "line": "Gece hava karanlıktır. Ay'ı ve yıldızları görebiliriz."},
+        {"emoji": "🌍", "label": "Dünya döner", "line": "Dünya döndüğü için gece ve gündüz olur."},
+        {"emoji": "🦉", "label": "Gece hayvanları", "line": "Baykuşların çoğu gece uyanıktır."},
+        {"emoji": "😴", "label": "Uyku", "line": "Gece uyur, dinleniriz."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Gece ile gündüzü öğrendik. Harikaydın!",
+        "Akşam olunca gökyüzüne bak. Ay'ı görebilecek misin?",
+        "Yeni bir macerada görüşmek üzere. Hoşça kal!"
+      ],
+      "next": {"text": "Yeni bir macera!", "emoji": "✨"}
+    }
+  ]
+}

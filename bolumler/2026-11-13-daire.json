@@ -1,0 +1,159 @@
+{
+  "id": "2026-11-13-daire",
+  "date": "2026-11-13",
+  "category": "sekiller",
+  "title": "Daire",
+  "mood": "happy",
+  "youtube": {
+    "title": "Daire Şekli 🔵 Çocuklar İçin Şekilleri Öğreniyorum | Top, Saat, Güneş ve Daire Çizmek",
+    "short_title": "Hangisi daire? 🔵 Şekil bilmecesi",
+    "description": "Pofi ile daire şeklini tanıyoruz! Dairenin yuvarlak olduğunu ve hiç köşesi olmadığını öğreniyor; top, saat ve Güneş gibi daireye benzeyen şeyleri buluyoruz. Havada hep birlikte daire çiziyor, bilmeceleri çözüyor ve etrafımızda daire arıyoruz. Okul öncesi çocuklar için eğlenceli bir şekiller bölümü.",
+    "tags": ["daire", "daire şekli", "şekilleri öğreniyorum", "okul öncesi şekiller", "çocuklar için şekiller", "geometrik şekiller", "daire çizmek", "yuvarlak", "okul öncesi etkinlik"],
+    "thumbnail": {"text": "Daire", "emoji": [{"shape": "daire", "color": "#1E9BF0"}, "⚽", "🕐"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Daire",
+      "subtitle": "Yuvarlak bir şekil",
+      "emoji": [{"shape": "daire", "color": "#1E9BF0"}, "⚽", "🕐"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün yeni bir şekil öğreniyoruz.",
+        "Yuvarlak mı yuvarlak bir şekil: daire!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Daire",
+      "shape": "daire",
+      "color": "#1E9BF0",
+      "word": "Daire",
+      "lines": [
+        "İşte bir daire!",
+        "Daire yuvarlaktır. Hiç köşesi yoktur.",
+        "Sen de söyle: daire!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Havada daire çizelim",
+      "emoji": ["☝️", {"shape": "daire", "color": "#1E9BF0"}],
+      "text": "Havada daire çizelim",
+      "lines": [
+        "Şimdi işaret parmağını havaya kaldır.",
+        "Bir noktadan başla. Yuvarlak çizerek dön.",
+        "Başladığın yere geri gel. İşte bir daire!",
+        "Hadi, bir daha çizelim. Bu sefer kocaman bir daire!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Daireye benzeyenler",
+      "title": "Daireye benzeyenler",
+      "lines": ["Etrafımızda daireye benzeyen neler var? Hadi bakalım!"],
+      "items": [
+        {"emoji": "⚽", "label": "Top", "line": "Top yuvarlaktır. Daireye benzer."},
+        {"emoji": "🕐", "label": "Saat", "line": "Bu saat de daire şeklinde."},
+        {"emoji": "☀️", "label": "Güneş", "line": "Gökyüzünde Güneş daire gibi görünür."},
+        {"emoji": "🍪", "label": "Kurabiye", "line": "Bu kurabiye de daire şeklinde. Ne güzel!"}
+      ],
+      "after": ["Top, saat, Güneş! Hepsi daireye benziyor."]
+    },
+    {
+      "type": "compare",
+      "chapter": "Daire mi, kare mi?",
+      "title": "Daire mi, kare mi?",
+      "lines": ["Şimdi daireyi bir kareyle karşılaştıralım."],
+      "left": {"shape": "daire", "color": "#1E9BF0", "label": "Daire", "line": "Daire yuvarlaktır. Hiç köşesi yoktur."},
+      "right": {"shape": "kare", "color": "#FF8A3D", "label": "Kare", "line": "Karenin ise dört köşesi vardır."},
+      "after": ["Dairenin köşesi yok. Bu yüzden kolayca yuvarlanır!"]
+    },
+    {
+      "type": "count",
+      "chapter": "Daireleri sayalım",
+      "shape": "daire",
+      "color": "#FF5C93",
+      "n": 5,
+      "label": "daire",
+      "lines": ["Hadi, daireleri birlikte sayalım!"],
+      "after": ["Beş daire! Aferin sana!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🛞",
+      "text": "Tekerlekler daire şeklinde olduğu için kolayca döner.",
+      "lines": [
+        "Biliyor muydun?",
+        "Tekerlekler daire şeklindedir. Bu yüzden kolayca döner.",
+        "Kare bir tekerlek olsaydı, araba hoplaya zıplaya giderdi!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi daire?",
+      "lines": ["Bilmece zamanı! Hangisi daire?", "Düşün bakalım!"],
+      "options": [
+        {"shape": "üçgen", "color": "#2FAE5F", "label": "Üçgen"},
+        {"shape": "kare", "color": "#FF8A3D", "label": "Kare"},
+        {"shape": "daire", "color": "#1E9BF0", "label": "Daire"}
+      ],
+      "answer": 2,
+      "after": ["Evet! İşte daire. Yuvarlak ve köşesiz!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi daireye benzer?",
+      "lines": ["Bir bilmece daha! Hangisi daireye benzer?"],
+      "options": [
+        {"emoji": "🕐", "label": "Saat"},
+        {"emoji": "📗", "label": "Kitap"},
+        {"emoji": "⛺", "label": "Çadır"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Saat yuvarlaktır, daireye benzer."]
+    },
+    {
+      "type": "action",
+      "emoji": "🔍",
+      "text": "Daire bul!",
+      "seconds": 8,
+      "lines": ["Şimdi oyun zamanı!", "Etrafına bak. Daireye benzeyen bir şey bul ve bana göster!"],
+      "after": ["Harika! Ne güzel bir daire buldun!"]
+    },
+    {
+      "type": "chant",
+      "title": "Daire tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Daire, daire, yuvarlak daire!", "shape": "daire", "color": "#1E9BF0"},
+        {"line": "Köşesi yok, döner durur!", "emoji": "🛞"},
+        {"line": "Top yuvarlak, saat yuvarlak!", "emoji": "⚽"},
+        {"line": "Güneş de daire gibi parlar!", "emoji": "☀️"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"shape": "daire", "color": "#1E9BF0", "label": "Daire", "line": "Daire yuvarlaktır, köşesi yoktur."},
+        {"emoji": "⚽", "label": "Top", "line": "Top daireye benzer."},
+        {"emoji": "🕐", "label": "Saat", "line": "Saat de daireye benzer."},
+        {"emoji": "☀️", "label": "Güneş", "line": "Güneş daire gibi görünür."},
+        {"emoji": "☝️", "label": "Daire çizmek", "line": "Parmağımızla havada daire çizdik."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün daireyi öğrendik. Harikaydın!",
+        "Kağıda kalemle kocaman bir daire çizebilirsin.",
+        "Yarın sihirli sözcükleri öğreneceğiz: lütfen ve teşekkür ederim!",
+        "Görüşmek üzere!"
+      ],
+      "next": {"text": "Sihirli sözcükler", "emoji": "🪄"}
+    }
+  ]
+}

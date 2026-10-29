@@ -1,0 +1,171 @@
+{
+  "id": "2026-11-22-itfaiyeciler",
+  "date": "2026-11-22",
+  "category": "meslekler",
+  "title": "İtfaiyeciler",
+  "mood": "happy",
+  "youtube": {
+    "title": "İtfaiyeciler Çocuklar İçin 🚒 İtfaiye Aracı, Kask ve Acil Durumda 112",
+    "short_title": "Hangisi itfaiye aracı? 🚒 Meslek bilmecesi",
+    "description": "Pofi ile cesur ve yardımsever itfaiyecileri tanıyoruz! İtfaiyecilerin ne yaptığını, itfaiye aracını ve onları koruyan özel kıyafetleri öğreniyoruz. Acil bir durumda büyüklerimizin 112'yi aradığını ve ateşle asla oynamadığımızı hatırlıyoruz. Okul öncesi çocuklar için eğlenceli ve öğretici bir meslekler bölümü.",
+    "tags": ["itfaiyeciler", "itfaiye aracı", "itfaiyeci çocuklar için", "meslekleri öğreniyorum", "okul öncesi meslekler", "112 acil çağrı", "ateşle oynamayız", "güvenlik kuralları çocuklar için", "meslekler"],
+    "thumbnail": {"text": "İtfaiyeciler", "emoji": ["👩‍🚒", "🚒", "👨‍🚒"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "İtfaiyeciler",
+      "subtitle": "Yardımsever kahramanlar",
+      "emoji": ["👩‍🚒", "🚒", "👨‍🚒"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün çok cesur ve yardımsever insanları tanıyacağız.",
+        "Onlar itfaiyeciler! Hadi başlayalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "İtfaiyeciler kimdir?",
+      "emoji": ["👩‍🚒", "👨‍🚒"],
+      "text": "İtfaiyeci kadın da olur, erkek de",
+      "lines": [
+        "İtfaiyeciler, insanlara yardım eden cesur kişilerdir.",
+        "İtfaiyeci kadın da olabilir, erkek de.",
+        "İtfaiye istasyonunda her an yardıma hazır beklerler.",
+        "Hep birlikte, bir ekip olarak çalışırlar."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "İtfaiyeciler ne yapar?",
+      "title": "İtfaiyeciler ne yapar?",
+      "lines": ["Peki, itfaiyeciler ne yapar?"],
+      "items": [
+        {"emoji": "🧯", "label": "Söndürür", "line": "Yangınları söndürürler."},
+        {"emoji": "🤝", "label": "Yardım eder", "line": "Zor durumda kalan insanlara yardım ederler."},
+        {"emoji": "🐱", "label": "Kurtarır", "line": "Ağaçta kalan bir kediyi bile kurtarırlar!"},
+        {"emoji": "🏫", "label": "Öğretir", "line": "Okullara gelip bize güvenliği öğretirler."}
+      ],
+      "after": ["İtfaiyeciler gerçek kahramanlardır!"]
+    },
+    {
+      "type": "item",
+      "chapter": "İtfaiye aracı",
+      "emoji": "🚒",
+      "word": "İtfaiye aracı",
+      "color": "#E53935",
+      "lines": [
+        "Bu bir itfaiye aracı. Kıpkırmızı ve kocaman!",
+        "Uzun bir merdiveni ve su püskürten hortumu vardır.",
+        "Sireni ve yanıp sönen ışıkları da var."
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "🚨",
+      "text": "Siren sesini duyan arabalar kenara çekilir ve itfaiyeye yol verir.",
+      "lines": [
+        "Biliyor muydun?",
+        "İtfaiye aracının sireni çalınca, diğer arabalar kenara çekilir.",
+        "Böylece itfaiye yardıma çabucak yetişir."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "İtfaiyecinin kıyafetleri",
+      "title": "İtfaiyecinin kıyafetleri",
+      "lines": ["İtfaiyecilerin özel kıyafetleri vardır. Hadi bakalım!"],
+      "items": [
+        {"emoji": "⛑️", "label": "Kask", "line": "Kask başlarını korur."},
+        {"emoji": "🦺", "label": "Özel kıyafet", "line": "Özel kıyafetleri onları sıcaktan korur."},
+        {"emoji": "🧤", "label": "Eldiven", "line": "Kalın eldivenler ellerini korur."},
+        {"emoji": "🥾", "label": "Bot", "line": "Sağlam botlar ayaklarını korur."}
+      ],
+      "after": [
+        "Kıyafetlerindeki parlak şeritler karanlıkta bile görünür.",
+        "Sırtlarında da temiz hava veren bir tüp taşırlar."
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Acil durumda 112",
+      "emoji": [{"symbol": "112", "color": "#E53935"}, "☎️"],
+      "text": "Acil durumda büyüklerimiz 112'yi arar",
+      "lines": [
+        "İtfaiyeciler nereye gideceklerini nasıl bilir?",
+        "Acil bir durumda büyüklerimiz 112'yi arar.",
+        "112, sadece gerçek acil durumlarda aranır.",
+        "Sen bir tehlike görürsen, hemen bir büyüğüne haber ver."
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Ateşle oynamayız",
+      "emoji": ["🙅"],
+      "text": "Ateşle oynamayız!",
+      "lines": [
+        "Şimdi çok önemli bir kural öğrenelim.",
+        "Kibrit ve çakmakla asla oynamayız.",
+        "Ocağa ve sobaya yaklaşmayız.",
+        "Sen de söyle: Ateşle oynamayız!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi itfaiye aracı?",
+      "lines": ["Bilmece zamanı! Hangisi itfaiye aracı?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🚜", "label": "Traktör"},
+        {"emoji": "🚌", "label": "Otobüs"},
+        {"emoji": "🚒", "label": "İtfaiye aracı"}
+      ],
+      "answer": 2,
+      "after": ["Evet! Kırmızı itfaiye aracı. Merdiveni de var!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Acil durumda hangi numara aranır?",
+      "lines": ["Bir bilmece daha! Acil durumda büyüklerimiz hangi numarayı arar?"],
+      "options": [
+        {"symbol": "112", "color": "#E53935", "label": "112"},
+        {"symbol": "123", "color": "#3A86FF", "label": "123"},
+        {"symbol": "555", "color": "#2A9D8F", "label": "555"}
+      ],
+      "answer": 0,
+      "after": ["Evet, 112! 112 sadece gerçek acil durumlar içindir."]
+    },
+    {
+      "type": "action",
+      "emoji": "🪜",
+      "text": "Tırman!",
+      "seconds": 6,
+      "lines": [
+        "Şimdi hareket zamanı! İtfaiyeci gibi merdiven tırmanalım.",
+        "Olduğun yerde dizlerini sırayla kaldır, kollarını uzat. Hadi, tırman!"
+      ],
+      "after": ["Harika! Tıpkı bir itfaiyeci gibi tırmandın!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🧑‍🚒", "label": "İtfaiyeciler", "line": "İtfaiyeciler bize yardım eder."},
+        {"emoji": "🚒", "label": "İtfaiye aracı", "line": "İtfaiye aracının merdiveni ve hortumu var."},
+        {"emoji": "⛑️", "label": "Kask", "line": "Kask ve özel kıyafetler onları korur."},
+        {"emoji": "☎️", "label": "112", "line": "Acil durumda büyüklerimiz 112'yi arar."},
+        {"emoji": "🙅", "label": "Ateşle oynamayız", "line": "Ateşle asla oynamayız."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün itfaiyecileri tanıdık. Aferin sana!",
+        "Hadi, itfaiyecilere teşekkür edelim: Teşekkürler itfaiyeciler!",
+        "Yarın neyin büyük, neyin küçük olduğunu öğreneceğiz. Hoşça kal!"
+      ],
+      "next": {"text": "Büyük ve küçük", "emoji": "🐘"}
+    }
+  ]
+}

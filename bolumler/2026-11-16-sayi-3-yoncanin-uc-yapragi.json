@@ -1,0 +1,175 @@
+{
+  "id": "2026-11-16-sayi-3-yoncanin-uc-yapragi",
+  "date": "2026-11-16",
+  "category": "sayilar",
+  "title": "Sayı 3: Yoncanın Üç Yaprağı",
+  "mood": "happy",
+  "youtube": {
+    "title": "Sayı 3: Yoncanın Üç Yaprağı ☘️ Çocuklar İçin Sayıları Öğreniyorum | Üç Ördek, Üçgen",
+    "short_title": "Yoncanın kaç yaprağı var? ☘️ Sayı bilmecesi",
+    "description": "Pofi ile 3 rakamını tanıyoruz! Üç rakamını havada çiziyor, yoncanın üç yaprağını ve gölde yüzen üç küçük ördeği sayıyoruz. Trafik lambası ve üçgen gibi üç tane olan şeyleri buluyor, bilmeceleri çözüyoruz. Okul öncesi çocuklar için eğlenceli bir sayı bölümü.",
+    "tags": ["sayı 3", "3 rakamı", "sayıları öğreniyorum", "okul öncesi sayılar", "çocuklar için sayılar", "üçe kadar saymak", "yonca", "rakamlar", "okul öncesi matematik"],
+    "thumbnail": {"text": "Sayı 3", "emoji": [{"symbol": "3", "color": "#2FAE5F"}, "☘️", "🦆"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Sayı 3: Yoncanın Üç Yaprağı",
+      "subtitle": "Üç rakamını tanıyalım",
+      "emoji": [{"symbol": "3", "color": "#2FAE5F"}, "☘️", "🦆"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün yeni bir sayı öğreneceğiz.",
+        "Bu sayı üç! Hadi, birlikte öğrenelim!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "3 rakamı",
+      "symbol": "3",
+      "color": "#2FAE5F",
+      "word": "Üç",
+      "lines": [
+        "İşte 3 rakamı!",
+        "Üç rakamının iki yuvarlak kıvrımı var.",
+        "Biri üstte, biri altta.",
+        "Sen de söyle: üç!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Havada 3 çizelim",
+      "emoji": ["☝️", {"symbol": "3", "color": "#2FAE5F"}],
+      "text": "Havada 3 çizelim",
+      "lines": [
+        "Şimdi işaret parmağını havaya kaldır.",
+        "Önce yukarıda küçük bir kıvrım çiz ve ortaya gel.",
+        "Sonra aşağıda bir kıvrım daha çiz. İşte 3 rakamı!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Yoncanın üç yaprağı",
+      "emoji": "☘️",
+      "word": "Yonca",
+      "color": "#2FAE5F",
+      "lines": [
+        "Bak, bu bir yonca!",
+        "Yonca, çimenlerin arasında yetişen küçük bir bitkidir.",
+        "Hadi, yapraklarını sayalım: Bir, iki, üç!",
+        "Yoncanın üç yaprağı var!"
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "☘️",
+      "text": "Yoncaların neredeyse hepsi üç yapraklıdır.",
+      "lines": [
+        "Biliyor muydun?",
+        "Yoncaların neredeyse hepsi üç yapraklıdır.",
+        "Dört yapraklı bir yonca bulmak çok zordur!"
+      ]
+    },
+    {
+      "type": "count",
+      "chapter": "Ördekleri sayalım",
+      "emoji": "🦆",
+      "n": 3,
+      "label": "ördek",
+      "lines": ["Gölde küçük ördekler yüzüyor. Hadi, sayalım!"],
+      "after": ["Üç küçük ördek! Vak vak vak!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Gölde ördekler",
+      "title": "Gölde ördekler",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {"emoji": ["🦆"], "caption": "Bir ördek", "lines": ["Gölde bir ördek yüzüyordu. Vak!"]},
+        {"emoji": ["🦆", "🦆"], "caption": "İki ördek", "lines": ["Bir ördek daha geldi.", "Şimdi iki ördek oldular. Vak vak!"]},
+        {"emoji": ["🦆", "🦆", "🦆"], "caption": "Üç ördek", "lines": ["Bir ördek daha geldi!", "Bir, iki, üç! Şimdi üç ördek oldular. Vak vak vak!"]}
+      ],
+      "after": ["İki ördeğe bir ördek gelince, üç ördek oldu!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Üç tane olanlar",
+      "title": "Hepsinde üç var!",
+      "lines": ["Üç tane olan başka neler var? Hadi, bakalım!"],
+      "items": [
+        {"emoji": "☘️", "label": "Yonca", "line": "Yoncanın üç yaprağı var."},
+        {"emoji": "🚦", "label": "Trafik lambası", "line": "Trafik lambasının üç ışığı var: kırmızı, sarı, yeşil."},
+        {"shape": "üçgen", "color": "#FF7A45", "label": "Üçgen", "line": "Üçgenin üç köşesi var. Adında bile üç var!"}
+      ],
+      "after": ["Yonca, trafik lambası, üçgen. Hepsinde üç var!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Üç rakamı hangisi?",
+      "lines": ["Bilmece zamanı! Üç rakamı hangisi?", "Düşün bakalım!"],
+      "options": [
+        {"symbol": "2", "color": "#FF7A45", "label": "İki"},
+        {"symbol": "5", "color": "#1E9BF0", "label": "Beş"},
+        {"symbol": "3", "color": "#2FAE5F", "label": "Üç"}
+      ],
+      "answer": 2,
+      "after": ["Evet! İşte 3 rakamı. İki yuvarlak kıvrım!"]
+    },
+    {
+      "type": "action",
+      "emoji": "👏",
+      "text": "Üç kere alkışla!",
+      "seconds": 5,
+      "lines": [
+        "Şimdi hareket zamanı!",
+        "Üç kere alkışla. Alkışlarken yüksek sesle say!"
+      ],
+      "after": ["Bir, iki, üç! Harika alkışladın!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Yoncanın kaç yaprağı var?",
+      "lines": ["Bir bilmece daha! Yoncanın kaç yaprağı var?"],
+      "options": [
+        {"symbol": "3", "color": "#2FAE5F", "label": "Üç"},
+        {"symbol": "1", "color": "#1E9BF0", "label": "Bir"},
+        {"symbol": "2", "color": "#FF7A45", "label": "İki"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Yoncanın üç yaprağı var."]
+    },
+    {
+      "type": "chant",
+      "title": "Üç tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Bir, iki, üç! Say benimle!", "symbol": "3", "color": "#2FAE5F"},
+        {"line": "Yonca, yonca, üç yaprak!", "emoji": "☘️"},
+        {"line": "Vak vak vak, üç ördek!", "emoji": "🦆"},
+        {"line": "Üç köşe, bir üçgen!", "shape": "üçgen", "color": "#FF7A45"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"symbol": "3", "color": "#2FAE5F", "label": "3 rakamı", "line": "3 rakamının iki yuvarlak kıvrımı var."},
+        {"emoji": "☘️", "label": "Üç yaprak", "line": "Yoncanın üç yaprağı var."},
+        {"emoji": "🦆", "label": "Üç ördek", "line": "Gölde üç küçük ördek yüzdü."},
+        {"shape": "üçgen", "color": "#FF7A45", "label": "Üç köşe", "line": "Üçgenin üç köşesi var."},
+        {"symbol": "1 2 3", "color": "#7C5CFA", "label": "Üçe kadar say", "line": "Bir, iki, üç!"}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün 3 rakamını öğrendik. Harikaydın!",
+        "Evde üç tane olan şeyleri bulabilir misin?",
+        "Yarın B harfiyle tanışacağız. Görüşmek üzere!"
+      ],
+      "next": {"text": "B harfi", "emoji": "🎈"}
+    }
+  ]
+}

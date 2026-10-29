@@ -1,0 +1,153 @@
+{
+  "id": "2026-11-10-10-kasim-ataturku-anma-gunu",
+  "date": "2026-11-10",
+  "category": "ozel-gun",
+  "title": "10 Kasım: Atatürk'ü Anıyoruz",
+  "mood": "calm",
+  "youtube": {
+    "title": "10 Kasım Atatürk'ü Anma Günü Çocuklar İçin 🇹🇷 Saygı Duruşu ve Atatürk'ün Çocuk Sevgisi",
+    "short_title": "10 Kasım'da saygı duruşunda ne yaparız? 🇹🇷",
+    "description": "10 Kasım'da Pofi ile Atatürk'ü sevgi ve saygıyla anıyoruz. Anmak ne demek, saat dokuzu beş geçe yapılan saygı duruşu nedir, birlikte öğreniyoruz. Atatürk'ün çocuklara verdiği değeri, 23 Nisan'ı çocuklara armağan ettiğini ve okumaya, bilime verdiği önemi sakin bir dille anlatıyoruz. Okul öncesi ve ilkokul çağındaki çocuklar için hazırlanmış saygılı bir anma bölümü.",
+    "tags": ["10 kasım", "atatürk'ü anma günü", "10 kasım çocuklar için", "10 kasım okul öncesi", "atatürk", "saygı duruşu", "atatürk ve çocuklar", "başöğretmen atatürk", "anma töreni"],
+    "thumbnail": {"text": "10 Kasım", "emoji": [{"flag": "tr"}, "🌹"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "10 Kasım",
+      "subtitle": "Atatürk'ü saygıyla anıyoruz",
+      "emoji": [{"flag": "tr"}, "🌹"],
+      "lines": [
+        "Merhaba arkadaşlar. Ben {maskot}.",
+        "Bugün 10 Kasım.",
+        "Atatürk'ü sevgiyle ve saygıyla anıyoruz."
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Atatürk kimdir?",
+      "emoji": [{"flag": "tr"}],
+      "text": "Mustafa Kemal Atatürk",
+      "lines": [
+        "Atatürk'ün tam adı Mustafa Kemal Atatürk'tür.",
+        "Atatürk, Türkiye Cumhuriyeti'ni kurdu.",
+        "Cumhuriyetimizin ilk Cumhurbaşkanı oldu.",
+        "Biz onu çok seviyor ve hiç unutmuyoruz."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Anmak ne demek?",
+      "emoji": "🤍",
+      "word": "Anmak",
+      "color": "#E30A17",
+      "lines": [
+        "Anmak ne demek, biliyor musun?",
+        "Anmak, birini sevgiyle hatırlamaktır.",
+        "Biz de bugün Atatürk'ü özlemle ve saygıyla anıyoruz."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Saygı duruşu",
+      "symbol": "09.05",
+      "color": "#E30A17",
+      "word": "Saygı duruşu",
+      "lines": [
+        "Her yıl 10 Kasım'da saat dokuzu beş geçe sirenler çalar.",
+        "O anda herkes olduğu yerde durur.",
+        "Sessizce Atatürk'ü düşünür ve anarız.",
+        "Buna saygı duruşu denir."
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Okulda anma töreni",
+      "title": "Okulda anma töreni",
+      "panels": [
+        {"emoji": ["🏫", {"flag": "tr"}], "caption": "Okulda anma töreni", "lines": ["Bugün okulda bir anma töreni var.", "Bayrağımız yarıya indirildi."]},
+        {"emoji": ["🧍"], "caption": "Saygı duruşu", "lines": ["Saat dokuzu beş geçe sirenler çalıyor.", "Herkes sessizce, saygıyla duruyor."]},
+        {"emoji": ["📖"], "caption": "Şiirler", "lines": ["Sonra çocuklar Atatürk için şiirler okuyor."]},
+        {"emoji": ["🧑‍🏫"], "caption": "Öğretmen anlatıyor", "lines": ["Öğretmen, Atatürk'ün çocukları ne kadar sevdiğini anlatıyor."]}
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Atatürk ve çocuklar",
+      "emoji": ["🌹", "⭐"],
+      "text": "Geleceğin gülü ve yıldızı",
+      "lines": [
+        "Atatürk çocukları çok severdi.",
+        "Ona göre çocuklar, geleceğin gülü ve yıldızıydı.",
+        "Yani sen de geleceğin gülü ve yıldızısın!"
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "🎁",
+      "text": "Atatürk, 23 Nisan'ı çocuklara armağan etti.",
+      "lines": [
+        "Biliyor muydun?",
+        "Atatürk, 23 Nisan'ı çocuklara armağan etti.",
+        "Bu yüzden 23 Nisan, çocukların bayramıdır."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Okumak ve bilim",
+      "title": "Atatürk neleri severdi?",
+      "lines": ["Atatürk neleri çok severdi? Hadi bakalım."],
+      "items": [
+        {"emoji": "📚", "label": "Kitap okumak", "line": "Atatürk kitap okumayı çok severdi."},
+        {"symbol": "Aa Bb", "color": "#E30A17", "label": "Başöğretmen", "line": "Yeni harflerimizi insanlara kendisi öğretti. Bu yüzden ona Başöğretmen deriz."},
+        {"emoji": "🔬", "label": "Bilim", "line": "Bilime ve öğrenmeye çok önem verirdi."},
+        {"emoji": "🏫", "label": "Okul", "line": "Kız, erkek bütün çocukların okula gitmesini isterdi."}
+      ],
+      "after": ["Sen de söyle: Başöğretmen."]
+    },
+    {
+      "type": "quiz",
+      "question": "Saygı duruşunda ne yaparız?",
+      "lines": ["Şimdi bir soru. Saygı duruşunda ne yaparız?", "Düşün bakalım."],
+      "options": [
+        {"emoji": "🏃", "label": "Koşarız"},
+        {"emoji": "🧍", "label": "Sessizce dururuz"}
+      ],
+      "answer": 1,
+      "after": ["Evet. Saygı duruşunda sessizce durur ve Atatürk'ü anarız."]
+    },
+    {
+      "type": "talk",
+      "chapter": "Teşekkürler Atatürk",
+      "emoji": ["🤍", {"flag": "tr"}],
+      "text": "Teşekkürler Atatürk",
+      "lines": [
+        "Atatürk'ün bize öğrettiklerini hiç unutmayalım.",
+        "Okuyalım, öğrenelim ve birbirimizi sevelim.",
+        "Şimdi sen de içinden söyle: Teşekkürler Atatürk."
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik? Hadi hatırlayalım."],
+      "items": [
+        {"flag": "tr", "label": "Atatürk", "line": "Atatürk, Cumhuriyetimizi kurdu."},
+        {"emoji": "🤍", "label": "Anmak", "line": "Anmak, sevgiyle hatırlamaktır."},
+        {"symbol": "09.05", "color": "#E30A17", "label": "Saygı duruşu", "line": "Saat dokuzu beş geçe saygı duruşunda bulunuruz."},
+        {"emoji": "🎁", "label": "23 Nisan", "line": "Atatürk, 23 Nisan'ı çocuklara armağan etti."},
+        {"emoji": "📚", "label": "Başöğretmen", "line": "Atatürk'e Başöğretmen deriz. Okumayı çok severdi."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Atatürk'ü saygıyla anıyoruz",
+      "lines": [
+        "Bugün Atatürk'ü birlikte andık.",
+        "Sen de ailenle Atatürk hakkında konuşabilirsin.",
+        "Yarın göç eden kuşları tanıyacağız. Görüşmek üzere."
+      ],
+      "next": {"text": "Göç eden kuşlar", "emoji": "🐦"}
+    }
+  ]
+}

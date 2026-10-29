@@ -1,0 +1,197 @@
+{
+  "id": "2026-11-14-sihirli-sozcukler-lutfen-ve-tesekkur",
+  "date": "2026-11-14",
+  "category": "gorgu",
+  "title": "Sihirli Sözcükler",
+  "mood": "happy",
+  "youtube": {
+    "title": "Sihirli Sözcükler: Lütfen ve Teşekkür Ederim 🙏 Çocuklar İçin Görgü Kuralları",
+    "short_title": "Bir şey isterken ne deriz? 🙏 Sihirli sözcükler",
+    "description": "Pofi ile üç sihirli sözcüğü öğreniyoruz: lütfen, teşekkür ederim ve rica ederim! Bir şey isterken, bir şey alınca ve biri bize teşekkür edince ne diyeceğimizi minik bir hikayeyle keşfediyoruz. Bilmeceleri çözüyor, hep birlikte tekerleme söylüyoruz. Okul öncesi çocuklar için sıcak ve eğitici bir görgü kuralları bölümü.",
+    "tags": ["sihirli sözcükler", "lütfen ve teşekkür ederim", "rica ederim", "görgü kuralları", "çocuklar için görgü kuralları", "kibar sözcükler", "nezaket", "okul öncesi değerler", "teşekkür etmek"],
+    "thumbnail": {"text": "Sihirli sözcükler", "emoji": ["🪄", "🙏"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Sihirli Sözcükler",
+      "subtitle": "Lütfen ve teşekkür ederim",
+      "emoji": ["🪄", "🙏", "😊"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün sana sihirli sözcükleri öğreteceğim.",
+        "Bu sözcükler herkesi mutlu eder. Hadi başlayalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Sihirli sözcükler",
+      "emoji": ["🪄", "😊"],
+      "text": "Kibar sözcükler herkesi gülümsetir",
+      "lines": [
+        "Sihirli sözcükler kibar sözcüklerdir.",
+        "Onları söyleyince sanki sihir olur. Herkes gülümser!",
+        "Bugün üç sihirli sözcük öğreneceğiz."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Lütfen",
+      "emoji": "🙏",
+      "word": "Lütfen",
+      "color": "#7C5CFA",
+      "lines": [
+        "Birinci sihirli sözcük: Lütfen!",
+        "Bir şey isterken lütfen deriz.",
+        "Lütfen deyince isteğimiz daha kibar olur.",
+        "Sen de söyle: Lütfen!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Lütfen diyelim",
+      "title": "Lütfen diyelim!",
+      "lines": ["Hadi, birlikte lütfen diyelim!"],
+      "items": [
+        {"emoji": "🥛", "label": "Süt isterken", "line": "Süt verir misin, lütfen?"},
+        {"emoji": "🖍️", "label": "Boya isterken", "line": "Boya kalemini verir misin, lütfen?"},
+        {"emoji": "🧩", "label": "Yardım isterken", "line": "Yapbozuma yardım eder misin, lütfen?"},
+        {"emoji": "📖", "label": "Masal isterken", "line": "Bana masal okur musun, lütfen?"}
+      ],
+      "after": ["Bir şey isterken lütfen demeyi unutmayız!"]
+    },
+    {
+      "type": "item",
+      "chapter": "Teşekkür ederim",
+      "emoji": "💝",
+      "word": "Teşekkür ederim",
+      "color": "#FF4F8B",
+      "lines": [
+        "İkinci sihirli sözcük: Teşekkür ederim!",
+        "Biri bize bir şey verince teşekkür ederiz.",
+        "Biri bize yardım edince de teşekkür ederiz.",
+        "Sen de söyle: Teşekkür ederim!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Rica ederim",
+      "emoji": "😊",
+      "word": "Rica ederim",
+      "color": "#2FAE5F",
+      "lines": [
+        "Üçüncü sihirli sözcük: Rica ederim!",
+        "Biri bize teşekkür edince rica ederim deriz.",
+        "Gülümseyerek söylersek daha da güzel olur!",
+        "Sen de söyle: Rica ederim!"
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Deniz'in kahvaltısı",
+      "title": "Deniz'in kahvaltısı",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {
+          "emoji": ["🧒", "👴", "🍞"],
+          "caption": "Kahvaltı zamanı",
+          "lines": ["Deniz, dedesiyle kahvaltı yapıyordu.", "Deniz sordu: Dedeciğim, ekmek verir misin, lütfen?"]
+        },
+        {
+          "emoji": ["👴", "🍞"],
+          "caption": "Teşekkür ederim!",
+          "lines": ["Dedesi ekmeği hemen uzattı.", "Deniz gülümsedi: Teşekkür ederim, dedeciğim!"]
+        },
+        {
+          "emoji": ["👴", "😊"],
+          "caption": "Rica ederim!",
+          "lines": ["Dedesi de gülümsedi: Rica ederim, canım!"]
+        },
+        {
+          "emoji": ["🧒", "💖", "👴"],
+          "caption": "İkisi de mutlu",
+          "lines": ["Sofrada herkes çok mutluydu.", "Sihirli sözcükler işe yaradı!"]
+        }
+      ],
+      "after": ["Deniz üç sihirli sözcüğü de kullandı. Sen fark ettin mi?"]
+    },
+    {
+      "type": "fact",
+      "emoji": "💬",
+      "text": "Teşekkür ederim yerine sağ ol ya da teşekkürler de diyebiliriz.",
+      "lines": [
+        "Biliyor muydun?",
+        "Teşekkür etmenin başka yolları da var.",
+        "Sağ ol ya da teşekkürler de diyebiliriz!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Bir şey isterken ne deriz?",
+      "lines": ["Bilmece zamanı! Bir şey isterken ne deriz?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "💝", "label": "Teşekkür ederim"},
+        {"emoji": "🙏", "label": "Lütfen"},
+        {"emoji": "😊", "label": "Rica ederim"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Bir şey isterken lütfen deriz. Aferin sana!"]
+    },
+    {
+      "type": "chant",
+      "title": "Hep birlikte söyleyelim!",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Bir şey isterken: Lütfen!", "emoji": "🙏"},
+        {"line": "Bir şey alınca: Teşekkür ederim!", "emoji": "💝"},
+        {"line": "Biri teşekkür edince: Rica ederim!", "emoji": "😊"},
+        {"line": "Sihirli sözcükler ne güzel!", "emoji": "🪄"}
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Arkadaşın teşekkür etti. Ne dersin?",
+      "lines": ["Bir bilmece daha! Arkadaşın sana teşekkür etti.", "Sen ne dersin?"],
+      "options": [
+        {"emoji": "😊", "label": "Rica ederim"},
+        {"emoji": "🙏", "label": "Lütfen"},
+        {"emoji": "💝", "label": "Teşekkür ederim"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Biri teşekkür edince rica ederim deriz."]
+    },
+    {
+      "type": "action",
+      "emoji": "💖",
+      "text": "Elini kalbine koy!",
+      "seconds": 5,
+      "lines": [
+        "Şimdi hareket zamanı!",
+        "Elini kalbine koy ve kocaman gülümse.",
+        "Sonra bana yüksek sesle teşekkür et!"
+      ],
+      "after": ["Rica ederim! Ne güzel teşekkür ettin!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🙏", "label": "Lütfen", "line": "Bir şey isterken lütfen deriz."},
+        {"emoji": "💝", "label": "Teşekkür ederim", "line": "Bir şey alınca teşekkür ederiz."},
+        {"emoji": "😊", "label": "Rica ederim", "line": "Biri teşekkür edince rica ederim deriz."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün üç sihirli sözcük öğrendik. Harikaydın!",
+        "Evde de sihirli sözcükleri kullanmayı unutma.",
+        "Beni dinlediğin için teşekkür ederim!",
+        "Yarın ellerimizi yıkamayı öğreneceğiz. Hoşça kal!"
+      ],
+      "next": {"text": "Ellerimizi yıkıyoruz", "emoji": "🧼"}
+    }
+  ]
+}

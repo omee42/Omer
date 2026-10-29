@@ -1,0 +1,157 @@
+{
+  "id": "2026-11-23-buyuk-ve-kucuk",
+  "date": "2026-11-23",
+  "category": "matematik",
+  "title": "Büyük ve Küçük",
+  "mood": "happy",
+  "youtube": {
+    "title": "Büyük ve Küçük Çocuklar İçin 🐘 Fil Büyük, Fare Küçük! Okul Öncesi Matematik",
+    "short_title": "Hangisi en büyük? 🍉 Büyük küçük bilmecesi",
+    "description": "Pofi ile büyük ve küçük kavramlarını öğreniyoruz! Büyük ve küçük balonları, fili ve fareyi karşılaştırıyor, en büyüğü ve en küçüğü buluyoruz. Dünyanın en büyük hayvanıyla tanışıyor, bilmeceleri çözüyor ve tekerleme söylüyoruz. Okul öncesi çocuklar için eğlenceli bir matematik bölümü.",
+    "tags": ["büyük küçük", "büyük ve küçük kavramı", "zıt kavramlar", "okul öncesi matematik", "karşılaştırma çocuklar için", "en büyük en küçük", "kavramları öğreniyorum", "matematik çocuklar için", "fil ve fare"],
+    "thumbnail": {"text": "Büyük ve Küçük", "emoji": ["🐘", "🐭"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Büyük ve Küçük",
+      "subtitle": "Karşılaştırmayı öğreniyoruz",
+      "emoji": ["🐘", "🐭"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün büyük ve küçük kelimelerini öğreneceğiz.",
+        "Hadi, etrafımıza dikkatle bakalım!"
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Büyük ve küçük",
+      "title": "Büyük mü, küçük mü?",
+      "lines": ["Şu iki balona bak. İkisi aynı mı?"],
+      "left": {"emoji": "🎈", "label": "Büyük balon", "line": "Bu balon büyük. Kocaman!"},
+      "right": {"emoji": "🎈", "label": "Küçük balon", "line": "Bu balon küçük. Minicik!", "scale": 0.45},
+      "after": ["İkisi de balon. Ama biri büyük, biri küçük!"]
+    },
+    {
+      "type": "compare",
+      "chapter": "Fil büyük, fare küçük",
+      "title": "Fil büyük, fare küçük",
+      "lines": ["Şimdi iki hayvana bakalım."],
+      "left": {"emoji": "🐘", "label": "Fil", "line": "Fil çok büyük bir hayvandır."},
+      "right": {"emoji": "🐭", "label": "Fare", "line": "Fare çok küçük bir hayvandır.", "scale": 0.4},
+      "after": ["Sen de söyle: Fil büyük, fare küçük!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Fil ile fare",
+      "title": "Fil ile fare",
+      "lines": ["Şimdi fil ile farenin hikayesini dinleyelim."],
+      "panels": [
+        {"emoji": ["🐘", "⚽"], "caption": "Filin topu kaçtı", "lines": ["Fil, topuyla oynuyordu.", "Top yuvarlandı ve küçük bir deliğe düştü."]},
+        {"emoji": ["🐘", "🕳️"], "caption": "Fil çok büyük", "lines": ["Fil topu almak istedi. Ama fil çok büyüktü!", "Küçük deliğe giremedi."]},
+        {"emoji": ["🐭", "🕳️"], "caption": "Fare minicik", "lines": ["Sonra minik fare geldi. Fare çok küçüktü.", "Deliğe kolayca girdi ve topu çıkardı!"]},
+        {"emoji": ["🐘", "🐭", "⚽"], "caption": "İki arkadaş", "lines": ["Fil çok sevindi ve fareye teşekkür etti.", "Büyük olmak da güzel, küçük olmak da!"]}
+      ]
+    },
+    {
+      "type": "chant",
+      "title": "Büyük küçük tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Fil büyük, kocaman!", "emoji": "🐘"},
+        {"line": "Fare küçük, minicik!", "emoji": "🐭"},
+        {"line": "Karpuz büyük, kocaman!", "emoji": "🍉"},
+        {"line": "Kiraz küçük, minicik!", "emoji": "🍒"}
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "En büyüğü bulalım",
+      "title": "Hangisi en büyük?",
+      "lines": ["Şimdi üç hayvana bakalım. Hangisi en büyük?"],
+      "items": [
+        {"emoji": "🐭", "label": "Fare", "line": "Fare küçüktür."},
+        {"emoji": "🐱", "label": "Kedi", "line": "Kedi, fareden büyüktür."},
+        {"emoji": "🐘", "label": "Fil", "line": "Fil, kediden de büyüktür. En büyüğü fil!"}
+      ],
+      "after": ["Fare en küçük, fil en büyük!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🐋",
+      "text": "Dünyadaki en büyük hayvan mavi balinadır. Filden bile çok daha büyüktür!",
+      "lines": [
+        "Biliyor muydun?",
+        "Dünyadaki en büyük hayvan mavi balinadır!",
+        "Mavi balina denizde yaşar. Filden bile çok daha büyüktür!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi en büyük?",
+      "lines": ["Bilmece zamanı! Bu meyvelerden hangisi en büyük?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🍒", "label": "Kiraz"},
+        {"emoji": "🍎", "label": "Elma"},
+        {"emoji": "🍉", "label": "Karpuz"}
+      ],
+      "answer": 2,
+      "after": ["Evet, karpuz! Karpuz, elmadan da kirazdan da büyüktür."]
+    },
+    {
+      "type": "compare",
+      "chapter": "Kimin ayakkabısı?",
+      "title": "Kimin ayakkabısı?",
+      "lines": ["Evimizde de büyük ve küçük şeyler var. Bak!"],
+      "left": {"emoji": "👟", "label": "Büyük ayakkabı", "line": "Bu ayakkabı büyük. Bir büyüğümüzün ayakkabısı."},
+      "right": {"emoji": "👟", "label": "Küçük ayakkabı", "line": "Bu ayakkabı küçük. Tam senin ayağına göre!", "scale": 0.5},
+      "after": ["Sen de evde büyük ve küçük şeyler bulabilir misin?"]
+    },
+    {
+      "type": "action",
+      "emoji": "🐘",
+      "text": "Kocaman ol!",
+      "seconds": 5,
+      "lines": [
+        "Şimdi hareket zamanı!",
+        "Önce bir fare gibi minicik ol. Yere çömel!",
+        "Şimdi bir fil gibi kocaman ol! Ayağa kalk, kollarını aç!"
+      ],
+      "after": ["Harika! Kocaman bir fil oldun!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi en küçük?",
+      "lines": ["Bir bilmece daha! Hangisi en küçük?"],
+      "options": [
+        {"emoji": "🐜", "label": "Karınca"},
+        {"emoji": "🐶", "label": "Köpek"},
+        {"emoji": "🐴", "label": "At"}
+      ],
+      "answer": 0,
+      "after": ["Evet, karınca! Karınca minicik bir böcektir."]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🎈", "label": "Büyük ve küçük", "line": "Bir balon büyük, bir balon küçük olabilir."},
+        {"emoji": "🐘", "label": "Fil büyük", "line": "Fil büyük bir hayvandır."},
+        {"emoji": "🐭", "label": "Fare küçük", "line": "Fare küçük bir hayvandır."},
+        {"emoji": "🐋", "label": "En büyük", "line": "Dünyanın en büyük hayvanı mavi balinadır."},
+        {"emoji": "🐜", "label": "En küçük", "line": "Karınca, köpekten de attan da küçüktür."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün neyin büyük, neyin küçük olduğunu öğrendik. Harikaydın!",
+        "Evde de büyük ve küçük şeyleri bul, bir büyüğüne göster!",
+        "Yarın Öğretmenler Günü'nü kutlayacağız. Hoşça kal!"
+      ],
+      "next": {"text": "Öğretmenler Günü", "emoji": "🧑‍🏫"}
+    }
+  ]
+}

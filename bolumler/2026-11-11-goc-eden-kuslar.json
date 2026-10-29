@@ -1,0 +1,167 @@
+{
+  "id": "2026-11-11-goc-eden-kuslar",
+  "date": "2026-11-11",
+  "category": "hayvanlar",
+  "title": "Göç Eden Kuşlar",
+  "mood": "happy",
+  "youtube": {
+    "title": "Göç Eden Kuşlar 🐦 Çocuklar İçin Hayvanlar | Kuşlar Kışın Nereye Gider?",
+    "short_title": "Kuşlar kışın nereye gider? 🐦 Göç bilmecesi",
+    "description": "Pofi ile göç eden kuşları tanıyoruz! Göç ne demek, kuşlar sonbaharda neden sıcak yerlere uçar ve baharda nasıl geri döner, birlikte öğreniyoruz. Kazların gökyüzünde V harfi gibi dizilerek uçtuğunu görüyor, kazları sayıyor ve kuşlar gibi kanat çırpıyoruz. Okul öncesi çocuklar için eğlenceli bir hayvanlar ve doğa bölümü.",
+    "tags": ["göç eden kuşlar", "kuşların göçü", "göç nedir", "hayvanları öğreniyorum", "okul öncesi hayvanlar", "çocuklar için hayvanlar", "kuşlar kışın nereye gider", "sonbahar ve kuşlar", "okul öncesi doğa"],
+    "thumbnail": {"text": "Göç Eden Kuşlar", "emoji": ["🐦", "🦢", "🪿"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Göç Eden Kuşlar",
+      "subtitle": "Kuşlar kışın nereye gider?",
+      "emoji": ["🐦", "🦢", "🪿"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Biliyor musun, ben de bir kuşum. Ben bir baykuşum!",
+        "Bugün uzun yolculuklara çıkan kuşları tanıyacağız!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Göç nedir?",
+      "emoji": "🐦",
+      "word": "Göç",
+      "lines": [
+        "Bugünkü kelimemiz: göç!",
+        "Göç, uzun bir yolculuk yapıp başka bir yere gitmektir.",
+        "Bazı kuşlar her yıl göç eder.",
+        "Sen de söyle: göç!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Kuşlar neden göç eder?",
+      "emoji": ["🍂", "❄️", "🐛"],
+      "text": "Hava soğuyunca yiyecek azalır",
+      "lines": [
+        "Peki, kuşlar neden göç eder?",
+        "Sonbaharda havalar soğur.",
+        "Kışın böcekler saklanır, yiyecek azalır.",
+        "Bu yüzden bazı kuşlar sıcak yerlere uçar. Orada yiyecek boldur."
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Minik kuşun yolculuğu",
+      "title": "Minik kuşun yolculuğu",
+      "lines": ["Şimdi minik bir kuşun yolculuğunu dinleyelim."],
+      "panels": [
+        {"emoji": ["🐦", "🍂"], "caption": "Sonbahar geldi", "lines": ["Minik kuş bir ağaçta yaşıyordu.", "Sonbahar geldi. Yapraklar düştü, hava soğudu."]},
+        {"emoji": ["🐦", "🐦", "🐦"], "caption": "Hep birlikte yola çıktılar", "lines": ["Minik kuş, arkadaşlarıyla buluştu.", "Hep birlikte havalandılar!"]},
+        {"emoji": ["🐦", "☀️"], "caption": "Sıcak yerlere uçtular", "lines": ["Günlerce uçtular. Yorulunca dinlendiler.", "Sonunda sıcak bir yere vardılar."]},
+        {"emoji": ["🐦", "🌸"], "caption": "Bahar geldi", "lines": ["Kış bitti, bahar geldi.", "Minik kuş yuvasına geri döndü. Cik cik!"]}
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Göç eden kuşlar",
+      "title": "Göç eden kuşlar",
+      "lines": ["Göç eden kuşlardan bazılarına bakalım!"],
+      "items": [
+        {"emoji": "🦢", "label": "Kuğu", "line": "Bazı kuğular göç eder. Kuğuların boynu çok uzundur."},
+        {"emoji": "🪿", "label": "Kaz", "line": "Kazlar sürü halinde, hep birlikte uçar."},
+        {"emoji": "🦆", "label": "Ördek", "line": "Bazı ördekler de kışı sıcak yerlerde geçirir."}
+      ],
+      "after": ["Leylekler ve kırlangıçlar da göç eden kuşlardır."]
+    },
+    {
+      "type": "count",
+      "chapter": "Kazları sayalım",
+      "emoji": "🪿",
+      "n": 5,
+      "label": "kaz",
+      "lines": ["Bak, bir kaz sürüsü geldi! Hadi, kazları sayalım!"],
+      "after": ["Beş kaz! Hepsi birlikte sıcak yerlere uçacak."]
+    },
+    {
+      "type": "fact",
+      "emoji": "🪿",
+      "text": "Kazlar uçarken V harfine benzeyen bir şekilde dizilir.",
+      "lines": [
+        "Biliyor muydun?",
+        "Kazlar uçarken V harfine benzeyen bir şekilde dizilir.",
+        "Böylece daha az yorulurlar!"
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Ne zaman gider, ne zaman döner?",
+      "title": "Ne zaman gider, ne zaman döner?",
+      "lines": ["Şimdi iki mevsime bakalım."],
+      "left": {"emoji": "🍂", "label": "Sonbahar", "line": "Sonbaharda kuşlar sıcak yerlere gider."},
+      "right": {"emoji": "🌸", "label": "Bahar", "line": "Baharda ise geri dönerler!"},
+      "after": ["Sonbaharda giderler, baharda dönerler."]
+    },
+    {
+      "type": "quiz",
+      "question": "Göç eden kuşlar nereye uçar?",
+      "lines": ["Bilmece zamanı! Hava soğuyunca göç eden kuşlar nereye uçar?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "☀️", "label": "Sıcak yerlere"},
+        {"emoji": "❄️", "label": "Soğuk yerlere"}
+      ],
+      "answer": 0,
+      "after": ["Evet! Göç eden kuşlar sıcak yerlere uçar."]
+    },
+    {
+      "type": "quiz",
+      "question": "Kuşlar ne zaman geri döner?",
+      "lines": ["Bir bilmece daha! Kuşlar ne zaman geri döner?"],
+      "options": [
+        {"emoji": "⛄", "label": "Kışın"},
+        {"emoji": "🍂", "label": "Sonbaharda"},
+        {"emoji": "🌸", "label": "Baharda"}
+      ],
+      "answer": 2,
+      "after": ["Bravo! Kuşlar baharda geri döner."]
+    },
+    {
+      "type": "action",
+      "emoji": "🕊️",
+      "text": "Kanat çırp!",
+      "seconds": 6,
+      "lines": ["Şimdi hareket zamanı!", "Kollarını iki yana aç. Kuş gibi kanat çırp!"],
+      "after": ["Harika! Tıpkı bir kuş gibisin!"]
+    },
+    {
+      "type": "chant",
+      "title": "Kuşlar tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Hava soğur, yaprak düşer!", "emoji": "🍂"},
+        {"line": "Kuşlar sıcak yere uçar!", "emoji": "☀️"},
+        {"line": "Bahar gelir, çiçek açar!", "emoji": "🌸"},
+        {"line": "Kuşlar döner, cik cik öter!", "emoji": "🐦"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🐦", "label": "Göç", "line": "Göç, uzun bir yolculuktur."},
+        {"emoji": "❄️", "label": "Soğuk hava", "line": "Hava soğuyunca yiyecek azalır."},
+        {"emoji": "☀️", "label": "Sıcak yerler", "line": "Bazı kuşlar sıcak yerlere uçar."},
+        {"emoji": "🌸", "label": "Bahar", "line": "Baharda geri dönerler."},
+        {"emoji": "🪿", "label": "V şekli", "line": "Kazlar V harfi gibi dizilerek uçar."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün göç eden kuşları tanıdık. Harikaydın!",
+        "Gökyüzüne bak. Belki sen de bir kuş sürüsü görürsün!",
+        "Yarın Güneş'i tanıyacağız. Görüşmek üzere!"
+      ],
+      "next": {"text": "Güneş: Bizim yıldızımız", "emoji": "☀️"}
+    }
+  ]
+}

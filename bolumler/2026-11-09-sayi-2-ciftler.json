@@ -1,0 +1,174 @@
+{
+  "id": "2026-11-09-sayi-2-ciftler",
+  "date": "2026-11-09",
+  "category": "sayilar",
+  "title": "Sayı 2: Çiftler",
+  "mood": "happy",
+  "youtube": {
+    "title": "Sayı 2: Çiftler 2️⃣ Çocuklar İçin Sayıları Öğreniyorum | İki Göz, İki El, Bir Çift Çorap",
+    "short_title": "Hangisi bir çift? 🧦 Sayı 2 Bilmecesi",
+    "description": "Pofi ile 2 rakamını tanıyoruz! 2 rakamını havada çiziyor, iki gözümüzü, iki elimizi ve iki kulağımızı buluyoruz. Bir çift çorabın ve bir çift ayakkabının iki tane olduğunu öğreniyor, bilmeceleri çözüyoruz. Okul öncesi çocuklar için eğlenceli bir sayı bölümü.",
+    "tags": ["sayı 2", "2 rakamı", "sayıları öğreniyorum", "okul öncesi sayılar", "çocuklar için sayılar", "bir çift", "çift nedir", "okul öncesi matematik", "rakamlar"],
+    "thumbnail": {"text": "Sayı 2", "emoji": [{"symbol": "2", "color": "#FF7A45"}, "🧦", "👀"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Sayı 2: Çiftler",
+      "subtitle": "İki rakamını tanıyalım",
+      "emoji": [{"symbol": "2", "color": "#FF7A45"}, "🧦", "👀"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bir rakamını hatırlıyor musun? Bugün sıra 2 rakamında!",
+        "Bir de çift ne demek, onu öğreneceğiz. Hadi başlayalım!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "2 rakamı",
+      "symbol": "2",
+      "color": "#FF7A45",
+      "word": "İki",
+      "lines": [
+        "İşte 2 rakamı!",
+        "Bir, iki! Birden sonra iki gelir.",
+        "Sen de söyle: iki!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Havada 2 çizelim",
+      "emoji": [{"symbol": "2", "color": "#FF7A45"}, "🦢", "☝️"],
+      "text": "Havada 2 çizelim",
+      "lines": [
+        "Bak, 2 rakamı bir kuğuya benziyor!",
+        "Şimdi işaret parmağını havaya kaldır. Birlikte 2 çizelim.",
+        "Önce yukarıda yuvarlak bir tepe çiz.",
+        "Sonra kaydıraktan kayar gibi aşağı in.",
+        "En altta da dümdüz bir çizgi çek. İşte 2!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Vücudumuzda iki",
+      "title": "İki göz, iki el, iki ayak",
+      "lines": ["Vücudumuzda iki tane olan neler var? Hadi bakalım!"],
+      "items": [
+        {"emoji": "👀", "label": "İki göz", "line": "Yüzümüzde iki göz var. Gözlerini kırp!"},
+        {"emoji": "👐", "label": "İki el", "line": "İki elimiz var. Ellerini salla!"},
+        {"emoji": "👣", "label": "İki ayak", "line": "İki ayağımız var. Ayaklarını yere vur: pat pat!"}
+      ],
+      "after": ["İki göz, iki el, iki ayak! Aferin sana!"]
+    },
+    {
+      "type": "count",
+      "chapter": "Kulaklarımızı sayalım",
+      "emoji": "👂",
+      "n": 2,
+      "label": "kulak",
+      "lines": ["Peki, kaç kulağımız var? Kulaklarına dokun ve benimle say!"],
+      "after": ["İki kulak! Biri sağda, biri solda."]
+    },
+    {
+      "type": "compare",
+      "chapter": "Bir mi, iki mi?",
+      "title": "Bir mi, iki mi?",
+      "lines": ["Şimdi bu iki resme dikkatlice bak."],
+      "left": {"emoji": "🍎", "label": "Bir elma", "line": "Burada bir elma var."},
+      "right": {"emoji": "🍒", "label": "İki kiraz", "line": "Burada ise iki kiraz var!"},
+      "after": ["İki, birden bir fazladır. Bir elma, iki kiraz!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Bir çift",
+      "title": "Bir çift, iki tane!",
+      "lines": [
+        "Şimdi yeni bir kelime öğrenelim: çift!",
+        "Birlikte kullanılan iki şeye bir çift deriz."
+      ],
+      "items": [
+        {"emoji": "🧦", "label": "Bir çift çorap", "line": "Bu bir çift çorap. Her ayağa bir çorap!"},
+        {"emoji": "🩰", "label": "Bir çift ayakkabı", "line": "Bu da bir çift ayakkabı. İki tane ayakkabı!"},
+        {"emoji": "🧤", "label": "Bir çift eldiven", "line": "Bu da bir çift eldiven. Her ele bir eldiven!"}
+      ],
+      "after": ["Sen de söyle: bir çift, iki tane!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🚲",
+      "text": "Bisikletin iki tekerleği vardır.",
+      "lines": [
+        "Biliyor muydun?",
+        "Bisikletin iki tekerleği vardır. Biri önde, biri arkada!",
+        "Bisiklete binerken kask takmayı unutma!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "2 rakamı hangisi?",
+      "lines": ["Bilmece zamanı! 2 rakamı hangisi?", "Düşün bakalım!"],
+      "options": [
+        {"symbol": "5", "color": "#2FAE5F", "label": "Beş"},
+        {"symbol": "1", "color": "#1E9BF0", "label": "Bir"},
+        {"symbol": "2", "color": "#FF7A45", "label": "İki"}
+      ],
+      "answer": 2,
+      "after": ["Evet! İşte 2 rakamı. Kuğuya benzeyen rakam!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi bir çift?",
+      "lines": ["Bir bilmece daha! Hangisi bir çift?", "İki tane olanı bul!"],
+      "options": [
+        {"emoji": "🧦", "label": "Çorap"},
+        {"emoji": "🧢", "label": "Şapka"},
+        {"emoji": "🧣", "label": "Atkı"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Bir çift çorap. Tam iki tane!"]
+    },
+    {
+      "type": "action",
+      "emoji": "🐸",
+      "text": "İki kez zıpla!",
+      "seconds": 5,
+      "lines": ["Şimdi hareket zamanı!", "Ayağa kalk. Kurbağa gibi iki kez zıpla!"],
+      "after": ["Harika! Bir, iki! Tam iki kez zıpladın!"]
+    },
+    {
+      "type": "chant",
+      "title": "İki tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Bir, iki! Bir, iki!", "symbol": "2", "color": "#FF7A45"},
+        {"line": "İki gözüm görür!", "emoji": "👀"},
+        {"line": "İki kulağım duyar!", "emoji": "👂"},
+        {"line": "İki elim alkışlar!", "emoji": "👏"},
+        {"line": "Bir çift çorap, iki ayak!", "emoji": "🧦"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"symbol": "2", "color": "#FF7A45", "label": "2 rakamı", "line": "2 rakamı kuğuya benzer."},
+        {"emoji": "👀", "label": "İki göz", "line": "İki göz!"},
+        {"emoji": "👂", "label": "İki kulak", "line": "İki kulak!"},
+        {"emoji": "👐", "label": "İki el", "line": "İki el!"},
+        {"emoji": "🧦", "label": "Bir çift", "line": "Bir çift çorap, iki tane çoraptır."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün 2 rakamını öğrendik. Harikaydın!",
+        "Evde bir çift çorap bul ve say: bir, iki!",
+        "Yarın 10 Kasım. Atatürk'ü sevgiyle ve saygıyla anacağız.",
+        "Görüşmek üzere!"
+      ],
+      "next": {"text": "10 Kasım: Atatürk'ü anıyoruz", "flag": "tr"}
+    }
+  ]
+}
