@@ -1,0 +1,161 @@
+{
+  "id": "yedek-02-sebzeler",
+  "date": "2000-01-01",
+  "category": "beslenme",
+  "title": "Sebzeleri Tanıyalım",
+  "mood": "happy",
+  "youtube": {
+    "title": "Sebzeleri Tanıyalım 🥕 Çocuklar İçin Sebzeler: Havuç, Brokoli, Patlıcan ve Daha Fazlası",
+    "short_title": "Hangisi havuç? 🥕 Sebze bilmecesi",
+    "description": "Pofi ile rengarenk sebzeleri tanıyoruz! Havuç, brokoli, salatalık, patlıcan, biber ve patatesle tanışıyor, hangi sebzenin toprağın altında büyüdüğünü öğreniyoruz. Havuçları sayıyor, bilmeceleri çözüyor ve sebzeleri yemeden önce yıkamayı hatırlıyoruz. Okul öncesi çocuklar için eğlenceli ve sağlıklı bir beslenme bölümü.",
+    "tags": ["sebzeler", "sebzeleri öğreniyorum", "sebzeler çocuklar için", "okul öncesi sebzeler", "sağlıklı beslenme", "havuç", "brokoli", "çocuklar için beslenme", "sebze isimleri"],
+    "thumbnail": {"text": "Sebzeler", "emoji": ["🥕", "🥦", "🍆"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Sebzeleri Tanıyalım",
+      "emoji": ["🥕", "🥦", "🍆"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Hadi, birlikte rengarenk sebzeleri tanıyalım!",
+        "Sebzeler hem lezzetli hem de çok faydalı!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Sebze nedir?",
+      "emoji": ["🌱", "🧑‍🌾"],
+      "text": "Sebzeler bahçede ve tarlada yetişir",
+      "lines": [
+        "Sebzeler, bahçede ve tarlada yetişen bitkilerdir.",
+        "Çiftçiler onları özenle yetiştirir.",
+        "Bazılarını çiğ, bazılarını pişirerek yeriz."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Sebzelerle tanışalım",
+      "title": "Sebzelerle tanışalım",
+      "lines": ["Hadi, sebzelerle tek tek tanışalım!"],
+      "items": [
+        {"emoji": "🥕", "label": "Havuç", "line": "Havuç turuncudur ve çıtır çıtırdır."},
+        {"emoji": "🥦", "label": "Brokoli", "line": "Brokoli yeşildir. Minik bir ağaca benzer."},
+        {"emoji": "🥒", "label": "Salatalık", "line": "Salatalık yeşildir ve çok suludur."},
+        {"emoji": "🍆", "label": "Patlıcan", "line": "Patlıcan mor renklidir."},
+        {"emoji": "🫑", "label": "Biber", "line": "Biber yeşil, kırmızı ya da sarı olabilir."},
+        {"emoji": "🥔", "label": "Patates", "line": "Patatesin kabuğu genellikle kahverengidir."}
+      ],
+      "after": ["Sen de söyle: Havuç, brokoli, salatalık, patlıcan, biber, patates!"]
+    },
+    {
+      "type": "compare",
+      "chapter": "Sebzeler nerede büyür?",
+      "title": "Nerede büyür?",
+      "lines": ["Sebzeler nerede büyür? Hadi bakalım!"],
+      "left": {"emoji": "🥕", "label": "Toprağın altında", "line": "Havuç toprağın altında büyür."},
+      "right": {"emoji": "🥦", "label": "Toprağın üstünde", "line": "Brokoli toprağın üstünde büyür."},
+      "after": ["Patates de toprağın altında büyür. Onu kazarak çıkarırız."]
+    },
+    {
+      "type": "count",
+      "chapter": "Havuçları sayalım",
+      "emoji": "🥕",
+      "n": 5,
+      "label": "havuç",
+      "lines": ["Bahçede havuçlar var. Hadi birlikte sayalım!"],
+      "after": ["Beş turuncu havuç! Aferin sana!"]
+    },
+    {
+      "type": "action",
+      "emoji": "🥕",
+      "text": "Çek, çek, çek!",
+      "seconds": 6,
+      "lines": [
+        "Şimdi sen bir bahçıvansın!",
+        "Topraktaki havucu iki elinle tut.",
+        "Hadi, çekip çıkaralım! Çek, çek, çek!"
+      ],
+      "after": ["Harika! Kocaman bir havuç çıkardın!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🥒",
+      "text": "Salatalığın neredeyse tamamı sudur!",
+      "lines": [
+        "Biliyor muydun?",
+        "Salatalığın neredeyse tamamı sudur!",
+        "Bu yüzden salatalık çok sulu ve serinletici bir sebzedir."
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi havuç?",
+      "lines": ["Bilmece zamanı! Hangisi havuç?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🥦", "label": "Brokoli"},
+        {"emoji": "🥕", "label": "Havuç"},
+        {"emoji": "🍆", "label": "Patlıcan"}
+      ],
+      "answer": 1,
+      "after": ["Evet, havuç! Turuncu ve çıtır çıtır!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Mor renkli sebze hangisi?",
+      "lines": ["Bir bilmece daha! Mor renkli sebze hangisi?"],
+      "options": [
+        {"emoji": "🍆", "label": "Patlıcan"},
+        {"emoji": "🥒", "label": "Salatalık"},
+        {"emoji": "🥔", "label": "Patates"}
+      ],
+      "answer": 0,
+      "after": ["Evet, patlıcan! Patlıcan mor renklidir."]
+    },
+    {
+      "type": "talk",
+      "chapter": "Önce yıkayalım",
+      "emoji": ["🚰", "🥕"],
+      "text": "Yemeden önce yıka!",
+      "lines": [
+        "Sebzeleri yemeden önce suyla iyice yıkarız.",
+        "Ellerimizi de sabunla yıkamayı unutmayız.",
+        "Kesmek ve pişirmek ise büyüklerimizin işidir.",
+        "Sen de yıkamaya yardım edebilirsin!"
+      ]
+    },
+    {
+      "type": "chant",
+      "title": "Sebze tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Turuncu havuç, çıtır çıtır!", "emoji": "🥕"},
+        {"line": "Yeşil brokoli, minik ağaç!", "emoji": "🥦"},
+        {"line": "Mor patlıcan, parlak parlak!", "emoji": "🍆"},
+        {"line": "Sebze ye, sağlıklı büyü!", "emoji": "💪"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Neler öğrendik?",
+      "lines": ["Hadi, neler öğrendik hatırlayalım!"],
+      "items": [
+        {"emoji": "🌱", "label": "Sebzeler bitkidir", "line": "Sebzeler bahçede ve tarlada yetişir."},
+        {"emoji": "🥕", "label": "Havuç", "line": "Havuç turuncudur ve toprağın altında büyür."},
+        {"emoji": "🥦", "label": "Brokoli", "line": "Brokoli yeşildir, minik bir ağaca benzer."},
+        {"emoji": "🍆", "label": "Patlıcan", "line": "Patlıcan mor renklidir."},
+        {"emoji": "🚰", "label": "Önce yıka", "line": "Sebzeleri yemeden önce yıkarız."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Sebzeleri tanıdık. Harikasın!",
+        "Bir sonraki yemeğinde hangi sebzeler var? Bir bak!",
+        "Yeni bir macerada görüşmek üzere. Hoşça kal!"
+      ],
+      "next": {"text": "Yeni bir macera!", "emoji": "✨"}
+    }
+  ]
+}

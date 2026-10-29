@@ -1,0 +1,180 @@
+{
+  "id": "2026-11-07-paylasmak-guzeldir",
+  "date": "2026-11-07",
+  "category": "degerler",
+  "title": "Paylaşmak Güzeldir",
+  "mood": "happy",
+  "youtube": {
+    "title": "Paylaşmak Güzeldir 🧸 Çocuklar İçin Paylaşma ve Sırayla Oynama | Değerler Eğitimi",
+    "short_title": "Paylaşınca ne olur? 🧸😊",
+    "description": "Pofi ile paylaşmanın ne kadar güzel olduğunu öğreniyoruz! Ada ile Efe'nin hikayesini dinliyor, oyuncaklarımızı nasıl paylaşacağımızı ve sırayla oynamayı keşfediyoruz. Kibarca sormayı ve sabırla sıramızı beklemeyi de konuşuyoruz. Okul öncesi çocuklar için sıcak ve eğitici bir değerler bölümü.",
+    "tags": ["paylaşmak", "paylaşmak güzeldir", "değerler eğitimi", "okul öncesi değerler", "sırayla oynamak", "çocuklar için değerler", "arkadaşlık", "oyuncak paylaşmak", "çocuk hikayesi"],
+    "thumbnail": {"text": "Paylaşmak", "emoji": ["🧸", "🤝", "😊"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Paylaşmak Güzeldir",
+      "emoji": ["🧸", "🤝", "😊"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün çok güzel bir şeyi konuşacağız.",
+        "Paylaşmayı ve sırayla oynamayı öğreneceğiz!"
+      ]
+    },
+    {
+      "type": "story",
+      "chapter": "Ada ile Efe",
+      "title": "Ada ile Efe",
+      "lines": ["Önce minik bir hikaye dinleyelim."],
+      "panels": [
+        {
+          "emoji": ["👧", "🖍️"],
+          "caption": "Ada resim yapıyor",
+          "lines": ["Ada, boya kalemleriyle resim yapıyordu."]
+        },
+        {
+          "emoji": ["👦", "😢"],
+          "caption": "Efe'nin kalemi yok",
+          "lines": ["Efe de resim yapmak istedi.", "Ama Efe'nin hiç boya kalemi yoktu. Biraz üzüldü."]
+        },
+        {
+          "emoji": ["👧", "🖍️", "👦"],
+          "caption": "Ada paylaştı",
+          "lines": ["Ada gülümsedi. Kalemlerinden birkaçını Efe'ye verdi.", "Gel, birlikte boyayalım, dedi."]
+        },
+        {
+          "emoji": ["🖼️", "😊"],
+          "caption": "Birlikte bir resim",
+          "lines": ["Birlikte kocaman bir resim yaptılar!", "Ada da Efe de çok mutlu oldu."]
+        }
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Paylaşmak ne demek?",
+      "emoji": "🤝",
+      "word": "Paylaşmak",
+      "lines": [
+        "Ada ne yaptı? Kalemlerini paylaştı!",
+        "Paylaşmak, bir şeyi başkasıyla birlikte kullanmaktır.",
+        "Sen de söyle: Paylaşmak!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Paylaşınca ne olur?",
+      "emoji": ["😊", "😃"],
+      "text": "Paylaşınca herkes mutlu olur",
+      "lines": [
+        "Paylaşınca ne olur dersin?",
+        "Arkadaşımız mutlu olur.",
+        "Biz de mutlu oluruz!",
+        "Birlikte oynamak çok daha eğlencelidir."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Neleri paylaşabiliriz?",
+      "title": "Neleri paylaşabiliriz?",
+      "lines": ["Peki, neleri paylaşabiliriz?"],
+      "items": [
+        {"emoji": "🧸", "label": "Oyuncaklar", "line": "Oyuncaklarımızı paylaşabiliriz."},
+        {"emoji": "🖍️", "label": "Boya kalemleri", "line": "Boya kalemlerimizi paylaşabiliriz."},
+        {"emoji": "📚", "label": "Kitaplar", "line": "Kitaplarımıza birlikte bakabiliriz."},
+        {"emoji": "⚽", "label": "Top", "line": "Topumuzla hep birlikte oynayabiliriz."}
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Sırayla oynamak",
+      "emoji": "🛝",
+      "word": "Sırayla",
+      "lines": [
+        "Bazen bir oyuncakla aynı anda oynayamayız.",
+        "O zaman sırayla oynarız!",
+        "Kaydırakta herkes sırasını bekler.",
+        "Önce bir arkadaşın kayar, sonra sen.",
+        "Sen de söyle: Sırayla!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Kibarca soralım",
+      "emoji": ["🙋"],
+      "text": "Ben de oynayabilir miyim?",
+      "lines": [
+        "Arkadaşının oyuncağıyla oynamak istersen ne yaparsın?",
+        "Kibarca sorarsın: Ben de oynayabilir miyim?",
+        "Arkadaşın biraz beklemeni isteyebilir.",
+        "O zaman sabırla sıranı beklersin. Aferin!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Paylaşınca arkadaşın nasıl olur?",
+      "lines": ["Bilmece zamanı! Paylaşınca arkadaşın nasıl olur?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "😢", "label": "Üzgün"},
+        {"emoji": "😊", "label": "Mutlu"}
+      ],
+      "answer": 1,
+      "after": ["Evet, mutlu olur! Paylaşınca herkes mutlu olur."]
+    },
+    {
+      "type": "chant",
+      "title": "Hep birlikte söyleyelim!",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Önce sen, sonra ben!", "emoji": "🛝"},
+        {"line": "Sıramı beklerim, sabırla!", "emoji": "⏳"},
+        {"line": "Paylaşırım, mutlu olurum!", "emoji": "🧸"},
+        {"line": "Birlikte oynamak çok güzel!", "emoji": "😊"}
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Kaydırakta ne yaparız?",
+      "lines": ["Bir bilmece daha! Kaydırakta ne yaparız?"],
+      "options": [
+        {"emoji": "⏳", "label": "Sıramızı bekleriz"},
+        {"emoji": "🏃", "label": "Öne geçeriz"}
+      ],
+      "answer": 0,
+      "after": ["Evet! Sıramızı bekleriz. Böylece herkes kayabilir."]
+    },
+    {
+      "type": "action",
+      "emoji": "🤗",
+      "text": "Kendine sarıl!",
+      "seconds": 5,
+      "lines": [
+        "Şimdi hareket zamanı!",
+        "Kollarını kendine dola ve kocaman sarıl!",
+        "Çünkü sen paylaşmayı bilen, iyi kalpli birisin!"
+      ],
+      "after": ["Ne güzel sarıldın! Aferin sana!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🧸", "label": "Paylaşmak", "line": "Oyuncaklarımızı paylaşırız."},
+        {"emoji": "😊", "label": "Herkes mutlu", "line": "Paylaşınca herkes mutlu olur."},
+        {"emoji": "🛝", "label": "Sırayla oynamak", "line": "Sırayla oynarız, sıramızı bekleriz."},
+        {"emoji": "🙋", "label": "Kibarca sormak", "line": "Kibarca sorarız: Ben de oynayabilir miyim?"}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün paylaşmayı ve sırayla oynamayı öğrendik.",
+        "Sen de bir oyuncağını arkadaşınla paylaşır mısın?",
+        "Yarın kışlık giysileri tanıyacağız. Hoşça kal!"
+      ],
+      "next": {"text": "Kışlıklar geliyor", "emoji": "🧣"}
+    }
+  ]
+}

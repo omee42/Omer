@@ -1,0 +1,182 @@
+{
+  "id": "2026-11-05-ruzgar-gorunmeyen-ama-hissedilen",
+  "date": "2026-11-05",
+  "category": "hava",
+  "title": "Rüzgar",
+  "mood": "happy",
+  "youtube": {
+    "title": "Rüzgar Nedir? Çocuklar İçin Görünmeyen ama Hissedilen Rüzgar 🌬️ Uçurtma ve Minik Deney",
+    "short_title": "Rüzgarı görebilir miyiz? 🌬️🪁",
+    "description": "Rüzgarı göremeyiz ama hissederiz! Pofi ile rüzgarın hareket eden hava olduğunu öğreniyor, yaprakları ve uçurtmayı uçuran rüzgarı izliyoruz. Hafif ve sert rüzgarı karşılaştırıyor, elimize üfleyerek minik bir deney yapıyoruz. Okul öncesi ve ilkokul çağındaki çocuklar için eğlenceli bir hava durumu bölümü.",
+    "tags": ["rüzgar", "rüzgar nedir", "hava durumu çocuklar için", "okul öncesi fen", "çocuklar için bilim", "uçurtma", "hafif ve sert rüzgar", "hava olayları", "basit deney"],
+    "thumbnail": {"text": "Rüzgar", "emoji": ["🌬️", "🪁", "🍃"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Rüzgar",
+      "subtitle": "Görünmeyen ama hissedilen",
+      "emoji": ["🌬️", "🍃", "🪁"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün görünmeyen bir şeyi tanıyacağız.",
+        "Onu göremeyiz ama hissederiz. Bil bakalım ne?"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Hava her yerde",
+      "emoji": ["🎈", "💨"],
+      "text": "Hava her yerde",
+      "lines": [
+        "Etrafımız havayla dolu.",
+        "Şişirdiğimiz balonun içinde de hava var!",
+        "Havayı göremeyiz ama o her yerdedir.",
+        "Hava hareket edince ona rüzgar deriz."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Rüzgar nedir?",
+      "emoji": "🌬️",
+      "word": "Rüzgar",
+      "lines": [
+        "Sen de söyle: Rüzgar!",
+        "Aferin! Rüzgar, hareket eden havadır.",
+        "Rüzgarı göremeyiz ama hissederiz."
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Minik bir deney",
+      "emoji": ["✋", "😮‍💨"],
+      "text": "Eline hafifçe üfle!",
+      "lines": [
+        "Hadi, minik bir deney yapalım!",
+        "Elini ağzının önüne tut.",
+        "Şimdi eline hafifçe üfle!",
+        "Hissettin mi? İşte bu, hareket eden hava!",
+        "Sen de minik bir rüzgar yaptın!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Rüzgar neleri hareket ettirir?",
+      "title": "Rüzgar neleri hareket ettirir?",
+      "lines": ["Rüzgarı göremeyiz. Ama yaptıklarını görebiliriz!"],
+      "items": [
+        {"emoji": "🍃", "label": "Yapraklar", "line": "Rüzgar yaprakları havada uçurur."},
+        {"emoji": "🪁", "label": "Uçurtma", "line": "Rüzgar uçurtmayı gökyüzüne yükseltir."},
+        {"emoji": "⛵", "label": "Yelkenli", "line": "Rüzgar yelkenliyi denizde ilerletir."},
+        {"flag": "tr", "label": "Bayrak", "line": "Rüzgar bayrağımızı dalgalandırır."},
+        {"emoji": "🫧", "label": "Baloncuklar", "line": "Rüzgar baloncukları uzaklara taşır."}
+      ],
+      "after": ["Uçurtmayı büyüklerimizle, geniş ve açık bir yerde uçururuz."]
+    },
+    {
+      "type": "compare",
+      "chapter": "Hafif ve sert rüzgar",
+      "title": "Hafif mi, sert mi?",
+      "lines": ["Rüzgar bazen hafif, bazen sert eser."],
+      "left": {"emoji": "🌬️", "scale": 0.5, "label": "Hafif rüzgar", "line": "Hafif rüzgar yumuşacıktır. Saçlarımızı okşar."},
+      "right": {"emoji": "🌬️", "label": "Sert rüzgar", "line": "Sert rüzgar güçlüdür. Ağaçları sallar!"},
+      "after": ["Rüzgar çok sert eserse büyüklerimizle içeride kalırız."]
+    },
+    {
+      "type": "story",
+      "chapter": "Uçurtma macerası",
+      "title": "Ela'nın uçurtması",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {
+          "emoji": ["👧", "👴", "🪁"],
+          "caption": "Parka gittiler",
+          "lines": ["Ela, dedesiyle parka gitti.", "Yanlarında rengarenk bir uçurtma vardı."]
+        },
+        {
+          "emoji": ["👧", "🪁"],
+          "caption": "Rüzgar yoktu",
+          "lines": ["Ama hiç rüzgar yoktu.", "Uçurtma bir türlü uçmadı."]
+        },
+        {
+          "emoji": ["🌬️", "🍃"],
+          "caption": "Rüzgar esti",
+          "lines": ["Sonra hafif bir rüzgar esmeye başladı.", "Yapraklar hışır hışır sallandı."]
+        },
+        {
+          "emoji": ["🪁", "☁️"],
+          "caption": "Uçurtma uçtu!",
+          "lines": ["Uçurtma yukarı, yukarı yükseldi!", "Ela da dedesi de çok mutlu oldu. Teşekkürler, rüzgar!"]
+        }
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "🦅",
+      "text": "Kartal gibi bazı kuşlar, kanat çırpmadan havada süzülebilir.",
+      "lines": [
+        "Biliyor muydun?",
+        "Kartal gibi bazı kuşlar, kanat çırpmadan havada süzülebilir!",
+        "Kanatlarını açarlar. Hareket eden hava onları taşır."
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Rüzgar hangisini uçurur?",
+      "lines": ["Bilmece zamanı! Rüzgar hangisini uçurur?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🪨", "label": "Taş"},
+        {"emoji": "🪁", "label": "Uçurtma"},
+        {"emoji": "🏠", "label": "Ev"}
+      ],
+      "answer": 1,
+      "after": ["Evet, uçurtma! Uçurtma hafiftir, rüzgar onu kolayca uçurur."]
+    },
+    {
+      "type": "action",
+      "emoji": "🌳",
+      "text": "Ağaç gibi sallan!",
+      "seconds": 8,
+      "lines": [
+        "Şimdi hareket zamanı! Sen bir ağaçsın.",
+        "Kollarını dallar gibi havaya kaldır.",
+        "Rüzgar esiyor! Sağa sola sallan!"
+      ],
+      "after": ["Harika! Rüzgarda sallanan kocaman bir ağaç oldun!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi rüzgarla ilerler?",
+      "lines": ["Bir bilmece daha! Hangisi rüzgarla ilerler?"],
+      "options": [
+        {"emoji": "🚗", "label": "Araba"},
+        {"emoji": "🚲", "label": "Bisiklet"},
+        {"emoji": "⛵", "label": "Yelkenli"}
+      ],
+      "answer": 2,
+      "after": ["Evet, yelkenli! Rüzgar yelkeni iter, tekne ilerler."]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🌬️", "label": "Rüzgar", "line": "Rüzgar, hareket eden havadır."},
+        {"emoji": "✋", "label": "Hissederiz", "line": "Rüzgarı göremeyiz ama hissederiz."},
+        {"emoji": "🍃", "label": "Yapraklar uçar", "line": "Rüzgar yaprakları uçurur."},
+        {"emoji": "🪁", "label": "Uçurtma uçar", "line": "Rüzgar uçurtmayı uçurur."},
+        {"emoji": "💨", "label": "Hafif ya da sert", "line": "Rüzgar hafif ya da sert esebilir."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün rüzgarı tanıdık. Harikasın!",
+        "Dışarı çıkınca rüzgarı hissetmeyi dene.",
+        "Yarın kırmızı rengi öğreneceğiz. Hoşça kal!"
+      ],
+      "next": {"text": "Kırmızı renk", "emoji": "🍎"}
+    }
+  ]
+}

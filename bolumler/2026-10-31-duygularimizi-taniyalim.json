@@ -1,0 +1,182 @@
+{
+  "id": "2026-10-31-duygularimizi-taniyalim",
+  "date": "2026-10-31",
+  "category": "duygular",
+  "title": "Duygularımızı Tanıyalım",
+  "mood": "happy",
+  "youtube": {
+    "title": "Duygularımızı Tanıyalım 😊 Çocuklar İçin Duygular: Mutlu, Üzgün, Kızgın, Şaşkın",
+    "short_title": "Hangi yüz mutlu? 😊 Duygular Bilmecesi",
+    "description": "Pofi ile duygularımızı tanıyoruz! Mutlu, üzgün, kızgın ve şaşkın yüzlere bakıyor, Deniz'in gününde hangi duyguları hissettiğini buluyoruz. Bütün duyguların normal olduğunu öğreniyor ve birlikte derin nefes alıyoruz. Okul öncesi çocuklar için sıcak ve eğitici bir bölüm.",
+    "tags": ["duygular", "duygularımızı tanıyalım", "duygular okul öncesi", "çocuklar için duygular", "yüz ifadeleri", "mutlu üzgün kızgın şaşkın", "duygu eğitimi", "sosyal duygusal gelişim"],
+    "thumbnail": {"text": "Duygular", "emoji": ["😊", "😢", "😲"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Duygularımızı Tanıyalım",
+      "subtitle": "Mutlu, üzgün, kızgın, şaşkın",
+      "emoji": ["😊", "😢", "😠", "😲"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün duygularımızı tanıyacağız.",
+        "Yüzümüz bize neler anlatır? Hadi, birlikte bakalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Duygu nedir?",
+      "emoji": ["😊", "😢"],
+      "text": "Duygular",
+      "lines": [
+        "İçimizde bazı hisler olur. Bunlara duygu deriz.",
+        "Bazen seviniriz, bazen üzülürüz.",
+        "Yüzümüz de duygularımızı gösterir."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Mutlu",
+      "emoji": "😊",
+      "word": "Mutlu",
+      "color": "#FFB703",
+      "lines": [
+        "Bu yüz mutlu!",
+        "Gözleri gülüyor, ağzı gülümsüyor.",
+        "Oyun oynayınca mutlu oluruz.",
+        "Sen de kocaman gülümse!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Üzgün",
+      "emoji": "😢",
+      "word": "Üzgün",
+      "color": "#3A86FF",
+      "lines": [
+        "Bu yüz üzgün.",
+        "Gözünden bir damla yaş akıyor.",
+        "Oyuncağımız kırılınca üzülebiliriz."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Kızgın",
+      "emoji": "😠",
+      "word": "Kızgın",
+      "color": "#E63946",
+      "lines": [
+        "Bu yüz kızgın.",
+        "Kaşları çatık, ağzı aşağı bakıyor.",
+        "Biri sıramızı alınca kızabiliriz."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Şaşkın",
+      "emoji": "😲",
+      "word": "Şaşkın",
+      "color": "#8338EC",
+      "lines": [
+        "Bu yüz şaşkın!",
+        "Gözleri kocaman açılmış, ağzı da açık.",
+        "Bir sürpriz görünce şaşırırız. Aaa!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangi yüz mutlu?",
+      "lines": ["Bilmece zamanı! Hangi yüz mutlu?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "😢", "label": "Üzgün"},
+        {"emoji": "😠", "label": "Kızgın"},
+        {"emoji": "😊", "label": "Mutlu"}
+      ],
+      "answer": 2,
+      "after": ["Evet! Mutlu yüz gülümsüyor. Aferin sana!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Deniz'in günü",
+      "title": "Deniz'in bir günü",
+      "lines": ["Şimdi Deniz'in gününe bakalım. Deniz neler hissetti?"],
+      "panels": [
+        {"emoji": ["🧒", "🧸", "😊"], "caption": "Mutlu", "lines": ["Sabah Deniz oyuncak ayısıyla oynadı.", "Deniz çok mutluydu!"]},
+        {"emoji": ["🧒", "🎈", "😢"], "caption": "Üzgün", "lines": ["Sonra rüzgar Deniz'in balonunu uçurdu.", "Deniz üzüldü."]},
+        {"emoji": ["🧒", "🏰", "😠"], "caption": "Kızgın", "lines": ["Kardeşi, Deniz'in oyuncak kalesini yıktı.", "Deniz kızdı. Derin bir nefes aldı.", "Sonra kardeşine \"Buna çok kızdım.\" dedi."]},
+        {"emoji": ["🧒", "🎁", "😲"], "caption": "Şaşkın", "lines": ["Akşam dedesi ona bir hediye getirdi.", "Deniz çok şaşırdı!"]}
+      ],
+      "after": ["Bir günde ne çok duygu, değil mi?"]
+    },
+    {
+      "type": "fact",
+      "chapter": "Bütün duygular normaldir",
+      "emoji": "💛",
+      "text": "Herkes bazen mutlu, bazen üzgün olur. Bütün duygular normaldir.",
+      "lines": [
+        "Biliyor muydun?",
+        "Herkes bazen üzülür, bazen kızar. Büyükler de!",
+        "Bütün duygular normaldir.",
+        "Duygumuzu sözle anlatabiliriz. \"Ben şu an üzgünüm.\" deriz."
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "🧘",
+      "text": "Derin nefes al!",
+      "seconds": 8,
+      "lines": [
+        "Kızınca ya da üzülünce ne yapabiliriz?",
+        "Derin nefes alırız! Hadi, birlikte deneyelim.",
+        "Burnundan yavaşça nefes al. Sonra ağzından yavaşça ver."
+      ],
+      "after": ["Ne güzel! İçimiz rahatladı."]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangi yüz kızgın?",
+      "lines": ["Bir bilmece daha! Hangi yüz kızgın?"],
+      "options": [
+        {"emoji": "😠", "label": "Kızgın"},
+        {"emoji": "😲", "label": "Şaşkın"},
+        {"emoji": "😊", "label": "Mutlu"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Kızgın yüzün kaşları çatık."]
+    },
+    {
+      "type": "chant",
+      "title": "Duygu tekerlemesi",
+      "lines": ["Şimdi benimle söyle. Yüzünle de göster!"],
+      "items": [
+        {"line": "Mutlu olunca gülümserim!", "emoji": "😊"},
+        {"line": "Üzgün olunca anlatırım!", "emoji": "😢"},
+        {"line": "Kızgın olunca nefes alırım!", "emoji": "😠"},
+        {"line": "Şaşkın olunca \"Aaa!\" derim!", "emoji": "😲"},
+        {"line": "Duygularımı tanırım!", "emoji": "💛"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "😊", "label": "Mutlu", "line": "Mutlu yüz gülümser."},
+        {"emoji": "😢", "label": "Üzgün", "line": "Üzgün yüzde gözyaşı olabilir."},
+        {"emoji": "😠", "label": "Kızgın", "line": "Kızgın yüzün kaşları çatıktır."},
+        {"emoji": "😲", "label": "Şaşkın", "line": "Şaşkın yüzün ağzı açıktır."},
+        {"emoji": "💛", "label": "Hepsi normal", "line": "Bütün duygular normaldir."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün duyguları tanıdık. Harikaydın!",
+        "Sen şu an nasıl hissediyorsun? Bir büyüğüne anlat.",
+        "Yarın ailemizi anlatacağız. Görüşmek üzere!"
+      ],
+      "next": {"text": "Ailemiz", "emoji": "🏡"}
+    }
+  ]
+}

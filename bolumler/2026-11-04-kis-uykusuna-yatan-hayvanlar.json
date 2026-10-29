@@ -1,0 +1,180 @@
+{
+  "id": "2026-11-04-kis-uykusuna-yatan-hayvanlar",
+  "date": "2026-11-04",
+  "category": "hayvanlar",
+  "title": "Kış Uykusuna Yatan Hayvanlar",
+  "mood": "happy",
+  "youtube": {
+    "title": "Kış Uykusuna Yatan Hayvanlar 🐻💤 Çocuklar İçin Ayı, Kirpi, Kaplumbağa ve Yarasa",
+    "short_title": "Kim kış uykusuna yatar? 🦔💤",
+    "description": "Kışın bazı hayvanlar neden uyur? Pofi ile kış uykusunu öğreniyoruz! Ayı, kirpi, kaplumbağa ve yarasanın kışı nasıl geçirdiğini görüyor, baharda uyanan kirpinin hikayesini dinliyoruz. Okul öncesi çocuklar için bilmeceli, tekerlemeli ve hareketli bir hayvanlar bölümü.",
+    "tags": ["kış uykusu", "kış uykusuna yatan hayvanlar", "hayvanları öğreniyorum", "çocuklar için hayvanlar", "okul öncesi hayvanlar", "ayı", "kirpi", "kaplumbağa", "yarasa", "kış mevsimi"],
+    "thumbnail": {"text": "Kış Uykusu", "emoji": ["🐻", "💤", "🦔"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Kış Uykusu",
+      "subtitle": "Kışın uyuyan hayvanlar",
+      "emoji": ["🐻", "🦔", "💤"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün kışın uyuyan hayvanları tanıyacağız.",
+        "Hadi, onları uyandırmadan yavaşça yaklaşalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Kış gelince ne olur?",
+      "emoji": ["❄️", "☃️"],
+      "text": "Kışın hava soğuk, yiyecek az",
+      "lines": [
+        "Kış gelince havalar çok soğur.",
+        "Bazen her yeri kar kaplar.",
+        "Hayvanlar için yiyecek bulmak zorlaşır.",
+        "Bu yüzden bazı hayvanlar kışı uyuyarak geçirir."
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Kış uykusu nedir?",
+      "emoji": "😴",
+      "word": "Kış uykusu",
+      "lines": [
+        "Buna kış uykusu denir.",
+        "Sen de söyle: Kış uykusu!",
+        "Aferin! Kış uykusu, çok uzun ve derin bir uykudur.",
+        "Uyuyan hayvanın kalbi yavaş atar, nefesi yavaşlar."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Kim kış uykusuna yatar?",
+      "title": "Kim kış uykusuna yatar?",
+      "lines": ["Hadi, kış uykusuna yatan hayvanlarla tanışalım!"],
+      "items": [
+        {"emoji": "🐻", "label": "Ayı", "line": "Ayı, kışın inine girer ve orada uyur."},
+        {"emoji": "🦔", "label": "Kirpi", "line": "Kirpi, yapraklardan yuva yapar. Top gibi kıvrılıp uyur."},
+        {"emoji": "🐢", "label": "Kaplumbağa", "line": "Kaplumbağa, toprağı kazar ve toprağın altında uyur."},
+        {"emoji": "🦇", "label": "Yarasa", "line": "Yarasa, mağarada baş aşağı asılıp uyur."}
+      ],
+      "after": ["Hadi, benimle tekrar et: Ayı, kirpi, kaplumbağa, yarasa!"]
+    },
+    {
+      "type": "count",
+      "chapter": "Yarasaları sayalım",
+      "emoji": "🦇",
+      "n": 5,
+      "label": "yarasa",
+      "lines": ["Mağarada uyuyan yarasalar var.", "Hadi, onları birlikte sayalım!"],
+      "after": ["Tam beş yarasa! Aferin sana!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Kirpinin kışı",
+      "title": "Kirpinin uzun uykusu",
+      "lines": ["Şimdi minik bir hikaye dinleyelim."],
+      "panels": [
+        {
+          "emoji": ["🦔", "🐌", "🍂"],
+          "caption": "Sonbaharda bol bol yer",
+          "lines": ["Sonbaharda kirpi bol bol yemek yer.", "Böcek ve salyangoz yer, karnını doyurur."]
+        },
+        {
+          "emoji": ["🍂", "🦔", "💤"],
+          "caption": "Yaprak yuvasında uyur",
+          "lines": ["Hava soğuyunca kirpi yapraklardan yuva yapar.", "Yuvasına girer ve mışıl mışıl uyur."]
+        },
+        {
+          "emoji": ["❄️", "💤"],
+          "caption": "Bütün kış uyur",
+          "lines": ["Dışarıda kar yağar.", "Kirpi ise derin derin uyumaya devam eder."]
+        },
+        {
+          "emoji": ["🌸", "☀️", "🦔"],
+          "caption": "Baharda uyanır",
+          "lines": ["Sonra bahar gelir. Hava ısınır, çiçekler açar.", "Kirpi uyanır! Çok acıkmıştır, hemen yemek arar."]
+        }
+      ]
+    },
+    {
+      "type": "fact",
+      "emoji": "🐻",
+      "text": "Ayılar kış uykusunda aylarca hiç yemek yemez!",
+      "lines": [
+        "Biliyor muydun?",
+        "Ayılar kış uykusunda aylarca hiç yemek yemez!",
+        "Sonbaharda bol bol yiyerek kışa hazırlanırlar."
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi kış uykusuna yatar?",
+      "lines": ["Bilmece zamanı! Hangisi kış uykusuna yatar?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🐕", "label": "Köpek"},
+        {"emoji": "🐈", "label": "Kedi"},
+        {"emoji": "🦔", "label": "Kirpi"}
+      ],
+      "answer": 2,
+      "after": ["Evet, kirpi! Kirpi kışın yaprak yuvasında uyur."]
+    },
+    {
+      "type": "action",
+      "emoji": "🐻",
+      "text": "Ayı gibi gerin!",
+      "seconds": 6,
+      "lines": [
+        "Şimdi sen de bir ayı ol!",
+        "Gözlerini kapat ve uyuyormuş gibi yap.",
+        "Bahar geldi! Uyan ve kollarını açıp kocaman gerin!"
+      ],
+      "after": ["Günaydın, minik ayı! Harika gerindin!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Kış uykusundan ne zaman uyanırlar?",
+      "lines": ["Bir bilmece daha! Bu hayvanlar ne zaman uyanır?", "Baharda mı, kışın mı?"],
+      "options": [
+        {"emoji": "🌸", "label": "Baharda"},
+        {"emoji": "❄️", "label": "Kışın"}
+      ],
+      "answer": 0,
+      "after": ["Evet, baharda! Hava ısınınca hepsi uyanır."]
+    },
+    {
+      "type": "chant",
+      "title": "Hep birlikte söyleyelim!",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Kış geldi, kar yağdı!", "emoji": "❄️"},
+        {"line": "Ayı ininde mışıl mışıl!", "emoji": "🐻"},
+        {"line": "Kirpi yuvada mışıl mışıl!", "emoji": "🦔"},
+        {"line": "Bahar geldi, günaydın!", "emoji": "🌸"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik? Hadi hatırlayalım!"],
+      "items": [
+        {"emoji": "😴", "label": "Kış uykusu", "line": "Bazı hayvanlar kışı uyuyarak geçirir."},
+        {"emoji": "🐻", "label": "Ayı", "line": "Ayı ininde uyur."},
+        {"emoji": "🦔", "label": "Kirpi", "line": "Kirpi yaprak yuvasında uyur."},
+        {"emoji": "🐢", "label": "Kaplumbağa", "line": "Kaplumbağa toprağın altında uyur."},
+        {"emoji": "🦇", "label": "Yarasa", "line": "Yarasa mağarada uyur."},
+        {"emoji": "🌸", "label": "Baharda uyanırlar", "line": "Baharda hepsi uyanır!"}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün kış uykusuna yatan hayvanları öğrendik.",
+        "Çok güzel dinledin, aferin sana!",
+        "Yarın rüzgarı tanıyacağız. Hoşça kal!"
+      ],
+      "next": {"text": "Görünmeyen rüzgar", "emoji": "🌬️"}
+    }
+  ]
+}

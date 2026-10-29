@@ -1,0 +1,155 @@
+{
+  "id": "2026-11-08-mevsime-gore-giyiniyoruz-kisliklar",
+  "date": "2026-11-08",
+  "category": "gunluk-yasam",
+  "title": "Kışlıklar Geliyor",
+  "mood": "happy",
+  "youtube": {
+    "title": "Kışlıklar Geliyor 🧣 Çocuklar İçin Mevsime Göre Giyinme: Mont, Bere, Atkı, Eldiven",
+    "short_title": "Soğukta ne giyelim? 🧥🧤",
+    "description": "Havalar soğuyor, kışlıklar geliyor! Pofi ile mont, bere, atkı ve eldiveni tanıyor, kat kat giyinmenin bizi nasıl sıcak tuttuğunu öğreniyoruz. Dışarı çıkmadan önce havaya bakıp uygun kıyafeti seçiyor, bilmeceleri çözüyoruz. Okul öncesi çocuklar için eğlenceli ve öğretici bir günlük yaşam bölümü.",
+    "tags": ["kışlık kıyafetler", "mevsime göre giyinme", "kış kıyafetleri çocuklar için", "okul öncesi giyinme", "mont bere atkı", "kat kat giyinmek", "hava durumu", "günlük yaşam becerileri", "kış geliyor"],
+    "thumbnail": {"text": "Kışlıklar", "emoji": ["🧣", "🧥", "🧤"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Kışlıklar Geliyor",
+      "subtitle": "Mevsime göre giyiniyoruz",
+      "emoji": ["🧥", "🧣", "🧤"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Havalar soğumaya başladı. Üşüyor musun?",
+        "Bugün soğuk havalarda nasıl giyineceğimizi öğreneceğiz."
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Sıcak hava, soğuk hava",
+      "title": "Sıcak hava, soğuk hava",
+      "lines": ["Sıcak havada ve soğuk havada aynı şeyleri mi giyeriz?"],
+      "left": {"emoji": "☀️", "label": "Sıcak hava", "line": "Hava sıcakken ince giyiniriz. Tişört ve şort giyeriz."},
+      "right": {"emoji": "❄️", "label": "Soğuk hava", "line": "Hava soğukken kalın giyiniriz. Mont giyeriz."},
+      "after": ["Gördün mü? Havaya göre giyiniriz!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Kışlıklarımız",
+      "title": "Kışlıklarımız",
+      "lines": ["Hava soğuyunca kışlıklarımızı giyeriz. Hadi, onlarla tanışalım!"],
+      "items": [
+        {"emoji": "🧥", "label": "Mont", "line": "Mont bizi sıcacık tutar."},
+        {"emoji": "🧢", "label": "Bere ya da şapka", "line": "Başımıza bere ya da şapka takarız."},
+        {"emoji": "🧣", "label": "Atkı", "line": "Atkı boynumuzu sıcak tutar."},
+        {"emoji": "🧤", "label": "Eldiven", "line": "Eldiven ellerimizi ısıtır."},
+        {"emoji": "🥾", "label": "Bot", "line": "Botlar ayaklarımızı kuru ve sıcak tutar."}
+      ],
+      "after": ["Sen de söyle: Mont, bere, atkı, eldiven!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Kat kat giyinmek",
+      "title": "Kat kat giyinelim",
+      "lines": ["Çok soğuk günlerde kat kat, yani üst üste giyiniriz."],
+      "items": [
+        {"emoji": "👕", "label": "Tişört", "line": "Önce ince bir tişört giyeriz."},
+        {"emoji": "🧶", "label": "Yün kazak", "line": "Sonra üstüne yün bir kazak giyeriz."},
+        {"emoji": "🧥", "label": "Mont", "line": "En üste de montumuzu giyeriz."}
+      ],
+      "after": ["İçeride ısınırsak montumuzu çıkarırız."]
+    },
+    {
+      "type": "fact",
+      "emoji": "🧥",
+      "text": "Kat kat giyinince giysilerin arasında kalan hava bizi sıcak tutar.",
+      "lines": [
+        "Biliyor muydun?",
+        "Kat kat giyinince giysilerin arasında hava kalır.",
+        "Bu hava, vücudumuzun sıcaklığını korur."
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Önce havaya bakalım",
+      "emoji": ["🌧️", "❄️", "☀️"],
+      "text": "Önce havaya bak, sonra giyin!",
+      "lines": [
+        "Dışarı çıkmadan önce pencereden havaya bakarız.",
+        "Yağmur yağıyorsa şemsiyemizi alırız.",
+        "Hava soğuksa montumuzu giyer, atkımızı takarız.",
+        "Güneşli ve sıcaksa ince giyiniriz."
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Kar yağıyor! Ne giyelim?",
+      "lines": ["Bilmece zamanı! Dışarıda kar yağıyor. Ne giyelim?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🩳", "label": "Şort"},
+        {"emoji": "🧥", "label": "Mont"},
+        {"emoji": "🩴", "label": "Terlik"}
+      ],
+      "answer": 1,
+      "after": ["Evet, mont! Kar yağınca kalın bir mont giyeriz."]
+    },
+    {
+      "type": "chant",
+      "title": "Kışlık tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Hava soğudu, üşüdüm!", "emoji": "🥶"},
+        {"line": "Montumu giydim, sıcacık!", "emoji": "🧥"},
+        {"line": "Atkımı taktım, sıcacık!", "emoji": "🧣"},
+        {"line": "Eldivenimi taktım, sıcacık!", "emoji": "🧤"}
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "🧥",
+      "text": "Hadi giyinelim!",
+      "seconds": 8,
+      "lines": [
+        "Şimdi hareket zamanı! Giyiniyormuş gibi yapalım.",
+        "Montunu giy, fermuarını çek!",
+        "Bereni tak, atkını yumuşakça sar!",
+        "Eldivenlerini de unutma!"
+      ],
+      "after": ["Harika! Artık dışarı çıkmaya hazırsın!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Ellerimiz üşüyor. Ne takalım?",
+      "lines": ["Bir bilmece daha! Ellerimiz üşüyor. Ne takalım?"],
+      "options": [
+        {"emoji": "🧤", "label": "Eldiven"},
+        {"emoji": "🕶️", "label": "Güneş gözlüğü"},
+        {"emoji": "👒", "label": "Hasır şapka"}
+      ],
+      "answer": 0,
+      "after": ["Evet, eldiven! Eldiven ellerimizi sıcacık tutar."]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🧥", "label": "Mont", "line": "Soğukta mont giyeriz."},
+        {"emoji": "🧢", "label": "Bere ya da şapka", "line": "Bere ya da şapka başımızı ısıtır."},
+        {"emoji": "🧣", "label": "Atkı", "line": "Atkı boynumuzu ısıtır."},
+        {"emoji": "🧤", "label": "Eldiven", "line": "Eldiven ellerimizi ısıtır."},
+        {"emoji": "👕", "label": "Kat kat giyinmek", "line": "Kat kat giyinmek bizi sıcak tutar."},
+        {"emoji": "🌤️", "label": "Havaya bak", "line": "Giyinmeden önce havaya bakarız."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün kışlıkları ve kat kat giyinmeyi öğrendik.",
+        "Dışarı çıkarken havaya bakmayı unutma!",
+        "Yarın iki sayısını ve çiftleri öğreneceğiz. Hoşça kal!"
+      ],
+      "next": {"text": "Sayı 2: Çiftler", "emoji": "🧦"}
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "id": "2026-11-02-sayi-1-bir-tane",
+  "date": "2026-11-02",
+  "category": "sayilar",
+  "title": "Sayı 1: Bir Tane",
+  "mood": "happy",
+  "youtube": {
+    "title": "Sayı 1: Bir Tane 1️⃣ Çocuklar İçin Sayıları Öğreniyorum | Bir Güneş, Bir Ay, Bir Burun",
+    "short_title": "Bir rakamı hangisi? 1️⃣ Sayı Bilmecesi",
+    "description": "Pofi ile 1 rakamını tanıyoruz! Bir rakamını havada çiziyor, bir Güneş, bir Ay ve bir burun gibi bir tane olan şeyleri buluyoruz. Bilmeceleri çözüyor, bir tane oyuncak bulup gösteriyoruz. Okul öncesi çocuklar için eğlenceli bir sayı bölümü.",
+    "tags": ["sayı 1", "1 rakamı", "sayıları öğreniyorum", "okul öncesi sayılar", "çocuklar için sayılar", "rakamlar", "bir tane", "okul öncesi matematik"],
+    "thumbnail": {"text": "Sayı 1", "emoji": [{"symbol": "1", "color": "#1E9BF0"}, "☀️", "🌙"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Sayı 1: Bir Tane",
+      "subtitle": "Bir rakamını tanıyalım",
+      "emoji": [{"symbol": "1", "color": "#1E9BF0"}, "☀️", "🌙"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün sayılarla tanışmaya başlıyoruz.",
+        "İlk sayımız: Bir! Hadi, birlikte öğrenelim!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "1 rakamı",
+      "symbol": "1",
+      "color": "#1E9BF0",
+      "word": "Bir",
+      "lines": [
+        "İşte 1 rakamı!",
+        "Dimdik duran bir çizgiye benziyor.",
+        "Tepesinde de minik bir şapkası var.",
+        "Sen de söyle: bir!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Havada 1 çizelim",
+      "emoji": ["☝️", {"symbol": "1", "color": "#1E9BF0"}],
+      "text": "Havada 1 çizelim",
+      "lines": [
+        "Şimdi işaret parmağını havaya kaldır.",
+        "Önce küçük, eğik bir çizgiyle yukarı çık.",
+        "Sonra dümdüz aşağı in. İşte 1 rakamı!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Bir tane",
+      "title": "Hepsi bir tane!",
+      "lines": ["Bir tane olan neler var? Hadi, bakalım!"],
+      "items": [
+        {"emoji": "☀️", "label": "Bir Güneş", "line": "Gökyüzünde bir tane Güneş var."},
+        {"emoji": "🌙", "label": "Bir Ay", "line": "Gece gökyüzünde bir tane Ay var."},
+        {"emoji": "👃", "label": "Bir burun", "line": "Yüzümüzde bir tane burun var. Burnuna dokun!"},
+        {"emoji": "👄", "label": "Bir ağız", "line": "Bir tane de ağzımız var."}
+      ],
+      "after": ["Bir Güneş, bir Ay, bir burun, bir ağız!"]
+    },
+    {
+      "type": "compare",
+      "chapter": "Bir mi, çok mu?",
+      "title": "Bir mi, çok mu?",
+      "lines": ["Şimdi bu iki resme bakalım."],
+      "left": {"emoji": "🍎", "label": "Bir elma", "line": "Burada bir tane elma var."},
+      "right": {"emoji": "🍇", "label": "Bir sürü üzüm", "line": "Burada ise bir sürü üzüm var!"},
+      "after": ["Bir tane, tek demektir. Bir elma, tek bir elma!"]
+    },
+    {
+      "type": "count",
+      "chapter": "Sayalım",
+      "emoji": "🎈",
+      "n": 1,
+      "label": "balon",
+      "lines": ["Burada kaç balon var? Hadi, sayalım!"],
+      "after": ["Bir balon! Burada tek bir balon var."]
+    },
+    {
+      "type": "quiz",
+      "question": "Bir rakamı hangisi?",
+      "lines": ["Bilmece zamanı! Bir rakamı hangisi?", "Düşün bakalım!"],
+      "options": [
+        {"symbol": "3", "color": "#FF7A45", "label": "Üç"},
+        {"symbol": "1", "color": "#1E9BF0", "label": "Bir"},
+        {"symbol": "7", "color": "#2FAE5F", "label": "Yedi"}
+      ],
+      "answer": 1,
+      "after": ["Evet! İşte 1 rakamı. Dimdik bir çizgi!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Bahçede bir tane",
+      "title": "Bahçede neler var?",
+      "lines": ["{maskot} bahçeye çıktı. Bak, neler gördü!"],
+      "panels": [
+        {"emoji": ["🌳", "🐦"], "caption": "Bir kuş", "lines": ["Ağaçta bir kuş var. Cik cik!"]},
+        {"emoji": ["🐱", "🧶"], "caption": "Bir yumak", "lines": ["Kedicik bir yumakla oynuyor."]},
+        {"emoji": ["🐶", "🦴"], "caption": "Bir kemik", "lines": ["Köpekçik bir kemik buldu. Hav hav!"]},
+        {"emoji": ["🍁"], "caption": "Bir yaprak", "lines": ["Ağaçtan bir yaprak düştü. Hışır hışır!"]}
+      ],
+      "after": ["Hepsi bir tane! Bir kuş, bir yumak, bir kemik, bir yaprak."]
+    },
+    {
+      "type": "fact",
+      "emoji": "🌕",
+      "text": "Dünyamızın tek bir Ay'ı vardır.",
+      "lines": [
+        "Biliyor muydun?",
+        "Dünyamızın tek bir Ay'ı vardır.",
+        "Geceleri gökyüzüne bak. Ay'ı görebilirsin!"
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "🧸",
+      "text": "Bir tane göster!",
+      "seconds": 6,
+      "lines": ["Şimdi oyun zamanı!", "Etrafına bak. Bir tane oyuncak bul ve bana göster!"],
+      "after": ["Harika! Bir tane oyuncak buldun. Aferin sana!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Kaç burnumuz var?",
+      "lines": ["Bir bilmece daha! Burnuna dokun. Kaç burnumuz var?"],
+      "options": [
+        {"symbol": "2", "color": "#FF7A45", "label": "İki"},
+        {"symbol": "3", "color": "#2FAE5F", "label": "Üç"},
+        {"symbol": "1", "color": "#1E9BF0", "label": "Bir"}
+      ],
+      "answer": 2,
+      "after": ["Bravo! Bir tane burnumuz var."]
+    },
+    {
+      "type": "chant",
+      "title": "Bir tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Bir Güneş, bir Ay!", "emoji": "☀️"},
+        {"line": "Bir burun, bir ağız!", "emoji": "👃"},
+        {"line": "Bir parmak havada!", "emoji": "☝️"},
+        {"line": "Bir, bir, bir!", "symbol": "1", "color": "#1E9BF0"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"symbol": "1", "color": "#1E9BF0", "label": "1 rakamı", "line": "1 rakamı dimdik bir çizgidir."},
+        {"emoji": "☀️", "label": "Bir Güneş", "line": "Bir Güneş!"},
+        {"emoji": "🌙", "label": "Bir Ay", "line": "Bir Ay!"},
+        {"emoji": "👃", "label": "Bir burun", "line": "Bir burun!"},
+        {"emoji": "☝️", "label": "Bir parmak", "line": "Bir parmak!"}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün 1 rakamını öğrendik. Harikaydın!",
+        "Evde bir tane olan şeyleri bul ve göster.",
+        "Yarın A harfiyle tanışacağız. Görüşmek üzere!"
+      ],
+      "next": {"text": "A harfi", "symbol": "A", "color": "#FF4F8B"}
+    }
+  ]
+}

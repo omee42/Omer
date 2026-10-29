@@ -1,0 +1,162 @@
+{
+  "id": "2026-11-03-a-harfi",
+  "date": "2026-11-03",
+  "category": "harfler",
+  "title": "A Harfi",
+  "mood": "happy",
+  "youtube": {
+    "title": "A Harfi Çocuklar İçin 🐝 Arı, Ayı, Araba, Armut | Harfleri Öğreniyorum",
+    "short_title": "Hangisi A ile başlar? 🐝 A Harfi Bilmecesi",
+    "description": "Pofi ile alfabemizin ilk harfi A'yı öğreniyoruz! Büyük A ve küçük a'yı tanıyor, arı, ayı, araba ve armut gibi A ile başlayan kelimeleri söylüyoruz. Kelimelerin içinde saklanan A sesini buluyor, bilmeceleri çözüp hep birlikte tekerleme söylüyoruz.",
+    "tags": ["a harfi", "harfleri öğreniyorum", "alfabe", "okul öncesi harfler", "çocuklar için alfabe", "a ile başlayan kelimeler", "türk alfabesi", "ilk okuma"],
+    "thumbnail": {"text": "A harfi", "emoji": [{"symbol": "A", "color": "#FF4F8B"}, "🐝", "🐻"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "A Harfi",
+      "subtitle": "Alfabemizin ilk harfi",
+      "emoji": [{"symbol": "A", "color": "#FF4F8B"}, "🐝", "🐻"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün harflerle tanışmaya başlıyoruz.",
+        "İlk harfimiz A! Hadi, birlikte öğrenelim!"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "A harfi",
+      "symbol": "A",
+      "color": "#FF4F8B",
+      "word": "A harfi",
+      "lines": [
+        "İşte A harfi!",
+        "Bu, alfabemizin ilk harfi.",
+        "Ağzını kocaman aç ve söyle: A!"
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Büyük A, küçük a",
+      "title": "Büyük A, küçük a",
+      "lines": ["A harfinin bir büyüğü, bir de küçüğü var."],
+      "left": {"symbol": "A", "color": "#FF4F8B", "label": "Büyük A", "line": "Bu büyük A. Bir çadıra benziyor!"},
+      "right": {"symbol": "a", "color": "#7C5CFA", "label": "Küçük a", "scale": 0.6, "line": "Bu da küçük a. Minicik ve yuvarlak!"},
+      "after": ["Büyük A ve küçük a. İkisi de A harfi!"]
+    },
+    {
+      "type": "letter",
+      "chapter": "A ile başlayan kelimeler",
+      "letter": "A",
+      "lines": ["Şimdi A ile başlayan kelimeleri dinle!"],
+      "words": [
+        {"word": "Arı", "emoji": "🐝", "line": "Arı! Vız vız uçar, çiçeklerden bal yapar."},
+        {"word": "Ayı", "emoji": "🐻", "line": "Ayı! Kocaman ve tüylüdür."},
+        {"word": "Araba", "emoji": "🚗", "line": "Araba! Yolda tekerlekleriyle gider."},
+        {"word": "Armut", "emoji": "🍐", "line": "Armut! Tatlı ve sulu bir meyvedir."}
+      ],
+      "after": ["Arı, ayı, araba, armut. Hepsi A ile başlıyor!"]
+    },
+    {
+      "type": "count",
+      "chapter": "Arıları sayalım",
+      "emoji": "🐝",
+      "n": 4,
+      "label": "arı",
+      "lines": ["Arılar uçuyor! Hadi, arıları sayalım!"],
+      "after": ["Dört arı! Vız vız vız!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi A ile başlar?",
+      "lines": ["Bilmece zamanı! Hangisi A ile başlar?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🐱", "label": "Kedi"},
+        {"emoji": "🐝", "label": "Arı"},
+        {"emoji": "🐶", "label": "Köpek"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Arı, A ile başlar. Aferin sana!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "A sesini dinle",
+      "title": "A sesini duydun mu?",
+      "lines": ["A sesi kelimelerin içinde de saklanır.", "Kulağını aç ve dikkatle dinle!"],
+      "items": [
+        {"emoji": "🎈", "label": "Balon", "line": "Balon! İçinde bir ses saklı: A!"},
+        {"emoji": "🐟", "label": "Balık", "line": "Balık! Bunda da saklı: A!"},
+        {"emoji": "🍉", "label": "Karpuz", "line": "Karpuz! Yine duyduk: A!"},
+        {"emoji": "🐸", "label": "Kurbağa", "line": "Kurbağa! Bunda iki kere duyduk: A, A!"}
+      ]
+    },
+    {
+      "type": "fact",
+      "symbol": "A",
+      "color": "#FF4F8B",
+      "text": "Alfabemizde 29 harf var. A, bu harflerin ilkidir.",
+      "lines": [
+        "Biliyor muydun?",
+        "Alfabemizde tam 29 harf var.",
+        "A ise bu harflerin ilkidir!"
+      ]
+    },
+    {
+      "type": "action",
+      "emoji": "🙆",
+      "text": "A harfi ol!",
+      "seconds": 6,
+      "lines": [
+        "Şimdi hareket zamanı! Hadi, A harfi olalım!",
+        "Ayaklarını biraz aç. Ellerini başının üstünde birleştir."
+      ],
+      "after": ["Harika! Tıpkı bir A harfine benzedin!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisinde A sesi var?",
+      "lines": ["Bir bilmece daha! Hangisinde A sesi var?", "Dinle: kedi, limon, havuç."],
+      "options": [
+        {"emoji": "🐱", "label": "Kedi"},
+        {"emoji": "🍋", "label": "Limon"},
+        {"emoji": "🥕", "label": "Havuç"}
+      ],
+      "answer": 2,
+      "after": ["Bravo! Havuç dedik, A sesini duyduk!"]
+    },
+    {
+      "type": "chant",
+      "title": "A tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "A, a, arı! Vız vız vız!", "emoji": "🐝"},
+        {"line": "A, a, ayı! Balı sever!", "emoji": "🐻"},
+        {"line": "A, a, araba! Düt düt düt!", "emoji": "🚗"},
+        {"line": "A, a, armut! Tatlı armut!", "emoji": "🍐"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"symbol": "A", "color": "#FF4F8B", "label": "Büyük A", "line": "Büyük A!"},
+        {"symbol": "a", "color": "#7C5CFA", "label": "Küçük a", "line": "Küçük a!"},
+        {"emoji": "🐝", "label": "Arı", "line": "Arı!"},
+        {"emoji": "🐻", "label": "Ayı", "line": "Ayı!"},
+        {"emoji": "🚗", "label": "Araba", "line": "Araba!"},
+        {"emoji": "🍐", "label": "Armut", "line": "Armut!"}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün A harfini öğrendik. Harikaydın!",
+        "Evde A ile başlayan bir şey bulabilir misin?",
+        "Yarın kış uykusuna yatan hayvanları öğreneceğiz. Görüşmek üzere!"
+      ],
+      "next": {"text": "Kış uykusuna yatan hayvanlar", "emoji": "🦔"}
+    }
+  ]
+}

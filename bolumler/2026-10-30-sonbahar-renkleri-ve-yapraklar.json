@@ -1,0 +1,159 @@
+{
+  "id": "2026-10-30-sonbahar-renkleri-ve-yapraklar",
+  "date": "2026-10-30",
+  "category": "renkler",
+  "title": "Sonbahar Yaprakları",
+  "mood": "happy",
+  "youtube": {
+    "title": "Sonbahar Yaprakları Çocuklar İçin 🍂 Sonbahar Renkleri, Bilmece ve Yaprak Baskısı",
+    "short_title": "Hangisi turuncu? 🍂 Sonbahar Renkleri Bilmecesi",
+    "description": "Pofi ile sonbahar yapraklarını tanıyoruz! Yapraklar sonbaharda nasıl renk değiştirir? Sarı, turuncu, kırmızı ve kahverengiyi öğreniyor, yaprakları sayıyor ve bilmeceleri çözüyoruz. Sonunda yapraklarla kolay bir baskı resmi yapıyoruz.",
+    "tags": ["sonbahar", "sonbahar yaprakları", "sonbahar renkleri", "renkleri öğreniyorum", "okul öncesi renkler", "yaprak baskısı", "sonbahar etkinliği", "çocuklar için sonbahar"],
+    "thumbnail": {"text": "Sonbahar", "emoji": ["🍂", "🍁"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Sonbahar Yaprakları",
+      "subtitle": "Sonbaharın renkleri",
+      "emoji": ["🍂", "🍁", "🎨"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün sonbahar yapraklarını öğreneceğiz.",
+        "Yapraklar ne renk olur? Hadi, birlikte bakalım!"
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Sonbahar geldi",
+      "emoji": ["🍁", "🍂"],
+      "text": "Sonbahar geldi!",
+      "lines": [
+        "Sonbahar geldi! Havalar serinledi.",
+        "Ağaçlardaki yapraklar rengarenk oldu.",
+        "Sonra yapraklar birer birer yere düşer."
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Yapraklar renk değiştirir",
+      "title": "Yapraklar renk değiştirir",
+      "lines": ["Şimdi yaz ile sonbaharı karşılaştıralım."],
+      "left": {"emoji": "🍃", "label": "Yazın", "line": "Yazın yapraklar yemyeşildir."},
+      "right": {"emoji": "🍂", "label": "Sonbaharda", "line": "Sonbaharda sarı, turuncu ve kırmızı olur!"},
+      "after": ["Gördün mü? Sonbaharda yapraklar renk değiştirir!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Sonbaharın renkleri",
+      "title": "Sonbaharın renkleri",
+      "lines": ["Hadi, sonbaharın renklerini tanıyalım!"],
+      "items": [
+        {"shape": "daire", "color": "#FFD43B", "label": "Sarı", "line": "Sarı! Bazı yapraklar sapsarı olur."},
+        {"shape": "daire", "color": "#FF8A1F", "label": "Turuncu", "line": "Turuncu! Bazı yapraklar turuncu olur."},
+        {"shape": "daire", "color": "#E5322D", "label": "Kırmızı", "line": "Kırmızı! Bazı yapraklar kıpkırmızı olur."},
+        {"shape": "daire", "color": "#8B5A2B", "label": "Kahverengi", "line": "Kahverengi! Kuruyan yapraklar kahverengi olur."}
+      ],
+      "after": ["Sen de söyle: sarı, turuncu, kırmızı, kahverengi!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🍂",
+      "text": "Sarı ve turuncu renk yaprağın içinde hep vardır. Yazın yeşil renk onları saklar.",
+      "lines": [
+        "Biliyor muydun?",
+        "Sarı ve turuncu renk yaprağın içinde hep saklıdır.",
+        "Yazın yeşil renk onların üstünü örter.",
+        "Sonbaharda yeşil renk gider. Saklı renkler ortaya çıkar!"
+      ]
+    },
+    {
+      "type": "count",
+      "chapter": "Yaprakları sayalım",
+      "emoji": "🍁",
+      "n": 5,
+      "label": "yaprak",
+      "lines": ["Rüzgar esti, yapraklar uçuştu!", "Hadi, yaprakları birlikte sayalım!"],
+      "after": ["Tam beş yaprak! Aferin sana!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi turuncu?",
+      "lines": ["Bilmece zamanı! Hangisi turuncu?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🍎", "label": "Elma"},
+        {"emoji": "🍊", "label": "Mandalina"},
+        {"emoji": "🍇", "label": "Üzüm"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Mandalina turuncudur. Tıpkı sonbahar yaprakları gibi!"]
+    },
+    {
+      "type": "action",
+      "emoji": "🍃",
+      "text": "Yaprak gibi dön!",
+      "seconds": 6,
+      "lines": ["Şimdi hareket zamanı! Sen de bir yaprak ol!", "Kollarını aç. Rüzgarda yavaş yavaş dön!"],
+      "after": ["Şimdi yavaşça yere çömel. Yaprak yere kondu!", "Harika! Çok güzel bir yapraktın!"]
+    },
+    {
+      "type": "story",
+      "chapter": "Yaprak baskısı",
+      "title": "Yaprak baskısı yapalım",
+      "lines": ["Şimdi yapraklarla bir resim yapalım!"],
+      "panels": [
+        {"emoji": ["🍂", "🧺"], "caption": "Yaprak topla", "lines": ["Önce yerden birkaç yaprak topla."]},
+        {"emoji": ["🍂", "🖌️", "🎨"], "caption": "Boya sür", "lines": ["Yaprağın bir yüzüne fırçayla boya sür."]},
+        {"emoji": ["📄", "🍂", "✋"], "caption": "Kağıda bastır", "lines": ["Yaprağı çevir, boyalı yüzünü kağıda koy.", "Elinle üstüne bastır."]},
+        {"emoji": ["📄", "🍁", "✨"], "caption": "Kaldır ve bak!", "lines": ["Şimdi yaprağı yavaşça kaldır.", "Kağıtta yaprağın resmi çıktı! Ne güzel!"]}
+      ],
+      "after": ["Boyayı büyüklerimizle birlikte kullanırız.", "İşimiz bitince ellerimizi yıkarız."]
+    },
+    {
+      "type": "quiz",
+      "question": "Kuruyan yaprak ne renk olur?",
+      "lines": ["Bir bilmece daha! Kuruyan yaprak ne renk olur?"],
+      "options": [
+        {"shape": "daire", "color": "#3B82F6", "label": "Mavi"},
+        {"shape": "daire", "color": "#A855F7", "label": "Mor"},
+        {"shape": "daire", "color": "#8B5A2B", "label": "Kahverengi"}
+      ],
+      "answer": 2,
+      "after": ["Bravo! Kuruyan yaprak kahverengi olur. Üstüne basınca hışır hışır ses çıkarır."]
+    },
+    {
+      "type": "chant",
+      "title": "Yaprak tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Sarı yaprak, turuncu yaprak!", "emoji": "🍂"},
+        {"line": "Kırmızı yaprak, kahverengi yaprak!", "emoji": "🍁"},
+        {"line": "Rüzgar eser, yaprak uçar!", "emoji": "🍃"},
+        {"line": "Hışır hışır, yere konar!", "emoji": "🍂"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🍂", "label": "Renk değiştirir", "line": "Sonbaharda yapraklar renk değiştirir."},
+        {"shape": "daire", "color": "#FFD43B", "label": "Sarı", "line": "Sarı!"},
+        {"shape": "daire", "color": "#FF8A1F", "label": "Turuncu", "line": "Turuncu!"},
+        {"shape": "daire", "color": "#E5322D", "label": "Kırmızı", "line": "Kırmızı!"},
+        {"shape": "daire", "color": "#8B5A2B", "label": "Kahverengi", "line": "Kahverengi!"},
+        {"emoji": "🎨", "label": "Yaprak baskısı", "line": "Yapraklarla güzel resimler yapabiliriz."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün renkli yaprakları öğrendik. Harikaydın!",
+        "Dışarıda bir yaprak görürsen, rengine bak.",
+        "Yarın duygularımızı tanıyacağız. Görüşmek üzere!"
+      ],
+      "next": {"text": "Duygularımızı tanıyalım", "emoji": "😊"}
+    }
+  ]
+}

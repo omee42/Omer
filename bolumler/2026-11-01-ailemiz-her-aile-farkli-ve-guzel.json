@@ -1,0 +1,168 @@
+{
+  "id": "2026-11-01-ailemiz-her-aile-farkli-ve-guzel",
+  "date": "2026-11-01",
+  "category": "gunluk-yasam",
+  "title": "Ailemiz",
+  "mood": "happy",
+  "youtube": {
+    "title": "Ailemiz Çocuklar İçin 🏡 Anne, Baba, Kardeş, Dede, Nine | Her Aile Farklı ve Güzel",
+    "short_title": "Hangisi dede? 🏡 Aile Bilmecesi",
+    "description": "Pofi ile aileleri tanıyoruz! Anne, baba, kardeş, dede ve nineyi öğreniyor, anneanne ile babaannenin kim olduğunu keşfediyoruz. Küçük ve kalabalık ailelerle, annesiyle, babasıyla ya da dedesi ve ninesiyle yaşayan çocuklarla tanışıyoruz. Her ailenin farklı ve güzel olduğunu görüyor, ailemizle neler yaptığımızı konuşuyoruz.",
+    "tags": ["ailemiz", "aile bireyleri", "aile okul öncesi", "çocuklar için aile", "anne baba kardeş", "dede nine", "her aile farklı", "anneanne babaanne", "aile etkinliği"],
+    "thumbnail": {"text": "Ailemiz", "emoji": ["👨‍👩‍👧‍👦", "🏡", "👩‍👧"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Ailemiz",
+      "subtitle": "Her aile farklı ve güzel",
+      "emoji": ["👩‍👧", "🏡", "👨‍👩‍👧‍👦"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün aileleri konuşacağız.",
+        "Her aile farklıdır, her aile güzeldir! Hadi, birlikte bakalım."
+      ]
+    },
+    {
+      "type": "talk",
+      "chapter": "Aile nedir?",
+      "emoji": ["🏡", "❤️"],
+      "text": "Aile, birbirini seven insanlardır",
+      "lines": [
+        "Aile nedir? Hiç düşündün mü?",
+        "Aile, birbirini seven ve birbirine bakan insanlardır.",
+        "Ailemiz bizi sever, bize bakar, bizi korur."
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Ailede kimler var?",
+      "title": "Ailede kimler var?",
+      "lines": ["Ailede kimler olabilir? Hadi, tanıyalım!"],
+      "items": [
+        {"emoji": "👩", "label": "Anne", "line": "İşte anne!"},
+        {"emoji": "🧔", "label": "Baba", "line": "İşte baba!"},
+        {"emoji": "🧒", "label": "Kardeş", "line": "İşte kardeş! Kardeş küçük de olabilir, büyük de."},
+        {"emoji": "👴", "label": "Dede", "line": "İşte dede! Dede, annemizin ya da babamızın babasıdır."},
+        {"emoji": "👵", "label": "Nine", "line": "İşte nine! Nine, annemizin ya da babamızın annesidir."}
+      ],
+      "after": ["Anne, baba, kardeş, dede, nine. Sen de söyle!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "👵",
+      "text": "Annemizin annesine anneanne, babamızın annesine babaanne deriz.",
+      "lines": [
+        "Biliyor muydun?",
+        "Annemizin annesine anneanne deriz.",
+        "Babamızın annesine de babaanne deriz.",
+        "İkisine de nine diyebiliriz!"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi dede?",
+      "lines": ["Bilmece zamanı! Hangisi dede?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "👶", "label": "Bebek"},
+        {"emoji": "👴", "label": "Dede"},
+        {"emoji": "🧒", "label": "Çocuk"}
+      ],
+      "answer": 1,
+      "after": ["Evet! Bu bir dede. Dede, annemizin ya da babamızın babasıdır."]
+    },
+    {
+      "type": "story",
+      "chapter": "Her aile farklıdır",
+      "title": "Her aile farklıdır",
+      "lines": ["Şimdi farklı ailelerle tanışalım."],
+      "panels": [
+        {"emoji": ["👩", "👧"], "caption": "Ada ve annesi", "lines": ["Bu Ada. Ada annesiyle birlikte yaşıyor."]},
+        {"emoji": ["👴", "👵", "🧒"], "caption": "Ege, dedesi ve ninesi", "lines": ["Bu Ege. Ege dedesi ve ninesiyle yaşıyor."]},
+        {"emoji": ["🧔", "👦"], "caption": "Can ve babası", "lines": ["Bu Can. Can babasıyla yaşıyor.", "Babası her sabah ona kahvaltı hazırlıyor."]},
+        {"emoji": ["👨‍👩‍👧‍👦", "👶"], "caption": "Zeynep'in ailesi", "lines": ["Bu da Zeynep'in ailesi. Annesi, babası, ağabeyi ve bebek kardeşi var!"]}
+      ],
+      "after": ["Her aile farklıdır. Her aile güzeldir!"]
+    },
+    {
+      "type": "compare",
+      "title": "Küçük ya da kalabalık",
+      "lines": ["Ailelere bir daha bakalım."],
+      "left": {"emoji": "👩‍👧", "label": "Küçük aile", "line": "Bazı aileler küçüktür."},
+      "right": {"emoji": "👨‍👩‍👧‍👦", "label": "Kalabalık aile", "line": "Bazı aileler kalabalıktır."},
+      "after": ["İkisi de aile! İkisi de çok güzel!"]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Ailemizle neler yaparız?",
+      "title": "Ailemizle neler yaparız?",
+      "lines": ["Ailemizle birlikte neler yaparız?"],
+      "items": [
+        {"emoji": "🍽️", "label": "Yemek yeriz", "line": "Aynı sofrada yemek yeriz."},
+        {"emoji": "📖", "label": "Kitap okuruz", "line": "Birlikte kitap okuruz."},
+        {"emoji": "🛝", "label": "Parkta oynarız", "line": "Parka gidip oyun oynarız."},
+        {"emoji": "🧹", "label": "Evi toplarız", "line": "Evi birlikte toplarız. Herkes yardım eder!"},
+        {"emoji": "🤗", "label": "Sarılırız", "line": "Birbirimize sıkı sıkı sarılırız."}
+      ],
+      "after": ["Sen ailenle en çok ne yapmayı seversin?"]
+    },
+    {
+      "type": "action",
+      "emoji": "🤗",
+      "text": "Kocaman sarıl!",
+      "seconds": 5,
+      "lines": [
+        "Şimdi sarılma zamanı!",
+        "Yanındaki sevdiğin birine \"Sarılabilir miyim?\" diye sor.",
+        "Yanında kimse yoksa kendine sarıl!"
+      ],
+      "after": ["Ne güzel bir sarılma! Aferin sana!"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi nine?",
+      "lines": ["Bir bilmece daha! Hangisi nine?"],
+      "options": [
+        {"emoji": "👵", "label": "Nine"},
+        {"emoji": "🧔", "label": "Baba"},
+        {"emoji": "👶", "label": "Bebek"}
+      ],
+      "answer": 0,
+      "after": ["Bravo! Bu bir nine. Nine, annemizin ya da babamızın annesidir."]
+    },
+    {
+      "type": "chant",
+      "title": "Aile tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Küçük aile, kalabalık aile!", "emoji": "👩‍👧"},
+        {"line": "Hepsi güzel, hepsi aile!", "emoji": "👨‍👩‍👧‍👦"},
+        {"line": "Sevgi dolu, mutlu aile!", "emoji": "❤️"},
+        {"line": "Ailemi çok seviyorum!", "emoji": "🏡"}
+      ]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "👩", "label": "Anne", "line": "Anne!"},
+        {"emoji": "🧔", "label": "Baba", "line": "Baba!"},
+        {"emoji": "🧒", "label": "Kardeş", "line": "Kardeş!"},
+        {"emoji": "👴", "label": "Dede", "line": "Dede!"},
+        {"emoji": "👵", "label": "Nine", "line": "Nine!"},
+        {"emoji": "🏡", "label": "Her aile güzel", "line": "Her aile farklıdır ve her aile güzeldir."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Hoşça kal!",
+      "lines": [
+        "Bugün aileleri tanıdık. Harikaydın!",
+        "Bugün ailene \"Seni seviyorum!\" de.",
+        "Yarın 1 rakamıyla tanışacağız. Görüşmek üzere!"
+      ],
+      "next": {"text": "Sayı 1: Bir tane", "emoji": "1️⃣"}
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "id": "2026-11-06-kirmizi-renk",
+  "date": "2026-11-06",
+  "category": "renkler",
+  "title": "Kırmızı Renk",
+  "mood": "happy",
+  "youtube": {
+    "title": "Kırmızı Rengi Öğreniyorum 🍎 Çocuklar İçin Renkler: Elma, Çilek, İtfaiye Aracı",
+    "short_title": "Hangisi kırmızı? 🍓 Renk bilmecesi",
+    "description": "Pofi ile kırmızı rengi öğreniyoruz! Kırmızı elmayı, çileği ve itfaiye aracını tanıyor, çilekleri sayıyor ve bilmecelerde kırmızı olanı buluyoruz. Sonra etrafımızdaki kırmızı şeyleri arıyoruz. Okul öncesi çocuklar için renkleri öğreten eğlenceli bir bölüm.",
+    "tags": ["kırmızı renk", "renkleri öğreniyorum", "renkler çocuklar için", "okul öncesi renkler", "kırmızı", "renk öğrenme", "elma çilek", "itfaiye aracı", "renk bilmecesi"],
+    "thumbnail": {"text": "Kırmızı", "emoji": ["🍎", "🍓", "🚒"]}
+  },
+  "scenes": [
+    {
+      "type": "intro",
+      "title": "Kırmızı Renk",
+      "emoji": ["🍎", "🍓", "🚒"],
+      "lines": [
+        "Merhaba arkadaşlar! Ben {maskot}!",
+        "Bugün çok güzel bir renk öğreneceğiz.",
+        "Elma gibi, çilek gibi bir renk. Bil bakalım hangisi?"
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "Kırmızıyla tanışalım",
+      "emoji": "🔴",
+      "word": "Kırmızı",
+      "color": "#E53935",
+      "lines": [
+        "İşte kırmızı!",
+        "Sen de söyle: Kırmızı!",
+        "Çok güzel! Hadi bir daha söyleyelim: Kırmızı!"
+      ]
+    },
+    {
+      "type": "gallery",
+      "chapter": "Kırmızı neler var?",
+      "title": "Kırmızı neler var?",
+      "lines": ["Etrafımızda kırmızı neler var? Hadi bakalım!"],
+      "items": [
+        {"emoji": "🍎", "label": "Elma", "line": "Bu elma kırmızı ve çok tatlı."},
+        {"emoji": "🍓", "label": "Çilek", "line": "Çilek de kırmızıdır."},
+        {"emoji": "🍅", "label": "Domates", "line": "Olgun domates kırmızıdır."},
+        {"emoji": "🐞", "label": "Uğur böceği", "line": "Uğur böceğinin sırtı kırmızı, benekleri siyahtır."},
+        {"emoji": "🍒", "label": "Kiraz", "line": "Kirazlar da kıpkırmızı!"}
+      ]
+    },
+    {
+      "type": "item",
+      "chapter": "İtfaiye aracı",
+      "emoji": "🚒",
+      "word": "İtfaiye aracı",
+      "color": "#E53935",
+      "lines": [
+        "Bak, kocaman bir itfaiye aracı!",
+        "İtfaiye aracı kırmızıdır.",
+        "İtfaiyeciler yangınları söndürür ve insanlara yardım eder.",
+        "Sen de söyle: İtfaiye aracı!"
+      ]
+    },
+    {
+      "type": "count",
+      "chapter": "Çilekleri sayalım",
+      "emoji": "🍓",
+      "n": 6,
+      "label": "çilek",
+      "lines": ["Hadi, kırmızı çilekleri birlikte sayalım!"],
+      "after": ["Altı kırmızı çilek! Aferin sana!"]
+    },
+    {
+      "type": "fact",
+      "emoji": "🍓",
+      "text": "Çileğin üstündeki minik noktalar, onun tohumlarıdır.",
+      "lines": [
+        "Biliyor muydun?",
+        "Çileğin üstündeki minik noktalar, onun tohumlarıdır!",
+        "Çilek, tohumları dışında olan bir meyvedir."
+      ]
+    },
+    {
+      "type": "compare",
+      "chapter": "Kırmızı ve yeşil elma",
+      "title": "İki elma",
+      "lines": ["Şimdi bu iki elmaya dikkatlice bakalım."],
+      "left": {"emoji": "🍎", "label": "Kırmızı elma", "line": "Bu elma kırmızı."},
+      "right": {"emoji": "🍏", "label": "Yeşil elma", "line": "Bu elma ise yeşil."},
+      "after": ["Elmalar farklı renklerde olabilir.", "Kırmızı elmayı ekranda gösterebilir misin?"]
+    },
+    {
+      "type": "quiz",
+      "question": "Hangisi kırmızı?",
+      "lines": ["Bilmece zamanı! Hangisi kırmızı?", "Düşün bakalım!"],
+      "options": [
+        {"emoji": "🍌", "label": "Muz"},
+        {"emoji": "🥦", "label": "Brokoli"},
+        {"emoji": "🍓", "label": "Çilek"}
+      ],
+      "answer": 2,
+      "after": ["Evet, çilek! Çilek kırmızıdır. Muz sarı, brokoli yeşil."]
+    },
+    {
+      "type": "chant",
+      "title": "Kırmızı tekerlemesi",
+      "lines": ["Şimdi benimle birlikte söyle!"],
+      "items": [
+        {"line": "Kırmızı, kırmızı, elma kırmızı!", "emoji": "🍎"},
+        {"line": "Kırmızı, kırmızı, çilek kırmızı!", "emoji": "🍓"},
+        {"line": "Kırmızı, kırmızı, kiraz kırmızı!", "emoji": "🍒"},
+        {"line": "Kırmızı, kırmızı, itfaiye aracı kırmızı!", "emoji": "🚒"}
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Kırmızı olan hangisi?",
+      "lines": ["Bir bilmece daha! Kırmızı olan hangisi?"],
+      "options": [
+        {"shape": "yıldız", "color": "#E53935", "label": "Yıldız"},
+        {"shape": "kalp", "color": "#1E88E5", "label": "Kalp"},
+        {"shape": "daire", "color": "#FDD835", "label": "Daire"}
+      ],
+      "answer": 0,
+      "after": ["Evet, yıldız kırmızı! Kalp mavi, daire sarı."]
+    },
+    {
+      "type": "action",
+      "emoji": "🔍",
+      "text": "Kırmızıyı bul!",
+      "seconds": 8,
+      "lines": [
+        "Şimdi bir oyun oynayalım!",
+        "Oturduğun yerden etrafına bak.",
+        "Kırmızı bir şey görünce parmağınla göster!"
+      ],
+      "after": ["Kırmızı bir şey buldun mu? Aferin sana!"]
+    },
+    {
+      "type": "recap",
+      "title": "Bugün neler öğrendik?",
+      "lines": ["Bugün neler öğrendik?"],
+      "items": [
+        {"emoji": "🔴", "label": "Kırmızı", "line": "Bugün kırmızı rengi öğrendik."},
+        {"emoji": "🍎", "label": "Elma", "line": "Elma kırmızı olabilir."},
+        {"emoji": "🍓", "label": "Çilek", "line": "Çilek kırmızıdır."},
+        {"emoji": "🚒", "label": "İtfaiye aracı", "line": "İtfaiye aracı kırmızıdır."},
+        {"emoji": "🔍", "label": "Kırmızıyı bul", "line": "Kırmızı olanı bulmayı öğrendik."}
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "Görüşmek üzere!",
+      "lines": [
+        "Bugün kırmızı rengi öğrendik. Harikasın!",
+        "Evde kırmızı şeyler aramayı unutma!",
+        "Yarın paylaşmayı konuşacağız. Hoşça kal!"
+      ],
+      "next": {"text": "Paylaşmak güzeldir", "emoji": "🤝"}
+    }
+  ]
+}
