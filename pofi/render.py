@@ -18,6 +18,7 @@ from .config import load_config
 from .gfx import blit, clamp, fit_text, rgb, rounded_card, text_sprite
 from .mascot import MascotAnimator
 from .scenes import SCENES, Layout, Say, Sfx, Wait
+from .schema import get_visual_list
 
 THEMES = [
     {"name": "şeker", "bg": ("#FFF0C2", "#FFC2DC"), "accent": "#FF4F8B", "accent2": "#7C5CFA", "dark": "#3D2A7A"},
@@ -222,9 +223,10 @@ class FrameRenderer:
                               shadow=False)
             w = min(txt.width + 50 * s, 400 * s if not self.ctx.layout.portrait else 900 * s)
             if txt.width > w - 40 * s:
-                txt = fit_text(self.ctx.fmt(ep["title"]), "title2", int(w - 40 * s), int(60 * s), int(40 * s),
-                               fill=rgb(self.ctx.theme["dark"]), shadow=False)
-            pill = rounded_card(int(w), int(66 * s), int(33 * s), (255, 255, 255), 215).copy()
+                txt = fit_text(self.ctx.fmt(ep["title"]), "title2", int(w - 40 * s), int(100 * s), int(40 * s),
+                               min_size=int(32 * s), fill=rgb(self.ctx.theme["dark"]), shadow=False)
+            ph = max(66 * s, txt.height + 12 * s)  # grow for a two-line title instead of squeezing it
+            pill = rounded_card(int(w), int(ph), int(min(33 * s, ph / 2)), (255, 255, 255), 215).copy()
             blit(pill, txt, pill.width / 2, pill.height / 2 - 6 * s)
             self._chip = pill
         return self._chip
@@ -304,7 +306,8 @@ class FrameRenderer:
         lt = t - scene.start
         canvas = self.bg.frame(t)
         L = self.ctx.layout
-        blit(canvas, self.chip(), L.chip[0], L.chip[1])
+        chip = self.chip()
+        blit(canvas, chip, L.chip[0], L.chip[1] - 33 * L.s + (chip.height - 36 * L.s) / 2)
         scene.draw(canvas, lt)
         self.draw_mascot(canvas, scene, lt, t)
         if self.captions_on:
@@ -440,6 +443,7 @@ def make_short(ep, max_seconds=58):
         scenes = [intro] + copy.deepcopy(picks) + [{
             "type": "outro", "title": "Tam bölüm kanalda!",
             "lines": ["Tam bölümü kanalımızda izleyebilirsin. Hoşça kal!"],
+            "emoji": get_visual_list(src[0])[:3],
         }]
     short = copy.deepcopy(ep)
     short["id"] = ep["id"] + "-short"

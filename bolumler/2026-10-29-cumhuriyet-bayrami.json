@@ -64,7 +64,7 @@
         {"emoji": "🇹🇷", "label": "Bayrak asarız", "line": "Evlerimize ve okullarımıza bayraklar asarız."},
         {"emoji": "🎶", "label": "Şarkı söyleriz", "line": "Hep birlikte marşlar ve şarkılar söyleriz."},
         {"emoji": "🥁", "label": "Tören yaparız", "line": "Okullarda törenler ve gösteriler yapılır."},
-        {"emoji": "🎆", "label": "Havai fişek", "line": "Akşam gökyüzünde rengârenk havai fişekler patlar."}
+        {"emoji": "🎆", "label": "Havai fişek", "line": "Akşam olunca, gökyüzünde havai fişekler patlar."}
       ],
       "after": ["Havai fişekleri her zaman büyüklerimizle birlikte, uzaktan izleriz."]
     },
@@ -89,7 +89,7 @@
     {
       "type": "quiz",
       "question": "Bizim bayrağımız hangisi?",
-      "lines": ["Şimdi bir bilmece! Bizim bayrağımız hangisi?", "Düşün bakalım!"],
+      "lines": ["Şimdi bir bilmece! Hangisi bizim bayrağımız?", "Düşün bakalım!"],
       "options": [
         {"emoji": "🇯🇵", "label": "Japonya"},
         {"emoji": "🇹🇷", "label": "Türkiye"},

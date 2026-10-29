@@ -175,7 +175,8 @@ def produce(path: Path, out_dir: Path, short=True, workers=None):
 def write_voice_report(tts, path):
     if not tts.report:
         return
-    rows = sorted(tts.report.items(), key=lambda kv: kv[1]["score"])
+    rows = sorted(((t, r) for t, r in tts.report.items() if len(t.split()) > 2),  # Whisper misjudges 1-2 words
+                  key=lambda kv: kv[1]["score"])
     weak = [(t, r) for t, r in rows if r["score"] < 0.7]
     out = [f"Seslendirme kalite raporu — {len(rows)} cümle, {len(weak)} tanesi kontrol edilmeli.",
            "Puan: Whisper'ın cümleyi ne kadar doğru duyduğu (1.0 = tamamen doğru).", ""]
@@ -247,7 +248,7 @@ def cmd_voice(args):
         out = OUT / ep["id"]
         out.mkdir(parents=True, exist_ok=True)
         write_voice_report(tts, out / "ses_raporu.txt")
-        weak = [(t, r) for t, r in tts.report.items() if r["score"] < args.esik]
+        weak = [(t, r) for t, r in tts.report.items() if r["score"] < args.esik and len(t.split()) > 2]
         worst += len(weak)
         print(f"{Path(f).name}: {len(tts.report)} cümle, {len(weak)} zayıf")
         for t, r in sorted(weak, key=lambda kv: kv[1]["score"]):

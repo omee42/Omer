@@ -12,8 +12,8 @@ DISC = "#C3B8FF"
 BEAK = "#FFA53A"
 PUPIL = (45, 37, 72)
 
-W0, H0 = 520, 480  # design grid (owl is drawn around x=200, shifted by OX)
-OX = 60
+W0, H0 = 640, 480  # design grid (owl is drawn around x=200, shifted by OX; room for a raised wing)
+OX = 120
 
 
 def _ellipse_mask(size, box, k):

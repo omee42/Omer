@@ -60,7 +60,7 @@ def thumbnail(ep, path, cfg, W=1280, H=720):
     blit(img, sp, W * 0.27, H * 0.38)
     blit(img, owl(300, 3, "open", 1), 175, H + 8, anchor="bottom")
     band = gfx.rounded_card(int(W * 0.34), 64, 32, rgb(th["accent"]), 255)
-    lab = gfx.text_sprite(cfg["kanal"]["ad"], "title2", 34, (255, 255, 255), shadow=False)
+    lab = gfx.text_sprite(cfg["kanal"]["ad"], "title2", 34, gfx.ink(th["accent"], th["dark"]), shadow=False)
     band = band.copy()
     blit(band, lab, band.width / 2, band.height / 2 - 4)
     blit(img, band, W * 0.69, H - 56)
@@ -83,7 +83,8 @@ def metadata(ep, tl, cfg, short=False):
         desc.append("Bölümler:")
         desc += [f"{_fmt_time(s)} {name}" for s, name in chapters]
         desc.append("")
-    desc.append(f"👨‍👩‍👧 {cfg['kanal']['yas_grubu']} çocuklar için hazırlanmıştır. Ebeveyn eşliğinde izlenmesi önerilir.")
+    desc.append(f"👨‍👩‍👧 Bu video {cfg['kanal']['yas_grubu']} grubundaki çocuklar için hazırlanmıştır. "
+                "Ebeveyn eşliğinde izlenmesi önerilir.")
     if cfg["kanal"].get("web"):
         desc.append(cfg["kanal"]["web"])
     desc += ["", CREDITS]

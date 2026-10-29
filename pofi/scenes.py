@@ -235,18 +235,30 @@ class Outro(Scene):
                 cx, cy = x + w / 2, y + h * 0.74
                 v = get_visual(nxt)
                 layer = card.copy()
-                lab = text_sprite("Sıradaki bölüm", "body", int(40 * self.s), rgb(self.theme["accent"]), shadow=False)
-                tx = self.body_text(self.fmt(nxt["text"]), cw * (0.58 if v else 0.9), ch * 0.5, 72)
+                lab = text_sprite("Sıradaki bölüm", "body", int(40 * self.s),
+                                  gfx.readable_on_white(self.theme["accent"]), shadow=False)
                 off = (layer.width - cw) / 2
                 if v:
-                    vs = gfx.visual(v, ch * 0.66)
-                    blit(layer, vs, off + ch * 0.48, layer.height / 2 - 6)
-                    blit(layer, lab, off + ch * 0.95 + lab.width / 2, off + ch * 0.28)
-                    blit(layer, tx, off + ch * 0.95 + tx.width / 2, off + ch * 0.62)
+                    vsize = ch * (0.5 if self.L.portrait else 0.66)
+                    tx_x0 = vsize * 1.45
+                    avail = cw - tx_x0 - 40 * self.s
+                    tx = self.body_text(self.fmt(nxt["text"]), avail, ch * 0.5, 72)
+                    blit(layer, gfx.visual(v, vsize), off + vsize * 0.72, layer.height / 2 - 6)
+                    blit(layer, lab, off + tx_x0 + avail / 2, off + ch * 0.28)
+                    blit(layer, tx, off + tx_x0 + avail / 2, off + ch * 0.62)
                 else:
+                    tx = self.body_text(self.fmt(nxt["text"]), cw * 0.9, ch * 0.5, 72)
                     blit(layer, lab, layer.width / 2, off + ch * 0.28)
                     blit(layer, tx, layer.width / 2, off + ch * 0.62)
                 self.put_sprite(canvas, f"outro-next-{self.index}", layer, cx, cy + bob(t, 0, 5 * self.s), sc)
+        else:
+            vs = get_visual_list(self.spec)[:3]
+            n = len(vs)
+            for i, v in enumerate(vs):
+                size = min(w / (n + 0.6), h * 0.28)
+                vx = x + w * (0.5 + ((i + 0.5) / n - 0.5) * min(1.0, 0.3 * n))
+                self.put(canvas, v, vx, y + h * 0.72 + bob(t, i * 1.3, 10 * self.s), size,
+                         pop_scale(t, 0.6 + 0.14 * i), wobble(t, i, 5))
 
     def mascot(self, t):
         return {"waving": True, "happy": t > self.dur - 2.4, "jump": 0.0, "big": True}
@@ -339,7 +351,7 @@ class Fact(Scene):
             card = self.card(cw, ch).copy()
             off = (card.width - cw) / 2
             head = text_sprite(self.fmt(self.spec.get("title", "Biliyor muydun?")), "title", int(66 * self.s),
-                               (255, 255, 255), shadow=False)
+                               gfx.ink(self.theme["accent"], self.theme["dark"]), shadow=False)
             pill_w, pill_h = head.width + 150 * self.s, head.height + 10 * self.s
             pill = rounded_card(int(pill_w), int(pill_h), int(pill_h / 2), rgb(self.theme["accent"]), 255, shadow=False)
             bulb = gfx.visual("💡", pill_h * 0.95)
@@ -469,7 +481,8 @@ class Count(Scene):
         else:
             cols = n if n <= 5 else math.ceil(n / 2) if n <= 10 else 5
         rows = math.ceil(n / cols)
-        aw, ah = w, h - top
+        band = h * 0.12 if (self.L.portrait and self.spec.get("label")) else 0  # room for "5 ELMA" below
+        aw, ah = w, h - top - band
         cw, ch = aw / cols, ah / rows
         size = min(cw, ch) * 0.74
         current = 0
@@ -501,9 +514,10 @@ class Count(Scene):
             self.put_sprite(canvas, f"cbig-{current}", big, x + w / 2, y + top * 0.5, sc)
         label = self.spec.get("label")
         if label and t > done:
-            sp = self.title_text(f"{n} {tr_upper(self.fmt(label))}", w * 0.34, top * 0.9, 110)
+            sp = self.title_text(f"{n} {tr_upper(self.fmt(label))}", w * (0.8 if self.L.portrait else 0.34),
+                                 (band or top) * 0.9, 110)
             lx = x + w * 0.83 if not self.L.portrait else x + w / 2
-            ly = y + top * 0.5 if not self.L.portrait else y + h * 0.97
+            ly = y + top * 0.5 if not self.L.portrait else y + h - band / 2
             self.put_sprite(canvas, f"clab-{self.index}", sp, lx, ly, pop_scale(t, done))
 
 
@@ -537,7 +551,7 @@ class Letter(Scene):
         if k < 0:
             k = 0
         ch = word[k]
-        mark = text_sprite(ch, "title", fs, rgb(self.theme["accent"]), stroke=stroke,
+        mark = text_sprite(ch, "title", fs, gfx.readable_on_white(self.theme["accent"]), stroke=stroke,
                            stroke_fill=(255, 255, 255), align="left")
         f = gfx.font("title", fs)
         x_whole = -f.getbbox(word, stroke_width=stroke)[0] + f.getlength(word[:k])
@@ -557,15 +571,23 @@ class Letter(Scene):
             wz = (x + w * 0.44, y, w * 0.56, h)
         lx, ly, lw, lh = lz
         size = int(min(lw * 0.6, lh * 0.75) / self.s)
-        up = text_sprite(self.letter, "title", int(size * self.s), rgb(self.theme["accent"]),
-                         stroke=int(16 * self.s), stroke_fill=(255, 255, 255))
-        lo = text_sprite(self.lower, "title", int(size * 0.75 * self.s), rgb(self.theme["accent2"]),
-                         stroke=int(14 * self.s), stroke_fill=(255, 255, 255))
+        gap = 30 * self.s
+        while True:  # lay the pair out from the real glyph widths so 'M m' never overlaps
+            up = text_sprite(self.letter, "title", int(size * self.s), rgb(self.theme["accent"]),
+                             stroke=int(16 * self.s), stroke_fill=(255, 255, 255))
+            lo = text_sprite(self.lower, "title", int(size * 0.75 * self.s), rgb(self.theme["accent2"]),
+                             stroke=int(14 * self.s), stroke_fill=(255, 255, 255))
+            total = up.width + lo.width + gap
+            if total <= lw * 0.95 or size < 60:
+                break
+            size = int(size * 0.9)
+        ux = lx + lw / 2 - total / 2 + up.width / 2
+        lox = ux + up.width / 2 + gap + lo.width / 2
         sc = pop_scale(t, 0.15, 0.6)
         tags = [f"l{i}" for i in range(len(self.spec.get("lines", [])))]
         p = self.pulse(t, tags)
-        self.put_sprite(canvas, f"lu-{self.letter}-{size}", up, lx + lw * 0.34, ly + lh * 0.5, sc * p, wobble(t, 0, 3))
-        self.put_sprite(canvas, f"ll-{self.letter}-{size}", lo, lx + lw * 0.76, ly + lh * 0.58, pop_scale(t, 0.45) * p,
+        self.put_sprite(canvas, f"lu-{self.letter}-{size}", up, ux, ly + lh * 0.5, sc * p, wobble(t, 0, 3))
+        self.put_sprite(canvas, f"ll-{self.letter}-{size}", lo, lox, ly + lh * 0.58, pop_scale(t, 0.45) * p,
                         wobble(t, 1.5, 3))
         wx, wy, ww, wh = wz
         n = len(self.words)
@@ -664,8 +686,12 @@ class Quiz(Scene):
         key = f"qpill-{self.index}"
         cache = self.ctx.cache
         if key not in cache:
-            pill = rounded_card(int(q.width + 80 * s), int(q.height + 24 * s), int(40 * s),
-                                rgb(self.theme["accent2"]), 255)
+            pill_col = self.theme["accent2"]
+            for _ in range(8):  # white question text needs at least 4:1 contrast
+                if gfx.contrast((255, 255, 255), pill_col) >= 4:
+                    break
+                pill_col = gfx.darken(pill_col, 0.12)
+            pill = rounded_card(int(q.width + 80 * s), int(q.height + 24 * s), int(40 * s), rgb(pill_col), 255)
             pill = pill.copy()
             blit(pill, q, pill.width / 2, pill.height / 2 - 4 * s)
             cache[key] = pill
@@ -743,7 +769,7 @@ class Chant(Scene):
     def steps(self):
         st = self.say_lines(self.spec.get("lines"), "l")
         for i, it in enumerate(self.items):
-            st.append(Say(self.fmt(it["line"]), f"c{i}", "pop" if i == 0 else None, gap=0.3))
+            st.append(Say(self.fmt(it["line"]), f"c{i}", "pop" if i == 0 else None, gap=0.3, caption=False))
         return st + self.say_lines(self.spec.get("after"), "a")
 
     def draw(self, canvas, t):
@@ -854,14 +880,19 @@ class Math(Scene):
                Say(number_to_words(self.res) + "!", "res", "tada", gap=0.5)]
         return st + self.say_lines(self.spec.get("after"), "a")
 
-    def _group(self, canvas, t, count, cx, cy, gw, gh, appear, crossed=False, opacity=1.0):
+    @staticmethod
+    def _grid(count, gw, gh):
+        cols = 1 if count == 1 else 2 if count <= 4 else 3 if count <= 9 else 4
+        rows = math.ceil(count / cols)
+        return cols, rows, min(gw / cols, gh / rows)
+
+    def _group(self, canvas, t, count, cx, cy, gw, gh, appear, crossed=False, opacity=1.0, cell=None):
         if count == 0:
             sp = self.title_text("0", gw * 0.6, gh * 0.4, 140)
             self.put_sprite(canvas, "zero", sp, cx, cy, pop_scale(t, appear))
-            return
-        cols = 1 if count == 1 else 2 if count <= 4 else 3 if count <= 9 else 4
-        rows = math.ceil(count / cols)
-        cell = min(gw / cols, gh / rows)
+            return gh * 0.2
+        cols, rows, own = self._grid(count, gw, gh)
+        cell = min(cell or own, own)
         size = cell * 0.84
         for i in range(count):
             r, c = divmod(i, cols)
@@ -872,6 +903,7 @@ class Math(Scene):
             self.put(canvas, self.v, px, py + bob(t, i, 3 * self.s), size, sc, wobble(t, i, 3), opacity=opacity)
             if crossed and sc > 0.5:
                 self.put(canvas, "❌", px + size * 0.25, py - size * 0.25, size * 0.5, sc)
+        return rows * cell / 2
 
     def draw(self, canvas, t):
         x, y, w, h = self.L.content
@@ -888,12 +920,15 @@ class Math(Scene):
                      "B": (x + w * 0.49, row, w * 0.25), "eq": (x + w * 0.67, row, w * 0.1),
                      "R": (x + w * 0.86, row, w * 0.27)}
             gh = h * 0.56
+        cells = [self._grid(c, slots[k][2], gh)[2] for k, c in (("A", self.a), ("B", self.b), ("R", self.res)) if c]
+        shared = min(cells) if cells else None  # same object size everywhere: children compare by size
+        half = {}
         ax, ay, aw = slots["A"]
-        self._group(canvas, t, self.a, ax, ay, aw, gh, self.t0("a"))
+        half["A"] = self._group(canvas, t, self.a, ax, ay, aw, gh, self.t0("a"), cell=shared)
         bx, by, bw = slots["B"]
-        self._group(canvas, t, self.b, bx, by, bw, gh, self.t0("b"), crossed=(self.op == "-"))
+        half["B"] = self._group(canvas, t, self.b, bx, by, bw, gh, self.t0("b"), crossed=(self.op == "-"), cell=shared)
         rx, ry, rw = slots["R"]
-        self._group(canvas, t, self.res, rx, ry, rw, gh, self.t0("res"))
+        half["R"] = self._group(canvas, t, self.res, rx, ry, rw, gh, self.t0("res"), cell=shared)
         for slot, sym, tag in (("op", "+" if self.op == "+" else "−", "op"), ("eq", "=", "eq")):
             sx, sy, sw = slots[slot]
             sp = text_sprite(sym, "title", int(150 * s), rgb(self.theme["accent"]), stroke=int(12 * s),
@@ -902,7 +937,7 @@ class Math(Scene):
         for slot, val, tag in (("A", self.a, "a"), ("B", self.b, "b"), ("R", self.res, "res")):
             sx, sy, sw = slots[slot]
             badge = number_badge(str(val), self.theme["accent2"], int(110 * s))
-            self.put_sprite(canvas, f"mb-{val}", badge, sx, sy + gh / 2 + 70 * s, pop_scale(t, self.t0(tag) + 0.2))
+            self.put_sprite(canvas, f"mb-{val}", badge, sx, sy + half[slot] + 70 * s, pop_scale(t, self.t0(tag) + 0.2))
 
 
 class Action(Scene):

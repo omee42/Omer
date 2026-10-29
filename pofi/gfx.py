@@ -67,6 +67,34 @@ def lighten(c, k):
     return mix(c, (255, 255, 255), k)
 
 
+def _lum(c):
+    def ch(v):
+        v /= 255
+        return v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4
+    r, g, b = rgb(c)
+    return 0.2126 * ch(r) + 0.7152 * ch(g) + 0.0722 * ch(b)
+
+
+def contrast(a, b):
+    la, lb = sorted((_lum(a), _lum(b)), reverse=True)
+    return (la + 0.05) / (lb + 0.05)
+
+
+def ink(bg, dark=(40, 30, 70)):
+    """White text when it is readable on bg (contrast >= 3), otherwise the dark colour."""
+    return (255, 255, 255) if contrast((255, 255, 255), bg) >= 3 else rgb(dark)
+
+
+def readable_on_white(c, min_ratio=3.0):
+    """Darken a colour until it can be read on a white card."""
+    c = rgb(c)
+    for _ in range(12):
+        if contrast(c, (255, 255, 255)) >= min_ratio:
+            break
+        c = darken(c, 0.12)
+    return c
+
+
 def darken(c, k):
     return mix(c, (0, 0, 0), k)
 
@@ -202,7 +230,9 @@ def fit_text(text, kind, max_w, max_h, size, min_size=28, max_chars=None, **kw):
 
 def uniform_texts(texts, kind, max_w, max_h, size, **kw):
     """Fit several labels at one shared font size so a row of cards looks consistent."""
-    common = min(fit_text_sized(t, kind, max_w, max_h, size, **kw)[1] for t in texts)
+    sizes = sorted(fit_text_sized(t, kind, max_w, max_h, size, **kw)[1] for t in texts)
+    # one long outlier only shrinks itself, not the whole row
+    common = sizes[1] if len(sizes) > 2 else sizes[0]
     return [fit_text_sized(t, kind, max_w, max_h, common, **kw)[0] for t in texts]
 
 
@@ -399,14 +429,14 @@ def flag_tr(width=600):
 
 
 @lru_cache(maxsize=128)
-def number_badge(text, color="#FF7A59", size=120):
+def number_badge(text, color="#FF7A59", size=120, dark=(40, 30, 70)):
     ss = 2
     S = size * ss
     m = Image.new("L", (S, S), 0)
     ImageDraw.Draw(m).ellipse((4, 4, S - 4, S - 4), fill=255)
     m = m.resize((size, size), Image.LANCZOS)
     b = shaded(m, color, 0.35, 0.25)
-    t = text_sprite(text, "title", int(size * 0.62), (255, 255, 255), stroke=0, shadow=False)
+    t = text_sprite(text, "title", int(size * 0.62), ink(color, dark), stroke=0, shadow=False)
     b.alpha_composite(t, ((size - t.width) // 2, (size - t.height) // 2 + int(size * 0.04)))
     return b
 

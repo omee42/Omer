@@ -89,10 +89,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           T="${{ steps.render.outputs.tarih }}"
+          set +e
           python -m pofi youtube --dir "cikti/$T" --tarih "$T"
+          rc=$?
+          set -e
+          # keep the record of finished uploads even if a later part failed, so a re-run skips them
           if [ -f "cikti/$T/youtube_linkler.json" ]; then
             gh release upload "bolum-$T" "cikti/$T/youtube_linkler.json" --clobber
           fi
+          exit $rc
 
       - name: Önizleme olarak sakla
         uses: actions/upload-artifact@v4

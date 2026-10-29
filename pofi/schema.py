@@ -4,6 +4,7 @@ An episode is a list of scenes; each scene type is documented in docs/SENARYO_RE
 """
 import json
 import re
+import unicodedata
 from pathlib import Path
 
 from .gfx import SHAPE_ALIASES, SHAPES
@@ -358,13 +359,26 @@ def _check_scene(s, w, errors):
                     _check_visual(get_visual(nxt), f"{w}.next", errors)
 
 
+def _nfc(x):
+    if isinstance(x, str):
+        return unicodedata.normalize("NFC", x)
+    if isinstance(x, list):
+        return [_nfc(v) for v in x]
+    if isinstance(x, dict):
+        return {k: _nfc(v) for k, v in x.items()}
+    return x
+
+
 def load_episode(path) -> dict:
     path = Path(path)
     try:
-        ep = json.loads(path.read_text(encoding="utf-8"))
+        ep = _nfc(json.loads(path.read_text(encoding="utf-8")))
     except json.JSONDecodeError as e:
         raise EpisodeError(f"{path.name}: JSON hatası: {e}") from e
-    errs = validate(ep)
+    try:
+        errs = validate(ep)
+    except Exception as e:
+        raise EpisodeError(f"{path.name}: beklenmeyen alan türü: {e}") from e
     if errs:
         raise EpisodeError(f"{path.name}:\n  - " + "\n  - ".join(errs))
     return ep

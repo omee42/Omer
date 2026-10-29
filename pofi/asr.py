@@ -14,7 +14,7 @@ import urllib.request
 import numpy as np
 
 from .config import CACHE
-from .text import number_to_words, tr_lower
+from .text import normalize_for_tts, tr_lower
 
 ASR_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-small.tar.bz2"
 ASR_DIR = CACHE / "asr" / "whisper-small"
@@ -53,8 +53,9 @@ def ensure_asr():
 
 
 def _norm(s: str) -> list:
-    s = re.sub(r"\d+", lambda m: number_to_words(int(m.group(0))), s)
-    s = tr_lower(s).replace("â", "a").replace("î", "i").replace("û", "u")
+    # same number/symbol rules on both sides, and "Ekim'de" == "ekimde"
+    s = re.sub(r"['’‘`]", "", tr_lower(normalize_for_tts(s)))
+    s = s.replace("â", "a").replace("î", "i").replace("û", "u")
     s = re.sub(r"[^a-zçğıöşü ]", " ", s)
     return s.split()
 
