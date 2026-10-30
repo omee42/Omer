@@ -388,7 +388,12 @@ function card3d(wPx, hPx, z = 0, color = '#ffffff', alpha = 1) {
   if (!cardGeoCache.has(key)) cardGeoCache.set(key, new RoundedBoxGeometry(w, h, Math.min(w, h) * 0.08, 5, Math.min(w, h) * 0.12));
   const mat = new THREE.MeshStandardMaterial({ color: col(color), roughness: 0.5, transparent: alpha < 1, opacity: alpha,
     emissive: col(CARD_GLOW), emissiveIntensity: CARD_BASE });
+  // Cards are drawn after the world and do not write depth; the pictures mounted on them are drawn after
+  // the cards (see Scene.vis). A picture that swings or a card that tilts or spins therefore never slices
+  // through the other, while both are still hidden correctly behind Pofi, who is drawn first.
+  mat.depthWrite = false;
   const m = shadowy(new THREE.Mesh(cardGeoCache.get(key), mat), true, true);
+  m.renderOrder = 1;
   m.userData.depth = Math.min(w, h) * 0.08;
   return m;
 }
@@ -822,6 +827,7 @@ class Scene {
   vis(v, px, py, wPx, z = 0) {
     const g = makeVisual(v); sizeVisual(g, wPx, z); placeAt(g, px, py, z); this.g.add(g);
     g.userData.home = g.position.clone(); g.userData.z = z;
+    g.traverse(o => { o.renderOrder = 2; });   // on top of any card it sits on (card3d)
     return g;
   }
   setVis(g, t, s, rot = 0, dy = 0, opacity = 1) {
