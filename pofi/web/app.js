@@ -29,8 +29,20 @@ const srgbLum = c => { const f = v => { v /= 255; return v <= 0.03928 ? v / 12.9
   const [r, g, b] = hexRgb(c); return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
 const contrast = (a, b) => { const [x, y] = [srgbLum(a), srgbLum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
 const darken = (c, k) => rgbHex(hexRgb(c).map(v => v * (1 - k)));
-const inkOn = (bg, dark) => (contrast('#ffffff', bg) >= 3 ? '#ffffff' : dark);          // gfx.ink
 const readableOnWhite = (c, ratio = 3) => { for (let i = 0; i < 12 && contrast(c, '#ffffff') < ratio; i++) c = darken(c, 0.12); return c; };
+const lighten = (c, k) => rgbHex(hexRgb(c).map(v => v + (255 - v) * k));
+// [background, ink] for solid badges and pills: keep the colour when white or dark ink reaches `target`,
+// otherwise nudge the background (darker under white ink, lighter under dark ink) until one does.
+function solidInk(bg, dark, target = 4.5) {
+  if (contrast('#ffffff', bg) >= target) return [bg, '#ffffff'];
+  if (contrast(dark, bg) >= target) return [bg, dark];
+  let a = bg, b = bg;
+  for (let i = 0; i < 12; i++) {
+    a = darken(a, 0.08); if (contrast('#ffffff', a) >= target) return [a, '#ffffff'];
+    b = lighten(b, 0.12); if (contrast(dark, b) >= target) return [b, dark];
+  }
+  return [darken(bg, 0.5), '#ffffff'];
+}
 
 let P, W, H, S, portrait, renderer, scene, camera, camRef, font3d, ui, irisEl;
 const texCache = new Map();
@@ -43,7 +55,7 @@ function layout() {
     return { content: [40 * S, 190 * S, W - 80 * S, 1130 * S], mascot: [W / 2, H - 46 * S, 380 * S],
              caption: [W / 2, 1400 * S, W - 90 * S], chip: [W / 2, 95 * S] };   // caption clear of the owl's tufts
   }
-  return { content: [445 * S, 40 * S, W - 480 * S, 850 * S], mascot: [232 * S, H - 36 * S, 400 * S],
+  return { content: [445 * S, 40 * S, W - 480 * S, 850 * S], mascot: [272 * S, H - 36 * S, 400 * S],
            caption: [445 * S + (W - 480 * S) / 2, H - 98 * S, 1340 * S], chip: [215 * S, 70 * S] };
 }
 let L;
@@ -84,6 +96,23 @@ function shadowy(mesh, cast = true, receive = false) { mesh.castShadow = cast; m
 // three compiles an opaque material with alpha forced to 1 and does not recompile when `transparent` flips,
 // so a fade would work or not depending on the frame that first drew the object. Recompile on every flip:
 // the program then depends only on the current state, and any frame renders the same on a cold page.
+// "Faded" (a wrong quiz answer, an item not yet counted) washes the colours toward a pale lilac grey but stays
+// opaque: a see-through card would show the trees and the window behind it. The hook is installed when the
+// material is made, so the program never depends on which frame drew it first.
+function installFade(m) {
+  if (m.userData.fadeU) return m;
+  const u = { value: 0 };
+  m.userData.fadeU = u;
+  m.onBeforeCompile = sh => {
+    sh.uniforms.uFade = u;
+    sh.fragmentShader = 'uniform float uFade;\n' + sh.fragmentShader.replace('#include <opaque_fragment>',
+      '#include <opaque_fragment>\n{ float l = dot(gl_FragColor.rgb, vec3(0.299, 0.587, 0.114));\n' +
+      '  gl_FragColor.rgb = mix(gl_FragColor.rgb, mix(vec3(l), vec3(0.93, 0.92, 0.96), 0.6), 0.85 * uFade); }');
+  };
+  m.customProgramCacheKey = () => 'fade';
+  return m;
+}
+function setFade(m, f) { installFade(m).userData.fadeU.value = clamp(f); }
 function setOpacity(m, op) {
   if (m.userData.baseTransparent === undefined) m.userData.baseTransparent = m.transparent;
   const tr = op < 0.999 || m.userData.baseTransparent;
@@ -139,13 +168,16 @@ function radialTex(inner, outer, size = 256) {
 
 // ------------------------------------------------------------------ 3D text
 const textGeoCache = new Map();
+// The extruded, bevelled letters look tighter than the flat font, so they get a little tracking, wider word
+// gaps and a roomier line pitch.
+const TRACK = 0.06, SPACE = 0.36, PITCH = 1.4;
 function glyphAdvance(ch, size) {
+  if (ch === ' ') return size * (SPACE + TRACK);
   const g = font3d.data.glyphs[ch] || font3d.data.glyphs['?'];
-  return (g ? g.ha : font3d.data.resolution * 0.5) * size / font3d.data.resolution;
+  return (g ? g.ha : font3d.data.resolution * 0.5) * size / font3d.data.resolution + size * TRACK;
 }
-function measure3d(str, size) { let w = 0; for (const ch of str) w += glyphAdvance(ch, size); return w; }
-function wrap3d(text, size, maxW) {
-  const words = String(text).split(/\s+/).filter(Boolean);
+function measure3d(str, size) { let w = -size * TRACK; for (const ch of str) w += glyphAdvance(ch, size); return w; }
+function greedyLines(words, size, maxW) {
   const lines = []; let cur = '';
   for (const w of words) {
     const cand = cur ? cur + ' ' + w : w;
@@ -154,10 +186,42 @@ function wrap3d(text, size, maxW) {
   if (cur) lines.push(cur);
   return lines;
 }
-// Glyph outlines -> shapes with the font's non-zero fill rule. A contour inside another one is a hole when
-// it runs the other way round, and more of the same solid when it runs the same way (overlapping parts such
-// as the cedilla of Ş). three's own TextGeometry decides by the first contour's direction, which turns this
-// font's "D" (its hole comes first) into a filled letter with a second letter on top.
+// Balanced wrapping: the narrowest width that still needs no more lines than greedy wrapping, so the last
+// line is never a lonely word. A number stays with the word after it ("5 elma").
+function wrap3d(text, size, maxW) {
+  const words = String(text).replace(/(\d)\s+(?=\p{L})/gu, '$1\u00A0').split(/\s+/).filter(Boolean);
+  const greedy = greedyLines(words, size, maxW);
+  if (greedy.length < 2) return greedy.map(l => l.replace(/\u00A0/g, ' '));
+  let lo = Math.max(...words.map(w => measure3d(w, size))), hi = maxW, best = greedy;
+  for (let i = 0; i < 16 && hi - lo > size * 0.02; i++) {
+    const mid = (lo + hi) / 2, ls = greedyLines(words, size, mid);
+    if (ls.length <= greedy.length) { best = ls; hi = mid; } else lo = mid;
+  }
+  return best.map(l => l.replace(/\u00A0/g, ' '));
+}
+// Glyph outlines -> shapes with the font's non-zero fill rule. This font's contours cross themselves ("e" is
+// one contour looping round its own counter, "8" two) and overlap each other (E is five boxes), and its "D"
+// lists the hole first, which three's own TextGeometry turns into a filled letter. So: split every contour
+// at its self-crossings, classify each loop by nesting and direction (a loop inside another is a hole when
+// it runs the other way round), then build the outline with polygon unions/differences, largest loop first.
+function segCross(a, b, c, d) {
+  const rx = b.x - a.x, ry = b.y - a.y, qx = d.x - c.x, qy = d.y - c.y, den = rx * qy - ry * qx;
+  if (Math.abs(den) < 1e-15) return null;
+  const t = ((c.x - a.x) * qy - (c.y - a.y) * qx) / den, u = ((c.x - a.x) * ry - (c.y - a.y) * rx) / den;
+  return (t > 1e-9 && t < 1 - 1e-9 && u > 1e-9 && u < 1 - 1e-9) ? new THREE.Vector2(a.x + t * rx, a.y + t * ry) : null;
+}
+function splitLoops(p, depth = 0) {
+  const n = p.length;
+  if (depth > 12) return [p];
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 2; j < n; j++) {
+      if (i === 0 && j === n - 1) continue;
+      const X = segCross(p[i], p[(i + 1) % n], p[j], p[(j + 1) % n]);
+      if (X) return [...splitLoops([X, ...p.slice(i + 1, j + 1)], depth + 1), ...splitLoops([...p.slice(0, i + 1), X, ...p.slice(j + 1)], depth + 1)];
+    }
+  }
+  return [p];
+}
 function pointInPoly(p, poly) {
   let inside = false;
   for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
@@ -178,7 +242,8 @@ function glyphShapes(ch, size) {
     else if (a === 'q') { const x = o[i++] * k, y = o[i++] * k, x1 = o[i++] * k, y1 = o[i++] * k; sp.quadraticCurveTo(x1, y1, x, y); }
     else if (a === 'b') { const x = o[i++] * k, y = o[i++] * k, x1 = o[i++] * k, y1 = o[i++] * k, x2 = o[i++] * k, y2 = o[i++] * k; sp.bezierCurveTo(x1, y1, x2, y2, x, y); }
   }
-  const polys = sp.subPaths.map(p => p.getPoints(5)).filter(p => p.length > 2);
+  const polys = sp.subPaths.map(p => p.getPoints(5)).filter(p => p.length > 2)
+    .flatMap(p => splitLoops(p)).filter(p => p.length > 2 && Math.abs(THREE.ShapeUtils.area(p)) > 1e-9 * size * size);
   const signed = polys.map(p => THREE.ShapeUtils.area(p)), size_ = signed.map(Math.abs);
   const order = polys.map((_, i) => i).sort((a, b) => size_[b] - size_[a]);
   const kind = new Array(polys.length), owner = new Array(polys.length);   // owner: index of the solid a hole cuts
@@ -187,7 +252,7 @@ function glyphShapes(ch, size) {
     let parent = -1;
     for (const j of order) {
       if (j === i || size_[j] <= size_[i] || kind[j] === undefined) continue;
-      if (pointInPoly(polys[i][0], polys[j]) && (parent < 0 || size_[j] < size_[parent])) parent = j;
+      if (pointInPoly(polys[i][polys[i].length >> 1], polys[j]) && (parent < 0 || size_[j] < size_[parent])) parent = j;
     }
     if (parent < 0) kind[i] = 'solid';
     else if (Math.sign(signed[i]) !== Math.sign(signed[parent])) kind[i] = kind[parent] === 'solid' ? 'hole' : 'solid';
@@ -195,14 +260,11 @@ function glyphShapes(ch, size) {
     if (kind[i] === 'solid') shapes.set(i, new THREE.Shape(polys[i]));
     else { owner[i] = kind[parent] === 'solid' ? parent : owner[parent]; shapes.get(owner[i]).holes.push(new THREE.Path(polys[i])); }
   }
-  // Most letters of this font are built from overlapping strokes (E is five boxes). Extruded one by one they
-  // leave seams where the parts cross, so merge them into one outline: union of the solids minus the holes.
-  const solids = polys.filter((_, i) => kind[i] === 'solid'), holes = polys.filter((_, i) => kind[i] === 'hole');
-  if (solids.length > 1 && window.polygonClipping) {
+  if (window.polygonClipping) {
     try {
       const ring = p => [p.map(v => [v.x, v.y])];
-      let mp = window.polygonClipping.union(...solids.map(ring));
-      if (holes.length) mp = window.polygonClipping.difference(mp, ...holes.map(ring));
+      let mp = [];
+      for (const i of order) mp = kind[i] === 'solid' ? window.polygonClipping.union(mp, ring(polys[i])) : window.polygonClipping.difference(mp, ring(polys[i]));
       const toV = r => r.slice(0, -1).map(([x, y]) => new THREE.Vector2(x, y));
       return mp.map(([outer, ...inner]) => { const sh = new THREE.Shape(toV(outer)); sh.holes = inner.map(r => new THREE.Path(toV(r))); return sh; });
     } catch (e) { /* fall back to the overlapping shapes */ }
@@ -226,7 +288,7 @@ function text3d(text, { heightPx, maxWpx = 1e9, maxHpx = 1e9, color = '#ffffff',
   for (let i = 0; i < 30; i++) {
     lines = wrap3d(text, size, maxWpx * u);
     const widest = Math.max(...lines.map(l => measure3d(l, size)));
-    const tall = lines.length * size * 1.25;
+    const tall = lines.length * size * PITCH;
     if ((widest <= maxWpx * u && tall <= maxHpx * u) || size < 12 * u) break;
     size *= 0.92;
   }
@@ -239,11 +301,11 @@ function text3d(text, { heightPx, maxWpx = 1e9, maxHpx = 1e9, color = '#ffffff',
   lines.forEach((line, li) => {
     const lw = measure3d(line, size);
     let x = -lw / 2;
-    const y = ((lines.length - 1) / 2 - li) * size * 1.25 - size * 0.36;
+    const y = ((lines.length - 1) / 2 - li) * size * PITCH - size * 0.36;
     for (const ch of line) {
       const adv = glyphAdvance(ch, size);
       if (ch !== ' ') {
-        const m = shadowy(new THREE.Mesh(charGeo(ch, size, depth), [front, sideMat]));
+        const m = shadowy(new THREE.Mesh(charGeo(ch, size, depth), [front, sideMat]), false);   // floating text: no ground smear
         const holder = new THREE.Group();
         holder.position.set(x, y, -depth / 2);
         holder.add(m);
@@ -307,11 +369,23 @@ function polyPath(s, n, r, rot = Math.PI / 2) {
   s.closePath();
 }
 const shapeGeoCache = new Map();
+// An arc that ends where it starts leaves a zero-length edge, which the bevel turns into a V-notch.
+function tidyShape(s, seg) {
+  const { shape, holes } = s.extractPoints(seg);
+  const clean = pts => {
+    const out = [];
+    for (const p of pts) if (!out.length || out[out.length - 1].distanceToSquared(p) > 1e-12) out.push(p);
+    if (out.length > 2 && out[0].distanceToSquared(out[out.length - 1]) < 1e-12) out.pop();
+    return out;
+  };
+  const sh = new THREE.Shape(clean(shape)); sh.holes = holes.map(h => new THREE.Path(clean(h)));
+  return sh;
+}
 function shapeGeo(kind) {
   kind = SHAPE_ALIASES[kind] || kind;
   if (!shapeGeoCache.has(kind)) {
     const s = new THREE.Shape(); (SHAPES[kind] || SHAPES['daire'])(s);
-    const g = new THREE.ExtrudeGeometry(s, { depth: 0.16, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.035,
+    const g = new THREE.ExtrudeGeometry(tidyShape(s, 48), { depth: 0.16, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.035,
       bevelSegments: 4, curveSegments: 48 });
     g.center();
     shapeGeoCache.set(kind, g);
@@ -358,7 +432,12 @@ function makeVisual(v) {
   } else if (v.symbol) {
     const tg = text3d(String(v.symbol), { heightPx: 300, color: v.color || '#7C6CF2', maxWpx: 1e6 });
     // fit into a unit box (like an emoji picture), centred, so "09.05" is as wide as one picture
-    const box = new THREE.Box3().setFromObject(tg), c = box.getCenter(new THREE.Vector3());
+    const box = new THREE.Box3().setFromObject(tg);
+    if (tg.userData.lines.length === 1) {
+      const sz = tg.userData.size, hb = new THREE.Box3().setFromBufferAttribute(charGeo('H', sz, sz * 0.32).attributes.position);
+      box.min.y = Math.min(box.min.y, -sz * 0.36 + hb.min.y); box.max.y = Math.max(box.max.y, -sz * 0.36 + hb.max.y);
+    }
+    const c = box.getCenter(new THREE.Vector3());
     const bw = box.max.x - box.min.x || 1, bh = box.max.y - box.min.y || 1, k = 1 / Math.max(bw, bh);
     tg.position.set(-c.x * k, -c.y * k, -c.z * k); tg.scale.setScalar(k);
     g.add(tg);
@@ -369,6 +448,7 @@ function makeVisual(v) {
   if (!(typeof v === 'string' || (v && v.emoji))) {
     g.traverse(o => { if (o.material) o.material = Array.isArray(o.material) ? o.material.map(m => m.clone()) : o.material.clone(); });
   }
+  g.traverse(o => { if (o.material) [].concat(o.material).forEach(installFade); });
   return g;
 }
 // Place a visual with a given on-screen width in pixels.
@@ -392,7 +472,8 @@ function card3d(wPx, hPx, z = 0, color = '#ffffff', alpha = 1) {
   // the cards (see Scene.vis). A picture that swings or a card that tilts or spins therefore never slices
   // through the other, while both are still hidden correctly behind Pofi, who is drawn first.
   mat.depthWrite = false;
-  const m = shadowy(new THREE.Mesh(cardGeoCache.get(key), mat), true, true);
+  installFade(mat);
+  const m = shadowy(new THREE.Mesh(cardGeoCache.get(key), mat), false, false);   // floats above the ground
   m.renderOrder = 1;
   m.userData.depth = Math.min(w, h) * 0.08;
   return m;
@@ -406,20 +487,22 @@ function cardGlow(card, color, k) {
 }
 function coin3d(text, color, sizePx, z = 0.2) {
   const u = upp(z), r = sizePx * u / 2;
+  const [face, ink] = solidInk(color, P.theme.dark);
+  color = face;
   const g = new THREE.Group();
   const body = shadowy(new THREE.Mesh(new THREE.CylinderGeometry(r, r, r * 0.38, 48), [
-    plastic(color, { roughness: 0.3 }), plastic(color, { roughness: 0.3 }), plastic(color, { roughness: 0.3 })]));
+    plastic(color, { roughness: 0.3 }), plastic(color, { roughness: 0.3 }), plastic(color, { roughness: 0.3 })]), false);
   body.rotation.x = Math.PI / 2;
   g.add(body);
   const rim = new THREE.Mesh(new THREE.TorusGeometry(r * 0.98, r * 0.08, 12, 48), plastic('#' + mixHex(color, '#ffffff', 0.45).getHexString()));
   rim.position.z = r * 0.17; g.add(rim);
-  const ink = inkOn(color, P.theme.dark);
-  const tx = text3d(String(text), { heightPx: sizePx * 0.62, color: ink, z, maxWpx: sizePx * 0.8 });
+  const tx = text3d(String(text), { heightPx: sizePx * 0.62, color: ink, z, maxWpx: sizePx * 0.8,
+    side: ink === '#ffffff' ? darken(face, 0.55) : null, glow: ink === '#ffffff' ? 0.4 : 0.16 });
   tx.position.z = r * 0.2; g.add(tx);
   return g;
 }
 function star3d(color = '#FFC93C') {
-  const m = shadowy(new THREE.Mesh(shapeGeo('yıldız'), plastic(color, { clearcoat: 1, roughness: 0.25, emissive: col(color), emissiveIntensity: 0.12 })));
+  const m = shadowy(new THREE.Mesh(shapeGeo('yıldız'), plastic(color, { clearcoat: 1, roughness: 0.25, emissive: col(color), emissiveIntensity: 0.12 })), false);
   return m;
 }
 
@@ -445,7 +528,8 @@ function fitText(d, maxW, maxH, startPx, minPx = 18) {
   }
   return fs;
 }
-const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+// HTML-escape; a number keeps the word after it on its line ("5 elma")
+const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])).replace(/(\d)\s+(?=\p{L})/gu, '$1\u00A0');
 
 // ------------------------------------------------------------------ world
 const SEASON_PALETTES = {
@@ -458,6 +542,7 @@ const INDOOR = new Set(['harfler', 'dil', 'sayilar', 'matematik', 'sekiller', 's
   'evimiz', 'gunluk-yasam', 'saglik', 'beslenme', 'vucut', 'deneyler', 'bilim']);
 
 function seasonOf(date) {
+  if (!date || Number(String(date).slice(0, 4)) < 2020) date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul' }).format(new Date());
   const m = Number(String(date).slice(5, 7));
   if (m === 12 || m <= 2) return 'winter';
   if (m <= 5) return 'spring';
@@ -520,12 +605,16 @@ function buildWorld() {
       c.position.set(Math.sin(ang) * 60.05, gy - 60 + Math.cos(ang) * Math.cos(ang2) * 60.05, -10 + Math.sin(ang2) * 60.05);
       c.lookAt(moon.position); c.rotateY(Math.PI); wg.add(c);
     }
-    const planet = shadowy(new THREE.Mesh(new THREE.SphereGeometry(3.2, 64, 48), plastic('#ff9f5a', { roughness: 0.6, clearcoat: 0.2 })));
-    planet.position.set(14, 8, -28); wg.add(planet);
+    // planets sit in the free corner left of the content (landscape) or stay small at the top (Shorts)
+    const sat = new THREE.Group();
+    const planet = shadowy(new THREE.Mesh(new THREE.SphereGeometry(3.2, 64, 48), plastic('#ff9f5a', { roughness: 0.6, clearcoat: 0.2 })), false);
+    sat.add(planet);
     const ring = new THREE.Mesh(new THREE.TorusGeometry(5, 0.35, 8, 96), plastic('#ffd27a'));
-    ring.position.copy(planet.position); ring.rotation.set(1.2, 0.3, 0.2); wg.add(ring);
+    ring.rotation.set(1.2, 0.3, 0.2); sat.add(ring);
     const p2 = new THREE.Mesh(new THREE.SphereGeometry(1.6, 48, 32), plastic('#5ec8ff', { roughness: 0.5 }));
-    p2.position.set(-16, 10, -30); wg.add(p2);
+    if (portrait) { p2.position.copy(at(78 * S, 150 * S, -30)); p2.scale.setScalar(0.4); }
+    else { sat.position.copy(at(215 * S, 395 * S, -28)); sat.scale.setScalar(0.6); wg.add(sat); p2.position.copy(at(370 * S, 190 * S, -30)); p2.scale.setScalar(0.6); }
+    wg.add(p2);
     anim.push(t => { planet.rotation.y = t * 0.1; ring.rotation.z = 0.2 + t * 0.03; });
   } else if (kind === 'indoor') {
     const wall = mixHex(th.bg[0], '#ffffff', 0.25);
@@ -552,17 +641,12 @@ function buildWorld() {
     for (const [w2, h2, x2, y2] of [[7.6, 0.35, 0, 2.6], [7.6, 0.35, 0, -2.6], [0.35, 5.5, 3.6, 0], [0.35, 5.5, -3.6, 0], [0.2, 5, 0, 0], [7, 0.2, 0, 0]]) {
       const b = shadowy(new THREE.Mesh(new THREE.BoxGeometry(w2, h2, 0.3), fr)); b.position.set(x2, y2, 0.1); win.add(b);
     }
-    win.position.copy(portrait ? at(W * 0.22, 330 * S, backZ + 0.05) : at(220 * S, 330 * S, backZ + 0.05));
-    if (portrait) win.scale.setScalar(0.8);
-    wg.add(win);
-    const cloudy = new THREE.Mesh(new THREE.SphereGeometry(0.8, 24, 16), matte('#ffffff')); cloudy.position.set(-1.5, 0.8, 0.05);
-    cloudy.scale.set(1.6, 0.8, 0.1); win.add(cloudy);
-    // floor toys
-    const ball = shadowy(new THREE.Mesh(new THREE.SphereGeometry(1.1, 48, 32), plastic('#ff6f91')), true, true);
-    ball.position.set(13, gy + 1.1, -6); wg.add(ball);
-    const stack = [['#3ec1d3', 1.7], ['#ffc93c', 1.4], ['#5ed67a', 1.1]];
-    stack.forEach(([c, r], i) => { const d = shadowy(new THREE.Mesh(new THREE.TorusGeometry(r * 0.7, r * 0.28, 16, 48), plastic(c)), true, true);
-      d.rotation.x = Math.PI / 2; d.position.set(-14, gy + 0.4 + i * 0.75, -7); wg.add(d); });
+    win.position.copy(at(220 * S, 330 * S, backZ + 0.05));
+    if (!portrait) wg.add(win);
+    const puff = new THREE.MeshBasicMaterial({ color: '#ffffff' });
+    for (const [px, py, r] of [[-2.3, 0.75, 0.5], [-1.6, 1.05, 0.7], [-0.85, 0.85, 0.55], [-1.6, 0.6, 0.55]]) {
+      const c = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 12), puff); c.position.set(px, py, 0.05); c.scale.z = 0.15; win.add(c);
+    }
   } else {
     setBackdrop(pal.sky[0], pal.sky[1], portrait ? ['80%', '8%', 'rgba(255,250,215,0.9)'] : ['84%', '10%', 'rgba(255,250,215,0.9)']);
     scene.fog = new THREE.Fog(pal.sky[1], 35, 110);
@@ -577,7 +661,17 @@ function buildWorld() {
     }
     // trees
     const treeSpots = [[-13, -9], [-17, -15], [12, -10], [17, -16], [-8, -20], [6, -22], [22, -12], [-22, -12], [26, -24], [-27, -22]];
+    // a crown right behind a picture makes it hard to read, so such trees move far back into the fog
+    const [bx, by, bw, bh] = L.content, pad = 30 * S, camZ = camRef.position.z;
+    const toScreen = v => { const q = v.clone().project(camRef); return [(q.x + 1) / 2 * W, (1 - q.y) / 2 * H]; };
+    const crownHits = (x, z, sc) => {
+      const pts = [[-2.4, 1.7], [2.4, 1.7], [-2.4, 5.6], [2.4, 5.6]].map(([dx, dy]) => toScreen(new THREE.Vector3(x + dx * sc, gy + dy * sc, z)));
+      const xs = pts.map(q => q[0]), ys = pts.map(q => q[1]);
+      return Math.max(...xs) > bx - pad && Math.min(...xs) < bx + bw + pad && Math.max(...ys) > by - pad && Math.min(...ys) < by + bh + pad;
+    };
     treeSpots.forEach(([x, z], i) => {
+      let sc = 1 + hash(i + 9) * 0.5;
+      if (crownHits(x, z, sc)) { const z2 = -52 - (i % 3) * 4; x = x * (camZ - z2) / (camZ - z); z = z2; sc *= 0.8; }
       const t = new THREE.Group();
       const trunk = shadowy(new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.4, 2.6, 12), matte('#8a5a3b')), false, false);
       trunk.position.y = 1.3; t.add(trunk);
@@ -595,7 +689,7 @@ function buildWorld() {
           s.position.set((k - 1) * 0.9, 3.2 + (k === 1 ? 0.9 : 0), (hash(i + k) - 0.5)); t.add(s);
         }
       }
-      t.position.set(x, gy, z); t.scale.setScalar(1 + hash(i + 9) * 0.5); wg.add(t);
+      t.position.set(x, gy, z); t.scale.setScalar(sc); wg.add(t);
       anim.push(tt => { t.rotation.z = Math.sin(tt * 0.8 + i) * 0.015; });
     });
     if (pal.flowers) {
@@ -624,14 +718,14 @@ function buildWorld() {
   // festive bunting (national days, not on remembrance days): one garland along the top edge, behind everything
   if ((cat === 'ulusal-bayram' || cat === 'ozel-gun') && ep.mood !== 'calm') {
     flagTex = flagTex || turkishFlagTexture(600);
-    const z = -8, left = at(-40, 8, z), right = at(W + 40, 8, z), mid = at(W / 2, portrait ? 120 * S : 92 * S, z);
+    const z = -8, left = at(-40, -6 * S, z), right = at(W + 40, -6 * S, z), mid = at(W / 2, portrait ? 16 * S : 12 * S, z);
     const sagDepth = left.y - mid.y;
     const yOn = x => { const k = (x - mid.x) / ((right.x - left.x) / 2); return mid.y + sagDepth * k * k; };
     const pts = []; for (let i = 0; i <= 40; i++) { const x = left.x + (right.x - left.x) * i / 40; pts.push(new THREE.Vector3(x, yOn(x), z)); }
     wg.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 80, 0.035, 6), matte('#ffffff')));
-    const fw = 62 * S * upp(z), geo = new THREE.PlaneGeometry(fw, fw * 2 / 3); geo.translate(0, -fw / 3, 0);
+    const fw = 44 * S * upp(z), geo = new THREE.PlaneGeometry(fw, fw * 2 / 3); geo.translate(0, -fw / 3, 0);
     const mat = new THREE.MeshStandardMaterial({ map: flagTex, side: THREE.DoubleSide, roughness: 0.8 });
-    const n = portrait ? 9 : 15;
+    const n = portrait ? 11 : 19;
     for (let i = 0; i < n; i++) {
       const x = left.x + (right.x - left.x) * (i + 0.5) / n;
       const fl = new THREE.Mesh(geo, mat); fl.position.set(x, yOn(x), z); wg.add(fl);
@@ -760,8 +854,9 @@ function updateMascot(t, fi, info) {
   const happy = !!info.happy;
   m.eyes.forEach(e => {
     e.lid.rotation.x = -Math.PI / 2 + blink * (Math.PI / 2) * 0.98;
-    e.lid.visible = !happy;
-    e.white.visible = e.pupil.visible = e.hl.visible = e.hl2.visible = !happy;
+    e.lid.visible = !happy && blink > 0;
+    e.white.visible = e.pupil.visible = !happy;
+    e.hl.visible = e.hl2.visible = !happy && blink < 0.7;
     e.arc.visible = happy;
   });
   m.wings.forEach(({ pivot, sx }) => {
@@ -769,6 +864,7 @@ function updateMascot(t, fi, info) {
     let a = sx * (0.14 + 0.04 * Math.sin(t * 2.6));
     if (info.waving && sx > 0) a = 2.2 + Math.sin(t * 9) * 0.4;
     if (info.jump) a = sx * (0.5 + 0.9 * info.jump);
+    if (!portrait && sx < 0) a = Math.max(a, -0.3);   // the outer (left) wing stays inside the frame
     pivot.rotation.z = a;
   });
 }
@@ -827,7 +923,8 @@ class Scene {
   vis(v, px, py, wPx, z = 0) {
     const g = makeVisual(v); sizeVisual(g, wPx, z); placeAt(g, px, py, z); this.g.add(g);
     g.userData.home = g.position.clone(); g.userData.z = z;
-    g.traverse(o => { o.renderOrder = 2; });   // on top of any card it sits on (card3d)
+    // drawn on top of any card it sits on (card3d); like the cards it floats, so it casts no ground shadow
+    g.traverse(o => { o.renderOrder = 2; o.castShadow = false; });
     return g;
   }
   setVis(g, t, s, rot = 0, dy = 0, opacity = 1) {
@@ -838,7 +935,8 @@ class Scene {
     if (g.userData.update) g.userData.update(t);
     if (opacity < 1 || g.userData.faded) {
       g.userData.faded = opacity < 1;
-      g.traverse(o => { if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => setOpacity(m, opacity)); });
+      const f = Math.min(1, (1 - opacity) / 0.62);   // opacity 0.38 = fully faded, as in the 2D engine
+      g.traverse(o => { if (o.material) [].concat(o.material).forEach(m => setFade(m, f)); });
     }
   }
   titleDom(text, maxW, maxH, sizePx = 96, color = '#ffffff') {
@@ -874,7 +972,7 @@ class Intro extends Scene {
     }
     const vs = (this.s.visuals || []).slice(0, 5); const n = vs.length;
     // with 4-5 pictures the row reaches the left edge, where the big waving owl's wing would cover the first one
-    const lm = !portrait && n >= 4 ? w * 0.1 : 0, rw = w - lm;
+    const lm = !portrait && n >= 4 ? w * 0.14 : 0, rw = w - lm;
     this.vs = vs.map((v, i) => {
       const fx = (i + 0.5) / n;
       const size = Math.min(rw / (n + 0.6), h * 0.3);
@@ -927,7 +1025,7 @@ class Outro extends Scene {
     this.title.rotation.y = Math.sin(t * 0.8) * 0.1;
     this.stars.forEach((s, i) => {
       const k = s.userData.k * pop(t, 0.4 + 0.1 * i) * (0.85 + 0.2 * Math.sin(t * 3 + i * 1.7));
-      s.scale.setScalar(Math.max(0.0001, k)); s.rotation.y = t * 1.5 + i; s.position.y = s.userData.home.y + Math.sin(t * 2 + i) * 0.08;
+      s.scale.setScalar(Math.max(0.0001, k)); s.rotation.y = Math.sin(t * 1.5 + i) * 0.6; s.rotation.z = Math.sin(t * 1.1 + i * 2) * 0.12; s.position.y = s.userData.home.y + Math.sin(t * 2 + i) * 0.08;
     });
     if (this.card) {
       const lines = this.s.lines || [];
@@ -973,10 +1071,11 @@ class Item extends Scene {
     // glowing podium under the object
     const u = upp(0);
     this.podium = shadowy(new THREE.Mesh(new THREE.CylinderGeometry(size * 0.45 * u, size * 0.52 * u, size * 0.12 * u, 64),
-      plastic(this.color, { clearcoat: 1, roughness: 0.25, emissive: col(this.color), emissiveIntensity: 0.15 })), true, true);
+      plastic(this.color, { clearcoat: 1, roughness: 0.25, emissive: col(this.color), emissiveIntensity: 0.15 })), false, false);
     placeAt(this.podium, this.cx, this.cy + size * 0.55, -0.3); this.g.add(this.podium);
     this.glow = new THREE.Mesh(new THREE.CircleGeometry(size * 0.75 * u, 64), new THREE.MeshBasicMaterial({
-      map: radialTex('rgba(255,255,255,0.9)', 'rgba(255,255,255,0)'), color: col(this.color), transparent: true, depthWrite: false }));
+      map: radialTex('rgba(255,255,255,0.55)', 'rgba(255,255,255,0)'), color: mixHex(this.color, '#ffffff', 0.7), transparent: true,
+      depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false }));
     placeAt(this.glow, this.cx, this.cy, -0.8); this.g.add(this.glow);
     this.v = this.vis(this.s.visual, this.cx, this.cy, size);
     this.word = text3d(trUpper(this.s.word), { heightPx: 150 * S, maxWpx: w * 0.9, maxHpx: h * 0.24, color: this.color, side: '#' + mixHex(this.color, '#000', 0.4).getHexString() });
@@ -1001,8 +1100,9 @@ class Fact extends Scene {
     const [x, y, w, h] = contentBox();
     const cw = w * 0.94, ch = h * 0.8; this.cx = x + w / 2; this.cy = y + h * 0.53;
     this.card = card3d(cw, ch, -0.4); placeAt(this.card, this.cx, this.cy, -0.4); this.g.add(this.card);
+    const [pb, pi] = solidInk(this.th.accent, this.th.dark);
     this.head = this.dom(`<img src="${P.emoji['💡']}" style="width:1.15em;height:1.15em;vertical-align:-0.22em;margin-right:0.25em">${esc(this.s.title || 'Biliyor muydun?')}`, 'title pill',
-      { background: this.th.accent, color: inkOn(this.th.accent, this.th.dark), padding: `${Math.round(6 * S)}px ${Math.round(40 * S)}px`,
+      { background: pb, color: pi, padding: `${Math.round(6 * S)}px ${Math.round(40 * S)}px`,
         boxShadow: '0 8px 20px rgba(40,25,80,.25)', fontSize: Math.round(62 * S) + 'px' });
     fitText(this.head, cw * 0.9, ch * 0.16, 62 * S, 30 * S);
     this.headPos = [this.cx, this.cy - ch / 2 + 34 * S];
@@ -1010,8 +1110,8 @@ class Fact extends Scene {
       this.txt = this.label(this.s.text, cw * 0.86, ch * 0.34, 80); this.txtPos = [this.cx, this.cy + ch * 0.28];
       this.v = this.vis(this.s.visual, this.cx, this.cy - ch * 0.12, ch * 0.42, 0.3);
     } else {
-      this.txt = this.label(this.s.text, cw * 0.5, ch * 0.62, 86); this.txtPos = [this.cx + cw * 0.2, this.cy + ch * 0.05];
-      this.v = this.vis(this.s.visual, this.cx - cw * 0.26, this.cy + ch * 0.08, Math.min(ch * 0.58, cw * 0.36), 0.3);
+      this.txt = this.label(this.s.text, cw * 0.6, ch * 0.62, 80); this.txtPos = [this.cx + cw * 0.18, this.cy + ch * 0.05];
+      this.v = this.vis(this.s.visual, this.cx - cw * 0.28, this.cy + ch * 0.08, Math.min(ch * 0.5, cw * 0.3), 0.3);
     }
   }
   update(t) {
@@ -1044,8 +1144,8 @@ function gridCells(n, area, port, maxCols) {
 
 function uniformLabels(scene, texts, maxW, maxH, sizePx) {
   const ds = texts.map(tx => scene.dom(esc(tx), 'body', { color: scene.th.dark }));
-  const sizes = ds.map(d => fitText(d, maxW, maxH, sizePx * S)).sort((a, b) => a - b);
-  const common = sizes.length > 2 ? sizes[1] : sizes[0];
+  // one size for all siblings: the size at which every label fits (the 2nd-smallest let the longest overflow)
+  const common = Math.min(...ds.map(d => fitText(d, maxW, maxH, sizePx * S)));
   ds.forEach(d => fitText(d, maxW, maxH, common));
   return ds;
 }
@@ -1114,8 +1214,8 @@ class Count extends Scene {
     this.bigSize = Math.min(190 * S, top * 0.95);
     if (this.s.label) {
       const txt = `${n} ${trUpper(this.s.label)}`;
-      this.lab = text3d(txt, { heightPx: 100 * S, maxWpx: w * (portrait ? 0.8 : 0.34), maxHpx: (band || top) * 0.85, color: '#ffffff', side: this.th.dark });
-      placeAt(this.lab, portrait ? x + w / 2 : x + w * 0.83, portrait ? y + h - band / 2 : y + top * 0.5, 0.4); this.g.add(this.lab);
+      this.lab = text3d(txt, { heightPx: 100 * S, maxWpx: w * (portrait ? 0.8 : 0.56), maxHpx: (band || top) * 0.85, color: '#ffffff', side: this.th.dark, z: 0.4 });
+      placeAt(this.lab, x + w / 2, portrait ? y + h - band / 2 : y + top * 0.5, 0.4); this.g.add(this.lab);
     }
   }
   big(k) {
@@ -1148,7 +1248,8 @@ class Count extends Scene {
     Object.values(this.bigs).forEach(c => (c.visible = false));
     if (current) {
       const c = this.big(current); c.visible = true;
-      const sc = pop(t, this.t0('c' + current), 0.35); c.scale.setScalar(Math.max(0.0001, sc)); c.rotation.y = (1 - Math.min(1, sc)) * 3 + Math.sin(t * 1.5) * 0.2;
+      const swap = this.lab && !portrait ? 1 - clamp((t - done) / 0.25) : 1;   // the label takes its place
+      const sc = pop(t, this.t0('c' + current), 0.35) * swap; c.visible = sc > 0.02; c.scale.setScalar(Math.max(0.0001, sc)); c.rotation.y = (1 - Math.min(1, sc)) * 3 + Math.sin(t * 1.5) * 0.2;
     }
     if (this.lab) { this.lab.visible = t > done; animateLetters(this.lab, t, done, { stagger: 0.04 }); }
   }
@@ -1244,14 +1345,17 @@ class Quiz extends Scene {
     this.opts = this.s.options; this.answer = this.s.answer;
     const cells = gridCells(this.opts.length, [x, y + qh, w, h - qh], portrait, 4);
     const side = Math.min(cells[0][2] * 0.86, cells[0][3] * 0.9);
+    // the right answer grows at the reveal, but never past its grid cell (pill, caption and edges stay clear)
+    this.kMax = Math.min(1.14, 0.97 * Math.min(cells[0][2], cells[0][3]) / side);
     const labs = uniformLabels(this, this.opts.map(o => o.label), side * 0.86, side * 0.17, 54);
     this.cards = cells.map(([cx, cy], i) => {
       const card = card3d(side, side, -0.3); placeAt(card, cx, cy, -0.3); this.g.add(card); card.userData.home = card.position.clone();
-      const v = this.vis(this.opts[i].visual, cx, cy - side * 0.08, side * 0.62, 0.1);
+      const o = this.opts[i].visual, bare = o && typeof o === 'object' && !o.emoji;   // shapes and digits fill their box edge to edge
+      const v = this.vis(o, cx, cy - side * 0.08, side * (bare ? 0.5 : 0.62), 0.1);
       return { card, v, lab: labs[i], cx, cy, side };
     });
-    const c = this.cards[this.answer];
-    this.check = this.vis('✅', c.cx + side * 0.42, c.cy - side * 0.42, side * 0.3, 0.6);
+    const c = this.cards[this.answer], off = side * (this.kMax / 2 - 0.1);
+    this.check = this.vis('✅', c.cx + off, c.cy - off, side * 0.26, 0.6);
     this.coins = {};
     if (this.s.mood !== 'calm') { this.confetti = makeConfetti(1000 + this.index, [c.cx, c.cy]); this.g.add(this.confetti); }
     this.ring = this.dom('<svg viewBox="0 0 100 100" width="100%" height="100%"><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="9"/>' +
@@ -1272,19 +1376,16 @@ class Quiz extends Scene {
       const correct = i === this.answer;
       if (t >= reveal) {
         const pr = prog(t, reveal, 0.6);
-        if (correct) { k = 1 + 0.14 * easeOutBack(pr, 2.5); spin = easeInOut(pr) * Math.PI * 2; }
+        if (correct) { k = 1 + (this.kMax - 1) * easeOutBack(pr); spin = easeInOut(pr) * Math.PI * 2; }
         else { k = 1 - 0.1 * easeInOut(pr); op = 1 - 0.62 * easeInOut(pr); }
       }
       c.card.visible = sc > 0.02; c.card.scale.setScalar(Math.max(0.0001, sc * k));
       c.card.rotation.y = spin + (1 - Math.min(sc, 1)) * 1.4;
-      c.card.rotation.x = (!correct && t >= reveal) ? easeInOut(prog(t, reveal, 0.6)) * 0.35 : 0;
-      c.card.position.copy(c.card.userData.home); c.card.position.z += (correct && t >= reveal) ? 0.6 : 0;
       cardGlow(c.card, correct && t >= reveal ? '#33C96B' : null, 0.4 * easeInOut(prog(t, reveal, 0.4)));
-      setOpacity(c.card.material, op);
+      setFade(c.card.material, (1 - op) / 0.62);
       this.setVis(c.v, t, sc * k, wob(t, i, 0.05), bob(t, i, 5 * S), op);
       c.v.rotation.y = Math.sin(spin) * 0.35;
-      c.v.position.z += (correct && t >= reveal) ? 0.7 : 0;
-      place(c.lab, c.cx, c.cy + c.side * 0.36, sc * k, op);
+      place(c.lab, c.cx, c.cy + c.side * 0.36 * k, sc * k, op);
     });
     this.setVis(this.check, t, t >= reveal ? pop(t, reveal + 0.35) : 0, 0, 0);
     Object.values(this.coins).forEach(c => (c.visible = false));
@@ -1344,37 +1445,39 @@ class Story extends Scene {
   build() {
     const [x, y, w, h] = contentBox();
     this.panels = this.s.panels;
-    const u = upp(-0.6);
-    // puppet-theatre stage: wooden floor strip, red curtains and a valance
-    const pw = w * 0.98, ph = h * 0.94, cx = x + w / 2, cy = y + h / 2;
+    // Puppet-theatre stage: backdrop, wooden floor, red curtains and a valance. Every part is sized at its own
+    // depth and placed by its front face, so perspective does not push the nearer parts off the frame.
+    const pw = w * 0.88, ph = h * 0.86, cx = x + w / 2, cy = y + h / 2, top = cy - ph / 2;
+    const atFront = (obj, px, py, zFront, zCentre) => { obj.position.copy(at(px, py, zFront)); obj.position.z = zCentre; };
     const stage = new THREE.Group(); this.g.add(stage); this.stage = stage;
-    const back = new THREE.Mesh(new THREE.PlaneGeometry(pw * u, ph * u), new THREE.MeshStandardMaterial({ map: radialTex('#fff8ec', '#f3dcc0'), roughness: 0.9 }));
+    const ub = upp(-1.2);
+    const back = new THREE.Mesh(new THREE.PlaneGeometry(pw * ub, ph * ub), new THREE.MeshStandardMaterial({ map: radialTex('#fff8ec', '#f3dcc0'), roughness: 0.9 }));
     placeAt(back, cx, cy, -1.2); stage.add(back);
-    const floor = shadowy(new THREE.Mesh(new THREE.BoxGeometry(pw * u, 0.35, 2.2), matte('#c98a52')), false, true);
-    floor.position.copy(at(cx, cy + ph * 0.42, -0.4)); stage.add(floor);
+    const floor = shadowy(new THREE.Mesh(new THREE.BoxGeometry(pw * upp(0.7), 0.35, 2.2), matte('#c98a52')), false, true);
+    atFront(floor, cx, cy + ph * 0.47, 0.7, -0.4); stage.add(floor);
     const curtainMat = new THREE.MeshPhysicalMaterial({ color: '#c8102e', roughness: 0.55, sheen: 1, sheenColor: col('#ff8a9a') });
     for (const sx of [-1, 1]) {
       for (let k = 0; k < 5; k++) {
-        const c = shadowy(new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, ph * u * 1.02, 16), curtainMat));
-        c.position.copy(at(cx + sx * (pw / 2 - (k + 0.5) * 22 * S), cy, -0.9 + k * 0.05)); stage.add(c);
+        const z = -0.9 + k * 0.05, uz = upp(z);
+        const c = shadowy(new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, ph * 1.02 * uz, 16), curtainMat));
+        c.position.copy(at(cx + sx * (pw / 2 - 0.32 / uz - k * 22 * S), cy, z)); stage.add(c);
       }
     }
-    const val = shadowy(new THREE.Mesh(new THREE.BoxGeometry(pw * u * 1.04, ph * u * 0.12, 0.5), curtainMat));
-    val.position.copy(at(cx, y + ph * 0.04, -0.7)); stage.add(val);
-    const gold = new THREE.Mesh(new THREE.BoxGeometry(pw * u * 1.04, 0.12, 0.55), plastic('#ffc93c'));
-    gold.position.copy(at(cx, y + ph * 0.1, -0.68)); stage.add(gold);
-    {
-      this.ttl = text3d(this.s.title || 'Bir varmış, bir yokmuş...', { heightPx: 100 * S, maxWpx: w * 0.8, maxHpx: h * 0.3, color: '#ffffff', side: this.th.dark });
-      placeAt(this.ttl, cx, cy, 0.2); this.g.add(this.ttl);
-    }
-    this.pw = pw; this.ph = ph; this.cx = cx; this.cy = cy;
+    const uv = upp(-0.45);
+    const val = shadowy(new THREE.Mesh(new THREE.BoxGeometry(pw * uv, ph * 0.12 * uv, 0.5), curtainMat));
+    atFront(val, cx, top + ph * 0.06, -0.45, -0.7); stage.add(val);
+    const gold = new THREE.Mesh(new THREE.BoxGeometry(pw * upp(-0.405), 0.12, 0.55), plastic('#ffc93c'));
+    atFront(gold, cx, top + ph * 0.12, -0.405, -0.68); stage.add(gold);
+    this.ttl = text3d(this.s.title || 'Bir varmış, bir yokmuş...', { heightPx: 100 * S, maxWpx: pw * 0.72, maxHpx: h * 0.3, color: '#ffffff', side: this.th.dark });
+    placeAt(this.ttl, cx, cy, 0.2); this.g.add(this.ttl);
+    this.pw = pw; this.ph = ph; this.cx = cx; this.cy = cy; this.top = top;
     this.panelObjs = this.panels.map((p, j) => {
       const vs = p.visuals || []; const n = vs.length;
       const hasCap = !!p.caption; const areaH = ph * (hasCap ? 0.68 : 0.86);
       const size = Math.min(pw * 0.7 / (n + 0.5), areaH * (n === 1 ? 0.82 : 0.6));
       const grp = new THREE.Group(); this.g.add(grp);
       const items = vs.map((v, i) => {
-        const g = makeVisual(v); sizeVisual(g, size, 0); placeAt(g, cx - pw * 0.35 + pw * 0.7 * (i + 0.5) / n, y + ph * 0.06 + areaH * 0.58, 0);
+        const g = makeVisual(v); sizeVisual(g, size, 0); placeAt(g, cx - pw * 0.35 + pw * 0.7 * (i + 0.5) / n, top + ph * 0.06 + areaH * 0.58, 0);
         g.userData.home = g.position.clone(); g.userData.z = 0; grp.add(g); return g;
       });
       let cap = null;
@@ -1387,16 +1490,21 @@ class Story extends Scene {
     this.panels.forEach((_, j) => { if (t >= this.t0('p' + j)) cur = j; });
     if (this.ttl) { const on = cur < 0; this.ttl.visible = on; if (on) { animateLetters(this.ttl, t, 0.1, { stagger: 0.03 }); } }
     const pr = cur >= 0 ? easeOutCubic(prog(t, this.t0('p' + cur), 0.45)) : 0;
-    const shift = W * upp(0);
+    // pages slide a little and cross-fade inside the stage instead of flying across curtains and Pofi
+    const slide = this.pw * 0.35;
     this.panelObjs.forEach((po, j) => {
-      let dx = null;
-      if (j === cur) dx = (1 - pr);
-      else if (j === cur - 1 && pr < 1) dx = -pr;
-      po.grp.visible = dx !== null;
-      if (po.cap) place(po.cap, this.cx + (dx ?? 0) * W, this.cy + this.ph * 0.33, dx === null ? 0 : 1);
+      let dx = null, op = 1;
+      // the old page is gone before the new one fades in, so two captions never show side by side
+      if (j === cur) { dx = 1 - pr; op = clamp((pr - 0.4) / 0.6); } else if (j === cur - 1 && pr < 1) { dx = -pr; op = clamp(1 - pr / 0.4); }
+      po.grp.visible = dx !== null && op > 0.01;
+      if (po.cap) place(po.cap, this.cx + (dx ?? 0) * slide, this.cy + this.ph * 0.33, dx === null ? 0 : 1, dx === null ? 0 : op);
       if (dx === null) return;
-      po.grp.position.x = dx * shift;
-      po.items.forEach((g, i) => { g.position.copy(g.userData.home); g.position.y += bob(t, i * 1.4, 8 * S) * upp(0); g.rotation.z = wob(t, i, 0.06); g.rotation.y = Math.sin(t + i) * 0.25; if (g.userData.update) g.userData.update(t); });
+      po.grp.position.x = dx * slide * upp(0);
+      po.items.forEach((g, i) => {
+        g.position.copy(g.userData.home); g.position.y += bob(t, i * 1.4, 8 * S) * upp(0); g.rotation.z = wob(t, i, 0.06); g.rotation.y = Math.sin(t + i) * 0.25;
+        if (g.userData.update) g.userData.update(t);
+        g.traverse(o => { if (o.material) [].concat(o.material).forEach(m => setOpacity(m, op)); });
+      });
     });
   }
 }
@@ -1583,7 +1691,8 @@ function renderThumb() {
   updateMascot(3.0, 0, { waving: true, happy: false, jump: 0, big: false });
   mascot.rig.rotation.y = 0.35;
   world.update(3.0);
-  const band = el(esc(P.episode.channel || ''), 'title pill', { background: P.theme.accent, color: inkOn(P.theme.accent, P.theme.dark),
+  const [bb, bi] = solidInk(P.theme.accent, P.theme.dark);
+  const band = el(esc(P.episode.channel || ''), 'title pill', { background: bb, color: bi,
     padding: `${Math.round(6 * k)}px ${Math.round(34 * k)}px`, fontSize: Math.round(34 * k) + 'px', boxShadow: '0 8px 20px rgba(40,25,80,.3)' });
   place(band, W * 0.69, H - 52 * k, 1, 1);
   chipEl.style.opacity = '0'; captionEl.style.opacity = '0'; irisEl.style.display = 'none';
@@ -1617,10 +1726,11 @@ async function init(plan) {
   const fontData = await new Promise((res, rej) => new TTFLoader().load('/fonts/Baloo2-ExtraBold.ttf', res, undefined, rej));
   font3d = new Font(fontData);
   await preloadTextures(Object.values(P.emoji));
+  if (P.emoji['💡']) { const img = new Image(); img.src = P.emoji['💡']; await img.decode().catch(() => {}); window.__keep = img; }
   world = buildWorld();
   mascot = buildMascot();
   captionEl = el('', 'body card', { color: P.theme.dark, padding: `${Math.round(10 * S)}px ${Math.round(30 * S)}px`, zIndex: 5 });
-  chipEl = el(esc(P.episode.title), 'title pill', { background: 'rgba(255,255,255,.88)', color: P.theme.dark, fontWeight: 600,
+  chipEl = el(esc(P.episode.title), 'title pill', { background: '#ffffff', color: P.theme.dark, fontWeight: 600,
     padding: `${Math.round(6 * S)}px ${Math.round(26 * S)}px`, boxShadow: '0 6px 16px rgba(40,25,80,.18)' });
   fitText(chipEl, portrait ? 900 * S : 400 * S, 100 * S, 38 * S, 26 * S);
   place(chipEl, L.chip[0], L.chip[1], 1, 1);

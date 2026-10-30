@@ -17,8 +17,9 @@
      from scale 0 would stay blurry for the rest of the scene */
   .el { position: absolute; left: 0; top: 0; box-sizing: border-box; transform-origin: 50% 50%; white-space: nowrap; }
   .card { background: rgba(255,255,255,0.94); border-radius: 34px; box-shadow: 0 14px 34px rgba(40,25,80,0.22), 0 2px 0 rgba(255,255,255,0.8) inset; }
-  .body { font-family: "Nunito"; font-weight: 900; text-align: center; line-height: 1.12; white-space: normal; }
-  .title { font-family: "Baloo"; font-weight: 800; text-align: center; line-height: 1.02; white-space: normal; }
+  /* balanced lines: no lonely last word under a long first line */
+  .body { font-family: "Nunito"; font-weight: 900; text-align: center; line-height: 1.12; white-space: normal; text-wrap: balance; }
+  .title { font-family: "Baloo"; font-weight: 800; text-align: center; line-height: 1.02; white-space: normal; text-wrap: balance; }
   .pill { border-radius: 999px; }
   #vignette { position: absolute; inset: 0; pointer-events: none;
     background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(20,10,40,0.28) 100%); }
