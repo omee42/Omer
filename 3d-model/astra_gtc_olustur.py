@@ -171,70 +171,81 @@ def doldur(d, d0, maske, seviye):
 
 # ============================================================ profiller (gerçek mm)
 Z_ALT_UST = Egri([(0, 470), (20, 590), (60, 680), (120, 750), (200, 790), (400, 830), (700, 890),
-                  (1000, 945), (1250, 985), (1350, 1000), (1600, 1015), (2000, 1040), (2600, 1075),
-                  (3000, 1100), (3400, 1125), (3700, 1135), (3950, 1110), (4130, 1065), (4250, 1030),
-                  (4350, 975), (4420, 890), (4455, 770), (4466, 650)])
-KAPUT_BOMBE = Egri([(0, 25), (200, 45), (1300, 45), (1450, 10), (4000, 10), (4300, 30)])
+                  (1000, 945), (1250, 985), (1350, 1000), (1600, 1012), (2000, 1035), (2600, 1066),
+                  (3000, 1088), (3400, 1118), (3700, 1132), (3950, 1118), (4130, 1092), (4250, 1075),
+                  (4330, 1062), (4375, 1050), (4410, 1018), (4435, 962), (4452, 880), (4462, 790),
+                  (4466, 700)])
+KAPUT_BOMBE = Egri([(0, 0), (250, 8), (600, 22), (1000, 35), (1300, 40), (1450, 10), (4000, 10), (4300, 30)])
 Z_ALT = Egri([(0, 300), (30, 190), (80, 140), (200, 118), (400, 112), (4100, 112), (4250, 150),
               (4380, 230), (4440, 300), (4466, 380)])
-HW_PLAN = Egri([(0, 900), (935, 920), (1500, 903), (2300, 895), (3000, 905), (3630, 922), (4466, 905)])
+HW_PLAN = Egri([(0, 900), (935, 905), (1500, 893), (2300, 885), (3000, 892), (3630, 900), (4466, 888)])
 F_DIKEY = Egri([(100, 0.89), (150, 0.915), (220, 0.95), (340, 0.985), (480, 0.998), (620, 1.0),
-                (740, 0.995), (860, 0.975), (960, 0.95), (1100, 0.90)])
-ON_PLAN = Egri([(0, 0), (200, 12), (400, 45), (550, 95), (680, 170), (770, 250), (840, 345), (885, 420),
-                (905, 480), (918, 540), (926, 600)])
-ON_YAN = Egri([(100, 90), (150, 45), (200, 20), (300, 5), (400, 0), (500, 0), (560, 12), (640, 45),
-               (720, 100), (800, 180)])
+                (740, 0.992), (860, 0.968), (960, 0.938), (1100, 0.88)])
+ON_PLAN = Egri([(0, 0), (200, 20), (400, 75), (550, 138), (680, 212), (770, 288), (840, 368), (885, 440),
+                (905, 495), (918, 550), (926, 600)])
+ON_YAN = Egri([(100, 90), (150, 45), (200, 20), (300, 5), (400, 0), (520, 0), (600, 8), (680, 28),
+               (760, 62), (840, 120)])
 ARKA_PLAN = Egri([(0, 0), (200, 5), (400, 20), (550, 50), (680, 100), (780, 175), (850, 270), (895, 380),
                   (915, 480), (925, 560)])
-ARKA_YAN = Egri([(100, 70), (150, 40), (200, 22), (300, 8), (450, 0), (650, 0), (800, 15), (900, 45),
-                 (1000, 95), (1100, 170)])
+ARKA_YAN = Egri([(100, 95), (150, 62), (200, 35), (250, 18), (300, 8), (400, 2), (450, 0), (700, 0),
+                 (800, 4), (880, 13), (960, 30), (1015, 55), (1050, 90), (1100, 170)])
 Z_KABIN = Egri([(900, 600), (1150, 880), (1300, 975), (1400, 1030), (1600, 1145), (1800, 1255),
-                (2000, 1350), (2150, 1410), (2300, 1450), (2500, 1475), (2800, 1472), (3100, 1448),
-                (3400, 1410), (3650, 1372), (3800, 1350), (3870, 1335), (3920, 1300), (4000, 1225),
-                (4080, 1150), (4160, 1075), (4220, 1020), (4320, 880), (4420, 500)])
-HW_KABIN = Egri([(1100, 700), (1350, 790), (1700, 830), (2500, 845), (3100, 835), (3500, 805),
-                 (3900, 750), (4250, 680)])
-EGIM = 0.5   # yan camların içe eğimi
+                (2000, 1350), (2150, 1410), (2300, 1447), (2450, 1466), (2600, 1472), (2800, 1466),
+                (3100, 1444), (3400, 1412), (3650, 1377), (3800, 1352), (3880, 1335), (3940, 1310),
+                (4020, 1262), (4120, 1196), (4220, 1128), (4300, 1075), (4360, 1030), (4420, 900)])
+HW_KABIN = Egri([(1100, 665), (1350, 752), (1700, 795), (2300, 806), (2800, 808), (3200, 805),
+                 (3600, 790), (3900, 760), (4250, 690)])
+EGIM_X = Egri([(1500, 0.47), (2400, 0.50), (2900, 0.54), (3300, 0.64), (3650, 0.74), (4000, 0.80)])
 
 
 def hw_kabin(x, z):
-    return HW_KABIN(x) - (z - 1000.0) * EGIM
+    """Kabin (cam) yan yüzeyi: içe eğim arkaya doğru artar (C direği içe yatar)."""
+    return HW_KABIN(x) - (z - 1000.0) * EGIM_X(x)
 
 
 def omuz_z(x):
-    return 830.0 + 0.045 * (x - 600.0)
+    return 860.0 + 0.048 * (x - 600.0)
 
 
 # ============================================================ detay şekilleri (gerçek mm)
-ON_CAM = YPoligon([(1440, 1030), (2840, 1080), (2840, 1405), (2500, 1428), (2200, 1402)], 22)
-ARKA_YAN_CAM = YPoligon([(2900, 1083), (3150, 1110), (3470, 1175), (3150, 1372), (2900, 1397)], 22)
-FAR_ON = YPoligon([(360, 622), (470, 642), (620, 660), (760, 676), (850, 690), (908, 712), (908, 808),
-                   (840, 816), (690, 806), (560, 792), (460, 738), (395, 662)], 10)
-FAR_YAN = YPoligon([(40, 700), (300, 718), (520, 765), (720, 815), (650, 835), (420, 818), (200, 808),
-                    (40, 800)], 10)
-UST_IZGARA = YPoligon([(-385, 655), (-300, 690), (0, 705), (300, 690), (385, 655), (330, 600),
-                       (150, 572), (0, 566), (-150, 572), (-330, 600)], 14)
-ALT_IZGARA = YPoligon([(-560, 445), (560, 445), (645, 285), (600, 205), (-600, 205), (-645, 285)], 30)
-KOSE_HAVA = YPoligon([(650, 300), (760, 255), (825, 300), (815, 525), (745, 545), (695, 455)], 14)
-STOP_ARKA = YPoligon([(260, 960), (500, 940), (760, 930), (880, 960), (915, 1010), (860, 1042),
-                      (600, 1036), (330, 1012)], 10)
-STOP_YAN = YPoligon([(4120, 1000), (4300, 958), (4500, 948), (4500, 1052), (4330, 1052),
-                     (4170, 1032)], 10)
-DIFUZOR = YPoligon([(-720, 150), (720, 150), (680, 330), (-680, 330)], 25)
+ON_CAM = YPoligon([(1610, 1018), (2000, 1032), (2500, 1056), (2845, 1080), (2838, 1390), (2600, 1392),
+                   (2380, 1374), (2200, 1316), (2000, 1222)], 22)
+ARKA_YAN_CAM = YPoligon([(2905, 1084), (3100, 1104), (3250, 1145), (3360, 1205), (3440, 1270),
+                         (3300, 1344), (3100, 1368), (2900, 1384)], 18)
+FAR_ON = YPoligon([(398, 632), (470, 636), (600, 646), (720, 662), (820, 684), (885, 710), (960, 738),
+                   (960, 836), (870, 822), (760, 806), (640, 788), (545, 762), (480, 726), (432, 688)], 8)
+FAR_YAN = YPoligon([(-60, 600), (250, 620), (480, 680), (640, 742), (760, 808), (800, 838), (740, 848),
+                    (500, 850), (-60, 850)], 8)
+UST_IZGARA = YPoligon([(-470, 726), (-360, 734), (-200, 731), (0, 729), (200, 731), (360, 734), (470, 726),
+                       (440, 702), (360, 674), (220, 652), (0, 644), (-220, 652), (-360, 674), (-440, 702)], 10)
+ALT_IZGARA = YPoligon([(-630, 505), (-520, 463), (-380, 440), (-200, 428), (0, 425), (200, 428), (380, 440),
+                       (520, 463), (630, 505), (602, 410), (565, 290), (535, 192), (-535, 192), (-565, 290),
+                       (-602, 410)], 14)
+KOSE_HAVA = YPoligon([(718, 612), (790, 580), (832, 490), (845, 382), (832, 286), (790, 220), (680, 188),
+                      (722, 262), (736, 360), (726, 462), (706, 552)], 10)
+STOP_ARKA = YPoligon([(385, 1002), (470, 984), (600, 960), (740, 938), (850, 924), (910, 934),
+                      (930, 990), (905, 1040), (780, 1046), (620, 1044), (490, 1032)], 10)
+STOP_YAN = YPoligon([(4060, 1012), (4200, 978), (4330, 950), (4500, 930), (4500, 1046),
+                     (4330, 1046), (4170, 1034)], 10)
+OPC_KOSE = YPoligon([(650, 235), (790, 235), (842, 300), (848, 470), (800, 482), (705, 370)], 14)
+DIFUZOR = YPoligon([(-610, 150), (610, 150), (585, 345), (-585, 345)], 25)
 EGZOZ = YPoligon([(85, 195), (255, 195), (240, 285), (100, 285)], 12)
 KAPI_CIZGILERI = [
-    [(1340, 300), (1350, 700), (1390, 1000), (1400, 1012), (2180, 1442), (2500, 1462), (2875, 1452)],
-    [(2875, 1452), (2880, 1090), (2900, 700), (2900, 300)],
+    [(1340, 300), (1350, 700), (1390, 960), (1445, 1002), (1640, 1080), (2000, 1252), (2200, 1340),
+     (2400, 1392), (2600, 1404), (2878, 1400)],
+    [(2878, 1400), (2882, 1080), (2900, 700), (2900, 300)],
     [(1340, 300), (2900, 300)],
-    [(330, 705), (690, 640)],                 # ön tampon - çamurluk
-    [(4150, 950), (3900, 640)],               # arka tampon - çamurluk
+    [(705, 818), (722, 720), (700, 615)],     # ön tampon - çamurluk (far arka ucundan teker kemerine)
+    [(4185, 958), (4060, 800), (3900, 640)],  # arka tampon - çamurluk (stop alt köşesine)
 ]
 
 
 def kaput_poligon():
-    ys = np.linspace(-640, 640, 33)
-    on = [(170 + 0.00025 * y * y, y) for y in ys]
-    return np.array(on + [(1330, 705), (1330, -705)])
+    # ön kenar yüzey üzerinde önden görünüşte z = 745 (orta) ... 815 (far üst kenarı) çizgisine oturur
+    on = [(116, 0), (120, 150), (134, 300), (156, 400), (197, 500), (263, 600), (340, 700), (406, 760)]
+    yan = [(1330, 705)]
+    sag = on + yan
+    return np.array([(x, y) for x, y in sag] + [(x, -y) for x, y in reversed(sag) if y > 0])
 
 
 KAPUT = kaput_poligon()
@@ -249,43 +260,52 @@ def govde_temel(X, Y, Z):
     zc = omuz_z(X)
     hw = hw + p(0.3) * np.maximum(0, 1 - np.abs(Z - zc) / p(2.0)) * sstep(500, 900, X) * (1 - sstep(4250, 4400, X))
     # GTC "bıçak" çizgisi: kapının önünde eşiğe yakın başlar, arka çamurluğa doğru yükselir
-    zb = 380.0 + (X - 1450.0) * 0.178
-    ust = Z - zb
-    oy = p(0.6) * sstep(0, p(0.15), ust) * (1 - sstep(p(1.0), p(6.0), ust))
-    hw = hw - oy * sstep(1380, 1600, X) * (1 - sstep(3050, 3300, X))
+    zb = 365.0 + (X - 1430.0) * 0.158
+    alt_b = zb - Z
+    oy = p(0.75) * sstep(0, p(0.12), alt_b) * (1 - sstep(p(1.5), p(6.5), alt_b))
+    hw = hw - oy * sstep(1400, 1900, X) * (1 - sstep(3150, 3330, X))
     # OPC marşpiyel
     hw = hw + p(0.35) * sstep(120, 150, Z) * (1 - sstep(250, 280, Z)) * sstep(1300, 1420, X) * (1 - sstep(3150, 3280, X))
     # çamurluk kabarıklıkları (arka daha belirgin)
     for xa, a in ((AKS_ON, 0.6), (AKS_ARKA, 0.85)):
         r = np.sqrt((X - xa) ** 2 + (Z - AKS_Z) ** 2)
         hw = hw + p(a) * sstep(CAMUR_R, CAMUR_R + p(0.4), r) * (1 - sstep(CAMUR_R + p(1.2), CAMUR_R + p(3.8), r)) * sstep(150, 250, Z)
+    # GTC arka basen (haunch): arka teker üstünde omuz bölgesi dışa şişer; kapı üst kısmı içe çekilir
+    hw = hw + 32.0 * sstep(2950, 3550, X) * (1 - sstep(4000, 4400, X)) * sstep(700, 900, Z) * (1 - sstep(1010, 1120, Z))
+    hw = hw - 28.0 * sstep(1450, 1750, X) * (1 - sstep(2950, 3300, X)) * sstep(760, 1000, Z)
     d_yan = (Y - hw) / np.sqrt(1 + (dhwx * fz) ** 2 + (hwx * dfz) ** 2)
 
     bombe = KAPUT_BOMBE(X)
     zu = Z_ALT_UST(X) - bombe * (Y / 900.0) ** 2
-    kaput = sstep(150, 300, X) * (1 - sstep(1250, 1350, X))
-    zu = zu + kaput * (p(0.5) * np.maximum(0, 1 - Y / p(4.0)) + p(0.25) * np.maximum(0, 1 - np.abs(Y - 700) / p(3.0)))
+    kaput = sstep(120, 260, X) * (1 - sstep(1250, 1350, X))
+    zu = zu + kaput * (p(1.1) * np.maximum(0, 1 - Y / 330.0) ** 2.2 + p(0.3) * np.maximum(0, 1 - np.abs(Y - 690) / 110.0))
     d_ust = (Z - zu) / np.sqrt(1 + Z_ALT_UST.t(X) ** 2 + (2 * bombe * Y / 900.0 ** 2) ** 2)
     d_alt = (Z_ALT(X) - Z) / np.sqrt(1 + Z_ALT.t(X) ** 2)
     d_on = (ON_PLAN(Y) + ON_YAN(Z) - X) / np.sqrt(1 + ON_PLAN.t(Y) ** 2 + ON_YAN.t(Z) ** 2)
     d_arka = (X - (L - ARKA_PLAN(Y) - ARKA_YAN(Z))) / np.sqrt(1 + ARKA_PLAN.t(Y) ** 2 + ARKA_YAN.t(Z) ** 2)
 
     alt = smax(d_yan, d_ust, p(4.5))
-    alt = smax(alt, d_on, p(4.0))
+    alt = smax(alt, d_on, p(3.0))
     alt = smax(alt, d_arka, p(3.5))
     alt = smax(alt, d_alt, p(1.2))
 
-    zk = Z_KABIN(X) - 24.0 * (Y / 700.0) ** 2
-    d_kust = (Z - zk) / np.sqrt(1 + Z_KABIN.t(X) ** 2 + (48.0 * Y / 700.0 ** 2) ** 2)
-    d_kyan = (Y - hw_kabin(X, Z)) / np.sqrt(1 + EGIM ** 2 + HW_KABIN.t(X) ** 2)
+    zk = Z_KABIN(X) - 40.0 * (Y / 650.0) ** 2
+    d_kust = (Z - zk) / np.sqrt(1 + Z_KABIN.t(X) ** 2 + (80.0 * Y / 650.0 ** 2) ** 2)
+    eg = EGIM_X(X)
+    d_kyan = (Y - hw_kabin(X, Z)) / np.sqrt(1 + eg ** 2 + (HW_KABIN.t(X) - (Z - 1000.0) * EGIM_X.t(X)) ** 2)
     kabin = smax(d_kyan, d_kust, p(2.6))
-    kabin = smax(kabin, 850.0 - Z, p(0.5))
+    kabin = smax(kabin, (Z_ALT_UST(X) - 35.0) - Z, p(0.5))
     kabin = np.maximum(kabin, X - 4380.0)
     kabin = np.maximum(kabin, 950.0 - X)
 
     d = smin(alt, kabin, p(0.9))
-    spoiler = sd_kutu3(X, Y, Z, (3868.0, 0.0, 1324.0), (78.0, 470.0 - 0.6 * np.maximum(X - 3868.0, 0), 13.0), 11.0)
-    return smin(d, spoiler, p(0.8))
+    # tavan spoyleri: tavanın devamı, 28 mm kalın dudak, hafif dışbükey arka kenar, camın üstüne taşar
+    yy = np.minimum((Y / 540.0) ** 2, 1.0)
+    sp_ust = 1352.0 - 0.10 * np.maximum(X - 3800.0, 0) - 30.0 * yy
+    sp = np.maximum(X - (3965.0 + 20.0 * (1 - yy)), 3790.0 - X)
+    sp = smax(sp, Y - (hw_kabin(X, sp_ust) - 12.0), 15.0)
+    sp = smax(sp, np.maximum(Z - sp_ust, (sp_ust - 28.0) - Z), 8.0)
+    return smin(d, sp, p(0.5))
 
 
 def camurluk_kuyusu(X, Y, Z, xa):
@@ -389,9 +409,9 @@ def detaylar(d, d0, b):
     uygula((1340, 2200, 0, 900, 990, 1500), on_cam)
 
     def arka_cam(dd, z0, X, Y, Z):
-        m = smax(smax(3875 - X, X - 4165, p(1.2)), Y - (hw_kabin(X, Z) - p(3.0)), p(1.2))
-        return oyuk(dd, z0, np.maximum(m, 1062 - Z), CAM)
-    uygula((3850, 4200, 0, 900, 1040, 1400), arka_cam)
+        m = smax(smax(3950 - X, X - 4285, p(1.2)), Y - (hw_kabin(X, Z) - p(2.6)), p(1.2))
+        return oyuk(dd, z0, np.maximum(m, 1088 - Z), CAM)
+    uygula((3900, 4320, 0, 900, 1060, 1400), arka_cam)
 
     def yan_cam(dd, z0, X, Y, Z):
         m = np.minimum(ON_CAM(X, Z), ARKA_YAN_CAM(X, Z))
@@ -403,63 +423,58 @@ def detaylar(d, d0, b):
         s = sd_poligon(X, Y, KAPUT)
         m = np.maximum(np.maximum(np.abs(s) - p(0.22), 690 - Z), X - 1320)
         return oyuk(dd, z0, m, p(0.5))
-    uygula((150, 1340, 0, 760, 680, 1020), kaput)
+    uygula((90, 1340, 0, 790, 680, 1020), kaput)
 
     # ---------- ön: üst ızgara, krom kanat çıtası, rozet halkası
     def ust_izgara(dd, z0, X, Y, Z):
-        m = UST_IZGARA(Y, Z)
-        dd = oyuk(dd, z0, m, p(0.9))
-        for zc in (595.0, 675.0):
-            dd = doldur(dd, z0, np.maximum(np.abs(Z - zc) - p(0.25), m), -p(0.5))
-        kanat = sd_cizgi(Y, Z, [(0, 628), (150, 632), (280, 648), (390, 668)]) - p(0.55)
-        dd = doldur(dd, z0, np.maximum(kanat, Y - 400), p(0.12))
-        rr = np.sqrt(Y ** 2 + (Z - 630) ** 2)
-        dd = doldur(dd, z0, np.abs(rr - 72) - p(0.3), p(0.3))
-        dd = doldur(dd, z0, rr - 61, p(0.1))
+        m = np.maximum(UST_IZGARA(Y, Z), X - 300)
+        dd = oyuk(dd, z0, m, p(1.0))
+        for zc in (664.0, 712.0):                       # ince yatay çıtalar (ızgara içi)
+            dd = doldur(dd, z0, np.maximum(np.abs(Z - zc) - p(0.2), m), -p(0.45))
+        # krom kanat çıtası: rozette kalın (yarı kalınlık 13), uçlara doğru incelir (6) ve yukarı kıvrılır
+        ay = np.abs(Y)
+        kanat = sd_cizgi(ay, Z, [(0, 688), (150, 690), (280, 700), (380, 716), (455, 728)]) - (13.0 - 7.0 * np.clip(ay / 455.0, 0, 1))
+        dd = doldur(dd, z0, np.maximum(kanat, X - 300), p(0.3))
+        rr = np.sqrt(Y ** 2 + (Z - 688) ** 2)
+        dd = doldur(dd, z0, np.maximum(np.abs(rr - 50) - p(0.25), X - 300), p(0.4))   # rozet halkası Ø~105
+        dd = doldur(dd, z0, np.maximum(rr - 44, X - 300), p(0.15))                    # rozet zemini
         return dd
-    uygula((-40, 300, 0, 420, 540, 730), ust_izgara)
+    uygula((-40, 300, 0, 500, 620, 760), ust_izgara)
 
-    # ---------- farlar (bumerang)
-    def farlar_on(dd, z0, X, Y, Z):
-        m = np.maximum(FAR_ON(Y, Z), X - 400)
-        dd = oyuk(dd, z0, m, p(0.7))
-        drl = sd_cizgi(Y, Z, [(440, 712), (560, 735), (700, 752), (850, 770), (900, 790)]) - p(0.22)
-        dd = doldur(dd, z0, np.maximum(drl, m), -p(0.2))
-        alt = sd_cizgi(Y, Z, [(410, 672), (520, 700), (700, 718), (880, 738)]) - p(0.15)
-        dd = doldur(dd, z0, np.maximum(alt, m), -p(0.35))
-        for yc, zc in ((585.0, 765.0), (760.0, 778.0)):
+    # ---------- farlar (bumerang): önden FAR_ON ∩ yandan FAR_YAN
+    def farlar(dd, z0, X, Y, Z):
+        m = np.maximum(FAR_ON(Y, Z), FAR_YAN(X, Z))
+        dd = oyuk(dd, z0, m, p(0.5) + p(0.7) * sstep(640.0, 800.0, Z))   # taban aşağı bakar: üst kenar hood altına girer
+        # üst kenar boyunca kanat DRL ışık kılavuzu (yükseltilmiş şerit)
+        drl = sd_cizgi(Y, Z, [(445, 690), (520, 735), (640, 770), (760, 790), (870, 806), (960, 818)]) - p(0.25)
+        dd = doldur(dd, z0, np.maximum(drl, m), -p(0.3))
+        # projektör (iç) ve uzun far (dış) çanakları
+        for yc, zc, r in ((650.0, 716.0, 40.0), (800.0, 738.0, 30.0)):
             mer = np.sqrt((Y - yc) ** 2 + (Z - zc) ** 2)
-            dd = doldur(dd, z0, np.maximum(mer - 42.0, m), -p(0.3))
-            dd = oyuk(dd, z0, np.maximum(mer - 22.0, m), p(0.9))
+            dd = oyuk(dd, z0, np.maximum(mer - (r - p(0.3)), m), p(1.1))             # mercek çukuru
         return dd
-    uygula((-20, 420, 360, 940, 620, 830), farlar_on)
-
-    def farlar_yan(dd, z0, X, Y, Z):
-        m = np.maximum(FAR_YAN(X, Z), 760 - Y)
-        dd = oyuk(dd, z0, m, p(0.7))
-        drl = sd_cizgi(X, Z, [(60, 770), (300, 782), (540, 800), (690, 818)]) - p(0.22)
-        return doldur(dd, z0, np.maximum(drl, m), -p(0.2))
-    uygula((20, 760, 740, 940, 680, 850), farlar_yan)
+    uygula((-20, 820, 380, 960, 620, 870), farlar)
 
     # ---------- ön tampon: plaka, petek ızgara, köşe hava girişleri, splitter
     def on_tampon(dd, z0, X, Y, Z):
-        plaka = sd_kutu2(Y, Z, 0, 525, 262, 57, 12)
-        dd = doldur(dd, z0, plaka, p(0.18))
+        plaka = sd_kutu2(Y, Z, 0, 520, 262, 56, 10)
+        dd = oyuk(dd, z0, np.abs(plaka + p(0.15)) - p(0.15), p(0.3))   # plaka çevresinde gölge çizgisi
+        dd = doldur(dd, z0, plaka + p(0.3), p(0.2))                     # plaka yüzü
         m = ALT_IZGARA(Y, Z)
-        dd = oyuk(dd, z0, m, p(1.3))
-        dd = doldur(dd, z0, np.maximum(petek(Y, Z, p(0.9)) - p(0.17), m), -p(0.4))
+        dd = doldur(dd, z0, np.abs(m + p(0.3)) - p(0.3), p(0.3))         # orta girişin çerçeve dudağı ("gülümseme")
+        dd = oyuk(dd, z0, m, p(1.4))
+        dd = doldur(dd, z0, np.maximum(petek(Y, Z, p(0.8)) - p(0.16), m), -p(0.5))
         k = KOSE_HAVA(Y, Z)
-        dd = oyuk(dd, z0, k, p(1.1))
-        dd = doldur(dd, z0, np.maximum(petek(Y, Z, p(0.8)) - p(0.16), k), -p(0.45))
-        bicak = sd_cizgi(Y, Z, [(630, 275), (770, 232), (850, 285), (860, 380)]) - p(0.35)
-        dd = doldur(dd, z0, bicak, p(0.25))
-        # tampon üzerinde gülümseme çizgisi
-        gul = sd_cizgi(Y, Z, [(0, 462), (300, 462), (560, 470), (760, 545), (880, 620)]) - p(0.2)
-        dd = oyuk(dd, z0, gul, p(0.35))
-        dudak = np.maximum(np.abs(Z - 160) - p(0.45), Y - 690)
-        dd = doldur(dd, z0, dudak, p(0.35))
+        dd = doldur(dd, z0, np.maximum(np.abs(k + p(0.25)) - p(0.25), X - 700), p(0.35))  # bıçak kenar
+        dd = oyuk(dd, z0, np.maximum(k, X - 700), p(1.4))
+        dd = doldur(dd, z0, np.maximum(petek(Y, Z, p(0.7)) - p(0.15), np.maximum(k, X - 700)), -p(0.55))
+        # splitter dudağı: öne p(1.0) taşan keskin plaka, uçları köşe girişlerine kıvrılır
+        dudak = np.maximum(sd_cizgi(np.abs(Y), Z, [(0, 160), (600, 162), (720, 176), (790, 205)]) - p(0.45), X - 600)
+        dd = doldur(dd, z0, dudak, p(1.0))
+        golge = np.maximum(sd_cizgi(np.abs(Y), Z, [(0, 186), (560, 188)]) - p(0.2), X - 400)
+        dd = oyuk(dd, z0, golge, p(0.4))
         return dd
-    uygula((-40, 600, 0, 940, 120, 640), on_tampon)
+    uygula((-60, 700, 0, 940, 120, 640), on_tampon)
 
     # ---------- yan: kapı aralıkları, kol
     def kapilar(dd, z0, X, Y, Z):
@@ -471,7 +486,7 @@ def detaylar(d, d0, b):
     uygula((300, 4200, 480, 960, 250, 1480), kapilar)
 
     def kol(dd, z0, X, Y, Z):
-        xc, zc = 2650.0, omuz_z(2650.0) - 45
+        xc, zc = 2650.0, omuz_z(2650.0) - 15
         cep = np.sqrt(((X - xc) / 85) ** 2 + ((Z - zc) / 28) ** 2) - 1.0
         dd = oyuk(dd, z0, np.maximum(cep * 28, 700 - Y), p(0.55))
         k = sd_kutu2(X, Z, xc, zc + 4, 70, 12, 11)
@@ -480,58 +495,70 @@ def detaylar(d, d0, b):
 
     # ---------- arka
     def arka(dd, z0, X, Y, Z):
-        bagaj = sd_kutu2(Y, Z, 0, 1060, 640, 370, 60)
-        dd = oyuk(dd, z0, np.maximum(np.abs(bagaj) - p(0.22), 4280 - X), p(0.5))
-        st = np.maximum(STOP_ARKA(Y, Z), 4180 - X)
-        dd = oyuk(dd, z0, st, p(0.5))
-        g = sd_cizgi(Y, Z, [(300, 990), (520, 975), (760, 972), (890, 998)]) - p(0.2)
-        dd = doldur(dd, z0, np.maximum(g, st), -p(0.15))
-        g2 = sd_cizgi(Y, Z, [(380, 962), (600, 952), (800, 958)]) - p(0.15)
-        dd = doldur(dd, z0, np.maximum(g2, st), -p(0.3))
-        trim = np.maximum(sd_cizgi(Y, Z, [(0, 1000), (285, 996)]) - p(0.35), 4300 - X)
-        dd = doldur(dd, z0, trim, p(0.12))
-        rr = np.sqrt(Y ** 2 + (Z - 1000) ** 2)
-        dd = doldur(dd, z0, np.maximum(np.abs(rr - 80) - p(0.28), 4300 - X), p(0.25))
-        dd = doldur(dd, z0, np.maximum(rr - 68, 4300 - X), p(0.08))
-        plaka = np.maximum(sd_kutu2(Y, Z, 0, 760, 262, 57, 12), 4300 - X)
-        dd = oyuk(dd, z0, plaka, p(0.35))
+        bagaj = sd_cizgi(Y, Z, [(585, 1100), (575, 1058), (500, 1052), (420, 1036), (372, 1008),
+                                (365, 960), (372, 760), (352, 712), (310, 697), (0, 695)])
+        dd = oyuk(dd, z0, np.maximum(bagaj - p(0.25), 4250 - X), p(0.6))
+        st = np.maximum(STOP_ARKA(Y, Z), 4150 - X)
+        dd = oyuk(dd, z0, st, p(0.6))
+        g = sd_cizgi(Y, Z, [(420, 1000), (600, 976), (760, 956), (915, 968)]) - p(0.25)
+        dd = doldur(dd, z0, np.maximum(g, st), -p(0.2))
+        g2 = sd_cizgi(Y, Z, [(480, 1022), (640, 1026), (800, 1026), (910, 1010)]) - p(0.25)
+        dd = doldur(dd, z0, np.maximum(g2, st), -p(0.2))
+        trim = np.maximum(sd_cizgi(Y, Z, [(0, 992), (340, 990)]) - p(0.4), 4300 - X)
+        dd = doldur(dd, z0, trim, p(0.2))
+        rr = np.sqrt(Y ** 2 + (Z - 995) ** 2)
+        dd = doldur(dd, z0, np.maximum(np.abs(rr - 72) - p(0.35), 4300 - X), p(0.3))
+        dd = doldur(dd, z0, np.maximum(rr - 58, 4300 - X), p(0.12))
+        plaka = np.maximum(sd_kutu2(Y, Z, 0, 790, 272, 66, 14), 4300 - X)
+        dd = oyuk(dd, z0, plaka, p(0.5))
+        dd = doldur(dd, z0, np.maximum(sd_kutu2(Y, Z, 0, 790, 255, 55, 8), 4300 - X), -p(0.2))
         dif = np.maximum(DIFUZOR(Y, Z), 4300 - X)
         dd = oyuk(dd, z0, dif, p(0.8))
-        for yc in (350.0, 480.0, 600.0):
+        for yc in (300.0, 400.0, 500.0):
             dd = doldur(dd, z0, np.maximum(np.abs(Y - yc) - p(0.25), dif), -p(0.15))
         eg = np.maximum(EGZOZ(Y, Z), 4300 - X)
         dd = doldur(dd, z0, np.maximum(np.abs(eg + p(0.25)) - p(0.25), 4300 - X), p(0.35))
         dd = oyuk(dd, z0, eg + p(0.5), p(3.0))
-        ref = np.maximum(sd_kutu2(Y, Z, 850, 450, 18, 70, 12), 4250 - X)
-        dd = oyuk(dd, z0, ref, p(0.4))
+        tampon = sd_cizgi(Y, Z, [(372, 700), (600, 704), (720, 730), (800, 790), (860, 880)]) - p(0.25)
+        dd = oyuk(dd, z0, np.maximum(np.maximum(tampon, 4150 - X), Y - 860), p(0.6))
+        kose = np.maximum(OPC_KOSE(Y, Z), 4150 - X)
+        dd = oyuk(dd, z0, kose, p(0.9))
+        ref = np.maximum(sd_kutu2(Y, Z, 795, 365, 16, 80, 10), 4150 - X)
+        dd = doldur(dd, z0, np.maximum(ref, kose), -p(0.3))
         return dd
     uygula((4100, 4520, 0, 960, 130, 1150), arka)
 
     def stop_yan(dd, z0, X, Y, Z):
-        st = np.maximum(STOP_YAN(X, Z), 800 - Y)
+        st = np.maximum(STOP_YAN(X, Z), 780 - Y)
         dd = oyuk(dd, z0, st, p(0.5))
-        g = sd_cizgi(X, Z, [(4150, 1010), (4320, 985), (4480, 990)]) - p(0.2)
+        g = sd_cizgi(X, Z, [(4090, 1008), (4300, 975), (4480, 968)]) - p(0.25)
+        dd = doldur(dd, z0, np.maximum(g, st), -p(0.2))
+        g = sd_cizgi(X, Z, [(4180, 1026), (4330, 1028), (4480, 1024)]) - p(0.25)
         return doldur(dd, z0, np.maximum(g, st), -p(0.15))
-    uygula((4100, 4520, 780, 960, 930, 1070), stop_yan)
+    uygula((4040, 4520, 760, 960, 910, 1070), stop_yan)
 
     # ---------- köpekbalığı anten
     def anten(dd, z0, X, Y, Z):
         return smin(dd, sd_elipsoid(X, Y, Z, (3560.0, 0.0, 1395.0), (p(3.6), p(0.85), p(2.5))), p(0.5))
     uygula((3450, 3680, 0, 60, 1320, 1470), anten)
 
-    # ---------- aynalar
+    # ---------- aynalar: kapıya bağlı ince ayak + damla planlı kapak (önü bombeli, arkası düz cam yüzü)
     def ayna(dd, z0, X, Y, Z):
-        kutu = sd_kutu3(X, Y, Z, (1565.0, 905.0, 1112.0), (72.0, 105.0, 66.0), 52.0)
-        on = sd_elipsoid(X, Y, Z, (1535.0, 905.0, 1112.0), (92.0, 106.0, 68.0))
-        g = smin(kutu, on, 25.0)
-        ayak = sd_kutu3(X, Y, Z, (1555.0, 780.0, 1062.0), (52.0, 95.0, 26.0), 18.0)
-        g = smin(g, ayak, 20.0)
-        cam = np.maximum(sd_kutu2(Y, Z, 905.0, 1114.0, 92.0, 54.0, 32.0), 1600 - X)
-        g = oyuk(g, g.copy(), cam, p(0.35))
-        sin = sd_cizgi(X, Z, [(1480, 1085), (1560, 1080)]) - p(0.18)
-        g = oyuk(g, g.copy(), np.maximum(sin, 940 - Y), p(0.25))  # sinyal çizgisi
+        def kapak(Xq):
+            dis = sd_elipsoid(Xq, Y, Z, (1600.0, 908.0, 1098.0), (105.0, 102.0, 66.0))    # dış lob (geniş, derin)
+            ic = sd_elipsoid(Xq, Y, Z, (1612.0, 830.0, 1090.0), (72.0, 62.0, 46.0))       # iç lob (sığ, alçak) -> damla
+            return smin(dis, ic, 28.0)
+        g = smax(kapak(X), X - 1612.0, 5.0)                                            # arka cam yüzü düz
+        g = smax(g, 790.0 - Y, 8.0)
+        ayak = sd_kutu3(X, Y, Z, (1588.0, 782.0, 1052.0), (30.0, 46.0, 13.0), 10.0)    # ince yatay kol
+        taban = sd_kutu3(X, Y, Z, (1548.0, 770.0, 1036.0), (68.0, 28.0, 26.0), 18.0)   # kapı köşesi tabanı
+        g = smin(g, smin(ayak, taban, 14.0), 16.0)
+        cam = np.maximum(kapak(np.full_like(X, 1606.0)) + p(0.45), 1598.0 - X)       # cam, kapak kenarından 0.45 mm içeride
+        g = oyuk(g, g.copy(), cam, p(0.45))
+        sin = np.maximum(sd_cizgi(X, Z, [(1515, 1058), (1600, 1046)]) - p(0.2), 965 - Y)
+        g = oyuk(g, g.copy(), sin, p(0.25))                                            # sinyal çizgisi
         return smin(dd, g, p(0.4))
-    uygula((1420, 1680, 660, 1040, 990, 1200), ayna)
+    uygula((1420, 1680, 660, 1060, 980, 1200), ayna)
     return d
 
 
@@ -557,11 +584,11 @@ def asimetrik(d, x, y, z, mod):
     if g:
         sl, X, Y, Z = g
         sil = np.minimum(sd_cizgi(X, Y, [(1452, 700), (1418, 40)]),
-                         sd_cizgi(X, Y, [(1445, -20), (1412, -690)])) - p(0.28)
+                         sd_cizgi(X, Y, [(1445, -20), (1412, -690)])) - p(0.3)
         kol = np.minimum(sd_cizgi(X, Y, [(1478, 640), (1440, 330), (1430, 300)]),
-                         sd_cizgi(X, Y, [(1470, -80), (1440, -400), (1432, -430)])) - p(0.3)
+                         sd_cizgi(X, Y, [(1470, -80), (1440, -400), (1432, -430)])) - p(0.35)
         cur = d[sl]
-        e = np.maximum(cur - p(0.45), np.minimum(sil, kol))
+        e = np.maximum(cur - p(0.75), np.minimum(sil, kol))
         d[sl] = np.minimum(cur, e)
     if mod == "kit":
         for xa in (AKS_ON, AKS_ARKA):
