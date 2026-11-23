@@ -193,8 +193,8 @@ Z_KABIN = Egri([(900, 600), (1150, 880), (1300, 975), (1400, 1030), (1600, 1145)
                 (2000, 1350), (2150, 1410), (2300, 1447), (2450, 1466), (2600, 1472), (2800, 1466),
                 (3100, 1444), (3400, 1412), (3650, 1377), (3800, 1352), (3880, 1335), (3940, 1310),
                 (4020, 1262), (4120, 1196), (4220, 1128), (4300, 1075), (4360, 1030), (4420, 900)])
-HW_KABIN = Egri([(1100, 665), (1350, 752), (1700, 795), (2300, 806), (2800, 808), (3200, 805),
-                 (3600, 790), (3900, 760), (4250, 690)])
+HW_KABIN = Egri([(1100, 665), (1350, 752), (1700, 788), (2300, 794), (2800, 795), (3200, 797),
+                 (3600, 798), (3900, 772), (4250, 702)])
 EGIM_X = Egri([(1500, 0.47), (2400, 0.50), (2900, 0.54), (3300, 0.64), (3650, 0.74), (4000, 0.80)])
 
 
@@ -227,7 +227,7 @@ STOP_ARKA = YPoligon([(385, 1002), (470, 984), (600, 960), (740, 938), (850, 924
                       (930, 990), (905, 1040), (780, 1046), (620, 1044), (490, 1032)], 10)
 STOP_YAN = YPoligon([(4060, 1012), (4200, 978), (4330, 950), (4500, 930), (4500, 1046),
                      (4330, 1046), (4170, 1034)], 10)
-OPC_KOSE = YPoligon([(650, 235), (790, 235), (842, 300), (848, 470), (800, 482), (705, 370)], 14)
+OPC_KOSE = YPoligon([(640, 235), (770, 235), (815, 295), (820, 465), (780, 478), (695, 370)], 14)
 DIFUZOR = YPoligon([(-610, 150), (610, 150), (585, 345), (-585, 345)], 25)
 EGZOZ = YPoligon([(85, 195), (255, 195), (240, 285), (100, 285)], 12)
 KAPI_CIZGILERI = [
@@ -270,9 +270,8 @@ def govde_temel(X, Y, Z):
     for xa, a in ((AKS_ON, 0.6), (AKS_ARKA, 0.85)):
         r = np.sqrt((X - xa) ** 2 + (Z - AKS_Z) ** 2)
         hw = hw + p(a) * sstep(CAMUR_R, CAMUR_R + p(0.4), r) * (1 - sstep(CAMUR_R + p(1.2), CAMUR_R + p(3.8), r)) * sstep(150, 250, Z)
-    # GTC arka basen (haunch): arka teker üstünde omuz bölgesi dışa şişer; kapı üst kısmı içe çekilir
+    # GTC arka basen (haunch): arka teker üstünde omuz bölgesi dışa şişer
     hw = hw + 32.0 * sstep(2950, 3550, X) * (1 - sstep(4000, 4400, X)) * sstep(700, 900, Z) * (1 - sstep(1010, 1120, Z))
-    hw = hw - 28.0 * sstep(1450, 1750, X) * (1 - sstep(2950, 3300, X)) * sstep(760, 1000, Z)
     d_yan = (Y - hw) / np.sqrt(1 + (dhwx * fz) ** 2 + (hwx * dfz) ** 2)
 
     bombe = KAPUT_BOMBE(X)
@@ -314,7 +313,7 @@ def camurluk_kuyusu(X, Y, Z, xa):
     damla = np.maximum((dz + np.abs(dx)) / math.sqrt(2) - CAMUR_R, dz - 470.0)
     damla = np.maximum(damla, -dz)
     ic = np.minimum(daire, damla)
-    return np.maximum(np.where(Y < 860.0, ic, daire), KUYU_Y - Y)
+    return np.maximum(np.where(Y < 800.0, ic, daire), KUYU_Y - Y)
 
 
 # ============================================================ tekerlek (gerçek mm, yerel)
@@ -500,9 +499,9 @@ def detaylar(d, d0, b):
         dd = oyuk(dd, z0, np.maximum(bagaj - p(0.25), 4250 - X), p(0.6))
         st = np.maximum(STOP_ARKA(Y, Z), 4150 - X)
         dd = oyuk(dd, z0, st, p(0.6))
-        g = sd_cizgi(Y, Z, [(420, 1000), (600, 976), (760, 956), (915, 968)]) - p(0.25)
+        g = sd_cizgi(Y, Z, [(420, 1000), (600, 976), (760, 956), (870, 950)]) - p(0.25)
         dd = doldur(dd, z0, np.maximum(g, st), -p(0.2))
-        g2 = sd_cizgi(Y, Z, [(480, 1022), (640, 1026), (800, 1026), (910, 1010)]) - p(0.25)
+        g2 = sd_cizgi(Y, Z, [(480, 1022), (640, 1026), (800, 1026), (870, 1020)]) - p(0.25)
         dd = doldur(dd, z0, np.maximum(g2, st), -p(0.2))
         trim = np.maximum(sd_cizgi(Y, Z, [(0, 992), (340, 990)]) - p(0.4), 4300 - X)
         dd = doldur(dd, z0, trim, p(0.2))
@@ -523,14 +522,14 @@ def detaylar(d, d0, b):
         dd = oyuk(dd, z0, np.maximum(np.maximum(tampon, 4150 - X), Y - 860), p(0.6))
         kose = np.maximum(OPC_KOSE(Y, Z), 4150 - X)
         dd = oyuk(dd, z0, kose, p(0.9))
-        ref = np.maximum(sd_kutu2(Y, Z, 795, 365, 16, 80, 10), 4150 - X)
+        ref = np.maximum(sd_kutu2(Y, Z, 772, 362, 15, 78, 10), 4150 - X)
         dd = doldur(dd, z0, np.maximum(ref, kose), -p(0.3))
         return dd
     uygula((4100, 4520, 0, 960, 130, 1150), arka)
 
     def stop_yan(dd, z0, X, Y, Z):
         st = np.maximum(STOP_YAN(X, Z), 780 - Y)
-        dd = oyuk(dd, z0, st, p(0.5))
+        dd = oyuk(dd, z0, st, p(0.6))
         g = sd_cizgi(X, Z, [(4090, 1008), (4300, 975), (4480, 968)]) - p(0.25)
         dd = doldur(dd, z0, np.maximum(g, st), -p(0.2))
         g = sd_cizgi(X, Z, [(4180, 1026), (4330, 1028), (4480, 1024)]) - p(0.25)
