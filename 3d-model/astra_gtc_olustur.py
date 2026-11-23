@@ -527,10 +527,7 @@ def detaylar(d, d0, b):
         # krom kanat çıtası: ızgaranın üst kenarı boyunca, yüzeye kadar dolu, ön yüzü hafif bombeli
         kn = np.maximum(KANAT(Y, Z), X - 300)
         dd = doldur(dd, z0, kn, -p(0.08) - p(0.12) * sstep(0, p(1.2), -KANAT(Y, Z)))
-        rr = np.sqrt(Y ** 2 + (Z - 686) ** 2)
-        dd = doldur(dd, z0, np.maximum(rr - 52, X - 300), -p(0.05))                     # rozet tabanı Ø104
-        dd = doldur(dd, z0, np.maximum(np.abs(rr - 48) - p(0.2), X - 300), p(0.3))      # rozet halkası
-        dd = oyuk(dd, z0, np.maximum(rr - (48 - p(0.2)), X - 300), p(0.1))              # halka içi (şimşek zemini)
+        # rozet: amblem asimetrik() içindeki opel_amblem() ile işlenir (merkez y 0, z 686)
         return dd
     uygula((-40, 300, 0, 500, 610, 760), ust_izgara)
 
@@ -626,9 +623,7 @@ def detaylar(d, d0, b):
                                 (548, 796), (540, 860), (530, 921)])
         dd = oyuk(dd, z0, np.maximum(bagaj - p(0.22), 4200 - X), p(0.6))
         # rozet: halka Ø~120, merkez z 876 (stoplar arasında, gülümsemenin üstünde)
-        rr = np.sqrt(Y ** 2 + (Z - 876) ** 2)
-        dd = doldur(dd, z0, np.maximum(np.abs(rr - 55) - p(0.3), 4300 - X), p(0.3))
-        dd = doldur(dd, z0, np.maximum(rr - 46, 4300 - X), p(0.12))
+        # rozet: amblem asimetrik() içindeki opel_amblem() ile işlenir (merkez y 0, z 876)
         # plaka (520x110) tamponda, z 480..590; arkasında hafif yuva
         yuva = np.maximum(sd_kutu2(Y, Z, 0, 555, 170, 50, 14), 4300 - X)
         dd = oyuk(dd, z0, yuva, p(0.25))
@@ -712,31 +707,57 @@ def asimetrik(d, x, y, z, mod):
             return None
         return (ix, iy, iz), x[ix][:, None, None], y[iy][None, :, None], z[iz][None, None, :]
 
-    # Opel şimşeği (rozet halkalarının içinde). Şekil ayna simetrik değil, nokta simetriktir;
-    # bu yüzden yarım hacimde değil burada işlenir. u: bakana göre sağa, v: yukarı (R birimi).
-    simsek = np.array([(-1.15, 0.02), (0.02, 0.30), (0.20, 0.06), (1.15, -0.02), (-0.02, -0.30), (-0.20, -0.06)])
+    # Opel amblemi: kabartma taban + çukur koyu zemin + kubbeli krom halka + pahlı, sırtlı şimşek.
+    # Şimşek ayna simetrik değil (nokta simetrik), bu yüzden yarım hacimde değil burada işlenir.
+    # u: bakana göre sağa, v: yukarı; ölçüler halka yarıçapı R biriminde.
+    simsek = np.array([(-1.18, 0.03), (0.02, 0.30), (0.21, 0.06), (1.18, -0.03), (-0.02, -0.30), (-0.21, -0.06)])
 
-    def logo(sl, U, V, R):
-        m = sd_poligon(U / R, V / R, simsek) * R - p(0.05)
-        cur = d[sl]
-        d[sl] = np.minimum(cur, np.maximum(cur - p(0.3), m))
+    def yuzey_x(yc, zc, x0, x1, dis_yon):
+        """Gövde temel yüzeyinin (detaysız) verilen (y, z) noktasındaki x konumu."""
+        xs = np.arange(x0, x1, 0.5)
+        dv = govde_temel(xs[:, None, None], np.array([[[abs(yc)]]]), np.array([[[zc]]]))[:, 0, 0]
+        ic = np.nonzero(dv < 0)[0]
+        if len(ic) == 0:
+            return None
+        return xs[ic[0]] if dis_yon < 0 else xs[ic[-1]]
 
-    g = kes(-40, 300, -80, 80, 640, 740)      # ön rozet: merkez (y 0, z 688), R 50; önden bakınca sağ = -Y
+    def opel_amblem(sl, X, U, V, R, xp, dis_yon):
+        """Amblem düz bir montaj düzlemine (x = xp) oturur; dis_yon: -1 ön (dışarı -x), +1 arka (dışarı +x).
+        Her katman düzlemden 'yükseklik' kadar dışarı çıkan ve gövdeye 1.5 mm gömülen bir kabartmadır."""
+        r = np.sqrt(U * U + V * V)
+
+        def kabartma(maske, yukseklik):
+            dis = (X - (xp + dis_yon * yukseklik)) * dis_yon          # > 0: yüzün dışında
+            ic = (xp - dis_yon * p(1.5) - X) * dis_yon                 # > 0: gömülme sınırının içinde
+            e = np.maximum(maske, np.maximum(dis, ic))
+            d[sl] = np.minimum(d[sl], e)
+
+        # 1) taban: halkanın biraz dışına taşan yuvarlak kaide, kenarı pahlı
+        taban = r - 1.10 * R
+        kabartma(taban, p(0.25) * np.clip(-taban / (0.10 * R), 0.15, 1.0))
+        # 2) zemin: halka içi hafif çukur (boyamada siyah)
+        cukur = np.maximum(r - 0.84 * R, (X - (xp + dis_yon * p(0.12))) * -dis_yon)
+        d[sl] = np.maximum(d[sl], -cukur)
+        # 3) halka: yarı yuvarlak kesitli krom halka
+        w = 0.13 * R
+        kub = np.sqrt(np.clip(1.0 - ((r - 0.97 * R) / w) ** 2, 0.0, 1.0))
+        kabartma(np.abs(r - 0.97 * R) - w, p(0.30) + p(0.22) * kub)
+        # 4) şimşek: kenarları pahlı, ortası sırtlı, uçları halkanın dışına taşar
+        m = sd_poligon(U / R, V / R, simsek) * R
+        kabartma(m, p(0.30) + p(0.32) * np.sqrt(np.clip(-m / (0.075 * R), 0.0, 1.0)))
+
+    g = kes(-40, 320, -90, 90, 620, 760)       # ön rozet: merkez (y 0, z 686), R 48; önden bakınca sağ = -Y
     if g:
         sl, X, Y, Z = g
-        logo(sl, -Y + 0 * X, Z - 688.0, 50.0)
-    g = kes(4300, 4520, -80, 80, 800, 950)     # arka rozet: merkez (y 0, z 876), R 48; arkadan bakınca sağ = +Y
+        xp = yuzey_x(0.0, 686.0, -40, 320, -1)
+        if xp is not None:
+            opel_amblem(sl, X, -Y + 0 * X, Z - 686.0 + 0 * X, 48.0, xp - p(0.15), -1)
+    g = kes(4280, 4520, -90, 90, 800, 960)     # arka rozet: merkez (y 0, z 876), R 55; arkadan bakınca sağ = +Y
     if g:
         sl, X, Y, Z = g
-        logo(sl, Y + 0 * X, Z - 876.0, 48.0)
-    # arka silecek: göbek camın alt kenarında ortanın hemen sağında, süpürge sola (-Y) yatık
-    g = kes(4200, 4440, -420, 120, 1010, 1110)
-    if g:
-        sl, X, Y, Z = g
-        sil = sd_cizgi(Y, Z, [(-345, 1052), (30, 1060)]) - p(0.3)
-        gob = np.sqrt((Y - 45.0) ** 2 + (Z - 1056.0) ** 2) - p(0.75)
-        cur = d[sl]
-        d[sl] = np.minimum(cur, np.maximum(cur - p(0.45), np.minimum(sil, gob)))
+        xp = yuzey_x(0.0, 876.0, 4200, 4520, +1)
+        if xp is not None:
+            opel_amblem(sl, X, Y + 0 * X, Z - 876.0 + 0 * X, 55.0, xp + p(0.10), +1)
 
     # yakıt kapağı (sağ arka, +Y)
     g = kes(3200, 3460, 800, 960, 780, 1030)
