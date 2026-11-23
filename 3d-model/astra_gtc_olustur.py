@@ -18,7 +18,7 @@ Kullanım:
     python3 astra_gtc_olustur.py --olcek 18         # 1:18 (≈ 248 mm)
     python3 astra_gtc_olustur.py --parca tek --h 0.12
 
-Marka logosu (Opel şimşeği) ve yazılar eklenmez; rozet yerleri boş halka olarak bırakılır.
+Ön ve arka rozetlerde Opel şimşeği kabartma olarak bulunur; yazılar eklenmez.
 """
 import argparse
 import math
@@ -574,6 +574,24 @@ def asimetrik(d, x, y, z, mod):
         if ix.start >= ix.stop or iy.start >= iy.stop or iz.start >= iz.stop:
             return None
         return (ix, iy, iz), x[ix][:, None, None], y[iy][None, :, None], z[iz][None, None, :]
+
+    # Opel şimşeği (rozet halkalarının içinde). Şekil ayna simetrik değil, nokta simetriktir;
+    # bu yüzden yarım hacimde değil burada işlenir. u: bakana göre sağa, v: yukarı (R birimi).
+    simsek = np.array([(-1.15, 0.02), (0.02, 0.30), (0.20, 0.06), (1.15, -0.02), (-0.02, -0.30), (-0.20, -0.06)])
+
+    def logo(sl, U, V, R):
+        m = sd_poligon(U / R, V / R, simsek) * R - p(0.05)
+        cur = d[sl]
+        d[sl] = np.minimum(cur, np.maximum(cur - p(0.3), m))
+
+    g = kes(-40, 300, -80, 80, 640, 740)      # ön rozet: merkez (y 0, z 688), R 50; önden bakınca sağ = -Y
+    if g:
+        sl, X, Y, Z = g
+        logo(sl, -Y + 0 * X, Z - 688.0, 50.0)
+    g = kes(4300, 4520, -100, 100, 920, 1070)  # arka rozet: merkez (y 0, z 995), R 72; arkadan bakınca sağ = +Y
+    if g:
+        sl, X, Y, Z = g
+        logo(sl, Y + 0 * X, Z - 995.0, 72.0)
 
     # yakıt kapağı (sağ arka, +Y)
     g = kes(3200, 3460, 800, 960, 780, 1030)

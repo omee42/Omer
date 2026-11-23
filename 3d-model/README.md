@@ -29,7 +29,7 @@ Yüzey **0.10 mm** ızgarada çıkarıldı, sadeleştirmede en fazla 0.005 mm sa
 ## Modeldeki detaylar
 
 - **Ön:**
-  - kanat şeklindeki krom çıta ve ortasında rozet halkası
+  - kanat şeklindeki krom çıta ve ortasında **Opel şimşekli rozet**
   - iki yatay çıtalı üst ızgara
   - bumerang farlar: gündüz farı çizgisi, iki projektör merceği, çamurluğa sarılan yan kısım
   - kaput ortasındaki sırt ve kaput kapağı çizgisi
@@ -53,7 +53,7 @@ Yüzey **0.10 mm** ızgarada çıkarıldı, sadeleştirmede en fazla 0.005 mm sa
   - OPC tavan spoyleri
 - **Arka:**
   - kanat grafikli, yana sarılan stoplar
-  - aralarındaki krom şerit ve rozet halkası
+  - aralarındaki krom şerit ve **Opel şimşekli rozet**
   - bagaj kapağı çizgisi ve plaka yeri
   - kanatçıklı difüzör
   - **çift trapez egzoz** çıkışı
@@ -63,7 +63,9 @@ Yüzey **0.10 mm** ızgarada çıkarıldı, sadeleştirmede en fazla 0.005 mm sa
   - **delikli fren diski** ve büyük kaliper
   - diş kanalları olan lastik
 
-Marka logosu (Opel şimşeği) ve yazılar marka hakkı nedeniyle işlenmedi. Rozet halkaları boş. 6–7 mm'lik bir Opel çıkartması ya da metal rozet tam oturur.
+Ön ve arka rozetlerde Opel şimşeği kabartma olarak işlendi: halka 0.4 mm, şimşek rozet zemininden 0.3 mm yüksek. Yazılar (ASTRA, GTC, OPC) eklenmedi.
+
+> Opel adı ve şimşek logosu Opel Automobile GmbH / Stellantis'in tescilli markasıdır. Logolu maket kişisel kullanım ve kâr amacı gütmeyen sergileme içindir; satış veya ticari kullanım için marka sahibinden izin gerekir.
 
 ## Hangi sürümü basmalı?
 
@@ -105,7 +107,7 @@ Tekerlekler döner.
 1. **Astar:** Gri astar, 400 ve 800 zımpara.
 2. **Gövde ve tavan:** Gövde rengi; OPC için çoğunlukla mavi, beyaz ya da kırmızı. Tavan siyah da olabilir.
 3. **Siyah kısımlar:** Cam girintileri parlak siyah. Bal peteği ızgaralar, köşe girişleri, difüzör ve B direği mat siyah.
-4. **Krom kısımlar:** Kanat çıtası, rozet halkaları, arka krom şerit ve egzoz uçları krom/gümüş kalem.
+4. **Krom kısımlar:** Kanat çıtası, rozet halkaları ve şimşekler, arka krom şerit ve egzoz uçları krom/gümüş kalem. Rozet zeminini siyaha boyayıp şimşeği ve halkayı kromla boyarsanız logo çok net okunur.
 5. **Lambalar:** Farlar gümüş, üzerine şeffaf vernik. Stoplar şeffaf kırmızı.
 6. **Tekerlekler:** Lastikler mat siyah, kaliperler kırmızı ya da sarı (OPC'de Brembo).
 7. **Vernik:** En son parlak vernik.
