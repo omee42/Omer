@@ -368,10 +368,14 @@ def govde_temel(X, Y, Z):
     hw = hw - oy * sstep(-35.0, 45.0, X - BICAK_ON(Z)) * (1 - sstep(3080, 3330, X))
     # OPC marşpiyel
     hw = hw + p(0.35) * sstep(Z_ALT(X) + 8.0, Z_ALT(X) + 38.0, Z) * (1 - sstep(245, 275, Z)) * sstep(1300, 1420, X) * (1 - sstep(3150, 3280, X))
-    # çamurluk kabarıklıkları (arka daha belirgin)
+    # çamurluk kabarıklıkları (arka daha belirgin) + OPC kıvrık dudak: kemer kenarında ~10 mm'lik yuvarlak
+    # bir sırt (kuyuya kıvrılan sac), arkasında sığ bir oluk, sonra kabarık yüzey
     for xa, a in ((AKS_ON, 0.6), (AKS_ARKA, 0.85)):
         r = np.sqrt((X - xa) ** 2 + (Z - AKS_Z) ** 2)
-        hw = hw + p(a) * sstep(CAMUR_R, CAMUR_R + p(0.4), r) * (1 - sstep(CAMUR_R + p(1.2), CAMUR_R + p(3.8), r)) * sstep(150, 250, Z)
+        e = r - CAMUR_R
+        kab = sstep(-12.0, 0.0, e) * (1 - sstep(p(1.4), p(4.0), e))
+        dudak = 4.0 * np.exp(-((e - 7.0) / 5.5) ** 2) - 2.6 * np.exp(-((e - 18.0) / 4.5) ** 2)
+        hw = hw + (p(a) * kab + dudak) * sstep(150, 250, Z)
     # GTC arka basen (haunch): arka teker üstünde omuz bölgesi dışa şişer
     hw = hw + 32.0 * sstep(2950, 3550, X) * (1 - sstep(4000, 4400, X)) * sstep(700, 900, Z) * (1 - sstep(zc - 30.0, zc + 80.0, Z))
     # arka daralma (fotoğraf siluetlerinden): basenin üstü içe döner, teker arkasında gövde hızla
@@ -436,64 +440,251 @@ def camurluk_kuyusu(X, Y, Z, xa):
 
 
 # ============================================================ tekerlek (gerçek mm, yerel)
-def tekerlek_sdf(dx, dz, t):
+# Astra J OPC 20" jantı (fotoğraflardan): 5 adet "Y" kol. Her kol göbekten kalın bir gövdeyle çıkar,
+# hemen ikiye ayrılır; 10 kol ucu janta neredeyse eşit aralıkla (36°) ve geniş kavisli ayaklarla bağlanır,
+# böylece 10 adet yuvarlatılmış üçgen pencere oluşur (çatal içi pencereler göbekten daha uzakta başlar).
+# Kol yüzleri derin içbükey (göbek yüzü dudaktan ~45 mm içeride), ön yüz düz "işlenmiş", kenarları pahlı ve arkaya doğru
+# genişleyen yan yüzler. Göbek: 5 bijon yuvası (kollar arasında, PCD 115), Opel şimşekli göbek kapağı.
+# Arkada 355 mm delikli/havalandırmalı disk ve Brembo 4 pistonlu kaliper (logo plakalı), sibop.
+# Lastik 245/35 R20: jant koruma sırtı, şişkin yanak, yanak yazısı, 4 kanallı asimetrik diş deseni.
+# Koordinatlar: dx, dz göbekten düzlem içi (gerçek mm), t eksenel (+ dış yüz).
+JANT_FAZ = math.pi / 2                  # bir kol tam yukarı bakar
+KALIPER_ACI = math.radians(170.0)       # kaliper aksın önünde (dx < 0), saat 9 civarı
+JANT_SIMSEK = np.array([(-1.18, 0.03), (0.02, 0.30), (0.21, 0.06), (1.18, -0.03), (-0.02, -0.30), (-0.21, -0.06)])
+LASTIK_YAZI = (("245/35 ZR20 95Y", 90.0), ("245/35 ZR20 95Y", 270.0))   # (metin, görünüşte merkez açısı)
+YAZI_H, YAZI_R0, YAZI_IZ = 20.0, 295.0, 3.0     # harf yüksekliği, taban yarıçapı, çizgi yarı kalınlığı
+# yanak profili: lastik dış yanağının t konumu (r'ye göre); 280-292 jant koruma sırtı, ~310 en şişkin yer
+LASTIK_YANAK = Egri([(276.0, 104.0), (280.0, 108.5), (284.0, 115.5), (288.0, 119.5), (291.0, 120.3),
+                     (295.0, 118.8), (300.0, 120.3), (309.0, 121.8), (318.0, 122.0)])
+# çizgi yazı tipi: genişlik 0.6, yükseklik 1 birim; her karakter bir veya birkaç kırık çizgi
+_FONT = {
+    "0": [[(0.15, 0), (0.45, 0), (0.6, 0.15), (0.6, 0.85), (0.45, 1), (0.15, 1), (0, 0.85), (0, 0.15), (0.15, 0)]],
+    "1": [[(0.12, 0.78), (0.36, 1), (0.36, 0)]],
+    "2": [[(0, 0.82), (0.16, 1), (0.44, 1), (0.6, 0.84), (0.6, 0.64), (0, 0), (0.6, 0)]],
+    "3": [[(0, 1), (0.6, 1), (0.28, 0.6), (0.46, 0.58), (0.6, 0.42), (0.6, 0.15), (0.45, 0), (0.14, 0), (0, 0.14)]],
+    "4": [[(0.46, 0), (0.46, 1), (0, 0.32), (0.62, 0.32)]],
+    "5": [[(0.6, 1), (0.04, 1), (0, 0.56), (0.44, 0.6), (0.6, 0.44), (0.6, 0.15), (0.45, 0), (0.12, 0), (0, 0.12)]],
+    "6": [[(0.56, 1), (0.2, 1), (0, 0.7), (0, 0.15), (0.15, 0), (0.45, 0), (0.6, 0.15), (0.6, 0.4), (0.45, 0.56), (0, 0.56)]],
+    "7": [[(0, 1), (0.6, 1), (0.2, 0)]],
+    "8": [[(0.3, 0.56), (0.08, 0.66), (0.08, 0.9), (0.18, 1), (0.42, 1), (0.52, 0.9), (0.52, 0.66), (0.3, 0.56),
+           (0.6, 0.42), (0.6, 0.12), (0.46, 0), (0.14, 0), (0, 0.12), (0, 0.42), (0.3, 0.56)]],
+    "9": [[(0.6, 0.44), (0.15, 0.44), (0, 0.6), (0, 0.85), (0.15, 1), (0.45, 1), (0.6, 0.85), (0.6, 0.3), (0.4, 0), (0.04, 0)]],
+    "/": [[(0, 0), (0.5, 1)]],
+    "Z": [[(0, 1), (0.6, 1), (0, 0), (0.6, 0)]],
+    "R": [[(0, 0), (0, 1), (0.44, 1), (0.6, 0.86), (0.6, 0.64), (0.44, 0.5), (0, 0.5)], [(0.3, 0.5), (0.6, 0)]],
+    "Y": [[(0, 1), (0.3, 0.5), (0.6, 1)], [(0.3, 0.5), (0.3, 0)]],
+}
+
+
+def _cizgi_mesafe(px, py, pts):
+    """Kırık çizgiye uzaklık (2D)."""
+    d = None
+    for (ax, ay), (bx, by) in zip(pts[:-1], pts[1:]):
+        ex, ey = bx - ax, by - ay
+        wx, wy = px - ax, py - ay
+        h = np.clip((wx * ex + wy * ey) / (ex * ex + ey * ey), 0, 1)
+        dd = (wx - ex * h) ** 2 + (wy - ey * h) ** 2
+        d = dd if d is None else np.minimum(d, dd)
+    return np.sqrt(d)
+
+
+def lastik_yazi_2d(xv, yv, r):
+    """Yanak yazısı: harf çizgilerine 2D uzaklık. xv, yv: dışarıdan bakana göre sağ ve yukarı.
+    Yazı tabanı göbeğe bakar, saat yönünde okunur (gerçek lastikteki gibi), hafif italik."""
+    thv = np.arctan2(yv, xv)
+    rm = YAZI_R0 + YAZI_H / 2
+    y = r - YAZI_R0
+    d = np.full(np.broadcast(xv, yv).shape, 1e3)
+    for metin, aci in LASTIK_YAZI:
+        aralik = 0.82 * YAZI_H
+        uz = sum(0.55 * YAZI_H if c == " " else aralik for c in metin)
+        s = (np.mod(math.radians(aci) - thv + math.pi, 2 * math.pi) - math.pi) * rm + uz / 2
+        if np.all(np.abs(s - uz / 2) > uz / 2 + 30):
+            continue
+        x0 = 0.0
+        for c in metin:
+            if c == " ":
+                x0 += 0.55 * YAZI_H
+                continue
+            lx = s - x0 - 0.18 * y
+            for cz in _FONT[c]:
+                d = np.minimum(d, _cizgi_mesafe(lx, y, [(a * YAZI_H, b * YAZI_H) for a, b in cz]))
+            x0 += aralik
+    return d
+
+
+def lastik_yanak(r):
+    return LASTIK_YANAK(r)
+
+
+def teker_asimetrik_detay(xv, yv, t):
+    """Ayna simetrik olmayan tekerlek detayları (yanak yazısı, göbek kapağı şimşeği) - kabartma SDF'i.
+    xv, yv: dış yüze bakana göre sağ / yukarı (gerçek mm)."""
+    r = np.sqrt(xv * xv + yv * yv)
+    tsw = lastik_yanak(r)
+    yazi = np.maximum(lastik_yazi_2d(xv, yv, r) - YAZI_IZ, np.maximum(t - (tsw + p(0.1)), (tsw - 3.0) - t))
+    yazi = np.maximum(yazi, np.maximum(YAZI_R0 - 6.0 - r, r - (YAZI_R0 + YAZI_H + 6.0)))
+    R = 21.0
+    m = sd_poligon(xv / R, yv / R, JANT_SIMSEK) * R
+    kapak_t = 58.0 + 2.0
+    simsek = np.maximum(np.maximum(m, r - 27.0), np.maximum(t - (kapak_t + p(0.1)), (kapak_t - 3.0) - t))
+    return np.minimum(yazi, simsek)
+
+
+def _altigen(px, py, a):
+    """Düz kenarları arası 2a olan altıgene uzaklık (2D)."""
+    kx, ky, kz = -0.8660254, 0.5, 0.57735027
+    px, py = np.abs(px), np.abs(py)
+    m = 2 * np.minimum(kx * px + ky * py, 0)
+    px, py = px - m * kx, py - m * ky
+    px = px - np.clip(px, -kz * a, kz * a)
+    py = py - a
+    return np.sqrt(px * px + py * py) * np.sign(py)
+
+
+def tekerlek_sdf(dx, dz, t, yon=None):
+    """yon: None -> ayna simetrik olmayan detaylar (yazı, şimşek) eklenmez (gövdede asimetrik() ekler);
+    +1/-1 -> dış yüze bakana göre sağ yön = yon * dx."""
     r = np.sqrt(dx * dx + dz * dz)
     th = np.arctan2(dz, dx)
-    # lastik
-    lastik = sd_kutu2(r, t, (JANT_DIS - 4 + TEKER_R) / 2, 0.0, (TEKER_R - JANT_DIS + 4) / 2, TEKER_YG, p(1.0))
-    for tc in (-80.0, -28.0, 28.0, 80.0):
-        kanal = np.maximum(np.abs(t - tc) - p(0.22), (TEKER_R - p(0.55)) - r)
+
+    # ---------------------------------------------------------------- lastik
+    tsw = lastik_yanak(r)
+    gsw = np.sqrt(1.0 + LASTIK_YANAK.t(r) ** 2)
+    r_dis = TEKER_R - 4.0 * (t / 110.0) ** 2                     # hafif bombeli sırt
+    yan = (t - tsw) / gsw
+    lastik = smax(yan, r - r_dis, 20.0)
+    lastik = smax(lastik, -TEKER_YG - t, 20.0)                    # arka yanak düz (tablaya oturur)
+    lastik = np.maximum(lastik, 276.0 - r)
+    ham = lastik
+    # 4 çevresel kanal (asimetrik desen: dış omuz blokları daha iri)
+    for tc, w in ((-78.0, 5.5), (-25.0, 6.0), (29.0, 6.0), (80.0, 5.5)):
+        kanal = np.maximum(np.abs(t - tc) - w, (r_dis - 8.0) - r)
         lastik = np.maximum(lastik, -kanal)
-    s = np.mod(r * th, p(1.7)) - p(0.85)
-    eg = s + 0.25 * (np.abs(t) - 95.0)
-    enine = np.maximum(np.maximum(np.abs(eg) - p(0.18), (TEKER_R - p(0.5)) - r), 100.0 - np.abs(t))
-    lastik = np.maximum(lastik, -enine)
-    halka = np.maximum(np.abs(r - 312.0) - p(0.12), (TEKER_YG - p(0.25)) - t)
+    # omuz enine kanalları: sırttan omuza ve yanağın üstüne kıvrılır (yandan bakınca diş çentikleri)
+    N = 60
+    u = np.mod(th * N / (2 * math.pi), 1.0)
+    for isaret, kay in ((1.0, 0.0), (-1.0, 0.5)):
+        ta = isaret * t
+        s = (np.mod(u + kay + 0.006 * np.maximum(ta - 86.0, 0) + 0.5, 1.0) - 0.5) * (2 * math.pi * r / N)
+        omuz = np.maximum(np.maximum(np.abs(s) - 3.6, 86.0 - ta), np.maximum(-ham - 7.0, 324.0 - r))
+        lastik = np.maximum(lastik, -omuz)
+    # ara bloklarda kanaldan çıkan eğik kör yarıklar (her iki adımda bir)
+    for tc0, tc1, kay in ((34.0, 75.0, 0.25), (-73.0, -30.0, 0.75)):
+        tm = np.clip((t - tc0) / (tc1 - tc0), 0, 1)
+        s = (np.mod(u / 2 + kay + 0.35 * tm + 0.5, 1.0) - 0.5) * (4 * math.pi * r / N)
+        yarik = np.maximum(np.maximum(np.abs(s) - 3.0, np.maximum(tc0 + 12.0 - t, t - tc1)), (r_dis - 6.0) - r)
+        lastik = np.maximum(lastik, -yarik)
+    # yanakta ince süs çizgisi (yazı bandının dışı)
+    halka = np.maximum(np.abs(r - 322.0) - 2.6, np.maximum(-ham - 1.8, -t))
     lastik = np.maximum(lastik, -halka)
 
-    # jant
-    arka = np.maximum(np.maximum(r - (JANT_DIS - 4), -TEKER_YG - t), t + 15.0)
-    dudak = sd_kutu2(r, t, JANT_DIS - 16.0, 92.0, 16.0, 22.0, 6.0)
-    kovan = sd_kutu2(r, t, JANT_DIS - 24.0, 35.0, 18.0, 52.0, 3.0)
-    disk = np.maximum(r - 182.0, np.abs(t + 8.0) - 12.0)
-    disk_del = np.inf
-    for k in range(18):  # delikli disk
-        a = k * 2 * math.pi / 18
-        for rr in (125.0, 155.0):
-            aa = a + (0.0 if rr < 140 else math.pi / 18)
-            dd = np.sqrt((dx - rr * math.cos(aa)) ** 2 + (dz - rr * math.sin(aa)) ** 2) - p(0.28)
-            disk_del = np.minimum(disk_del, dd)
-    disk = np.maximum(disk, -np.maximum(disk_del, np.abs(t + 8.0) - 30.0))
-    sapka = np.maximum(r - 85.0, np.abs(t - 15.0) - 30.0)
-    dth = np.angle(np.exp(1j * (th - 2.4)))
-    kaliper = np.maximum(np.maximum(np.abs(r - 172.0) - 42.0, np.abs(dth) * r - 85.0), np.abs(t - 15.0) - 28.0)
-    kaliper = smax(kaliper, -np.maximum(np.abs(r - 172.0) - 18.0, 30.0 - np.abs(dth) * r + 200.0), 2.0)
-    # 5 çift kol
-    a = np.mod(th + math.pi, 2 * math.pi / 5) - math.pi / 5
-    # göbekte birleşen, janta doğru açılan V çift kollar; göbekte kalın, uca doğru incelir
-    delta = np.clip(0.00115 * (r - 75.0), 0.0, None)
-    kalin = 21.0 - 0.045 * (r - 70.0)
-    kol_ang = r * np.abs(np.abs(a) - delta) - kalin
-    yuz = 114.0 - 0.16 * (r - 70.0)            # derin içbükey jant yüzü
-    kol = np.maximum(np.maximum(kol_ang, r - (JANT_DIS - 22.0)), 60.0 - r)
-    kol = np.maximum(kol, np.maximum(t - yuz, (yuz - 46.0) - t))
-    gobek = np.maximum(r - 78.0, np.maximum(25.0 - t, t - 108.0))
-    kapak = np.maximum(r - 40.0, np.abs(t - 108.0) - 3.0)
-    gobek = smin(gobek, kapak, 3.0)
-    for k in range(5):
-        ang = k * 2 * math.pi / 5 + math.pi / 5 - math.pi
-        bx, bz = 56.0 * math.cos(ang), 56.0 * math.sin(ang)
-        bij = np.maximum(np.sqrt((dx - bx) ** 2 + (dz - bz) ** 2) - p(0.32), 100.0 - t)
-        gobek = np.maximum(gobek, -bij)
+    # ---------------------------------------------------------------- jant gövdesi
+    arka = np.maximum(r - 240.0, np.maximum(-TEKER_YG - t, t + 60.0))          # arka kapama (düz taban)
+    kovan = sd_kutu2(r, t, 258.5, -12.0, 20.5, 110.0, 3.0)                     # jant çanağı (pencerelerden görünür)
+    dudak = sd_kutu2(r, t, 270.0, 92.0, 12.5, 14.0, 5.0)                       # ön dudak, yüzü t≈106
+    dudak = np.maximum(dudak, -np.maximum(np.abs(r - 260.0) - 3.0, 104.5 - t))  # dudak iç kenarında ince işleme çizgisi
 
-    jant = np.minimum(arka, dudak)
-    jant = np.minimum(jant, kovan)
-    jant = np.minimum(jant, disk)
-    jant = np.minimum(jant, sapka)
-    jant = np.minimum(jant, kaliper)
-    jant = smin(jant, kol, 6.0)
-    jant = smin(jant, gobek, 8.0)
-    return np.minimum(lastik, jant)
+    # 5 Y kol (2D), kol eksenine göre katlanmış açı
+    a = np.mod(th - JANT_FAZ + math.pi / 5, 2 * math.pi / 5) - math.pi / 5
+    aa = np.abs(a)
+    q = np.clip((262.0 - r) / 172.0, 0.0, 1.0)
+    # kol ekseni açısı: göbekten ~r=120'ye kadar iki kol üst üste (kalın gövde), sonra janta doğru 20°'ye açılır
+    e = np.sqrt((r - 134.0) ** 2 + 18.0 ** 2) + (r - 134.0)                  # yumuşak rampa
+    alfa = math.radians(3.5) + math.radians(16.5) * e / 256.0
+    dalfa = math.radians(16.5) / 256.0 * (1.0 + (r - 134.0) / np.sqrt((r - 134.0) ** 2 + 18.0 ** 2))
+    nrm = np.sqrt(1.0 + (r * dalfa) ** 2)
+    w = 13.5 + 14.0 * np.clip((205.0 - r) / 110.0, 0.0, 1.0) ** 1.4 + 3.0 * sstep(225.0, 258.0, r)   # kol yarı genişliği: göbekte 27.5 -> 13.5, uçta 16.5
+    k1 = np.abs(2 * r * np.sin((aa - alfa) / 2)) / nrm - w
+    k2 = np.abs(2 * r * np.sin((aa + alfa) / 2)) / nrm - w
+    kol2 = smin(k1, k2, 14.0)                                               # çatal içi yuvarlak tepe
+    kol2 = np.maximum(kol2, 70.0 - r)
+    kol2 = smin(kol2, 257.0 - r, 14.0)                                      # jant dudağına geniş kavisli ayaklar
+    kol2 = np.maximum(kol2, r - 268.0)
+    # içbükey yüz: dudakta t=106, göbek tarafında ~72; göbeğe yakın gövde yuvarlak sırtlı
+    tf = 106.0 - 42.0 * q ** 1.5
+    sirt = 1.0 - sstep(130.0, 190.0, r)
+    tust = tf - sirt * (7.0 - 0.35 * np.minimum(-kol2, 20.0))
+    talt = tf - 38.0 - 12.0 * np.clip((200.0 - r) / 110.0, 0.0, 1.0)
+    derin = np.maximum(tust - t, 0.0)
+    kol3 = kol2 - 0.22 * derin                                              # yan yüzler arkaya doğru genişler
+    kol = smax(kol3, t - tust, 3.0)
+    kol = np.maximum(kol, (t - tust + kol2 + 6.0) * 0.70710678)            # ön yüz kenar pahı (işlenmiş yüz)
+    kol = np.maximum(kol, talt - t)
+
+    # göbek: hafif çanak yüz, 5 bijon yuvası (kollar arasında), kapak oluğu ve kubbeli kapak
+    thub = 56.0 + 7.0 * sstep(30.0, 86.0, r)
+    gobek = np.maximum(smax(r - 86.0, t - thub, 6.0), -TEKER_YG - t)
+    ab = np.mod(th - JANT_FAZ, 2 * math.pi / 5) - math.pi / 5               # bijonlar kol aralarında
+    bx, bz = r * np.cos(ab) - 57.5, r * np.sin(ab)
+    rb = np.sqrt(bx * bx + bz * bz)
+    yuva = np.maximum(rb - 12.5, 40.0 - t)
+    bas = np.maximum(_altigen(bx, bz, 8.5), np.maximum(t - 50.0, 34.0 - t))
+    bas = np.maximum(bas, (t - 50.0 + rb - 7.0) * 0.70710678)
+    pul = np.maximum(rb - 10.5, np.maximum(t - 43.0, 34.0 - t))
+    oluk = np.maximum(np.abs(r - 31.5) - 2.0, 50.0 - t)                    # kapak çevresi oluk
+    kapak = np.maximum(r - 29.5, t - (58.0 + 2.0 * (1.0 - (r / 29.5) ** 2)))
+    kapak = np.minimum(kapak, np.maximum(np.abs(r - 22.0) - 2.6, np.maximum(t - (60.0 + p(0.1)), 52.0 - t)))  # amblem halkası
+    kapak = np.maximum(kapak, 40.0 - t)
+
+    # ---------------------------------------------------------------- fren
+    # disk Ø355, t -60..-18 (arka kapamaya oturur), kenarında havalandırma kanatları, yüzünde delik grupları
+    disk = sd_kutu2(r, t, 134.5, -39.0, 42.5, 21.0, 2.0)
+    sv = (np.mod(th * 40 / (2 * math.pi) + 0.5, 1.0) - 0.5) * (2 * math.pi * r / 40)
+    disk = np.maximum(disk, -np.maximum(np.maximum(np.abs(t + 39.0) - 6.0, 171.0 - r), 3.0 - np.abs(sv)))
+    G = 24
+    ag = np.mod(th, 2 * math.pi / G)
+    delik = 1e3
+    for rk, ak in ((116.0, 1.6), (137.0, 5.4), (158.0, 9.2)):
+        a_k = math.radians(ak)
+        delik = np.minimum(delik, np.sqrt((r - rk) ** 2 + (rk * (ag - a_k)) ** 2) - 4.2)
+    disk = np.maximum(disk, -np.maximum(delik, -32.0 - t))
+    sapka = sd_kutu2(r, t, 0.0, -36.0, 96.0, 28.0, 4.0)
+    # Brembo kaliper: disk kenarını saran yay biçimli gövde, kubbeli dış yüz, logo plakası, hava alma nipeli
+    dth = np.mod(th - KALIPER_ACI + math.pi, 2 * math.pi) - math.pi
+    s = r * dth
+    kal2 = sd_kutu2(r, s, 170.0, 0.0, 42.0, 125.0, 30.0)
+    tc = 32.0 + 6.0 * np.clip(1.0 - (s / 125.0) ** 2, 0.0, 1.0) - 4.0 * ((r - 170.0) / 42.0) ** 2
+    kaliper = smax(kal2, t - tc, 10.0)
+    kaliper = np.maximum(kaliper, -70.0 - t)
+    kaliper = np.maximum(kaliper, -np.maximum(np.maximum(np.abs(s) - 46.0, 203.0 - r), np.abs(t + 22.0) - 18.0))  # balata penceresi
+    plaka2 = sd_kutu2(r, s, 168.0, 0.0, 17.0, 84.0, 8.0)
+    plaka = np.maximum(plaka2, np.maximum(t - (tc + p(0.1)), (tc - 4.0) - t))
+    kaliper = np.minimum(kaliper, plaka)
+    nipel = np.maximum(np.sqrt((r - 196.0) ** 2 + (s + 106.0) ** 2) - 4.5, np.maximum(t - (tc + 7.0), 0.0 - t))
+    kaliper = np.minimum(kaliper, nipel)
+    # sibop: kol arası pencerede, çanaktan dışa eğik çıkar
+    dv = np.mod(th - JANT_FAZ, 2 * math.pi) - math.pi / 5
+    pr, ps = r * np.cos(dv), r * np.sin(dv)
+    hx = np.clip(((pr - 241.0) * -15.0 + (t - 48.0) * 32.0) / (15.0 ** 2 + 32.0 ** 2), 0.0, 1.0)
+    sibop = np.sqrt((pr - 241.0 + 15.0 * hx) ** 2 + ps ** 2 + (t - 48.0 - 32.0 * hx) ** 2) - 4.0
+    sibop = np.minimum(sibop, np.maximum(np.sqrt((pr - 228.0) ** 2 + ps ** 2) - 5.5, np.abs(t - 76.0) - 6.0))
+
+    jant = np.minimum(np.minimum(arka, kovan), dudak)
+    jant = smin(jant, kol, 4.0)
+    jant = smin(jant, gobek, 18.0)
+    jant = smax(jant, -yuva, 2.0)
+    jant = np.maximum(jant, -oluk)
+    jant = np.minimum(jant, np.minimum(np.minimum(bas, pul), kapak))
+    fren = np.minimum(np.minimum(disk, sapka), kaliper)
+    sonuc = np.minimum(np.minimum(lastik, jant), np.minimum(fren, sibop))
+    if yon is not None:
+        sonuc = np.minimum(sonuc, teker_asimetrik_detay(yon * dx, dz + 0 * dx, t))
+    return sonuc
+
+
+def teker_asimetrik(d, kes):
+    """Tek parça gövdede (ayna kopyalı hacim üzerinde) iki yanın tekerlerine yön doğru yazı ve şimşek ekler."""
+    for xa in (AKS_ON, AKS_ARKA):
+        for isaret in (1.0, -1.0):
+            y0, y1 = TEKER_Y + 55.0, TEKER_Y + 132.0
+            g = kes(xa - 345, xa + 345, *(sorted((isaret * y0, isaret * y1))), AKS_Z - 345, AKS_Z + 345)
+            if g is None:
+                continue
+            sl, X, Y, Z = g
+            # sağ (+Y) yanda dışarıdan bakınca sağ = -X, sol yanda +X
+            e = teker_asimetrik_detay(-isaret * (X - xa) + 0 * Z, Z - AKS_Z + 0 * X, isaret * Y - TEKER_Y)
+            d[sl] = np.minimum(d[sl], e)
 
 
 # ============================================================ blok değerlendirme
@@ -872,6 +1063,8 @@ def asimetrik(d, x, y, z, mod):
         cur = d[sl]
         e = np.maximum(cur - p(0.75), np.minimum(sil, kol))
         d[sl] = np.minimum(cur, e)
+    if mod == "tek":
+        teker_asimetrik(d, kes)
     if mod == "kit":
         for xa in (AKS_ON, AKS_ARKA):
             g = kes(xa - 100, xa + 100, -700, 700, AKS_Z - 100, AKS_Z + 100)
@@ -890,7 +1083,7 @@ def arac_sdf(b, mod):
         if g is None:
             continue
         sl, Xs, Ys, Zs = g
-        d[sl] = smax(d[sl], -camurluk_kuyusu(Xs, Ys, Zs, xa), p(0.4))
+        d[sl] = smax(d[sl], -camurluk_kuyusu(Xs, Ys, Zs, xa), p(0.25))
         r = np.sqrt((Xs - xa) ** 2 + (Zs - AKS_Z) ** 2)
         if mod == "tek":
             stub = np.maximum(r - p(2.0), np.maximum(615.0 - Ys, Ys - 700.0))
@@ -995,11 +1188,14 @@ def teker_mesh(h_baski, n, tolerans, yol):
     h = h_baski * n
     a = np.arange(-360.0, 360.0 + h, h)
     t = np.arange(-140.0, 140.0 + h, h)
-    DX, DZ, T = a[:, None, None], a[None, :, None], t[None, None, :]
-    vol = tekerlek_sdf(DX, DZ, T)
-    r = np.sqrt(DX ** 2 + DZ ** 2)
-    delik = np.maximum(r - p(TEKER_DELIK_R), T - 40.0)
-    vol = np.maximum(vol, -delik).astype(np.float32)
+    DZ, T = a[None, :, None], t[None, None, :]
+    vol = np.empty((len(a), len(a), len(t)), np.float32)
+    for i0 in range(0, len(a), 24):
+        DX = a[i0:i0 + 24, None, None]
+        # baskıda yukarıdan bakınca sağ = +dx (dx, dz, t sağ elli eksen takımı)
+        v = tekerlek_sdf(DX, DZ, T, yon=1.0)
+        delik = np.maximum(np.sqrt(DX ** 2 + DZ ** 2) - p(TEKER_DELIK_R), T - 40.0)
+        vol[i0:i0 + 24] = np.maximum(v, -delik)
     vol[0] = vol[-1] = 1e3
     vol[:, 0] = vol[:, -1] = 1e3
     vol[:, :, 0] = vol[:, :, -1] = 1e3
