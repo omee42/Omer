@@ -1,11 +1,7 @@
 # Opel Astra J GTC (OPC) – 3D Baskı Maketi, 1:24
 
-> **Durum:** Önceki STL dosyaları kaldırıldı; tahmini eğrilerle yapılan model gerçeğe yeterince yakın değildi.
-> Yeni yöntem: `.claude/skills/arac-3d` yeteneği. Aracı gerçek teknik çizimlerden (blueprint) ölçerek kurar.
-> Astra J GTC için hazır ayar dosyası `.claude/skills/arac-3d/ornek/astra_j_gtc.json`.
-> Yan/üst/ön/arka çizimler yüklendiğinde yeni STL'ler bu yetenekle üretilecek.
-> Aşağıdaki bölüm önceki `astra_gtc_olustur.py` sürümünü anlatır.
-
+> **Durum:** Model, aracın **gerçek fotoğraflarıyla eşlenerek** yeniden düzeltildi (bkz. "Fotoğraf eşleme").
+> Önceki STL'ler kaldırıldı; bu klasördeki STL'ler fotoğraf eşlemesinden sonra üretilen sürümdür.
 
 ![Genel görünüm](onizleme.png)
 ![Detaylar](detaylar.png)
@@ -158,6 +154,51 @@ Her tur standart açılardan görüntü alındı. Ajanlar bunları gerçek Astra
   - Tavanın devamı gibi duran spoyler.
   - Kanat şeklinde stoplar ve gövdeyle uyumlu bagaj kapağı çizgisi.
   - OPC difüzörü ve köşe hava girişleri.
+
+## Fotoğraf eşleme
+
+Model, Astra J GTC / OPC'nin açık lisanslı **19 gerçek fotoğrafına** göre düzeltildi. Kaynaklar Wikimedia Commons ve Flickr.
+Üç ajan, her fotoğraf için bir kamera çözdü. Kamera, bilinen noktalara oturtuldu: teker merkezleri (aks mesafesi 2695 mm, iz 1584/1588 mm), lastik temas noktaları, ön cam köşeleri, plaka ve rozet.
+Ajanlar modeli bu kameralardan çizip fotoğrafın üzerine bindirdi ve farkları milimetre olarak ölçerek düzeltti. Tipik hata payı ±20–40 mm (1:24'te ~1–1.5 mm).
+
+- **Yan:**
+  - GTC "bıçak" çizgisi: kapının önünden kıvrılıp ~600 mm'de ilerler.
+  - B direğinden sonra arka çamurluğa yükselen omuz çizgisi.
+  - Kapı 80–100 mm öne alındı.
+  - Arkaya sivrilen uzun yan cam ve krom cam çerçevesi.
+  - Gerçek jant çapı (ince lastik yanağı).
+  - Yükseltilmiş marşpiyel, yeni ayna ve kapı kolu konumu.
+- **Ön:**
+  - Fotoğraftan ölçülen bumerang farlar: projektör, gündüz farı ve iç bölmeler.
+  - Gerçek genişlikte üst ızgara ve kalın krom kanat çıtası.
+  - Yarı yüksekliğe inen, yatay petek dokulu alt ızgara.
+  - Gümüş "onay işareti" bıçaklı üçgen köşe girişleri.
+  - Siyah tampon şeridi ve doğru yükseklikte kaput çizgisi.
+  - Far yıkama kapağı ve çeki kancası kapağı.
+- **Arka:**
+  - Tampona uzanıp yandan öne sivrilen bumerang stoplar.
+  - Daralan kuyruk.
+  - Tampona taşınan plaka.
+  - Bagaj kapağının "gülümseme" çizgisi.
+  - Gerçek konum ve boyutta rozet.
+  - İki yanda tek trapez egzozlu OPC difüzörü.
+  - Uç plakalı büyük spoyler ve üçüncü stop.
+  - Arka silecek, reflektörler ve park sensörleri.
+
+### Fotoğraf kaynakları (teşekkürler)
+
+Fotoğraflar yalnızca ölçü referansı olarak kullanıldı; depoya eklenmedi.
+
+| Fotoğraf | Sahibi | Lisans | Kaynak |
+|---|---|---|---|
+| 2013 Opel Astra (12261340845) | 30474136@N07 | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:2013_Opel_Astra_%2812261340845%29.jpg |
+| 2013 Opel Astra GTC (12261340885) | 30474136@N07 | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:2013_Opel_Astra_GTC_%2812261340885%29.jpg |
+| 2013 Opel Astra GTC (12261340895) | 30474136@N07 | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:2013_Opel_Astra_GTC_%2812261340895%29.jpg |
+| Opel Astra GTC (6146441113, 6146441495, 6146990208, 6146991152) | Autoviva | CC BY 2.0 | https://commons.wikimedia.org/wiki/Category:Opel_Astra_J_GTC |
+| Opel Astra GTC 1.6T Enjoy/Sport 2014–2015 (14208949925, 15542168768, 15736712516, 54188905081) | juanelo242a | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/Category:Opel_Astra_J_GTC |
+| Opel Astra GTC OPC 2013/2015 (8366545858, 17022087756, 34848925543) | juanelo242a | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/Category:Opel_Astra_J_OPC |
+| 2012–2013 Opel Astra (AS) OPC 3-door hatchback (15922355098, 15924017627, 26608054501, 26608068581) | car_spots_aus | Commons sayfasına bakınız | https://commons.wikimedia.org/wiki/Category:Opel_Astra_J_OPC |
+| Opel Astra OPC (8080939836) | 8058098@N07 | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Opel_Astra_OPC_%288080939836%29.jpg |
 
 ## Kaynak ve doğruluk
 
