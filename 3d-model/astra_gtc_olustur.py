@@ -332,11 +332,13 @@ def tekerlek_sdf(dx, dz, t):
     kaliper = smax(kaliper, -np.maximum(np.abs(r - 172.0) - 18.0, 30.0 - np.abs(dth) * r + 200.0), 2.0)
     # 5 çift kol
     a = np.mod(th + math.pi, 2 * math.pi / 5) - math.pi / 5
-    delta = 0.035 + 0.00105 * r
-    kol_ang = r * np.abs(np.abs(a) - delta) - 13.0
-    yuz = 108.0 - 0.11 * (r - 70.0)
-    kol = np.maximum(np.maximum(kol_ang, r - 243.0), 60.0 - r)
-    kol = np.maximum(kol, np.maximum(t - yuz, (yuz - 38.0) - t))
+    # göbekte birleşen, janta doğru açılan V çift kollar; göbekte kalın, uca doğru incelir
+    delta = np.clip(0.00115 * (r - 75.0), 0.0, None)
+    kalin = 21.0 - 0.045 * (r - 70.0)
+    kol_ang = r * np.abs(np.abs(a) - delta) - kalin
+    yuz = 114.0 - 0.16 * (r - 70.0)            # derin içbükey jant yüzü
+    kol = np.maximum(np.maximum(kol_ang, r - 244.0), 60.0 - r)
+    kol = np.maximum(kol, np.maximum(t - yuz, (yuz - 46.0) - t))
     gobek = np.maximum(r - 78.0, np.maximum(25.0 - t, t - 108.0))
     kapak = np.maximum(r - 40.0, np.abs(t - 108.0) - 3.0)
     gobek = smin(gobek, kapak, 3.0)
