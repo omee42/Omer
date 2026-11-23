@@ -232,15 +232,52 @@ FAR_ON = YPoligon([(384, 661), (430, 648), (522, 642), (652, 651), (739, 669), (
                    (417, 717)], 6)
 FAR_YAN = YPoligon([(-60, 600), (200, 612), (330, 640), (420, 690), (490, 760), (535, 830), (552, 862),
                     (-60, 872)], 8)
+# Far iç detayları "far haritası" (u, z) düzleminde tanımlıdır: u = y·cos32° + x·sin32°, yani far, önden
+# 32° dışa dönük bakıştan (15922355098 fotoğrafının kalibre kamerası) dik izdüşümle görülür; bu bakışta
+# önden köşeye saran farın tamamı tek parça, bozulmadan görünür. Bütün ölçüler fotoğraf o haritaya
+# düzleştirilerek (kalibre kamera + gövde yüzeyi) okundu. Maskeler bu yönde uzanan prizmalardır.
+FAR_TH = math.radians(32.0)
+
+
+def far_u(X, Y):
+    return Y * math.cos(FAR_TH) + X * math.sin(FAR_TH)
+
+
+# cam (dış kapak) hattı: iç sivri uç u 382, alt kenar projektör altında aşağı "kıvrılır" (z 641),
+# dış uç kaput-çamurluk aralığına değen yuvarlak sivri uç (u 932, z 842)
+FAR_UZ = YPoligon([(382, 665), (392, 661), (440, 660), (505, 660), (570, 661), (603, 658), (623, 654),
+                   (638, 648), (655, 643), (680, 641), (705, 640), (750, 645), (788, 655), (815, 665),
+                   (842, 684), (862, 705), (881, 731), (895, 757), (908, 787), (921, 813), (933, 842),
+                   (900, 842), (850, 837), (800, 830), (750, 822), (700, 812), (670, 804), (637, 795),
+                   (603, 785), (570, 777), (537, 767), (503, 757), (470, 745), (437, 732), (410, 713),
+                   (392, 688)], 4)
+# üst yansıtıcı: projektör bölmesinin üstünde sivrilen bant + dış uçta aşağı inen üçgen (sinyal/park)
+FAR_UST = YPoligon([(512, 756), (570, 769), (670, 787), (750, 798), (850, 812), (884, 816), (888, 810),
+                    (878, 785), (865, 757), (851, 736), (838, 720), (827, 713), (820, 716), (819, 750),
+                    (816, 784), (755, 780), (705, 772), (655, 764), (600, 757), (560, 754)], 3)
+# derin iç hazne (camın arkası): kaşın altı, alt çerçevenin üstü; projektör altında aşağı sarkar
+FAR_HAZNE = YPoligon([(398, 676), (420, 686), (600, 687), (626, 678), (646, 665), (680, 657), (740, 656),
+                      (785, 664), (806, 678), (815, 700), (816, 745), (813, 781), (755, 776), (705, 768),
+                      (655, 759), (600, 752), (550, 747), (500, 740), (452, 729), (418, 708)], 4)
+# projektör altındaki noktalı alt yansıtıcı
+FAR_ALT_REF = YPoligon([(628, 676), (648, 664), (690, 657), (745, 657), (790, 667), (800, 680), (760, 672),
+                        (700, 671), (660, 676), (640, 684)], 3)
+FAR_PROJ = (716.0, 718.0)   # projektör merkezi (u, z)
+FAR_UZUN = (630.0, 722.0)   # uzun far çanağı merkezi
 _IZ_UST = [(0, 731), (150, 731), (260, 729), (330, 724), (362, 717)]
-_IZ_ALT = [(338, 704), (290, 684), (230, 664), (150, 646), (70, 634), (0, 630)]
+# alt kenar (fotoğraf eşlemesi): uçta kanadın ucuna dik kıvrılır, sonra dolgun "tekne" gibi yatay iner
+_IZ_ALT = [(352, 707), (342, 692), (322, 675), (292, 663), (230, 650), (150, 640), (70, 633), (0, 630)]
 UST_IZGARA = YPoligon(_IZ_UST + _IZ_ALT[:-1] + [(-y, z) for y, z in reversed(_IZ_ALT[:-1])]
                       + [(-y, z) for y, z in reversed(_IZ_UST[1:])], 5)
 # krom kanat çıtası ızgaranın üst kenarını oluşturur: rozette kalın (~50), uçlara doğru sivrilir
-_KN_UST = [(0, 727), (150, 727), (260, 725), (330, 720), (356, 716)]
+_KN_UST = [(0, 724), (150, 724), (260, 722), (330, 717), (354, 714)]   # üstte 0.3 mm siyah aralık kalır
 _KN_ALT = [(300, 705), (230, 694), (150, 684), (60, 679), (0, 678)]
 KANAT = YPoligon(_KN_UST + _KN_ALT[:-1] + [(-y, z) for y, z in reversed(_KN_ALT[:-1])]
                  + [(-y, z) for y, z in reversed(_KN_UST[1:])], 3)
+# kanadın ön yüzündeki keskin sırt (üst yüz açık, alt yüz gölgede kalan kırım; fotoğraftaki parlak bant sınırı)
+KANAT_SIRT = [(0, 701), (150, 705), (260, 709), (330, 713), (350, 714)]
+# kanadın altındaki siyah yarığın altında ince krom şerit: rozetten dışa, uçta yukarı kıvrılıp kanadın ucuna bağlanır
+IZ_ALT_KROM = [(0, 661), (100, 662), (200, 666), (260, 672), (300, 681), (330, 694), (346, 708)]
 # OPC petek girişi: üst kenar siyah çıtanın alt kenarı ("gülümseme"), alta doğru daralan yamuk
 ALT_IZGARA = YPoligon([(-520, 462), (-330, 448), (0, 432), (330, 448), (520, 462), (470, 385), (410, 314),
                        (200, 302), (0, 300), (-200, 302), (-410, 314), (-470, 385)], 14)
@@ -519,39 +556,97 @@ def detaylar(d, d0, b):
     def ust_izgara(dd, z0, X, Y, Z):
         m = np.maximum(UST_IZGARA(Y, Z), X - 300)
         dd = oyuk(dd, z0, m, p(1.0))
-        # kanat altındaki siyah ızgara: iki yatay çıta + alt kenarı izleyen ince krom şerit
-        for zc in (652.0, 664.0):
-            dd = doldur(dd, z0, np.maximum(np.abs(Z - (zc + 0.08 * np.abs(Y))) - p(0.14), m), -p(0.55))
-        alt_krom = sd_cizgi(np.abs(Y), Z, [(0, 638), (150, 652), (240, 668), (320, 696)]) - p(0.16)
-        dd = doldur(dd, z0, np.maximum(alt_krom, m), -p(0.3))
-        # krom kanat çıtası: ızgaranın üst kenarı boyunca, yüzeye kadar dolu, ön yüzü hafif bombeli
-        kn = np.maximum(KANAT(Y, Z), X - 300)
-        dd = doldur(dd, z0, kn, -p(0.08) - p(0.12) * sstep(0, p(1.2), -KANAT(Y, Z)))
+        # kanadın altındaki siyah yarık + ince krom alt şerit (0.34 mm, yuvarlak sırtlı, kanat ucuna kıvrılır)
+        ak = sd_cizgi(np.abs(Y), Z, IZ_ALT_KROM)
+        dd = doldur(dd, z0, np.maximum(ak - p(0.17), m), -p(0.5) + p(0.3) * np.sqrt(np.clip(1 - (ak / p(0.17)) ** 2, 0, 1)))
+        # krom kanat çıtası: kenarlarda yüzeyin 0.35 mm altında, KANAT_SIRT boyunca gövde yüzeyine çıkan
+        # keskin sırtlı (çatı kesitli) ön yüz -> üstte açık, altta koyu iki yüz
+        kd = KANAT(Y, Z)
+        sirt = sd_cizgi(np.abs(Y), Z, KANAT_SIRT)
+        dd = doldur(dd, z0, np.maximum(kd, X - 300), -p(0.35) * sirt / (sirt - kd + 1e-6))
         # rozet: amblem asimetrik() içindeki opel_amblem() ile işlenir (merkez y 0, z 686)
         return dd
     uygula((-40, 300, 0, 500, 610, 760), ust_izgara)
 
-    # ---------- farlar (bumerang): önden FAR_ON ∩ yandan FAR_YAN
+    # ---------- farlar: cam hattı FAR_UZ (far haritası u, z) ∩ yandan FAR_YAN. Cam yok sayılır: gövde
+    # derin bir hazne olarak oyulur, detaylar hazne tabanından katman katman yükselir (seviyeler baskı mm,
+    # gövde yüzeyinin altında): çerçeve -0.35, üst yansıtıcı -0.7 (dişli), hazne tabanı -1.4,
+    # kaş/DRL ışık kılavuzu -0.22, projektör halkası -0.4, mercek tepesi -0.38, çanak dibi -1.55.
     def farlar(dd, z0, X, Y, Z):
-        fo = FAR_ON(Y, Z)
-        m = np.maximum(fo, FAR_YAN(X, Z))
-        dd = oyuk(dd, z0, m, p(0.45) + p(0.45) * sstep(660.0, 840.0, Z))
-        # far camı kenar çerçevesi: dış hatta ince koyu çerçeve (gölge oluğu)
-        dd = oyuk(dd, z0, np.maximum(-m - p(0.35), m), p(1.0))
-        # iç (alt) uzun reflektör bölmesi
-        ref = sd_cizgi(Y, Z, [(450, 670), (560, 668), (610, 676)]) - p(1.15)
-        dd = oyuk(dd, z0, np.maximum(ref, m), p(1.0))
-        # dış küçük bölme (sinyal/viraj)
-        dis = sd_cizgi(Y, Z, [(752, 742), (790, 770)]) - p(0.9)
-        dd = oyuk(dd, z0, np.maximum(dis, m), p(0.9))
-        # üst kenar boyunca kanat DRL ışık kılavuzu (yükseltilmiş krom kaş)
-        drl = sd_cizgi(Y, Z, [(410, 682), (500, 736), (618, 780), (712, 806), (780, 822), (850, 834)]) - p(0.28)
-        dd = doldur(dd, z0, np.maximum(drl, m), -p(0.25))
-        # projektör: krom halka + bombeli mercek
-        mer = np.sqrt((Y - 672.0) ** 2 + (Z - 711.0) ** 2)
-        dd = oyuk(dd, z0, np.maximum(mer - 46.0, m), p(1.3))
-        dd = doldur(dd, z0, np.maximum(np.abs(mer - 42.0) - p(0.18), m), -p(0.3))
-        dd = doldur(dd, z0, np.maximum(mer - 34.0, m), -p(0.45) - p(0.35) * (1 - (mer / 34.0) ** 2))
+        U = far_u(X, Y)
+        m = np.maximum(FAR_UZ(U, Z), FAR_YAN(X, Z))
+
+        # kenarlar ~0.08 mm yuvarlatılır: baskıda keskin kalır, ağda merdivenlenme (testere dişi) olmaz
+        YUM = p(0.08)
+
+        def oy(dd, maske, derinlik):
+            return smax(dd, -smax(-(z0 + derinlik), maske, YUM), YUM)
+
+        def dol(dd, maske, seviye):
+            return smin(dd, smax(z0 - seviye, maske, YUM), YUM)
+
+        def kat(dd, maske, seviye):
+            """maske içinde yüzeyi tam 'seviye'ye getirir (oyar + doldurur)."""
+            maske = np.maximum(maske, m)
+            return dol(oy(dd, maske, -seviye), maske, seviye)
+
+        def serit(pts, yari):
+            return sd_cizgi(U, Z, pts) - yari
+
+        def dis(aralik, yon):
+            """yon açısıyla eğik paralel dişlerin eksenine uzaklık (aralık)."""
+            t = U * math.cos(yon) + Z * math.sin(yon)
+            return np.abs(np.mod(t, aralik) - aralik / 2)
+
+        def kabart(dd, uz, yari, sinir, taban, tepe):
+            """eksene uzaklığı 'uz' olan, yarı genişliği 'yari' yuvarlak sırtlı kabartma (sinir<0 bölgesinde)."""
+            k = np.sqrt(np.clip(1 - (uz / yari) ** 2, 0, 1))
+            return dol(dd, np.maximum(np.maximum(uz - yari, sinir), m), taban + (tepe - taban) * k)
+
+        # 1) siyah çerçeve: camın altında, gövdeden 0.35 mm keskin basamak
+        dd = kat(dd, m, -p(0.35))
+        # 2) üst yansıtıcı (kaş üstü bant + dış uçta sinyal üçgeni): -0.7, üstünde 0.25 mm eğik optik dişler
+        ust = FAR_UST(U, Z)
+        dd = kat(dd, ust, -p(0.7))
+        dd = kabart(dd, dis(p(0.75), math.radians(-62)), p(0.16), ust + p(0.25), -p(0.7), -p(0.42))
+        # 3) derin iç hazne
+        hz = FAR_HAZNE(U, Z)
+        dd = kat(dd, hz, -p(1.4))
+        # 4) iç uzun yansıtıcı (iç uç tarafı): 0.35 mm kabarık plaka, 0.28 mm oluklarla 2x4 fasete bölünmüş
+        plaka = np.maximum(hz + p(0.3), U - 598.0)
+        dd = kat(dd, plaka, -p(1.05))
+        oluk = np.minimum(np.minimum(np.abs(U - 462.0), np.abs(U - 510.0)), np.abs(U - 556.0)) - p(0.14)
+        oluk = np.minimum(oluk, np.abs(Z - (713.0 + 0.12 * (U - 500.0))) - p(0.14))
+        dd = oy(dd, np.maximum(np.maximum(oluk, plaka), m), p(1.4))
+        # 5) projektör altındaki alt yansıtıcı: öne eğik yüz (alt kenarı -0.6, üst kenarı -1.0)
+        alt = FAR_ALT_REF(U, Z)
+        dd = kat(dd, alt, -p(0.6) - p(0.4) * sstep(660.0, 682.0, Z))
+        # 6) uzun far çanağı: kabarık kenar + parabolik çanak + ortada ampul kapağı
+        r = np.sqrt((U - FAR_UZUN[0]) ** 2 + (Z - FAR_UZUN[1]) ** 2)
+        dd = kat(dd, r - 29.0, -p(0.8))
+        dd = kat(dd, r - 24.0, -p(0.9) - p(0.65) * np.clip(1 - (r / 24.0) ** 2, 0, 1))
+        dd = kat(dd, r - 6.5, -p(1.0))
+        # 7) projektör: siyah çanak (halka arkası derin gölge) + krom halka + bombeli mercek
+        r = np.sqrt(((U - FAR_PROJ[0]) * 1.08) ** 2 + (Z - FAR_PROJ[1]) ** 2)
+        dd = kat(dd, r - 47.0, -p(1.75))
+        dd = kat(dd, np.maximum(r - 42.0, 32.0 - r), -p(0.4) - p(0.12) * sstep(38.0, 42.0, r))
+        dd = kat(dd, r - 31.0, -p(1.0) + p(0.62) * np.sqrt(np.clip(1 - (r / 31.0) ** 2, 0, 1)))
+        # 8) dış bölme: küçük sinyal çanağı (halka + çanak + ampul)
+        r = np.sqrt((U - 788.0) ** 2 + (Z - 734.0) ** 2)
+        dd = kat(dd, np.maximum(r - 15.0, 9.0 - r), -p(0.85))
+        dd = kat(dd, r - 9.0, -p(1.3))
+        dd = kat(dd, r - 4.0, -p(1.0))
+        # 9) krom ayraç (uzun far çanağı ile projektör arası) ve alt ışık kılavuzu (iç uçtan ayraca)
+        dd = dol(dd, np.maximum(serit([(664.0, 689.0), (667.0, 757.0)], p(0.17)), m), -p(0.45))
+        dd = dol(dd, np.maximum(serit([(410, 693), (500, 694), (590, 694), (628, 690), (652, 693), (665, 702)],
+                                             p(0.17)), m), -p(0.4))
+        # 10) kanat DRL ışık kılavuzu / krom kaş: hazne üst kenarı boyunca iç uçtan dışa, dış uçta projektörün
+        # yanından aşağı kıvrılır (kanca). Yuvarlak sırtlı, hazne tabanından 1.2 mm yüksek.
+        kas = sd_cizgi(U, Z, [(440, 724), (500, 736), (550, 743), (600, 748), (655, 755), (705, 764), (755, 772),
+                               (797, 777), (806, 772), (809, 750), (807, 722), (800, 700)])
+        dd = dol(dd, np.maximum(kas - p(0.21), m), -p(0.22) - p(0.12) * (kas / p(0.21)) ** 2)
+        # 11) cam kenarı: dış hatta 0.25 mm genişlik, 1.6 mm derin gölge oluğu (camın gövdeye oturduğu ek yeri)
+        dd = oy(dd, np.maximum(-m - p(0.25), m), p(1.6))
         return dd
     uygula((-20, 600, 360, 960, 600, 880), farlar)
 
