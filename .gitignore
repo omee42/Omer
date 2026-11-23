@@ -3,3 +3,6 @@ cikti/
 __pycache__/
 *.pyc
 .venv/
+
+# 100 MB üstü: depoda zip olarak tutulur
+3d-model/astra_gtc_tek_parca.stl

@@ -21,13 +21,13 @@ Astra J GTC (2011–2018, 3 kapı) OPC donanımlı. Gerçek aracın ölçüleriy
 
 | Dosya | Ne için |
 |---|---|
-| `astra_gtc_tek_parca.stl` | Tekerlekler gövdeye bağlı, tek parça (1.67 M üçgen) |
+| `astra_gtc_tek_parca.zip` | Tekerlekler gövdeye bağlı tek parça; zip içinde `astra_gtc_tek_parca.stl` (118 MB, 2.37 M üçgen, 0.08 mm ızgara) |
 | `astra_gtc_govde.stl` | **Kit:** tekerleksiz gövde, alt yüzeyi düz, aks delikli |
 | `astra_gtc_teker.stl` | **Kit:** tek tekerlek. **4 adet** basılır |
 | `astra_gtc_olustur.py` | Tüm STL'leri üreten betik (ölçek ve çözünürlük ayarlanabilir) |
 
 Tüm dosyalar su geçirmez (manifold) ve tek gövdedir; dilimleyicide onarım gerekmez.
-Yüzey **0.10 mm** ızgarada çıkarıldı, sadeleştirmede en fazla 0.005 mm sapma var.
+Kit gövde ve teker **0.07 mm**, tek parça **0.08 mm** ızgarada çıkarıldı; sadeleştirmede en fazla 0.005 mm sapma var.
 
 ## Modeldeki detaylar
 
@@ -154,6 +154,30 @@ Her tur standart açılardan görüntü alındı. Ajanlar bunları gerçek Astra
   - Tavanın devamı gibi duran spoyler.
   - Kanat şeklinde stoplar ve gövdeyle uyumlu bagaj kapağı çizgisi.
   - OPC difüzörü ve köşe hava girişleri.
+
+## Detay turu (farlar, arka, jant, amblem)
+
+- **Farlar:**
+  - derin yuva ve siyah çerçeve
+  - krom halkalı kubbeli projektör merceği
+  - ayrı uzun far çanağı
+  - kaş biçimli LED gündüz farı şeridi
+  - kaburgalı üst reflektör ve sinyal üçgeni
+  - çok bölmeli iç reflektör
+- **Opel amblemi:** pahlı taban, çukur zemin, kubbeli halka, pahlı ve sırtlı şimşek. Ön ve arkada aynı.
+- **Arka:**
+  - kırışıksız, fotoğraf siluetlerine oturan arka gövde
+  - lens, krom bıçak, LED çubuk ve kanat, geri vites ve sinyal bölmeli stoplar
+  - plaka çerçevesi ve vidaları
+  - reflektörler ve park sensörleri
+  - kanatçıklı difüzör ve 3.4 mm derin trapez egzozlar
+  - LED noktalı üçüncü stop ve arka silecek
+- **Jant ve lastik:**
+  - OPC 20 inç, 5 çatallı Y kol, derin içbükey yüz
+  - cıvatalar ve rozetli göbek kapağı
+  - 355 mm delikli disk ve kaliper
+  - "245/35 ZR20 95Y" yanak yazısı ve diş deseni
+- **Çamurluklar:** kıvrık dudak
 
 ## Fotoğraf eşleme
 
