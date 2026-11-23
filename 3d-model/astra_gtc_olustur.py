@@ -221,6 +221,7 @@ UST_IZGARA = YPoligon([(-470, 726), (-360, 734), (-200, 731), (0, 729), (200, 73
 ALT_IZGARA = YPoligon([(-630, 505), (-520, 463), (-380, 440), (-200, 428), (0, 425), (200, 428), (380, 440),
                        (520, 463), (630, 505), (602, 410), (565, 290), (535, 192), (-535, 192), (-565, 290),
                        (-602, 410)], 14)
+YPoligon_AYNA = YPoligon([(1492, 1003), (1630, 1012), (1630, 1066)], 6)
 KOSE_HAVA = YPoligon([(718, 612), (790, 580), (832, 490), (845, 382), (832, 286), (790, 220), (680, 188),
                       (722, 262), (736, 360), (726, 462), (706, 552)], 10)
 STOP_ARKA = YPoligon([(385, 1002), (470, 984), (600, 960), (740, 938), (850, 924), (910, 934),
@@ -543,20 +544,23 @@ def detaylar(d, d0, b):
 
     # ---------- aynalar: kapıya bağlı ince ayak + damla planlı kapak (önü bombeli, arkası düz cam yüzü)
     def ayna(dd, z0, X, Y, Z):
+        # kapak: yuvarlatılmış kutu (üstü düz, altı içe doğru yükselir) + dış uçta bombeli burun -> damla
         def kapak(Xq):
-            dis = sd_elipsoid(Xq, Y, Z, (1600.0, 908.0, 1098.0), (105.0, 102.0, 66.0))    # dış lob (geniş, derin)
-            ic = sd_elipsoid(Xq, Y, Z, (1612.0, 830.0, 1090.0), (72.0, 62.0, 46.0))       # iç lob (sığ, alçak) -> damla
-            return smin(dis, ic, 28.0)
-        g = smax(kapak(X), X - 1612.0, 5.0)                                            # arka cam yüzü düz
-        g = smax(g, 790.0 - Y, 8.0)
-        ayak = sd_kutu3(X, Y, Z, (1588.0, 782.0, 1052.0), (30.0, 46.0, 13.0), 10.0)    # ince yatay kol
-        taban = sd_kutu3(X, Y, Z, (1548.0, 770.0, 1036.0), (68.0, 28.0, 26.0), 18.0)   # kapı köşesi tabanı
-        g = smin(g, smin(ayak, taban, 14.0), 16.0)
-        cam = np.maximum(kapak(np.full_like(X, 1606.0)) + p(0.45), 1598.0 - X)       # cam, kapak kenarından 0.45 mm içeride
+            ana = sd_kutu3(Xq, Y, Z, (1572.0, 924.0, 1104.0), (56.0, 84.0, 54.0), 44.0)    # dış: derin, yüksek
+            ic = sd_kutu3(Xq, Y, Z, (1592.0, 846.0, 1098.0), (36.0, 42.0, 38.0), 28.0)     # iç: sığ, alçak
+            return smin(ana, ic, 26.0)
+        g = smax(kapak(X), X - 1618.0, 5.0)                                            # arka cam yüzü düz
+        g = smax(g, 800.0 - Y, 6.0)
+        kol = sd_kutu3(X, Y, Z, (1598.0, 800.0, 1050.0), (24.0, 52.0, 11.0), 8.0)       # ince yatay kol (bıçak)
+        g = smin(g, kol, 10.0)
+        cam = np.maximum(kapak(np.full_like(X, 1612.0)) + p(0.45), 1604.0 - X)
         g = oyuk(g, g.copy(), cam, p(0.45))
-        sin = np.maximum(sd_cizgi(X, Z, [(1515, 1058), (1600, 1046)]) - p(0.2), 965 - Y)
+        sin = np.maximum(sd_cizgi(X, Z, [(1528, 1084), (1600, 1076)]) - p(0.2), 975 - Y)
         g = oyuk(g, g.copy(), sin, p(0.25))                                            # sinyal çizgisi
-        return smin(dd, g, p(0.4))
+        dd = smin(dd, g, p(0.3))
+        # kapı köşesindeki üçgen ayna tabanı: gövdeye yapışık, 0.3 mm kabarık
+        yelken = np.maximum(YPoligon_AYNA(X, Z), 720.0 - Y)
+        return doldur(dd, z0, yelken, p(0.3))
     uygula((1420, 1680, 660, 1060, 980, 1200), ayna)
     return d
 
@@ -582,9 +586,9 @@ def asimetrik(d, x, y, z, mod):
     g = kes(1370, 1520, -760, 760, 1000, 1120)
     if g:
         sl, X, Y, Z = g
-        sil = np.minimum(sd_cizgi(X, Y, [(1452, 700), (1418, 40)]),
-                         sd_cizgi(X, Y, [(1445, -20), (1412, -690)])) - p(0.3)
-        kol = np.minimum(sd_cizgi(X, Y, [(1478, 640), (1440, 330), (1430, 300)]),
+        sil = np.minimum(sd_cizgi(X, Y, [(1450, 630), (1418, 40)]),
+                         sd_cizgi(X, Y, [(1445, -20), (1414, -620)])) - p(0.3)
+        kol = np.minimum(sd_cizgi(X, Y, [(1474, 590), (1440, 330), (1430, 300)]),
                          sd_cizgi(X, Y, [(1470, -80), (1440, -400), (1432, -430)])) - p(0.35)
         cur = d[sl]
         e = np.maximum(cur - p(0.75), np.minimum(sil, kol))
