@@ -7,8 +7,8 @@ Astra J GTC (2011–2018, 3 kapı) OPC donanımlı. Gerçek aracın ölçüleriy
 
 | Ölçü | Gerçek araç | Maket (1:24) |
 |---|---|---|
-| Boy | 4466 mm | ~185 mm |
-| Genişlik (aynasız / aynalı) | 1840 / 2020 mm | 76.7 / 84.7 mm |
+| Boy | 4466 mm | 185.2 mm |
+| Genişlik (aynasız / aynalı) | 1840 / 2020 mm | 76.5 / 84.0 mm |
 | Yükseklik | 1482 mm | ~61 mm |
 | Aks mesafesi | 2695 mm | 112.3 mm |
 | İz genişliği (ön / arka) | 1584 / 1588 mm | 66 mm |
@@ -18,13 +18,13 @@ Astra J GTC (2011–2018, 3 kapı) OPC donanımlı. Gerçek aracın ölçüleriy
 
 | Dosya | Ne için |
 |---|---|
-| `astra_gtc_tek_parca.stl` | Tekerlekler gövdeye bağlı, tek parça (1.16 M üçgen) |
+| `astra_gtc_tek_parca.stl` | Tekerlekler gövdeye bağlı, tek parça (1.67 M üçgen) |
 | `astra_gtc_govde.stl` | **Kit:** tekerleksiz gövde, alt yüzeyi düz, aks delikli |
 | `astra_gtc_teker.stl` | **Kit:** tek tekerlek. **4 adet** basılır |
 | `astra_gtc_olustur.py` | Tüm STL'leri üreten betik (ölçek ve çözünürlük ayarlanabilir) |
 
 Tüm dosyalar su geçirmez (manifold) ve tek gövdedir; dilimleyicide onarım gerekmez.
-Yüzey 0.15 mm ızgarada çıkarıldı, sadeleştirmede en fazla 0.005 mm sapma var.
+Yüzey **0.10 mm** ızgarada çıkarıldı, sadeleştirmede en fazla 0.005 mm sapma var.
 
 ## Modeldeki detaylar
 
@@ -114,13 +114,41 @@ Tekerlekler döner.
 
 ```bash
 pip install numpy scipy scikit-image trimesh manifold3d
-python3 astra_gtc_olustur.py                 # 1:24, hepsi (~3 dk)
+python3 astra_gtc_olustur.py --h 0.10        # sergi kalitesi, 1:24 (~5 dk)
+python3 astra_gtc_olustur.py                 # 0.15 mm ızgara, daha hızlı
 python3 astra_gtc_olustur.py --olcek 18      # 1:18 (~248 mm)
-python3 astra_gtc_olustur.py --h 0.12        # daha ince ızgara (daha yavaş, daha detaylı)
 ```
 
 Aks delikleri baskı ölçüsünde sabittir (1.75 mm filament), ölçek değişse de aynı kalır.
 1:18'de aks boyu ≈ 62 × 24 / 18 ≈ 83 mm olur.
+
+## Denetim süreci
+
+Model iki tur boyunca üç ayrı denetçi ajan tarafından incelendi: ön yüz, yan profil ve arka/üst görünüş.
+Her tur standart açılardan görüntü alındı. Ajanlar bunları gerçek Astra J GTC ile karşılaştırıp milimetre cinsinden düzeltmeler önerdi ve her düzeltmeyi ayrı bir kopyada deneyerek doğruladı.
+
+- **Oranlar ve kabin:**
+  - Genişlik 1836 mm'ye indirildi.
+  - Kabin üstten bakınca daralıyor, arka çamurluk üstlerinde basamak oluşuyor.
+  - C direği içe yatıyor.
+  - Kapı ile cam arasında yaklaşık 50 mm'lik omuz basamağı var.
+- **Yan:**
+  - GTC'ye özgü, arkaya sivrilen yan cam.
+  - Keskin kenarı üstte olan "bıçak" çizgisi.
+  - Kapı kolu omuz çizgisinin üzerinde.
+- **Ön:**
+  - Kaputun altına giren büyük bumerang farlar.
+  - İnce, sivri kaput sırtı.
+  - Gülümseme şeklinde petek ızgara.
+  - Bumerang şeklinde köşe hava girişleri.
+  - Gerçek boyutta rozet halkası.
+  - Düz üstlü, ince kollu aynalar.
+- **Arka:**
+  - Dik arka kapak ve küçük "ördek kuyruğu".
+  - Daha yatık ve uzun arka cam.
+  - Tavanın devamı gibi duran spoyler.
+  - Kanat şeklinde stoplar ve gövdeyle uyumlu bagaj kapağı çizgisi.
+  - OPC difüzörü ve köşe hava girişleri.
 
 ## Kaynak ve doğruluk
 
