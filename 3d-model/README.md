@@ -1,5 +1,12 @@
 # Opel Astra J GTC (OPC) – 3D Baskı Maketi, 1:24
 
+> **Durum:** Önceki STL dosyaları kaldırıldı; tahmini eğrilerle yapılan model gerçeğe yeterince yakın değildi.
+> Yeni yöntem: `.claude/skills/arac-3d` yeteneği. Aracı gerçek teknik çizimlerden (blueprint) ölçerek kurar.
+> Astra J GTC için hazır ayar dosyası `.claude/skills/arac-3d/ornek/astra_j_gtc.json`.
+> Yan/üst/ön/arka çizimler yüklendiğinde yeni STL'ler bu yetenekle üretilecek.
+> Aşağıdaki bölüm önceki `astra_gtc_olustur.py` sürümünü anlatır.
+
+
 ![Genel görünüm](onizleme.png)
 ![Detaylar](detaylar.png)
 

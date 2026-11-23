@@ -1,0 +1,40 @@
+{
+  "ad": "Opel Astra J GTC OPC (2011-2018)",
+  "dosya_adi": "astra_gtc",
+  "cikti": "cikti",
+  "olcek": 24,
+  "izgara_mm": 0.10,
+  "tolerans_mm": 0.005,
+  "olcu_mm": {
+    "boy": 4466,
+    "genislik": 1840,
+    "yukseklik": 1472,
+    "aks_mesafesi": 2695,
+    "on_iz": 1584,
+    "yerden": 112
+  },
+  "teker": {
+    "cap": 680,
+    "jant_cap": 508,
+    "genislik": 245,
+    "kol_sayisi": 5,
+    "camur_bosluk": 30
+  },
+  "gorunumler": {
+    "yan":  {"dosya": "gtc_blueprint.jpg", "kutu": [0, 0, 1, 1], "on": "sol"},
+    "ust":  {"dosya": "gtc_blueprint.jpg", "kutu": [0, 0, 1, 1], "on": "sol"},
+    "on":   {"dosya": "gtc_blueprint.jpg", "kutu": [0, 0, 1, 1]},
+    "arka": {"dosya": "gtc_blueprint.jpg", "kutu": [0, 0, 1, 1]}
+  },
+  "aynalar": [
+    {"x": 1575, "y": 905, "z": 1100, "rx": 85, "ry": 100, "rz": 60, "kol_y": 760}
+  ],
+  "bolgeler": [],
+  "detay": {
+    "cizgi_derinlik_mm": 0.35,
+    "cizgi_genislik_mm": 0.40,
+    "normal_esik": 0.55,
+    "yuvarlama_mm": 1.5
+  },
+  "_not": "kutu değerleri ve dosya adı yer tutucudur: çizimi yükleyince her görünüşün piksel kutusunu girin."
+}
