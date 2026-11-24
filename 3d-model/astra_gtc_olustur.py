@@ -363,7 +363,15 @@ def yumusat(pts, adim=15.0):
 # (eski uç 1488/1026'da kütle bitiyordu); yuvarlak ucu cam alt kenarına (z 926) değer, camın sivri ucu ucun hemen
 # arkasında biter. krom_isaretli() x'e göre artan kısmı (en ön noktadan en arka noktaya) kullanır.
 # kontrol noktaları eğim sırası düzgün olacak şekilde yumuşatıldı (eski 1640/2950 noktaları kavisi dalgalandırıyordu)
-KROM_DLO = [(1333, 932), (1408, 982), (1488, 1026), (1560, 1060), (1640, 1099), (1800, 1178), (2000, 1268),
+# Alt uç (x 1333-1640) yandan değil 3B'de düzgün: krom gövde yüzeyinde yürür ve A direği dibinde direğin yuvarlak
+# köşesinden gövde omzuna geçerken yüzeyin y'si sıçrar (eski yolda x 1560->1488 y 727->722 geri, sonra 1488->1408
+# 722->777 ani dışa): çapraz bakışta (önden 30-60°) alt uç S yapıyordu. Noktalar, yüzeydeki 3B eğrinin eğriliği
+# düzgün değişecek şekilde (3. farkların en küçüklenmesi) z'de en çok 15 mm (x≈1483) aşağı kaydırıldı: y artık
+# 723 -> 829 tek yönde, ucuna doğru giderek dışa döner. Uç noktası (1333, 932) ve x ≥ 1640 değişmedi. Kalibre ön
+# çapraz kamera (15922355098) ve siyah OPC yan (34848925543) eski yolun ortasını uca göre 4-17 mm yüksek gösteriyordu.
+KROM_DLO = [(1333, 932), (1358, 950.7), (1383, 966.3), (1408, 978.9), (1433, 988.8), (1458, 997.7), (1483, 1008.3),
+            (1508, 1022.1), (1533, 1037.6), (1558, 1052.9), (1583, 1067.9), (1608, 1082.1),
+            (1640, 1099), (1800, 1178), (2000, 1268),
             (2200, 1324), (2380, 1366),
             (2600, 1385), (2800, 1381), (2950, 1358), (3140, 1334), (3310, 1303), (3460, 1266), (3545, 1236),
             (3578, 1220), (3589.5, 1214.5), (3592, 1209), (3590, 1204), (3585, 1201), (3570, 1198.5), (3558, 1196)]
@@ -533,7 +541,13 @@ KAPI_CIZGILERI = [
     [_ka(1368), (1370, 500), (1372, 700), (1388, 820), (1410, 895), (1426, 926)],
     [(2800, 1388), (2797, 1080), (2792, 700), (2780, 480), (2752, 400), (2722, 345), (2685, 309), _ka(2640)],
     [_ka(2640), _ka(2440), _ka(2120), _ka(1800), _ka(1368)],
-    [(540, 818), (620, 735), (728, 652)],     # ön tampon - çamurluk (far arka alt ucundan teker kemerine)
+    # ön tampon - çamurluk: farın dış ALT köşesinden (cam hattının u≈884, z≈735 noktası) aşağı-geriye, ön teker
+    # kemerinin dudağına. Kalibre ön çapraz (15922355098: (383,803,736) (411,841,711) (459,871,685) (533,891,652)
+    # (601,903,623)) ve siyah OPC yan (34848925543: (457,672) (493,654) (530,637) (567,619) (603,603) (632,590))
+    # kameralarından yüzeye geri izdüşümün ortalaması; iki kamera 8-15 mm içinde uyuşur. Eski hat (540,818)->
+    # (728,652) farın arka ÜST ucundan çıkıyordu: fotoğraflardaki dikişin 90-120 mm üstünde/arkasında. Yanda yüzey
+    # normaline göre işlenir (detaylar(): on_dikis); ilk nokta far camının içinde, cam kenarı oluğunda kesilir.
+    [(362, 748), (383, 731), (411, 707), (458, 678), (532, 644), (602, 613), (657, 588), (684, 576)],
     # arka tampon - çamurluk: stobun alt ön köşesinden (U≈1000, z≈858) arka teker kemerinin dudağına; mavi OPC
     # 26608068581 kalibre kamerasından geri izdüşüm (4132,858) (4104,813) (4060,760) (4011,711) (3953,667)
     # (3933,645). Eski hat (4300,786)->(3948,562) ~170 mm aşağıdaydı, stoba değmiyor ve kemerin önünde bitiyordu.
@@ -568,8 +582,11 @@ def cam_taban_x(y):
 # camın tabanına doğru içe kıvrılır (çamurluk A direği dibinde camın altına kadar uzanır). Kalibre ön çapraz
 # fotoğraftan (15922355098) yüzeye geri izdüşümle; eski hat (560,792)-(1425,694) farın ucunu ~25 mm dışından
 # geçiyor ve arkada A direği dibine düz gidiyordu (fotoğrafta y≈616'da cama varır; 6146990208'de de görülür).
-KAPUT_YAN = [(534.0, 766.0), (629.0, 764.0), (764.0, 762.0), (900.0, 755.0), (1000.0, 745.0), (1103.0, 729.0),
-             (1196.0, 697.0), (1290.0, 656.0), (1377.0, 618.0), (1450.0, 588.0)]
+# Çamurluk üstünde x 900-1100 arası fotoğraftaki koyu aralık çizgisinin piksel izi (15922355098) yeniden geri
+# izdüşürüldü: (921,762) (953,761) (985,761) (1027,755) (1067,744) -> hat burada eskisinden 8-14 mm dışarıda;
+# önde (x<900) ve arkada (x>1150) eski hat 3-6 mm içinde doğruydu, farın ucu değişmez.
+KAPUT_YAN = [(534.0, 766.0), (629.0, 764.0), (764.0, 762.0), (900.0, 759.0), (1000.0, 756.0), (1060.0, 747.0),
+             (1103.0, 736.0), (1196.0, 698.0), (1290.0, 656.0), (1377.0, 618.0), (1450.0, 588.0)]
 KAPUT_YAN_Y = Egri(KAPUT_YAN)
 
 
@@ -911,6 +928,14 @@ def bagaj_yan_3b():
 
 
 _TAMPON_DIKIS_3B = None
+_ON_DIKIS_3B = None
+
+
+def on_dikis_3b():
+    global _ON_DIKIS_3B
+    if _ON_DIKIS_3B is None:
+        _ON_DIKIS_3B = _yuzey_egri(KAPI_CIZGILERI[3], 4.0)
+    return _ON_DIKIS_3B
 
 
 def tampon_dikis_3b():
@@ -1654,10 +1679,7 @@ def detaylar(d, d0, b):
     # ---------- yan: kapı aralıkları, kol
     def kapilar(dd, z0, X, Y, Z):
         # kapı aralığı (ilk üç çizgi): U kesitli oluk, kenarı yüzeye teğet iner (dik duvarlı oluk eğik
-        # kesimlerde ızgarada testere dişi bırakıyordu); tampon ek yerleri eskisi gibi
-        # yalnız yan yüzeyde (Y yönlü prizma): eskiden y>480 sınırı A direği hizasında ön camı ve kaputun arka
-        # köşesini sıyırıp cam kenarı boyunca testere dişli bir bant oyuyordu
-        esik = np.maximum(480.0, np.minimum(hw_kabin(X, Z) - p(1.5), HW_PLAN(X) * F_DIKEY(Z) - 60.0))
+        # kesimlerde ızgarada testere dişi bırakıyordu)
         # kapı aralıkları yumuşatılmış eğrilerle (KAPI_ON, KAPI_ARKA: köşelerde dirsek yok). y-düzlemi kırpması
         # yerine oluk derinliği yüzey normaline göre söner (yüzey yukarı döndükçe): eski sınır A direği dibinde
         # oluğun tabanını düz kesip tırtıklı, kör uçlu bırakıyordu. Kesit (1-q^2)^1.5: kenarda yüzeye teğet.
@@ -1669,12 +1691,8 @@ def detaylar(d, d0, b):
         mk = np.minimum(sd_cizgi(Xb, Zb, KAPI_ON), sd_cizgi(Xb, Zb, KAPI_ARKA))
         w = KAPI_W
         q = np.clip(1.0 - (mk / w) ** 2, 0.0, 1.0)
-        dd = oyuk(dd, z0, mk - w, p(0.55) * q * np.sqrt(q) * sstep(0.2, 0.4, ny))
-        m = None
-        for c in KAPI_CIZGILERI[3:4]:     # [4] arka tampon dikişi: arka_dikisler()
-            s = sd_cizgi(X, Z, c)
-            m = s if m is None else np.minimum(m, s)
-        return oyuk(dd, z0, np.maximum(m - p(0.22), esik - Y), p(0.5))
+        # ön ([3]: on_dikis) ve arka ([4]: arka_dikisler) tampon dikişleri yüzey normaline göre ayrıca işlenir
+        return oyuk(dd, z0, mk - w, p(0.55) * q * np.sqrt(q) * sstep(0.2, 0.4, ny))
     uygula((300, 4200, 480, 960, 250, 1480), kapilar)
 
     # kapı kolu: oval cep (136x56, 0.6 mm derin) üstünde dışa taşan tutamak (200x30, 12 mm / 0.5 mm çıkıntı,
@@ -1716,6 +1734,25 @@ def detaylar(d, d0, b):
     def aralik_oluk(dd, z0, mesafe, sinir, olcek=1.0):
         return oyuk(dd, z0, np.maximum(mesafe - ARALIK_W, sinir),
                     ARALIK_D * olcek * np.clip(1.0 - (mesafe / ARALIK_W) ** 2, 0.0, 1.0))
+
+    # ön tampon - çamurluk dikişi (KAPI_CIZGILERI[3]): arka dikişlerle aynı kesit, 3B yüzey eğrisine teğet uzaklık.
+    # Farın dış alt köşesinde cam kenarı oluğunun ortasında (far hattının 4 mm içi) başlar: dikiş far çevresindeki
+    # gölge oluğuna basamaksız, kopuksuz bağlanır; alt uçta kemerin kıvrık dudağının sırtında söner (arkadaki gibi).
+    # Eskiden Y prizmasıydı: köşeye sarılan kısımda yüzey öne döndükçe oluk genişleyip sığlaşıyordu.
+    def on_dikis(dd, z0, X, Y, Z):
+        sec = np.abs(z0) < 30.0
+        if not sec.any():
+            return dd
+        X, Y, Z = (np.broadcast_to(a, z0.shape)[sec] for a in (X, Y, Z))
+        z0s = z0[sec]
+        d3 = cizgi3(X, Y, Z, on_dikis_3b())
+        mes = np.sqrt(np.maximum(d3 * d3 - z0s * z0s, 0.0))
+        fm = np.maximum(FAR_UZ(far_u(X, Y), Z), FAR_YAN(X, Z))
+        r_k = np.sqrt((X - AKS_ON) ** 2 + (Z - AKS_Z) ** 2)
+        dd = dd.copy()
+        dd[sec] = aralik_oluk(dd[sec], z0s, mes, -(fm + 4.0), sstep(CAMUR_R + 6.0, CAMUR_R + 26.0, r_k))
+        return dd
+    uygula((330, 720, 640, 960, 540, 790), on_dikis)
 
     def stop_maske(X, Y, Z):
         return STOP(stop_u(X, Y), Z)
@@ -1893,8 +1930,12 @@ def detaylar(d, d0, b):
     # Plan: iç ucu |y| 830'da en uzun (x boyu ~160, burun), dış uca doğru kısalır (~120) ve dış uçta yarım daireye yakın
     # kapanır (|y| 1010 -> aynalarla genişlik 2020). Yandan uzun damla: arkada düz cam yüzü (x 1745), üst çizgi buruna doğru
     # alçalır, alt çizgi hafif yükselir; burun orta-alt yükseklikte (siyah OPC 34848925543 ve gri 54188905081
-    # fotoğrafları; eski kapak kısa, üstü düz bir kapsüldü). Yükseklik bele göre (cam alt kenarı önde z ≈ 930): iç uçta
-    # z 960-1040, dış uçta 940-1085. Cam yüzü D biçimli: iç kenar düz, dış uç yuvarlak. Cam 0.45 mm gömük, çevresinde
+    # fotoğrafları; eski kapak kısa, üstü düz bir kapsüldü). Yükseklik bele göre (cam alt kenarı önde z ≈ 930): kapak
+    # üstü iç uçta ~1020, dış uçta ~1062, alt (siyah taban) 955 -> 930. Üst kenar eskiden 35 mm daha yüksekti (1055-1100):
+    # iki yan fotoğraf burada çelişir (gri 54188905081 aynayı/krom ucunu siyah OPC'den 60-80 mm yüksek gösterir); üçüncü
+    # kanıt kalibre ön çapraz (15922355098) kapağın üst siluetini 30 mm, siyah OPC 45-50 mm alçak gösterir, alt siluet
+    # ikisinde de 0-6 mm içinde: üst 35-38 mm indirildi, alt aynı. Cam yüzü D biçimli: iç kenar düz, dış uç yuvarlak.
+    # Cam 0.45 mm gömük, çevresinde
     # 7 mm kapak dudağı. Siyah alt taban ayrım çizgisi (oluk + tabanda 0.08 mm içe basamak).
     AY_X, AY_Y0, AY_Y1 = 1745.0, 830.0, 1008.0
 
@@ -1915,7 +1956,7 @@ def detaylar(d, d0, b):
         # burun içe-öne bakan damla (gri fotoğrafta kapak dış uçta cam yüzünün yalnız ~20 mm dışına taşar)
         boy = 160.0 - 40.0 * tau
         e = 1.0 - (1.0 - tau) ** 2                             # D yüz: üst/alt kenar dış uca doğru kavisli
-        zlo, zhi = 955.0 - 25.0 * e, 1055.0 + 45.0 * e
+        zlo, zhi = 955.0 - 25.0 * e, 1020.0 + 42.0 * e
         return boy, zlo, zhi
 
     def ayna_govde(X, Y, Z, duz=True):
@@ -2088,7 +2129,10 @@ def asimetrik(d, x, y, z, mod):
     # Mavi OPC 26608068581 kalibre kamerasında kapak kenarından 8 noktanın gövdeye geri izdüşümü:
     # x 3740..3902, z 813..979, |y| 752..833; 3B daire uydurma -> merkez (3817, 792, 895), R 88.8 (artık ±4.5),
     # düzlem normali gövde normaliyle aynı (0.26, 0.89, 0.38). Kapak gövde yüzeyine teğet düzlemde yuvarlak
-    # (yüzey normali boyunca silindir); 0.32 mm panel aralığı oluğu + kapak yüzü 0.08 mm hafif kubbeli kabartma.
+    # (yüzey normali boyunca silindir). Oluk analitik uzaklık alanıdır: (s, yüzeyden derinlik) düzleminde yuvarlak
+    # dipli kapsül, gövdeden ağız kenarı yuvarlatılarak (smax) çıkarılır; kapak yüzünün hafif kubbesi oluğa teğet
+    # söner. Eskiden kubbe 0.04 mm'lik dik basamakla başlıyor, oluk sqrt profiliyle dik iniyor ve ikisi sert
+    # max/min ile birleşiyordu: ızgarada (1.92 mm) oluğun iki kenarı yakından testere dişli çıkıyordu.
     g = kes(3680, 3935, 640, 960, 790, 1015)
     if g:
         sl, X, Y, Z = g
@@ -2107,11 +2151,15 @@ def asimetrik(d, x, y, z, mod):
         r = np.sqrt(np.maximum(dx * dx + dy * dy + dz * dz - dn * dn, 0.0))
         s = r - rk
         cur = d[sl]
-        yakin = np.abs(dn) - 60.0                                        # yalnız yüzey civarı
-        kab = p(0.04) + p(0.04) * np.clip(1.0 - (r / rk) ** 2, 0.0, 1.0)
-        e1 = np.minimum(cur, np.maximum(np.maximum(cur - kab, s + p(0.16)), yakin))
-        derin = p(0.45) * np.sqrt(np.clip(1.0 - np.abs(s) / p(0.2), 0.0, 1.0))   # V/U kesitli oluk: kenar pürüzsüz
-        d[sl] = np.maximum(e1, -np.maximum(np.maximum(-(cur + derin), np.abs(s) - p(0.2)), yakin))
+        w, D = p(0.2), p(0.45)                                           # oluk yarı genişliği (0.4 mm aralık), derinlik
+        yakin = 1.0 - sstep(30.0, 60.0, np.abs(dn))                      # yalnız yüzey civarı (yumuşak sönüm)
+        kab = p(0.06) * (1.0 - sstep(0.25 * rk, rk - w, r))              # kapak yüzü: merkezde 0.06 mm, oluğa teğet söner
+        e = cur - kab * yakin
+        # oluk: (s, yüzeyden derinlik) düzleminde yuvarlak dipli U (kapsül) -> gerçek uzaklık alanı; ağız kenarları
+        # 6 mm smax ile yuvarlatılır (ızgara adımının ~3 katı: dairesel kenar merdivenlenmez)
+        t = -cur
+        kaps = np.sqrt(s * s + np.maximum(t - (D - w), 0.0) ** 2) - w
+        d[sl] = np.where(yakin > 0.0, smax(e, -kaps, 6.0), e)
     # silecekler (sol direksiyon, tandem, park konumu; 15922355098 / 26608054501 / 17022087756 fotoğrafları):
     # kaputun arka kenarının arkasındaki kanalda, cam tabanında yatarlar. Göbekler solda (-Y): sürücü kolu A
     # direği dibinden, yolcu kolu ortadan çıkar; iki süpürge de sağa (+Y) uzanır, sürücü süpürgesi (650) camda
