@@ -246,6 +246,23 @@ karşılaştırıp 12 bulgu çıkardı; hepsi düzeltildi. Odak, parçaların bi
 
 Silecekler soldan direksiyonlu (Avrupa/Türkiye) araca göre park konumunda.
 
+### Stop, bagaj ve ön derz turu
+
+- **Ön tampon–çamurluk derzi:**
+  - Eskiden farın arka üst ucundan başlıyordu, fotoğraftaki yerinin 90–120 mm üstünde ve arkasındaydı.
+  - Artık iki fotoğrafın ortalamasına göre farın dış alt köşesinden teker kemerine iniyor ve far oluğuna boşluksuz bağlanıyor.
+  - Kaput–çamurluk hattı x 900–1100 arasında 4–11 mm düzeltildi.
+- **A direği kromu:** Alt ucundaki S kıvrımı giderildi; çapraz bakışta tek yönlü, düzgün bir eğri çiziyor.
+- **Ayna:** Kapağın üstü, ön çapraz ve siyah OPC fotoğraflarına göre 35 mm indirildi. Gri yan fotoğraf bu bölgede diğer ikisiyle çelişiyordu; ona göre ayar yapılmadı.
+- **Yakıt kapağı:** Oluk, yuvarlak dipli ve kenarı yumuşatılmış analitik bir yiv oldu; testere dişi kalmadı.
+- **Arka stoplar:** Beyaz OPC tam arka ve gri GTC fotoğraflarına göre yeniden çizildi.
+  - Üst kenarın içten dışa yükselişi 79 mm'den ~45 mm'ye indi; lamba daha yatık ve ~30 mm daha uzun.
+  - İç uç fotoğraftaki gibi yuvarlak küt.
+  - Dış uç sivri (~33°).
+- **Bagaj kapağı:** Ortasındaki 15 mm'lik eğim kırığı (yatay basamak) giderildi; yüzey cam altından tampona kesintisiz iniyor.
+- **Amblem:** Halka merkezi fotoğraftaki yerine indi (23 mm).
+- **Ağ temizliği:** Sadeleştirmenin bıraktığı ters dönmüş ince üçgenler (dilimleyicide çizik gibi görünür) kenar çevirmeyle düzeltiliyor; geometri değişmiyor.
+
 ### Fotoğraf kaynakları (teşekkürler)
 
 Fotoğraflar yalnızca ölçü referansı olarak kullanıldı; depoya eklenmedi.
