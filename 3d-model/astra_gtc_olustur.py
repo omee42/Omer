@@ -343,7 +343,12 @@ def yumusat(pts, adim=15.0):
 # GTC krom DLO kavisi (merkez çizgisi). Ön uç = ön üçgen camın ucu (A direği dibi), arka uç = arka yan camın ucu;
 # kontrol noktaları eğim sırası düzgün olacak şekilde yumuşatıldı (eski 1640/2950 noktaları kavisi dalgalandırıyordu)
 KROM_DLO = [(1488, 1026), (1560, 1060), (1640, 1099), (1800, 1178), (2000, 1268), (2200, 1324), (2380, 1366),
-            (2600, 1385), (2800, 1381), (2950, 1358), (3140, 1334), (3310, 1303), (3460, 1266), (3545, 1236), (3596, 1212)]
+            (2600, 1385), (2800, 1381), (2950, 1358), (3140, 1334), (3310, 1303), (3460, 1266), (3545, 1236),
+            (3578, 1220), (3589.5, 1214.5), (3592, 1209), (3590, 1204), (3585, 1201), (3570, 1198.5), (3558, 1196)]
+# arka uç: krom çıta arka yan camın sivri ucunu (x≈3584, z≈1209) camdan 8 mm uzaklıkta sarar ve camın alt kenarı
+# boyunca ~30 mm gidip biter (mavi OPC 26608068581). Eskiden camın ucunun ~12 mm ötesinde (3596, 1212) yuvarlak
+# küt uçla C direği üstünde bitiyordu. krom_isaretli() x'e göre artan kısmı (ucun en arka noktasına kadar) kullanır;
+# geri dönen kuyruk cam alt kenarını da kromla sınırlar.
 KROM_YOL = yumusat(KROM_DLO, 40.0)
 # köpekbalığı anten yan profili (x, tavandan yükseklik)
 ANTEN_PROFIL = YPoligon([(3576, -10), (3577, 3), (3585, 10), (3600, 15), (3625, 18), (3648, 21), (3668, 33),
@@ -487,7 +492,11 @@ KAPI_CIZGILERI = [
     [(2800, 1388), (2797, 1080), (2792, 700), (2780, 480), (2752, 400), (2722, 345), (2685, 309), _ka(2640)],
     [_ka(2640), _ka(2440), _ka(2120), _ka(1800), _ka(1368)],
     [(540, 818), (620, 735), (728, 652)],     # ön tampon - çamurluk (far arka alt ucundan teker kemerine)
-    [(4300, 786), (4150, 676), (3948, 562)],  # arka tampon - çamurluk (stop alt köşesinden kemere)
+    # arka tampon - çamurluk: stobun alt ön köşesinden (U≈1000, z≈858) arka teker kemerinin dudağına; mavi OPC
+    # 26608068581 kalibre kamerasından geri izdüşüm (4132,858) (4104,813) (4060,760) (4011,711) (3953,667)
+    # (3933,645). Eski hat (4300,786)->(3948,562) ~170 mm aşağıdaydı, stoba değmiyor ve kemerin önünde bitiyordu.
+    # Bu hat yanda yüzey normaline göre işlenir (detaylar(): arka_dikisler), kapilar() döngüsünde değil.
+    [(4150, 872), (4132, 858), (4104, 815), (4060, 762), (4011, 712), (3962, 678), (3930, 642), (3888, 596)],
 ]
 KAPI_ON = yumusat(KAPI_CIZGILERI[0], 12.0)
 KAPI_ARKA = yumusat(KAPI_CIZGILERI[1] + KAPI_CIZGILERI[2][1:], 12.0)      # arka + alt: köşe teğet sürekli
@@ -623,6 +632,9 @@ def arka_hw(X, Z):
 
 
 # ============================================================ gövde
+_ZU_EGIM_SON = float(Z_ALT_UST.df(L))
+
+
 def govde_temel(X, Y, Z):
     hwx, dhwx = HW_PLAN(X), HW_PLAN.t(X)
     fz, dfz = F_DIKEY(Z), F_DIKEY.t(Z)
@@ -668,10 +680,15 @@ def govde_temel(X, Y, Z):
     d_yan = (Y - hw) / np.sqrt(1 + (dhwx * fz) ** 2 + (hwx * dfz) ** 2)
 
     bombe = KAPUT_BOMBE(X)
-    zu = Z_ALT_UST(X) - bombe * (Y / 900.0) ** 2
+    # Z_ALT_UST arka uçta (x = L, z 700) dik iner; Egri x > L'de sabitlenip eğimi sıfırlayınca d_ust orada
+    # sıçrıyordu (-9 -> -162 mm): d_arka ile yumuşak max'ın şişkinliği x≈4466'da kaybolup alan yüzeyin ~10 mm
+    # arkasında tekrar ~0-5 mm'ye iniyordu (plaka çevresinde hayalet ikinci kabuk; seviyeli dolgular orada
+    # kopuk levha üretiyordu). Uç eğimiyle doğrusal uzatma: alan yüzeyin dışında tekdüze artar.
+    ext = np.maximum(X - L, 0.0)
+    zu = Z_ALT_UST(X) + _ZU_EGIM_SON * ext - bombe * (Y / 900.0) ** 2
     kaput = sstep(120, 260, X) * (1 - sstep(1250, 1350, X))
     zu = zu + kaput * (p(1.1) * np.maximum(0, 1 - (Y / 560.0) ** 2) ** 2 + p(0.3) * np.maximum(0, 1 - np.abs(Y - 690) / 110.0))
-    d_ust = (Z - zu) / np.sqrt(1 + Z_ALT_UST.t(X) ** 2 + (2 * bombe * Y / 900.0 ** 2) ** 2)
+    d_ust = (Z - zu) / np.sqrt(1 + (Z_ALT_UST.t(X) + _ZU_EGIM_SON * (X >= L)) ** 2 + (2 * bombe * Y / 900.0 ** 2) ** 2)
     # ön tampon alt kenarı köşelerde yükselir (köşe bıçaklarının altı z≈295)
     z_alt = Z_ALT(X) + 60.0 * sstep(470.0, 820.0, Y) * (1 - sstep(300.0, 540.0, X))
     d_alt = (z_alt - Z) / np.sqrt(1 + Z_ALT.t(X) ** 2)
@@ -693,10 +710,18 @@ def govde_temel(X, Y, Z):
     # omzunun dışına çıkıyor; taban henüz yüksek/keskin kalırsa ikisinin arasında z≈1080'de çukur oluşuyordu
     w_d = sstep(3470, 3650, X)
     kabin = smax(kabin, (Z_ALT_UST(X) - bombe * (Y / 900.0) ** 2 - 35.0 - 60.0 * w_d) - Z, p(0.5) + 55.0 * w_d)
-    kabin = np.maximum(kabin, X - 4380.0)
+    # kabinin arka ucu (x 4380 düzlemi) yumuşak kesilir: sert max'ın kırığı, arkada geniş (k≈86 mm) smin
+    # harmanlamasıyla gövdeye taşınıp stopların iç ucundan dış üst köşesine (y 260 z 777 -> y 605 z 868, x 4444-4406)
+    # uzanan testere dişli bir kırım çizgisi bırakıyordu
+    kabin = smax(kabin, X - 4380.0, 40.0)
     kabin = np.maximum(kabin, 950.0 - X)
 
     d = smin(alt, kabin, p(0.9) + 40.0 * sstep(3620, 3900, X) + 25.0 * sstep(3900, 4150, X))   # arkada D direği - basen geçişi yumuşak
+    # uç plakasının arka alt ucu direğe daha geniş yarıçapla kaynar (direğin plakanın altındaki hafif içbükeyliği dolar)
+    return smin(d, spoyler(X, Y, Z), p(0.5) + 14.0 * sstep(3900.0, 3960.0, X) * sstep(450.0, 520.0, Y))
+
+
+def spoyler(X, Y, Z):
     # OPC tavan spoyleri: tavanın devamı, arka kenarda ~55 mm yüksek yüz (3. stop burada), dışbükey arka
     # kenar, iki yanda D direği boyunca aşağı inen uç plakaları (fotoğraf: alt dudak z≈1275, uçlar |y|≈570)
     yy = np.minimum((Y / 560.0) ** 2, 1.0)
@@ -707,16 +732,94 @@ def govde_temel(X, Y, Z):
     sp = np.maximum(X - x_ak, 3790.0 - X)
     # uçlar D direğinin dışına taşar (beyaz OPC tam arka: kanat ucu direğin ~40 mm dışında)
     sp_ek = SP_TASMA * sstep(3800.0, 3900.0, X)
-    sp = smax(sp, Y - (hw_kabin(X, sp_ust) - 4.0 + sp_ek), 15.0)
+    # yan yüz uç plakasının üst dış yüzüyle aynı hizada (hk + 10): eskiden 14 mm içeride kalıp plakanın üst
+    # kenarında basamak/çentik bırakıyordu
+    sp = smax(sp, Y - (hw_kabin(X, sp_ust) + 10.0 + sp_ek), 15.0)
     sp = smax(sp, np.maximum(Z - sp_ust, (sp_ust - kal) - Z), 8.0)
     # uç plakaları: kabin yan yüzeyine oturan 35 mm'lik kabuk, arkaya doğru aşağı iner
     hk = hw_kabin(X, Z)
-    z_alt = 1300.0 - 105.0 * sstep(3880.0, 3995.0, X)
+    # arka alt uçta (x > 3930) alt kenar gövdenin içine iner: plakanın dış yüzü D direği yüzeyiyle kesişip smin
+    # ile yuvarlanarak birleşir. Eskiden 15 mm'lik ince bir raf olarak bitip direkle birleştiği yerde çentik ve
+    # kırım bırakıyordu (x 3970 z 1205, x 3990 z 1190-1240)
+    # ön uçta (x 3795..3880) plaka yüksekliği sıfırdan büyür: plaka spoylerin yanından süpürülerek çıkar (eskiden
+    # x 3860'ta 56 mm'lik dik bir ön yüzle başlayıp spoylerin yan yüzüne basamak/yarıkla bağlanıyordu)
+    z_alt = sp_ust - (sp_ust - 1300.0) * sstep(3795.0, 3880.0, X) - 105.0 * sstep(3880.0, 3995.0, X) \
+        - 50.0 * sstep(3925.0, 3990.0, X)
     uc_ek = sp_ek * sstep(1180.0, 1310.0, Z)
-    uc = smax(np.maximum(Y - (hk + 10.0 + uc_ek), (hk - 26.0) - Y), np.maximum(z_alt - Z, Z - sp_ust), 6.0)
-    uc = smax(uc, np.maximum(3860.0 - X, X - (x_ak - 6.0)), 8.0)
-    sp = smin(sp, uc, 10.0)
-    return smin(d, sp, p(0.5))
+    w_uc = sstep(3925.0, 3990.0, X)
+    tas = 10.0 + uc_ek - 24.0 * w_uc * (1.0 - sstep(z_alt + 10.0, z_alt + 90.0, Z))   # alt uçta dış yüz direğe teğet iner
+    uc = smax(np.maximum(Y - (hk + tas), (hk - 26.0) - Y), np.maximum(z_alt - Z, Z - sp_ust), 6.0)
+    uc = smax(uc, np.maximum(3795.0 - X, X - (x_ak - 6.0)), 8.0)
+    return smin(sp, uc, 10.0)
+
+
+# arka cam: yan kenar beyaz OPC tam arka fotoğrafında (kalibre kamera, arkadan bakış: y/z sağlam) |y|≈578'e kadar
+# uzanır, alt dış köşe y≈579 z≈1100, alt kenar y 387'de 1051, 500'de ~1075. Eski sınır (kabin yan yüzü - 24 mm)
+# camı D direğinde ~120 mm dar bırakıyordu: cam köşesi (x 4235, y 420, z 1090) spoyler ucundan ve stobun sivri
+# ucundan kopuktu. Yan sınır alt bölümde |y| 578'e açılır, spoyler gövdesi (uç plakaları dahil) camdan hariç tutulur.
+ARKA_CAM_YAN = 578.0
+
+
+def arka_cam_maske(X, Y, Z):
+    yk = smax(hw_kabin(X, Z) - p(1.0), ARKA_CAM_YAN - 90.0 * sstep(1225.0, 1275.0, Z), 12.0)
+    m = smax(smax(3930.0 - X, X - 4400.0, p(1.2)), Y - yk, p(0.9))
+    m = smax(m, (1030.0 + 72.0 * sstep(290.0, 610.0, Y)) - Z, p(0.8))
+    return smax(m, 3.0 - spoyler(X, Y, Z), 4.0)
+
+
+def _yuzey_nokta(x, z, y0=300.0, y1=1000.0):
+    """(x, z) için detaysız gövde yüzeyinin dış y'si (yan yüzde çizgi noktalarını yüzeye oturtmak için)."""
+    ys = np.arange(y0, y1, 0.25)
+    dv = govde_temel(np.array([[[float(x)]]]), ys[None, :, None], np.array([[[float(z)]]]))[0, :, 0]
+    return (float(x), float(ys[np.nonzero(dv < 0)[0][-1]]), float(z))
+
+
+def _yuzey_egri(xz, adim=8.0):
+    """(x, z) kontrol noktalarından geçen pürüzsüz eğri (kiriş uzunluğuyla parametreli kübik spline), ~adim mm'de
+    örneklenip her nokta yüzeye oturtulur: kırık çizgi köşeleri olukta kıvrım bırakmaz."""
+    from scipy.interpolate import CubicSpline
+    a = np.asarray(xz, float)
+    t = np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(a, axis=0).T))])
+    cs = CubicSpline(t, a, axis=0)
+    tt = np.linspace(0.0, t[-1], max(3, int(t[-1] / adim) + 1))
+    return np.array([_yuzey_nokta(x, z) for x, z in cs(tt)])
+
+
+def cizgi3(X, Y, Z, pts):
+    """3B kırık çizgiye uzaklık."""
+    pts = np.asarray(pts, float)
+    d = None
+    for a, b in zip(pts[:-1], pts[1:]):
+        e = b - a
+        h = np.clip(((X - a[0]) * e[0] + (Y - a[1]) * e[1] + (Z - a[2]) * e[2]) / float(e @ e), 0.0, 1.0)
+        dd = (X - a[0] - e[0] * h) ** 2 + (Y - a[1] - e[1] * h) ** 2 + (Z - a[2] - e[2] * h) ** 2
+        d = dd if d is None else np.minimum(d, dd)
+    return np.sqrt(d)
+
+
+# bagaj kapağı yan aralığı (D direği): cam alt dış köşesinden stobun sivri ön ucuna (mavi OPC 26608068581 ve beyaz
+# OPC tam arka kalibre kameralarından geri izdüşüm: (3933, 628, 1079), (3921, 668, 1046), (3974, 662, 1039),
+# (3955, 714, 999) -> stop ucu U 1185 z 966). (x, z) verilir, y yüzeyden okunur.
+BAGAJ_YAN = [(4021.0, 1100.0), (3985.0, 1084.0), (3950.0, 1062.0), (3932.0, 1040.0), (3933.0, 1015.0),
+             (3940.0, 990.0), (3948.0, 968.0)]
+_BAGAJ_YAN_3B = None
+
+
+def bagaj_yan_3b():
+    global _BAGAJ_YAN_3B
+    if _BAGAJ_YAN_3B is None:
+        _BAGAJ_YAN_3B = _yuzey_egri(BAGAJ_YAN)
+    return _BAGAJ_YAN_3B
+
+
+_TAMPON_DIKIS_3B = None
+
+
+def tampon_dikis_3b():
+    global _TAMPON_DIKIS_3B
+    if _TAMPON_DIKIS_3B is None:
+        _TAMPON_DIKIS_3B = _yuzey_egri(KAPI_CIZGILERI[4])
+    return _TAMPON_DIKIS_3B
 
 
 KAPUT = kaput_poligon()
@@ -1140,10 +1243,17 @@ def detaylar(d, d0, b):
     uygula((1340, 2200, 0, 900, 960, 1500), on_cam)
 
     def arka_cam(dd, z0, X, Y, Z):
-        # alt kenar ortada z 1030, köşelere doğru yükselir (|y| 560'ta ~1120)
-        m = smax(smax(3950 - X, X - 4400, p(1.2)), Y - (hw_kabin(X, Z) - p(1.0)), p(0.9))
-        alt = 1030.0 + 95.0 * sstep(280.0, 620.0, Y)
-        return oyuk(dd, z0, smax(m, alt - Z, p(0.8)), CAM)
+        # sınır arka_cam_maske(): alt kenar ortada z 1030, D direğinde |y| 578'e açılır, spoyler hariç.
+        # Kenar 4 mm pahla iner (dik basamak eğik yan kenarda ızgarada testere dişi bırakıyordu)
+        m = arka_cam_maske(X, Y, Z)
+        # direğin yana bakan kısmında (y ≈ kabin yan yüzü; z > 1120 ya da köşenin arkasında x > 4060) cam yuvası sığ: 0.45 mm'lik oyuk orada
+        # siyah OPC çapraz siluetini ~15 mm içeri çekiyordu; kenar çizgisi (köşe, alt kenar) tam derinlikte kalır
+        hk = hw_kabin(X, Z)
+        sig = 1.0 - 0.75 * sstep(hk - 45.0, hk - 5.0, Y) * np.maximum(sstep(1110.0, 1145.0, Z), sstep(4050.0, 4090.0, X))
+        # spoylerin alt dudağına yaklaşırken yuva sığlaşır: tam derinlikte spoylerin altına girip gövde içinde ince
+        # kapalı boşluklar bırakıyordu
+        sig = sig * sstep(2.0, 14.0, spoyler(X, Y, Z))
+        return oyuk(dd, z0, m, CAM * sig * sstep(-0.5, 4.0, -m))
     uygula((3900, 4420, 0, 900, 1000, 1400), arka_cam)
 
     def yuzey_izdusum(z0, X, Y, Z, bant=20.0, normal=False):
@@ -1399,7 +1509,7 @@ def detaylar(d, d0, b):
         q = np.clip(1.0 - (mk / w) ** 2, 0.0, 1.0)
         dd = oyuk(dd, z0, mk - w, p(0.55) * q * np.sqrt(q) * sstep(0.2, 0.4, ny))
         m = None
-        for c in KAPI_CIZGILERI[3:]:
+        for c in KAPI_CIZGILERI[3:4]:     # [4] arka tampon dikişi: arka_dikisler()
             s = sd_cizgi(X, Z, c)
             m = s if m is None else np.minimum(m, s)
         return oyuk(dd, z0, np.maximum(m - p(0.22), esik - Y), p(0.5))
@@ -1425,14 +1535,66 @@ def detaylar(d, d0, b):
         return doldur(dd, z0, np.maximum(s_, 760.0 - Y), h)
     uygula((1270, 1370, 760, 960, 685, 740), yan_sinyal)
 
+    def yumusak_islemler(YUM):
+        """oyuk/doldur'un kenarı YUM ile yuvarlatılmış halleri (farlardaki gibi): ince detay kenarları eğik geçtiği
+        yerlerde ızgarada testere dişi/kesik çizgi bırakmaz, baskıda yine keskin kalır."""
+        def oy(dd, z0, maske, derinlik):
+            return smax(dd, -smax(-(z0 + derinlik), maske, YUM), YUM)
+
+        def dol(dd, z0, maske, seviye):
+            return smin(dd, smax(z0 - seviye, maske, YUM), YUM)
+        return oy, dol
+
+    # ---------- arka aralıklar: bagaj kapağı "gülümsemesi" (arka()), D direği yan aralığı ve arka tampon dikişi.
+    # Üçü aynı kesit: 0.44 mm genişlik, 0.55 mm derin U oluk (kenar yüzeye teğet iner: ızgarada testere dişi yok).
+    # Stop tarafında lens-gövde oluğunun ortasında (st = -0.15 mm), cam tarafında cam kenarında biterler: ne kısa
+    # kalır ne de lens/cam üstüne taşar.
+    ARALIK_W, ARALIK_D = p(0.22), p(0.55)
+
+    def aralik_oluk(dd, z0, mesafe, sinir, olcek=1.0):
+        return oyuk(dd, z0, np.maximum(mesafe - ARALIK_W, sinir),
+                    ARALIK_D * olcek * np.clip(1.0 - (mesafe / ARALIK_W) ** 2, 0.0, 1.0))
+
+    def stop_maske(X, Y, Z):
+        return STOP(stop_u(X, Y), Z)
+
+    def arka_dikisler(dd, z0, X, Y, Z):
+        # 3B çizgiye uzaklığın yüzeye teğet bileşeni (normal bileşen ~ z0): oluk genişliği yüzey eğiminden bağımsız.
+        # Yalnız yüzeyin ±30 mm'sindeki noktalarda hesaplanır.
+        sec = np.abs(z0) < 30.0
+        if not sec.any():
+            return dd
+        X, Y, Z = (np.broadcast_to(a, z0.shape)[sec] for a in (X, Y, Z))
+        z0s, out = z0[sec], dd[sec]
+        st_sinir = -(stop_maske(X, Y, Z) + p(0.15))
+        # tampon dikişi kemerin kıvrık dudağının üstünden geçerken sığlaşarak dudak sırtında (r ≈ CAMUR_R + 7) söner:
+        # tam derinlikte dudağı kesince kemer kenarında kopuk kıymıklar kalıyordu
+        r_k = np.sqrt((X - AKS_ARKA) ** 2 + (Z - AKS_Z) ** 2)
+        for pts, ek, olcek in ((bagaj_yan_3b(), -arka_cam_maske(X, Y, Z), 1.0),
+                               (tampon_dikis_3b(), None, sstep(CAMUR_R + 6.0, CAMUR_R + 26.0, r_k))):
+            d3 = cizgi3(X, Y, Z, pts)
+            mes = np.sqrt(np.maximum(d3 * d3 - z0s * z0s, 0.0))
+            sinir = st_sinir if ek is None else np.maximum(st_sinir, ek)
+            out = aralik_oluk(out, z0s, mes, sinir, olcek)
+        dd = dd.copy()
+        dd[sec] = out
+        return dd
+    uygula((3860, 4200, 520, 960, 560, 1140), arka_dikisler)
+
     # ---------- arka
     def arka(dd, z0, X, Y, Z):
+        oyuk, doldur = yumusak_islemler(p(0.08))
         ay = np.abs(Y)
         # bagaj kapağı aralığı: plaka altında "gülümseme" yayı (orta z 712), stobun alt kenarına çıkar,
         # stobun içinden (iç/dış parça ayrımı) yukarı geçer, cam köşesine ve D direği boyunca spoylere çıkar
-        bagaj = sd_cizgi(Y, Z, [(0, 712), (120, 716), (240, 727), (330, 739), (400, 750), (480, 771),
-                                (545, 798), (588, 822)])
-        dd = oyuk(dd, z0, np.maximum(bagaj - p(0.22), 4200 - X), p(0.6))
+        # yay stop haritasındaki U koordinatında çizilir ve stobun iç/dış birim ayrımının (STOP_ARALIK) alt ucunda
+        # biter: eskiden y ile çizildiği için x<4400'de U = y + (4400 - x) farkı kadar (~20 mm) ayrımın dışında
+        # stoba değiyordu. Uç stobun lens-gövde oluğunun ortasında kesilir.
+        u0, v0 = STOP_ARALIK[0]
+        uc_ = (u0, float(STOP_ALT(u0) + v0 * (STOP_UST(u0) - STOP_ALT(u0))))
+        bagaj = sd_cizgi(stop_u(X, Y), Z, [(0, 712), (120, 716), (240, 727), (330, 739), (400, 750), (480, 771),
+                                           (545, 799), uc_, (uc_[0] + 12.0, uc_[1] + 8.0)])
+        dd = aralik_oluk(dd, z0, bagaj, np.maximum(4200 - X, -(stop_maske(X, Y, Z) + p(0.15))))
         # rozet: halka Ø~120, merkez z 876 (stoplar arasında, gülümsemenin üstünde)
         # rozet: amblem asimetrik() içindeki opel_amblem() ile işlenir (merkez y 0, z 876)
         on = 4250 - X
@@ -1499,9 +1661,10 @@ def detaylar(d, d0, b):
     _cer_c, _aralik, _led_alt = stop_uv(STOP_CERCEVE[1:]), stop_uv(STOP_ARALIK), stop_uv(STOP_LED_ALT)
 
     def stoplar(dd, z0, X, Y, Z):
+        oyuk, doldur = yumusak_islemler(p(0.08))
         U = stop_u(X, Y)
         st = np.maximum(STOP(U, Z), 3880.0 - X)
-        dd = oyuk(dd, z0, st, p(0.45))                                           # lens yüzeyi
+        dd = oyuk(dd, z0, st, p(0.45) * sstep(-0.5, 4.0, -st))                   # lens yüzeyi (kenarda 4 mm pah)
         dd = doldur(dd, z0, np.maximum(_cer(U, Z), st + p(0.3)), -p(0.28))       # dış (yan) kırmızı çerçeve kademesi
         dd = doldur(dd, z0, np.maximum(sd_cizgi(U, Z, _cer_c) - p(0.15), st + p(0.25)), -p(0.12))  # iç çerçeve dudağı
         oda = np.maximum(np.minimum(_oda_ic(U, Z), _oda_dis(U, Z)), st + p(0.2))
@@ -1517,15 +1680,20 @@ def detaylar(d, d0, b):
         ince = np.minimum(sd_cizgi(U, Z, _kan1), sd_cizgi(U, Z, _kan2))
         ince = np.minimum(ince, sd_cizgi(U, Z, _led_alt))
         dd = doldur(dd, z0, np.maximum(ince - p(0.14), st + p(0.1)), -p(0.2))     # ince kılavuz çizgileri
-        dd = oyuk(dd, z0, np.maximum(np.abs(st + p(0.15)) - p(0.14), 3880.0 - X), p(1.1))   # lens-gövde oluğu
-        dd = oyuk(dd, z0, np.maximum(sd_cizgi(U, Z, _aralik) - p(0.15), st - p(0.05)), p(1.2))  # iç/dış birim aralığı
+        # lens-gövde oluğu: gövde kenarından 5 mm'lik pahla iner (dik kenar eğik geçişlerde testere dişi bırakıyordu)
+        dd = oyuk(dd, z0, np.maximum(np.abs(st + p(0.15)) - p(0.14), 3880.0 - X), p(1.1) * sstep(-0.5, 5.0, -st))
+        # iç/dış birim aralığı: lens-gövde oluğunun ortasında biter (eskiden 0.05 mm dışına taşıp stobun üst
+        # kenarında çentik bırakıyordu); alt ucu bagaj kapağı yayının ucuyla aynı noktada
+        dd = oyuk(dd, z0, np.maximum(sd_cizgi(U, Z, _aralik) - p(0.15), st + p(0.15)), p(1.2))
         return dd
     uygula((3880, 4520, 300, 960, 760, 1000), stoplar)
 
     # ---------- 3. stop lambası: spoyler arka yüzünde ince yatay şerit
     def ucuncu_stop(dd, z0, X, Y, Z):
-        # spoyler arka yüzünde çukur lens (280x20), içinde 9 kabarık LED noktası
-        on = 3985 - X
+        # spoyler arka yüzünde çukur lens (280x20), içinde 9 kabarık LED noktası. Yalnız arka yüzün ~15 mm
+        # yakınında (spoyler arka kenarı burada x ≈ 4016): eskiden x 3985'ten itibaren kesip spoylerin alt yüzüne
+        # yakın, gövde içinde kapalı bir boşluk bırakıyordu
+        on = 4002 - X
         m = np.maximum(sd_kutu2(Y, Z, 0, 1291, 140, 10, 6), on)
         dd = oyuk(dd, z0, m, p(0.35))
         q = np.mod(Y + 140.0, 31.0)
@@ -1706,7 +1874,7 @@ def asimetrik(d, x, y, z, mod):
     if g:
         sl, X, Y, Z = g
         cur = d[sl]
-        fis = np.maximum(np.sqrt((Y + 177.0) ** 2 + (Z - 1292.0) ** 2) - p(0.3), 3985.0 - X)
+        fis = np.maximum(np.sqrt((Y + 177.0) ** 2 + (Z - 1292.0) ** 2) - p(0.3), 4000.0 - X)
         d[sl] = np.maximum(cur, -np.maximum(fis, -(cur + p(0.4))))
     # arka yazılar: "opc" rozeti (bagaj kapağı, +Y) ve plakasızsa yuvadaki "GTC"; çizgi yazı tipi (_FONT),
     # çizgi kalınlığı 0.27 mm, 0.3 mm kabartma (arkadan bakınca sağ = +Y)
