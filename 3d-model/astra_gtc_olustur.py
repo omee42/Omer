@@ -858,11 +858,11 @@ def camurluk_kuyusu(X, Y, Z, xa):
 
 
 # ============================================================ tekerlek (gerçek mm, yerel)
-# Astra J OPC 20" jantı (fotoğraflardan): 5 adet "Y" kol. Her kol göbekten kalın bir gövdeyle çıkar,
-# hemen ikiye ayrılır; 10 kol ucu janta neredeyse eşit aralıkla (36°) ve geniş kavisli ayaklarla bağlanır,
-# böylece 10 adet yuvarlatılmış üçgen pencere oluşur (çatal içi pencereler göbekten daha uzakta başlar).
-# Kol yüzleri derin içbükey (göbek yüzü dudaktan ~45 mm içeride), ön yüz düz "işlenmiş", kenarları pahlı ve arkaya doğru
-# genişleyen yan yüzler. Göbek: 5 bijon yuvası (kollar arasında, PCD 115), Opel şimşekli göbek kapağı.
+# Astra J OPC 20" jantı (fotoğraflardan): 5 adet "kemik" kol. Her kol göbekten kısa, geniş bir gövdeyle çıkar, boğumlanır ve
+# r≈160'ta yuvarlak dipli bir U ile iki ince, kavisli kola ayrılır; kollar dudakta genişleyip büyük kavislerle janta
+# bağlanır. Çatal içi pencereler dudakta yuvarlatılmış üçgen, kollar arası pencereler büyük ve göbeğe kadar iner.
+# Kol çiftinin işlenmiş ön yüzü dudak düzleminde, U'nun altındaki gövde göbeğe doğru dik çanakla ~34 mm içeri dalar;
+# kenarlar pahlı, yan yüzler arkaya doğru genişler. Göbek: 5 bijon yuvası (kollar arasında, PCD 115), Opel şimşekli göbek kapağı.
 # Ön aksta 355 mm delikli/havalandırmalı disk ve Brembo 4 pistonlu kaliper (logo plakalı); arka aksta 315 mm
 # ince (havalandırmasız) delikli disk ve tek pistonlu yüzer kaliper (logosuz, fotoğraf: mavi OPC arka teker); sibop.
 # Lastik 245/35 R20: jant koruma sırtı, şişkin yanak, yanak yazısı, 4 kanallı asimetrik diş deseni.
@@ -1059,6 +1059,14 @@ def _arka_fren(r, th, t):
     return np.minimum(np.minimum(disk, sapka), kaliper)
 
 
+# jant kolu planı (gerçek mm, açıklama tekerlek_sdf içinde): kol çiftinin dış kenarının kol eksenine dik uzaklığı (r'ye
+# göre) ve çatal penceresi hiperbolü (uç yarıçapı, uçtaki eğrilik yarıçapı, asimptot eğiminin karesi)
+KOL_DIS = Egri([(85.0, 62.0), (95.0, 56.0), (100.0, 50.0), (110.0, 38.5), (120.0, 32.0), (130.0, 28.5), (140.0, 27.5),
+                (150.0, 30.0), (160.0, 35.5), (170.0, 42.0), (180.0, 49.0), (200.0, 62.0), (230.0, 79.0), (250.0, 88.0),
+                (275.0, 100.0)])
+CATAL_R, CATAL_RHO, CATAL_M2 = 159.0, 15.3, 0.207
+
+
 def tekerlek_sdf(dx, dz, t, yon=None, arka_aks=False):
     """yon: None -> ayna simetrik olmayan detaylar (yazı, şimşek) eklenmez (gövdede asimetrik() ekler);
     +1/-1 -> dış yüze bakana göre sağ yön = yon * dx. arka_aks: True -> arka aks freni (küçük disk, tek pistonlu
@@ -1100,45 +1108,46 @@ def tekerlek_sdf(dx, dz, t, yon=None, arka_aks=False):
 
     # ---------------------------------------------------------------- jant gövdesi
     arka = np.maximum(r - 240.0, np.maximum(-TEKER_YG - t, t + 60.0))          # arka kapama (düz taban)
-    kovan = sd_kutu2(r, t, 258.5, -12.0, 20.5, 110.0, 3.0)                     # jant çanağı (pencerelerden görünür)
-    dudak = sd_kutu2(r, t, 270.0, 92.0, 12.5, 14.0, 5.0)                       # ön dudak, yüzü t≈106
-    dudak = np.maximum(dudak, -np.maximum(np.abs(r - 260.0) - 3.0, 104.5 - t))  # dudak iç kenarında ince işleme çizgisi
+    # jant çanağı (pencerelerden görünür): iç yüzü dudağın altından (r≈261, t=80) içe doğru konik daralır (t≈30'da
+    # r=238), böylece pencerelerin dudak tarafı fotoğraftaki gibi derin ve gölgeli görünür (düz bir basamak değil)
+    kovan = sd_kutu2(r, t, 258.5, -21.0, 20.5, 101.0, 3.0)
+    r_ic = 238.0 + 23.0 * np.clip((t - 30.0) / 50.0, 0.0, 1.0) ** 1.5
+    kovan = np.maximum(kovan, (r_ic - r) * 0.93)
+    dudak = sd_kutu2(r, t, 271.75, 92.0, 10.75, 14.0, 5.0)                     # ön dudak (r 261-282.5), yüzü t≈106
+    dudak = np.maximum(dudak, -np.maximum(np.abs(r - 263.5) - 3.0, 104.5 - t))  # dudak iç kenarında ince işleme çizgisi
 
-    # 5 Y kol (2D), kol eksenine göre katlanmış açı. Ölçüler fotoğrafların elips düzeltmeli kutupsal açılımından
-    # (34848925543 ön + arka teker, 17022087756): kollar düz, kol orta çizgisinin kol ekseninden kaçıklığı
-    # c ≈ 17 + 0.66 (r - 160) mm (r=235'te ±16.6°, dudakta ±18.5°); çatal içi yarık r≈165'te yuvarlak dipli kapanır;
-    # kollar arası pencereler damla biçiminde göbeğe doğru daralır, r≈100'de biter (gövdeler göbeğe geniş iner).
+    # 5 "kemik" kol (2D), kol eksenine göre katlanmış açı; y: kol eksenine dik uzaklık. Ölçüler 34848925543 ön teker
+    # fotoğrafının elips düzeltmeli kutupsal açılımında parlak yüz / karanlık pencere eşiğinden ve pencere ana hatlarının
+    # fotoğraf üzerine bindirilmesinden (5 kolun ortalaması): gövde göbekte kısa ve geniş (r=100'de ~100 mm), r≈140'ta
+    # ~55 mm'ye boğumlanır, sonra kol çiftinin dış kenarı KOL_DIS(r) ile kavisli açılır; çatal içi pencere r≈159'da
+    # ~15 mm yarıçaplı yuvarlak uçla başlayan hiperbol (y² = 2ρu + m²u², u = r - 159: r=170'te ±19, 200'de ±40,
+    # 250'de ±67 mm); aradaki iki kol ~20 mm, çataldan dudağa yay gibi kavislenip büyük kavislerle janta bağlanır.
+    # Kollar arası pencereler ~120 mm genişliğinde iner, göbeğe doğru yuvarlak bir V ile daralıp r≈97'de biter.
     a = np.mod(th - JANT_FAZ + math.pi / 5, 2 * math.pi / 5) - math.pi / 5
     aa = np.abs(a)
     q = np.clip((262.0 - r) / 172.0, 0.0, 1.0)
-    rr = r - 134.0
-    sq = np.sqrt(rr * rr + 12.0 ** 2)
-    c = 0.332 * (sq + rr)                                                    # kol ekseni kaçıklığı (yumuşak rampa)
-    alfa = np.arcsin(np.clip(c / np.maximum(r, 1.0), 0.0, 0.99))
-    dalfa = (0.332 * (1.0 + rr / sq) * r - c) / (r * r * np.cos(alfa) + 1e-6)
-    nrm = np.sqrt(1.0 + (r * dalfa) ** 2)
-    # kol yarı genişliği: dış yarıda 15.5 (31 mm kol), dudakta 16.5; r<165'te gövde göbeğe doğru giderek hızlanan
-    # biçimde genişler (r=130'da ~29, r=115'te ~42): kollar arası pencere r≈145'e kadar ~120 mm genişlikte iner,
-    # sonra karınlı damla biçiminde daralıp r≈100'de yuvarlak uçla biter
-    g = np.clip((165.0 - r) / 66.0, 0.0, 1.0)
-    w = 15.5 + 43.5 * g ** 1.8 + 1.0 * sstep(235.0, 260.0, r)
-    k1 = np.abs(2 * r * np.sin((aa - alfa) / 2)) / nrm - w
-    k2 = np.abs(2 * r * np.sin((aa + alfa) / 2)) / nrm - w
-    k3 = np.abs(2 * r * np.sin((2 * math.pi / 5 - aa - alfa) / 2)) / nrm - w   # komşu kolun yakın kolu
-    kol2 = smin(k1, k2, 20.0)                                               # çatal içi yarığın yuvarlak dibi (r≈165)
-    kol2 = smin(kol2, k3, 24.0)                                             # pencere ucunu yuvarlat (gövdeler birleşimi)
+    y = r * np.sin(aa)
+    zarf = (y - KOL_DIS(r)) / np.sqrt(1.0 + KOL_DIS.t(r) ** 2)                # kol çiftinin dış kenarı
+    u = r - CATAL_R
+    fc = y * y - 2.0 * CATAL_RHO * u - CATAL_M2 * u * u                      # çatal penceresi (hiperbol), içi < 0
+    catal = fc / (2.0 * np.sqrt(y * y + (CATAL_RHO + CATAL_M2 * u) ** 2) + 1e-6)
+    kol2 = np.maximum(zarf, -catal)
+    kol2 = smin(kol2, r - 99.0, 14.0)                                       # kollar arası pencerenin yuvarlak ucu
     kol2 = np.maximum(kol2, 70.0 - r)
-    kol2 = smin(kol2, 257.0 - r, 8.0)                                       # jant dudağına kavisli ayaklar
+    kol2 = smin(kol2, 263.0 - r, 22.0)                                      # jant dudağına geniş kavisli ayaklar
     kol2 = np.maximum(kol2, r - 268.0)
-    # içbükey yüz: dudakta t=106, göbek tarafında ~72; göbeğe yakın gövde yuvarlak sırtlı
-    tf = 106.0 - 42.0 * q ** 1.5
+    # yüz: kol çiftinin işlenmiş yüzü (çatal penceresini ~30 mm genişlikte U biçiminde saran bant) dudağa yakın düzlemde
+    # (t≈106 -> 96) kalır; U'nun dibinden (r≈130) göbeğe doğru tek gövde dik bir çanakla ~34 mm içeri dalar (t≈64)
+    yk = y * np.clip((CATAL_R - r) / 20.0, 0.0, 1.0)
+    duc = np.sqrt(np.maximum(CATAL_R - r, 0.0) ** 2 + yk * yk)               # çatal penceresinin ucuna uzaklık
+    tf = 106.0 - 10.0 * q ** 1.3 - 34.0 * sstep(30.0, 75.0, duc)
     sirt = 1.0 - sstep(130.0, 190.0, r)
     tust = tf - sirt * (7.0 - 0.35 * np.minimum(-kol2, 20.0))
     talt = tf - 38.0 - 12.0 * np.clip((200.0 - r) / 110.0, 0.0, 1.0)
     derin = np.maximum(tust - t, 0.0)
-    kol3 = kol2 - 0.22 * derin                                              # yan yüzler arkaya doğru genişler
+    kol3 = kol2 - 0.12 * derin                                              # yan yüzler arkaya doğru genişler
     kol = smax(kol3, t - tust, 3.0)
-    kol = np.maximum(kol, (t - tust + kol2 + 6.0) * 0.70710678)            # ön yüz kenar pahı (işlenmiş yüz)
+    kol = np.maximum(kol, (t - tust + kol2 + 4.0) * 0.70710678)            # ön yüz kenar pahı (işlenmiş yüz)
     kol = np.maximum(kol, talt - t)
 
     # göbek: hafif çanak yüz, 5 bijon yuvası (kollar arasında), kapak oluğu ve kubbeli kapak
