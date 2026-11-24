@@ -220,7 +220,7 @@ SP_TASMA = 40.0          # OPC tavan spoyleri uçlarının kabin yan yüzeyinden
 
 def hw_kabin(x, z):
     """Kabin (cam) yan yüzeyi: içe eğim arkaya doğru artar (C direği içe yatar)."""
-    return HW_KABIN(x) - (z - 1000.0) * EGIM_X(x) - ust_duzeltme(x, z)
+    return HW_KABIN(x) - (z - 1000.0) * EGIM_X(x) - ust_duzeltme(x, z) - omuz_daralma(x, z)
 
 
 # omuz çizgisi (fotoğraf eşlemesi): kapı boyunca ~860'ta yatay, kapı arkasından arka basene doğru yükselir
@@ -269,15 +269,24 @@ def esik_basamak(X, Z):
 # ön üçgen camın sivri ucu kromun uçtaki kıvrımının içinde biter.
 # Bel (cam alt kenarı) önde alçak: siyah OPC 34848925543 ve gri 54188905081 kalibre kameralarında ön kapı önünde
 # z ≈ 905-945, B direğinde ≈ 1045-1075 (eski hat önde 1008-1019'du: 60-90 mm yüksek). Ön üçgen camın ucu A direği
-# kromunun ucunun altında, çamurluğun üst yanında x ≈ 1230'a uzanır (KROM_DLO; ON_CAM_ALT 1320'nin önünde sabit
-# 926); ön kapı çizgisi cam alt kenarına üçgen camın ortasının arkasında değer. Gövde değişmez: cam önde A direği
+# kromunun ucunun altında, çamurluğun üst yanında x ≈ 1230'a uzanır (KROM_DLO; ON_CAM_ALT ucta kroma yükselir,
+# önde ~898); ön kapı çizgisi cam alt kenarına üçgen camın ortasının arkasında değer. Gövde değişmez: cam önde A direği
 # dibinin ve çamurluk omzunun yuvarlak yüzeyine oturur (gövde üstünü bele kadar indirmek kapı omzunda dalga
 # bırakıyordu).
-ON_CAM_ALT = Egri([(1320, 926.0), (1385, 926.0), (1430, 927), (1500, 932), (1700, 958), (2000, 993),
-                   (2300, 1023), (2500, 1043), (2692, 1062), (2780, 1071)])
+# Bel 2. düzeltme (ön kapı camı + üçgen cam: 28-40 mm, arka yan cam: 37 -> 13 mm aşağı): tavan siluetiyle (±5 px) ve
+# teker merkezleriyle doğrulanan siyah OPC yan kamerasında (34848925543) cam alt kenarı (cam/fitil sınırı) modelin
+# 30 mm, fitil/boya sınırı 50 mm altındaydı (x 1300-2700 boyunca sabit); mavi OPC ön çaprazda (15922355098) üçgen
+# camın siyah çerçeve altı 5-15 mm altta. Kamera kalibrasyonundan bağımsız oranlar da aynı yönde: dört fotoğrafta
+# (siyah GTC tam yan, siyah OPC, mavi OPC sağ-arka, gri) kapı kolu bel ile kapı alt kenarı arasında belden 0.26-0.28
+# oranında (eski model 0.32, yeni 0.29), yan sinyal 0.25 (eski 0.32, yeni 0.29). Üçgen camın ucunda (x < 1300) hat krom ucuna
+# yükselir (sivri uç korunur). Arka yan camın alt kenarı B direğinde kapı camıyla aynı hizada kalacak şekilde iner,
+# camın ucuna doğru (krom kuyruğuyla birlikte) 13 mm'ye azalır: gri ve mavi OPC fotoğraflarında arka cam yüksekliği
+# (krom-alt kenar) eski haliyle doğruydu.
+ON_CAM_ALT = Egri([(1240, 920.0), (1290, 906.0), (1340, 899.5), (1400, 898.0), (1450, 899), (1500, 903), (1700, 926),
+                   (2000, 958), (2300, 984), (2500, 1003), (2692, 1022), (2780, 1031)])
 ON_CAM_ARKA = ((2692.0, 1068.0), (2745.0, 1366.0))      # kapı camı arka kenarı (B direği kaplamasının önü)
-ARKA_CAM_ALT = Egri([(2800, 1080), (2818, 1082), (3010, 1098), (3240, 1134), (3410, 1174), (3520, 1199),
-                     (3578, 1208), (3620, 1214)])
+ARKA_CAM_ALT = Egri([(2800, 1043), (2818, 1045), (3010, 1066), (3240, 1112), (3410, 1156), (3520, 1184),
+                     (3578, 1195), (3620, 1201)])
 ARKA_CAM_ON_X = 2821.0                                    # arka yan cam ön kenarı (B direği krom çıtasının arkası)
 FAR_ON = YPoligon([(384, 661), (430, 648), (522, 642), (652, 651), (739, 669), (790, 700), (815, 745),
                    (850, 800), (960, 846), (960, 856), (785, 845), (712, 830), (618, 806), (496, 762),
@@ -377,15 +386,19 @@ KROM_DLO = [(1226, 940.7), (1250, 946.9), (1275, 953.9), (1300, 960.7), (1325, 9
             (1700, 1149.4), (1725, 1162.2), (1750, 1174.7), (1775, 1186.6), (1800, 1198.0), (1825, 1208.8),
             (1850, 1219.1), (1875, 1228.8), (1900, 1237.9), (1925, 1246.3), (1950, 1254.5), (1975, 1262.4),
             (2000, 1270.0), (2025, 1277.5), (2050, 1284.7),
-            (2200, 1324), (2380, 1366),
-            (2600, 1385), (2800, 1381), (2950, 1358), (3140, 1334), (3310, 1303), (3460, 1266), (3545, 1236),
-            (3578, 1220), (3589.5, 1214.5), (3592, 1209), (3590, 1204), (3585, 1201), (3570, 1198.5), (3558, 1196)]
+            (2200, 1316), (2380, 1344),
+            (2600, 1359), (2800, 1357), (2950, 1343), (3140, 1321), (3310, 1290), (3460, 1253), (3545, 1223),
+            (3578, 1207), (3589.5, 1201.5), (3592, 1196), (3590, 1191), (3585, 1188), (3570, 1185.5), (3558, 1183)]
 # arka uç: krom çıta arka yan camın sivri ucunu (x≈3584, z≈1209) camdan 8 mm uzaklıkta sarar ve camın alt kenarı
 # boyunca ~30 mm gidip biter (mavi OPC 26608068581). Eskiden camın ucunun ~12 mm ötesinde (3596, 1212) yuvarlak
 # küt uçla C direği üstünde bitiyordu. krom_isaretli() x'e göre artan kısmı (ucun en arka noktasına kadar) kullanır;
 # geri dönen kuyruk cam alt kenarını da kromla sınırlar.
 # Ön kısım (x ≤ 2050) 6 mm'de bir örneklenir (25 mm aralıklı kontrol noktaları arasında kiriş yerine eğri; uçtaki
 # kıvrım ve x 1420-1460 arasındaki büküm köşesiz). Arka kısım eskisi gibi (40 mm).
+# x > 2050 (kapı üstü ve arka yan cam): siyah OPC yan kamerasında (tavan siluetiyle doğrulanmış) kromun alt kenarı
+# 2200'de 8, 2400-2800'de 31-35, arka camda 17 mm alçaktı; kapı üstünde ölçümün ~%75'i (en çok 26 mm), arka camda
+# 13 mm indirildi (B direği krom çıtası, kapı arka aralığının üst ucu ve camın sivri ucu birlikte). 2050'ye kadar
+# (A direği, fotoğrafa oturtulmuş kısım) değişmedi.
 KROM_AY = 0.8       # krom şeridi uzaklığında yüzeyin yukarı dönüklüğünün ağırlığı (krom_uzaklik; 0: yalnız X-Z)
 _KY_ON, _KY_ARKA = yumusat(KROM_DLO, 6.0), yumusat(KROM_DLO, 40.0)
 KROM_YOL = np.vstack([_KY_ON[_KY_ON[:, 0] <= 2050.0 + 1e-6][:int(np.argmax(_KY_ON[:, 0] >= 2050.0 - 1e-6)) + 1],
@@ -562,8 +575,8 @@ SENSOR = ((222.0, 432.0), (625.0, 432.0))
 # oluğun alt duvarı kırımın kendisidir (eskiden oluk kırımın üstüne biniyor, kırım boncuk boncuk görünüyordu).
 _ka = lambda x: (float(x), float(ESIK_KAPI(x)) + KAPI_W)
 KAPI_CIZGILERI = [
-    [_ka(1368), (1370, 500), (1372, 700), (1388, 820), (1410, 895), (1426, 926)],
-    [(2800, 1388), (2797, 1080), (2792, 700), (2780, 480), (2752, 400), (2722, 345), (2685, 309), _ka(2640)],
+    [_ka(1368), (1370, 500), (1372, 700), (1388, 820), (1404, 878), (1411, 899)],   # üst uç yeni bel hattında
+    [(2800, 1364), (2797, 1080), (2792, 700), (2780, 480), (2752, 400), (2722, 345), (2685, 309), _ka(2640)],
     [_ka(2640), _ka(2440), _ka(2120), _ka(1800), _ka(1368)],
     # ön tampon - çamurluk: farın dış ALT köşesinden (cam hattının u≈884, z≈735 noktası) aşağı-geriye, ön teker
     # kemerinin dudağına. Kalibre ön çapraz (15922355098: (383,803,736) (411,841,711) (459,871,685) (533,891,652)
@@ -719,6 +732,24 @@ def ust_duzeltme(X, Z):
     return _UD_SPL.ev(Xb.ravel(), Zb.ravel()).reshape(Xb.shape)
 
 
+# arka omuz / C direği tabanı daralması [mm, + = içe]: beyaz OPC tam arka fotoğrafında (8366545858, kalibre kamera
+# arka/cam_w) uzak taraf siluetini z 990-1150 satırlarında basen tepesi ve C direği tabanı (x 3420-3620) oluşturuyor ve
+# model 30-45 mm geniş kalıyordu; yalnız HW_ARKA/UD (x>3450) daraltılınca siluet x<3450'deki basen tepesine kayıyordu.
+# Daralma gövdeye ve kabin yan yüzüne (hw_kabin, UD gibi) birlikte uygulanır: x 3150'den itibaren (basen tepesi) başlar,
+# x 4000-4200'de (stop üstü omuz, D direği) söner; z<960 (stop bandı, basen dolgunluğu) ve z>1230 (spoyler uç plakası,
+# arka cam) değişmez. Kesit z'de yumuşak, uçlarda eğimi sıfır (PCHIP uç noktaları tekrarlı): omuz kırımında ve üst
+# uçta kırık/raf kalmaz. Sonuç: z 965-1090 satırlarında siluet farkı ±15 mm; z 1105-1150'de (C direği tabanı, arka yan camın
+# ucunun arkası) 13-36 mm geniş kalır (eskiden 40-45): daha fazlası direkte içbükey bir bel (çukur) bırakıyordu.
+OD_Z = [930, 960, 990, 1020, 1050, 1080, 1110, 1140, 1170, 1200, 1230]
+OD_A = [0, 0, 12, 34, 40, 35, 25, 13, 4, 0, 0]
+OMUZ_DAR = Egri(list(zip(OD_Z, OD_A)))
+
+
+def omuz_daralma(X, Z):
+    wx = sstep(3150.0, 3420.0, X) * (1.0 - sstep(4000.0, 4200.0, X))
+    return OMUZ_DAR(np.clip(Z, OD_Z[0], OD_Z[-1])) * wx
+
+
 def arka_hw(X, Z):
     global _HA_SPL
     if _HA_SPL is None:
@@ -775,6 +806,8 @@ def govde_temel(X, Y, Z):
         hw = hw + w * (arka_hw(X, Z) - _eski_hw(X, Z))   # omuz çizgisi ve çamurluk kabarıklığı korunur
     if np.any(X > UD_X[0] - UD_YUMUSAK[0]):
         hw = hw - ust_duzeltme(X, Z)   # D direği beli / stop üstü omuz (fotoğraf siluetleri)
+    if np.any((X > 3150.0) & (X < 4200.0)):
+        hw = hw - omuz_daralma(X, Z)   # arka omuz / C direği tabanı (beyaz OPC tam arka siluet)
     d_yan = (Y - hw) / np.sqrt(1 + (dhwx * fz) ** 2 + (hwx * dfz) ** 2)
 
     bombe = KAPUT_BOMBE(X)
@@ -1504,7 +1537,7 @@ def detaylar(d, d0, b):
         dd = doldur(dd, z0, m, h)
         # B direği: arka yan camın ön kenarında ince dikey krom çıta (x 2805-2820), aynı kesit
         b = np.abs(Xb - 2812.5)
-        mb = np.maximum(np.maximum(b - 7.5, np.maximum(1078.0 - Zb, Zb - 1372.0)), (hw_kabin(X, Z) - p(1.5)) - Y)
+        mb = np.maximum(np.maximum(b - 7.5, np.maximum(1042.0 - Zb, Zb - 1347.0)), (hw_kabin(X, Z) - p(1.5)) - Y)
         return doldur(dd, z0, mb, p(0.22) * sstep(0.0, 3.0, 7.5 - b))
     uygula((1190, 3640, 450, 900, 890, 1440), krom)
 
@@ -1829,12 +1862,20 @@ def detaylar(d, d0, b):
         # tampon dikişi kemerin kıvrık dudağının üstünden geçerken sığlaşarak dudak sırtında (r ≈ CAMUR_R + 7) söner:
         # tam derinlikte dudağı kesince kemer kenarında kopuk kıymıklar kalıyordu
         r_k = np.sqrt((X - AKS_ARKA) ** 2 + (Z - AKS_Z) ** 2)
-        for pts, ek, olcek in ((bagaj_yan_3b(), -arka_cam_maske(X, Y, Z), 1.0),
-                               (tampon_dikis_3b(), None, sstep(CAMUR_R + 6.0, CAMUR_R + 26.0, r_k))):
+        # tampon dikişinin üst ucu stobun dış-alt kenarının altındaki gölge bandına (stoplar(): alt_bant) girer: bant
+        # yüzeyi sonradan 10 mm'ye kadar içeri alınınca oluk bant tabanına göre sığlaşıp daralıyor, bandın içinde
+        # basamakla kesiliyordu. Dikiş oluğu bant tabanından ölçülür (aynı derinlik profili): bant içinde de tam kesit.
+        U_ = stop_u(X, Y)
+        s_alt = STOP_ALT(U_) - Z
+        ab = 1.0 - np.clip(s_alt / 26.0, 0.0, 1.0)
+        bant = p(0.42) * ab * ab * sstep(600.0, 700.0, U_) * (1.0 - sstep(1080.0, 1150.0, U_)) \
+            * ((s_alt >= -6.0) & (s_alt <= 26.0) & (X >= 3880.0))
+        for pts, ek, olcek, z_ek in ((bagaj_yan_3b(), -arka_cam_maske(X, Y, Z), 1.0, 0.0),
+                                     (tampon_dikis_3b(), None, sstep(CAMUR_R + 6.0, CAMUR_R + 26.0, r_k), bant)):
             d3 = cizgi3(X, Y, Z, pts)
             mes = np.sqrt(np.maximum(d3 * d3 - z0s * z0s, 0.0))
             sinir = st_sinir if ek is None else np.maximum(st_sinir, ek)
-            out = aralik_oluk(out, z0s, mes, sinir, olcek)
+            out = aralik_oluk(out, z0s + z_ek, mes, sinir, olcek)
         dd = dd.copy()
         dd[sec] = out
         return dd
