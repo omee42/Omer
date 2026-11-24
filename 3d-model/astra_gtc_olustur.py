@@ -717,8 +717,23 @@ def govde_temel(X, Y, Z):
     kabin = np.maximum(kabin, 950.0 - X)
 
     d = smin(alt, kabin, p(0.9) + 40.0 * sstep(3620, 3900, X) + 25.0 * sstep(3900, 4150, X))   # arkada D direği - basen geçişi yumuşak
-    # uç plakasının arka alt ucu direğe daha geniş yarıçapla kaynar (direğin plakanın altındaki hafif içbükeyliği dolar)
-    return smin(d, spoyler(X, Y, Z), p(0.5) + 14.0 * sstep(3900.0, 3960.0, X) * sstep(450.0, 520.0, Y))
+    return smin(d, spoyler(X, Y, Z), p(0.5))
+
+
+# spoyler uç plakasının yandan görünüşü (x, z): sivri alt uç, ön kenarın üstü, alt kenarın arka ucu. Uç, cam yan
+# kenarının (direk yüzeyinde |y| ≈ ARKA_CAM_YAN eşyükselti çizgisi) ön ucundadır.
+UC_UC = (3815.0, 1192.0)
+UC_ON = (3790.0, 1345.0)
+UC_ARKA = (3988.0, 1262.0)
+
+
+def _uc_kenar(X, Z):
+    """Uç plakasının ön kenarına (s_on, + = önde) ve alt kenarına (s_alt, + = altta) işaretli uzaklık (x-z düzlemi)."""
+    ax, az = UC_ON[0] - UC_UC[0], UC_ON[1] - UC_UC[1]
+    bx, bz = UC_ARKA[0] - UC_UC[0], UC_ARKA[1] - UC_UC[1]
+    la, lb = math.hypot(ax, az), math.hypot(bx, bz)
+    dx, dz = X - UC_UC[0], Z - UC_UC[1]
+    return (dz * ax - dx * az) / la, (dx * bz - dz * bx) / lb
 
 
 def spoyler(X, Y, Z):
@@ -736,20 +751,18 @@ def spoyler(X, Y, Z):
     # kenarında basamak/çentik bırakıyordu
     sp = smax(sp, Y - (hw_kabin(X, sp_ust) + 10.0 + sp_ek), 15.0)
     sp = smax(sp, np.maximum(Z - sp_ust, (sp_ust - kal) - Z), 8.0)
-    # uç plakaları: kabin yan yüzeyine oturan 35 mm'lik kabuk, arkaya doğru aşağı iner
+    # uç plakaları (mavi OPC 26608068581 ve siyah OPC 8080939836): spoylerin yan yüzünün altında, kabin yan yüzeyine
+    # oturan üçgen kanat. Ön kenarı spoylerin önünden (x≈3790) neredeyse dikey iner, sivri alt ucu (UC_UC) cam yan
+    # kenarının ön ucundadır; alt kenarı oradan spoylerin arka alt dudağına yükselir (altında siyah alt yüz + cam).
+    # Dış yüzün direkten taşması ucun etrafında sıfırdan büyür: kanat direkten kırımsız çıkar. Eskiden plaka arkada
+    # (x≈3995) z≈1145'e kadar inip direğe kaynıyordu; orası fotoğrafta camdır ve direkte kırışık/raf bırakıyordu.
     hk = hw_kabin(X, Z)
-    # arka alt uçta (x > 3930) alt kenar gövdenin içine iner: plakanın dış yüzü D direği yüzeyiyle kesişip smin
-    # ile yuvarlanarak birleşir. Eskiden 15 mm'lik ince bir raf olarak bitip direkle birleştiği yerde çentik ve
-    # kırım bırakıyordu (x 3970 z 1205, x 3990 z 1190-1240)
-    # ön uçta (x 3795..3880) plaka yüksekliği sıfırdan büyür: plaka spoylerin yanından süpürülerek çıkar (eskiden
-    # x 3860'ta 56 mm'lik dik bir ön yüzle başlayıp spoylerin yan yüzüne basamak/yarıkla bağlanıyordu)
-    z_alt = sp_ust - (sp_ust - 1300.0) * sstep(3795.0, 3880.0, X) - 105.0 * sstep(3880.0, 3995.0, X) \
-        - 50.0 * sstep(3925.0, 3990.0, X)
+    s_on, s_alt = _uc_kenar(X, Z)
     uc_ek = sp_ek * sstep(1180.0, 1310.0, Z)
-    w_uc = sstep(3925.0, 3990.0, X)
-    tas = 10.0 + uc_ek - 24.0 * w_uc * (1.0 - sstep(z_alt + 10.0, z_alt + 90.0, Z))   # alt uçta dış yüz direğe teğet iner
-    uc = smax(np.maximum(Y - (hk + tas), (hk - 26.0) - Y), np.maximum(z_alt - Z, Z - sp_ust), 6.0)
-    uc = smax(uc, np.maximum(3795.0 - X, X - (x_ak - 6.0)), 8.0)
+    r_uc = np.sqrt((X - UC_UC[0]) ** 2 + (Z - UC_UC[1]) ** 2)
+    tas = -6.0 + (16.0 + uc_ek) * sstep(0.0, 120.0, r_uc)
+    uc = smax(np.maximum(Y - (hk + tas), (hk - 50.0) - Y), np.maximum(smax(s_on, s_alt, 6.0), Z - sp_ust), 6.0)
+    uc = smax(uc, X - (x_ak - 6.0), 8.0)
     return smin(sp, uc, 10.0)
 
 
@@ -761,8 +774,18 @@ ARKA_CAM_YAN = 578.0
 
 
 def arka_cam_maske(X, Y, Z):
-    yk = smax(hw_kabin(X, Z) - p(1.0), ARKA_CAM_YAN - 90.0 * sstep(1225.0, 1275.0, Z), 12.0)
-    m = smax(smax(3930.0 - X, X - 4400.0, p(1.2)), Y - yk, p(0.9))
+    # yan kenar: direk yüzeyinde |y| ≈ ARKA_CAM_YAN eşyükselti çizgisi (köşeden uç plakasının sivri ucuna, mavi OPC);
+    # ön sınır uç plakasının ön kenarı: cam, plakanın altından ve arkasından spoylerin alt yüzüne kadar uzanır
+    hk = hw_kabin(X, Z)
+    s_on, s_alt = _uc_kenar(X, Z)
+    yk = smax(hk - p(1.0), ARKA_CAM_YAN, 12.0)
+    # ortada (spoylerin altı) ön sınır eskisi gibi x 3930: plakanın ön kenarına kadar uzatılınca spoyler gövdesinin
+    # altında kapalı bir boşluk kalıyordu
+    on = np.maximum(s_on, 3930.0 - X - 400.0 * sstep(500.0, 540.0, Y))
+    m = smax(smax(on, X - 4400.0, p(1.2)), Y - yk, p(0.9))
+    # plakanın yandan görünüşü de camdan hariç (ucun yakınında plaka direğin içine gömülü: cam tabanı orada plakanın
+    # dış yüzüyle neredeyse çakışıp ızgarada hareli bir şerit bırakıyordu)
+    m = smax(m, -smax(smax(s_on, s_alt, 6.0), (hk - 40.0) - Y, 6.0), 4.0)
     m = smax(m, (1030.0 + 72.0 * sstep(290.0, 610.0, Y)) - Z, p(0.8))
     return smax(m, 3.0 - spoyler(X, Y, Z), 4.0)
 
@@ -1246,15 +1269,16 @@ def detaylar(d, d0, b):
         # sınır arka_cam_maske(): alt kenar ortada z 1030, D direğinde |y| 578'e açılır, spoyler hariç.
         # Kenar 4 mm pahla iner (dik basamak eğik yan kenarda ızgarada testere dişi bırakıyordu)
         m = arka_cam_maske(X, Y, Z)
-        # direğin yana bakan kısmında (y ≈ kabin yan yüzü; z > 1120 ya da köşenin arkasında x > 4060) cam yuvası sığ: 0.45 mm'lik oyuk orada
-        # siyah OPC çapraz siluetini ~15 mm içeri çekiyordu; kenar çizgisi (köşe, alt kenar) tam derinlikte kalır
+        # direğin yana bakan kısmında (y ≈ kabin yan yüzü) cam yuvası sığ (%40): 0.45 mm'lik oyuk orada siyah OPC çapraz
+        # siluetini ~15 mm içeri çekiyordu. Sığlaşma yalnız Y - hk'ye bağlı ve geniş geçişli: yan kenar boyunca derinlik
+        # sabit kalır (eskiden z 1110-1145 / x 4050-4090 eşiklerinde değişip köşede basamak bırakıyordu)
         hk = hw_kabin(X, Z)
-        sig = 1.0 - 0.75 * sstep(hk - 45.0, hk - 5.0, Y) * np.maximum(sstep(1110.0, 1145.0, Z), sstep(4050.0, 4090.0, X))
+        sig = 1.0 - 0.6 * sstep(hk - 70.0, hk, Y)
         # spoylerin alt dudağına yaklaşırken yuva sığlaşır: tam derinlikte spoylerin altına girip gövde içinde ince
         # kapalı boşluklar bırakıyordu
-        sig = sig * sstep(2.0, 14.0, spoyler(X, Y, Z))
+        sig = sig * sstep(6.0, 24.0, spoyler(X, Y, Z))
         return oyuk(dd, z0, m, CAM * sig * sstep(-0.5, 4.0, -m))
-    uygula((3900, 4420, 0, 900, 1000, 1400), arka_cam)
+    uygula((3780, 4420, 0, 900, 1000, 1400), arka_cam)
 
     def yuzey_izdusum(z0, X, Y, Z, bant=20.0, normal=False):
         """Noktayı detaysız yüzeye (govde_temel normali boyunca) indirir: eğik yüzeylerde (cam üst kenarı
