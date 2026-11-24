@@ -1408,6 +1408,10 @@ def kaydet(v, f, yol):
     par = tm.split(only_watertight=False)
     if len(par) > 1:
         tm = max(par, key=lambda m: len(m.faces))
+        atilan = [m for m in par if m is not tm]
+        hacim = sum(abs(m.volume) for m in atilan)
+        print(f"  uyarı: ana gövdeye bağlı olmayan {len(atilan)} parça atıldı "
+              f"(toplam {hacim:.3f} mm3, en büyüğü {max(len(m.faces) for m in atilan)} üçgen)")
     tm.vertices[:, 2] -= tm.vertices[:, 2].min()
     tm.export(yol)
     e = tm.extents
