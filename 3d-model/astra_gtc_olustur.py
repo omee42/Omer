@@ -286,14 +286,70 @@ IZ_ALT_KROM = [(0, 661), (100, 662), (200, 666), (260, 672), (300, 681), (330, 6
 ALT_IZGARA = YPoligon([(-520, 462), (-330, 448), (0, 432), (330, 448), (520, 462), (470, 385), (410, 314),
                        (200, 302), (0, 300), (-200, 302), (-410, 314), (-470, 385)], 14)
 # plakanın oturduğu siyah tampon çıtası: köşe girişlerinin üst iç köşesine kadar uzanır
-SIYAH_CITA = YPoligon([(-622, 510), (-533, 530), (-330, 507), (0, 500), (330, 507), (533, 530), (622, 510),
-                       (572, 472), (520, 462), (330, 448), (0, 432), (-330, 448), (-520, 462), (-572, 472)], 5)
+# (dış ucu iki kalibre fotoğraftan: üst kenar düz z≈505, alt kenar gövde rengi sırtın kenarı; köşe girişinin
+# tepe noktasında sivri kama olarak biter)
+_CITA_UST = [(0, 500), (330, 507), (480, 507), (600, 504), (690, 499), (724, 491)]
+_CITA_ALT = [(718, 487), (672, 485), (620, 480), (568, 468), (520, 462), (330, 448), (0, 432)]
+SIYAH_CITA = YPoligon([(-y, z) for y, z in reversed(_CITA_UST[1:])] + _CITA_UST + _CITA_ALT
+                      + [(-y, z) for y, z in reversed(_CITA_ALT[:-1])], 3)
 KROM_DLO = [(1478, 1022), (1560, 1060), (1640, 1102), (1800, 1178), (2000, 1268), (2200, 1324), (2380, 1366),
             (2600, 1385), (2800, 1381), (2950, 1352), (3140, 1338), (3310, 1305), (3460, 1267), (3545, 1236), (3596, 1212)]
 YPoligon_AYNA = YPoligon([(1585, 990), (1718, 998), (1718, 1040)], 6)
-# OPC köşe hava girişi: üçgen ağız + iç ve alt kenarını saran gümüş "bumerang" bıçak
-KOSE_HAVA = YPoligon([(748, 471), (668, 356), (783, 360)], 9)
-KOSE_BICAK = YPoligon([(744, 492), (630, 402), (576, 318), (814, 292), (786, 372), (758, 472)], 10)
+# OPC köşe hava girişi (fren soğutma). Ölçüler iki kalibre fotoğraftan (mavi OPC ön çapraz + lacivert OPC)
+# görünen kenarların gövde yüzeyine / derin parçalar için ofset yüzeye ışın izdüşümüyle, iki kamera ortalaması:
+#   KOSE_AGIZ   yuvarlak üçgen ağız (tepe y 722 z 484, iç alt köşe 580/315, dış alt köşe 824/312)
+#   KOSE_PLAKA  saten gümüş plaka: ağzın iç ve alt yanını saran "bumerang"; ağız kenarından basamakla
+#               başlar, çan ağzı gibi içe dönerek kanala iner (derinlik alanı _kose_t, Laplace çözümü)
+#   KOSE_KANAL  siyah kanal çerçevesinin dış hattı (yuvarlak üçgen, plakadan çıkıntılı); içinde petek ağ
+#   KOSE_KIRIM  ağzın tepesinden çamurluk/far alt köşesine yükselen keskin tampon kırımı; altı içe oyulur
+KOSE_AGIZ = YPoligon([(722, 484), (690, 472), (662, 458), (640, 432), (615, 395), (594, 362), (580, 334),
+                      (582, 314), (600, 302), (630, 298), (680, 295), (730, 296), (775, 298), (808, 302),
+                      (824, 316), (818, 342), (810, 370), (796, 405), (780, 440), (762, 465), (742, 480)], 6)
+KOSE_KANAL = YPoligon([(694, 452), (734, 451), (782, 334), (670, 338)], 13)
+KOSE_PLAKA = YPoligon([(540, 530), (735, 530), (733, 492), (707, 452), (679, 343), (765, 341), (790, 331),
+                       (815, 323), (860, 321), (860, 240), (540, 240)], 3)
+KOSE_KIRIM = Egri([(700, 478), (725, 486), (761, 498), (794, 511), (828, 529), (862, 543), (884, 554), (910, 562)])
+
+
+def _kose_plaka_alani(h=2.0):
+    """Plaka derinlik alanı t(y, z): ağız kenarında 0, kanal/boşluk sınırında 1. Laplace denkleminin çözümü
+    olduğundan köşelerde kırım (medial eksen izi) bırakmaz: plaka tek parça düzgün içbükey yüzey olur."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.linalg import spsolve
+    ys = np.arange(540.0, 870.0, h)
+    zs = np.arange(266.0, 516.0, h)
+    Yg, Zg = np.meshgrid(ys, zs, indexing="ij")
+    a = KOSE_AGIZ(Yg, Zg)
+    pl = np.maximum(KOSE_PLAKA(Yg, Zg), -KOSE_KANAL(Yg, Zg))
+    ic = (a < 0) & (pl < 0)
+    sinir = np.where(a >= 0, 0.0, 1.0)
+    idx = -np.ones(Yg.shape, int)
+    n = int(ic.sum())
+    idx[ic] = np.arange(n)
+    I, J = np.nonzero(ic)
+    k = idx[I, J]
+    sat, sut, deg = [k], [k], [np.full(n, 4.0)]
+    b = np.zeros(n)
+    for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        I2, J2 = I + di, J + dj
+        kom = idx[I2, J2]
+        m = kom >= 0
+        sat.append(k[m]); sut.append(kom[m]); deg.append(np.full(int(m.sum()), -1.0))
+        np.add.at(b, k[~m], sinir[I2[~m], J2[~m]])
+    A = coo_matrix((np.concatenate(deg), (np.concatenate(sat), np.concatenate(sut))), shape=(n, n)).tocsr()
+    t = sinir.copy()
+    t[ic] = spsolve(A, b)
+    return ys[0], zs[0], h, t
+
+
+_KOSE_T = _kose_plaka_alani()
+
+
+def kose_t(Y, Z):
+    from scipy.ndimage import map_coordinates
+    y0, z0, h, t = _KOSE_T
+    Yb, Zb = np.broadcast_arrays(Y, Z)
+    return map_coordinates(t, [(Yb - y0) / h, (Zb - z0) / h], order=1, mode="nearest")
 # Arka stop (uzun bumerang): köşeyi saran lamba "açılmış" U koordinatında tanımlanır:
 #   U = |y| + max(0, 4400 - x)   (arka yüzde U≈|y|, köşeden sonra yan yüzde öne doğru artar)
 # Kenar ve iç grafik beyaz OPC tam arka + siyah OPC arka çapraz fotoğraflarındaki noktaların yeni gövde
@@ -945,16 +1001,28 @@ def detaylar(d, d0, b):
         m = np.maximum(ALT_IZGARA(Y, Z), on)
         dd = oyuk(dd, z0, m, p(1.6))
         dd = doldur(dd, z0, np.maximum(petek(Y / 2.1, Z, p(0.75)) - p(0.13), m), -p(0.6))   # yatay uzun altıgenler
-        # köşe girişleri: çevresi içbükey çukur (heykelsi köşe), gümüş bıçak (kabarık) + üçgen ağız + kanatçık
-        kbd = KOSE_BICAK(Y, Z)
-        dd = dd + p(0.45) * (1 - sstep(0.0, 85.0, kbd)) * (1 - sstep(470.0, 540.0, X))
-        kb = np.maximum(kbd, on)
-        dd = doldur(dd, z0, kb, p(0.3) + p(0.25) * sstep(0.0, p(1.0), -kbd))   # pahlı kenar, ortası daha kabarık
-        dd = oyuk(dd, z0, np.maximum(np.abs(KOSE_BICAK(Y, Z) + p(0.1)) - p(0.1), on), p(0.2))
-        k = np.maximum(KOSE_HAVA(Y, Z), on)
-        dd = oyuk(dd, z0, k, p(1.6))
-        fin = np.maximum(np.abs(Y - 728.0 + 0.3 * (Z - 400.0)) - p(0.2), k)
-        dd = doldur(dd, z0, fin, -p(0.5))
+        # köşe girişleri (OPC fren soğutma)
+        A = KOSE_AGIZ(Y, Z)
+        # heykelsi oyuk: ağzın üst-dış yanında tampon yüzeyi içe çekilir (en çok 0.42 mm, ağız dudağında);
+        # üst sınırı KOSE_KIRIM boyunca eğim kırığı -> ağzın tepesinden çamurluğa yükselen keskin kırım
+        c = np.clip((KOSE_KIRIM(np.clip(Y, 700.0, 910.0)) - Z) / 75.0, 0.0, 1.0)
+        f = (p(0.42) * (1 - (1 - c) ** 2) * (1 - sstep(0.0, 150.0, A)) * sstep(706.0, 750.0, Y)
+             * (1 - sstep(870.0, 905.0, Y)) * sstep(255.0, 325.0, Z) * (1 - sstep(470.0, 540.0, X)))
+        dd = dd + f
+        zs = z0 + f
+        # derin, karanlık boşluk (dudak dik kenarlı); x<385: ön teker kuyusuna en az ~1.1 mm et kalır
+        on_k = X - 385.0
+        dd = oyuk(dd, zs, np.maximum(A, on_k), p(2.1))
+        # saten plaka: kenarda 0.25 mm basamak, kanala doğru çan ağzı gibi 1.3 mm'ye iner
+        kd = KOSE_KANAL(Y, Z)
+        pm = np.maximum(np.maximum(KOSE_PLAKA(Y, Z), -kd), np.maximum(A, on))
+        dd = doldur(dd, zs, pm, -(p(0.25) + p(1.05) * kose_t(Y, Z) ** 1.7))
+        # siyah kanal çerçevesi (0.38 mm et, yüzü -0.9 mm: plakadan ~0.4 mm, boşluktan 1.2 mm çıkıntılı) + içeride
+        # (-1.95 mm) petek ağ (et 0.26, delik 0.36 mm), arkası -2.6 mm
+        ic = kd + p(0.38)
+        dd = doldur(dd, zs, np.maximum(np.maximum(kd, -ic), on), -p(0.9))
+        dd = oyuk(dd, zs, np.maximum(ic, on_k), p(2.6))
+        dd = doldur(dd, zs, np.maximum(np.maximum(petek(Y, Z, p(0.36)) - p(0.13), ic), on), -p(1.95))
         # far yıkama kapağı ve çeki kancası kapağı (ince panel çizgileri)
         def elips(u, v, a, b):
             k0 = np.sqrt((u / a) ** 2 + (v / b) ** 2)
@@ -967,7 +1035,9 @@ def detaylar(d, d0, b):
         ck = sd_kutu2(u, v, 0.0, 0.0, 44.0, 13.0, 9.0)
         dd = oyuk(dd, z0, np.maximum(np.abs(ck) - p(0.11), on), p(0.25))
         # splitter: gövde renkli dudağın altında öne taşan keskin plaka, uçları köşe bıçaklarına kıvrılır
-        dudak = np.maximum(sd_cizgi(np.abs(Y), Z, [(0, 226), (420, 228), (600, 240), (760, 262), (830, 282)]) - p(0.4), X - 420)
+        # (köşe tarafı iki fotoğraftan: girişin altındaki kırım z≈251-262, dış uçta 283'e kıvrılır)
+        dudak = np.maximum(sd_cizgi(np.abs(Y), Z, [(0, 226), (300, 240), (420, 250), (600, 256), (730, 260), (790, 267),
+                                                   (832, 283)]) - p(0.4), X - 420)
         dd = doldur(dd, z0, dudak, p(0.7))
         return dd
     uygula((-60, 560, 0, 960, 150, 620), on_tampon)
