@@ -456,6 +456,13 @@ UD = np.array([
     [0, -8, 10, 46, 44, 28, 12, 2, 0, 0],
     [0, -8, 10, 46, 44, 28, 12, 2, 0, 0]], float)
 _UD_SPL = None
+UD_YUMUSAK = (50.0, 30.0)   # tablo alt kenarlarında (x, z) yumuşak kırpma yarı genişliği [mm]
+
+
+def _yumusak_alt(u, u0, a):
+    """max(u, u0)'ın C1 hali: u0-a altında u0, u0+a üstünde u, arada parabol."""
+    t = u - u0
+    return u0 + np.where(t > a, t, np.where(t < -a, 0.0, (t + a) ** 2 / (4.0 * a)))
 
 
 def ust_duzeltme(X, Z):
@@ -463,7 +470,10 @@ def ust_duzeltme(X, Z):
     if _UD_SPL is None:
         from scipy.interpolate import RectBivariateSpline
         _UD_SPL = RectBivariateSpline(UD_X, UD_Z, UD, kx=3, ky=3, s=0)
-    Xb, Zb = np.broadcast_arrays(np.clip(X, UD_X[0], UD_X[-1]), np.clip(Z, UD_Z[0], UD_Z[-1]))
+    # tablonun alt kenarları (x=3480, z=900) yumuşak kırpılır: sert kırpmada spline eğimi orada sıçrıyor ve
+    # C direği önünde dikey (x=3480), basen üstünde yatay (z=900) ince bir kırım çizgisi kalıyordu
+    Xb, Zb = np.broadcast_arrays(np.clip(_yumusak_alt(X, UD_X[0], UD_YUMUSAK[0]), UD_X[0], UD_X[-1]),
+                                 np.clip(_yumusak_alt(Z, UD_Z[0], UD_YUMUSAK[1]), UD_Z[0], UD_Z[-1]))
     return _UD_SPL.ev(Xb.ravel(), Zb.ravel()).reshape(Xb.shape)
 
 
@@ -482,7 +492,12 @@ def arka_hw(X, Z):
 def govde_temel(X, Y, Z):
     hwx, dhwx = HW_PLAN(X), HW_PLAN.t(X)
     fz, dfz = F_DIKEY(Z), F_DIKEY.t(Z)
-    hw = hwx * fz
+    # F_DIKEY z=1100'de biter: üstünde sabit kalınca hem genişlik kırılıyor hem de d_yan'ın eğim düzeltmesi
+    # sıçrıyordu (gövde üstü >1100 olan arka çeyrekte C direği altından geçen ince yatay çizgi). C1 doğrusal
+    # uzatma; x>3450'de genişliği arka_hw tablosu belirler, orada yalnız eğim düzeltmesi sürekli kalır.
+    e_son = float(F_DIKEY.df(F_DIKEY.hi))
+    dfz = dfz + e_son * (Z >= F_DIKEY.hi)
+    hw = hwx * (fz + e_son * np.maximum(Z - F_DIKEY.hi, 0.0) * (1 - sstep(3450, 3700, X)))
     # omuz çizgisi
     zc = omuz_z(X)
     # arkada stobun sivri ön ucunda (x≈3950) söner: stobun üst kenarı bu çizginin devamıdır
@@ -509,7 +524,7 @@ def govde_temel(X, Y, Z):
     w = sstep(3450, 3700, X)
     if np.any(w > 0):
         hw = hw + w * (arka_hw(X, Z) - _eski_hw(X, Z))   # omuz çizgisi ve çamurluk kabarıklığı korunur
-    if np.any(X > UD_X[0]):
+    if np.any(X > UD_X[0] - UD_YUMUSAK[0]):
         hw = hw - ust_duzeltme(X, Z)   # D direği beli / stop üstü omuz (fotoğraf siluetleri)
     d_yan = (Y - hw) / np.sqrt(1 + (dhwx * fz) ** 2 + (hwx * dfz) ** 2)
 
@@ -535,8 +550,9 @@ def govde_temel(X, Y, Z):
     d_kyan = (Y - hw_kabin(X, Z)) / np.sqrt(1 + eg ** 2 + (HW_KABIN.t(X) - (Z - 1000.0) * EGIM_X.t(X)) ** 2)
     kabin = smax(d_kyan, d_kust, p(2.6))
     # yan cam arkasında (C/D direği) kabin tabanı biraz iner ve alt dış kenarı geniş yuvarlanır: direk
-    # omuza basamak bırakmadan akar
-    w_d = sstep(3600, 3750, X)
+    # omuza basamak bırakmadan akar. Geçiş x≈3560'tan önce bitmeli: orada kabin yan yüzü (UD ile) gövde
+    # omzunun dışına çıkıyor; taban henüz yüksek/keskin kalırsa ikisinin arasında z≈1080'de çukur oluşuyordu
+    w_d = sstep(3470, 3650, X)
     kabin = smax(kabin, (Z_ALT_UST(X) - bombe * (Y / 900.0) ** 2 - 35.0 - 60.0 * w_d) - Z, p(0.5) + 55.0 * w_d)
     kabin = np.maximum(kabin, X - 4380.0)
     kabin = np.maximum(kabin, 950.0 - X)
