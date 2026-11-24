@@ -23,7 +23,8 @@ Astra J GTC (2011–2018, 3 kapı) OPC donanımlı. Gerçek aracın ölçüleriy
 |---|---|
 | `astra_gtc_tek_parca.zip` | Tekerlekler gövdeye bağlı tek parça; zip içinde `astra_gtc_tek_parca.stl` (118 MB, 2.37 M üçgen, 0.08 mm ızgara) |
 | `astra_gtc_govde.stl` | **Kit:** tekerleksiz gövde, alt yüzeyi düz, aks delikli |
-| `astra_gtc_teker.stl` | **Kit:** tek tekerlek. **4 adet** basılır |
+| `astra_gtc_teker_on.stl` | **Kit:** ön tekerlek (355 mm disk, Brembo kaliper). **2 adet** basılır |
+| `astra_gtc_teker_arka.stl` | **Kit:** arka tekerlek (315 mm disk, tek pistonlu kaliper). **2 adet** basılır |
 | `astra_gtc_olustur.py` | Tüm STL'leri üreten betik (ölçek ve çözünürlük ayarlanabilir) |
 
 Tüm dosyalar su geçirmez (manifold) ve tek gövdedir; dilimleyicide onarım gerekmez.
@@ -57,16 +58,21 @@ Kit gövde ve teker **0.07 mm**, tek parça **0.08 mm** ızgarada çıkarıldı;
 - **Arka:**
   - kanat grafikli, yana sarılan stoplar
   - aralarındaki krom şerit ve **Opel şimşekli rozet**
-  - bagaj kapağı çizgisi ve plaka yeri
+  - sağ stobun altında kabartma **"opc" rozeti**
+  - bagaj kapağı çizgisi ve plaka yeri (plakasız seçenekte yuvada kabartma **"GTC"**)
   - kanatçıklı difüzör
   - **çift trapez egzoz** çıkışı
   - reflektörler
 - **Tekerlek:**
   - 20 inç, 5 çift kollu jant, bijonlar ve göbek kapağı
-  - **delikli fren diski** ve büyük kaliper
+  - önde **355 mm delikli disk** ve Brembo kaliper, arkada **315 mm ince delikli disk** ve tek pistonlu kaliper
   - diş kanalları olan lastik
 
-Ön ve arka rozetlerde Opel şimşeği kabartma olarak işlendi: halka 0.4 mm, şimşek rozet zemininden 0.3 mm yüksek. Yazılar (ASTRA, GTC, OPC) eklenmedi.
+Ön ve arka rozetlerde Opel şimşeği kabartma olarak işlendi: halka 0.4 mm, şimşek rozet zemininden 0.3 mm yüksek.
+Arkada, fotoğraflardaki yerinde (sağ stobun iç ucunun altında, bagaj kapağı çizgisinin hemen üstünde) kabartma "opc"
+rozeti var: ~3 mm genişlik, 0.27 mm çizgi, 0.3 mm yükseklik. Gerçek araçta plaka yuvasının tabanında kabartma italik "GTC"
+yazısı bulunur; plaka takılıyken görünmez, `--plakasiz` ile üretilen sürümde plaka yerine bu yazı ve iki vida deliği çıkar.
+OPC arka kapağında ASTRA yazısı yoktur; başka yazı eklenmedi.
 
 > Opel adı ve şimşek logosu Opel Automobile GmbH / Stellantis'in tescilli markasıdır. Logolu maket kişisel kullanım ve kâr amacı gütmeyen sergileme içindir; satış veya ticari kullanım için marka sahibinden izin gerekir.
 
@@ -76,10 +82,10 @@ Kit gövde ve teker **0.07 mm**, tek parça **0.08 mm** ızgarada çıkarıldı;
 
 ### Kit montajı
 
-1. Gövdeyi ve 4 tekerleği basın.
+1. Gövdeyi, 2 ön ve 2 arka tekerleği basın (`_teker_on` ve `_teker_arka`; arka freni küçük olandır).
 2. **1.75 mm filamentten 2 parça aks** kesin, her biri yaklaşık **62 mm**.
 3. Aksı gövdedeki delikten geçirin (Ø 2.1 mm, aks serbest döner).
-4. Tekerlekleri iki uca bastırın. Tekerlekteki kör delik Ø 1.8 mm olduğu için sıkı geçer; gevşekse bir damla japon yapıştırıcısı yeterli.
+4. Ön tekerlekleri ön aksa, arka tekerlekleri arka aksa bastırın. Tekerlekteki kör delik Ø 1.8 mm olduğu için sıkı geçer; gevşekse bir damla japon yapıştırıcısı yeterli.
 
 Tekerlekler döner.
 
@@ -112,7 +118,8 @@ Tekerlekler döner.
 3. **Siyah kısımlar:** Cam girintileri parlak siyah. Bal peteği ızgaralar, köşe girişleri, difüzör ve B direği mat siyah.
 4. **Krom kısımlar:** Kanat çıtası, rozet halkaları ve şimşekler, arka krom şerit ve egzoz uçları krom/gümüş kalem. Rozet zeminini siyaha boyayıp şimşeği ve halkayı kromla boyarsanız logo çok net okunur.
 5. **Lambalar:** Farlar gümüş, üzerine şeffaf vernik. Stoplar şeffaf kırmızı.
-6. **Tekerlekler:** Lastikler mat siyah, kaliperler kırmızı ya da sarı (OPC'de Brembo).
+6. **Tekerlekler:** Lastikler mat siyah. Ön kaliperler kırmızı ya da sarı (OPC'de Brembo); arka tek pistonlu kaliperler siyah/koyu gri, logosuz.
+   "opc" rozeti krom ya da mavi krom, plakasız yuvadaki "GTC" gövde rengi.
 7. **Vernik:** En son parlak vernik.
 
 ## Yeniden üretmek / ölçek değiştirmek
@@ -122,6 +129,7 @@ pip install numpy scipy scikit-image trimesh manifold3d
 python3 astra_gtc_olustur.py --h 0.10        # sergi kalitesi, 1:24 (~5 dk)
 python3 astra_gtc_olustur.py                 # 0.15 mm ızgara, daha hızlı
 python3 astra_gtc_olustur.py --olcek 18      # 1:18 (~248 mm)
+python3 astra_gtc_olustur.py --plakasiz      # plakasız arka: yuvada kabartma "GTC"
 ```
 
 Aks delikleri baskı ölçüsünde sabittir (1.75 mm filament), ölçek değişse de aynı kalır.
@@ -175,7 +183,8 @@ Her tur standart açılardan görüntü alındı. Ajanlar bunları gerçek Astra
 - **Jant ve lastik:**
   - OPC 20 inç, 5 çatallı Y kol, derin içbükey yüz
   - cıvatalar ve rozetli göbek kapağı
-  - 355 mm delikli disk ve kaliper
+  - önde 355 mm delikli/havalandırmalı disk ve logolu Brembo kaliper
+  - arkada 315 mm ince delikli disk, tek pistonlu yüzer kaliper (kılavuz pimleri, braket)
   - "245/35 ZR20 95Y" yanak yazısı ve diş deseni
 - **Çamurluklar:** kıvrık dudak
 
@@ -206,7 +215,11 @@ Ajanlar modeli bu kameralardan çizip fotoğrafın üzerine bindirdi ve farklar�
   - Bagaj kapağının "gülümseme" çizgisi.
   - Gerçek konum ve boyutta rozet.
   - İki yanda tek trapez egzozlu OPC difüzörü.
-  - Uç plakalı büyük spoyler ve üçüncü stop.
+  - Uç plakalı büyük spoyler ve üçüncü stop; spoyler uçları D direğinin ~40 mm dışına taşar.
+  - D direği beli ve stop üstü yuvarlak omuz: üç kalibre fotoğrafın (beyaz OPC tam arka, siyah ve mavi OPC arka
+    çapraz) siluetlerinden; üst yan yüzey z 1040–1200'de 20–45 mm içeri çekildi.
+  - Difüzör kanatlarının alt kenarı fotoğraftaki difüzör alt hattına (z ≈ 200) çekildi.
+  - Fotoğraftaki yerinde "opc" rozeti, plakasız yuvada "GTC".
   - Arka silecek, reflektörler ve park sensörleri.
 
 ### Fotoğraf kaynakları (teşekkürler)

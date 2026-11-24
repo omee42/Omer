@@ -9,16 +9,19 @@ Gövde işaretli mesafe alanı (SDF) ile modellenir ve marching cubes ile pürü
 
 Çıktılar:
     astra_gtc_tek_parca.stl   tekerlekler gövdeye bağlı, tek parça
-    astra_gtc_govde.stl       tekerleksiz gövde (alt yüzeyi düz, aks delikli)  ┐ kit
-    astra_gtc_teker.stl       tek tekerlek (4 adet basılır)                     ┘
+    astra_gtc_govde.stl       tekerleksiz gövde (alt yüzeyi düz, aks delikli)  ┐
+    astra_gtc_teker_on.stl    ön tekerlek, Brembo fren (2 adet basılır)        │ kit
+    astra_gtc_teker_arka.stl  arka tekerlek, küçük disk/kaliper (2 adet)       ┘
 
 Kullanım:
     pip install numpy scipy scikit-image trimesh manifold3d
     python3 astra_gtc_olustur.py                    # 1:24, ızgara 0.15 mm, hepsi
     python3 astra_gtc_olustur.py --olcek 18         # 1:18 (≈ 248 mm)
     python3 astra_gtc_olustur.py --parca tek --h 0.12
+    python3 astra_gtc_olustur.py --plakasiz         # plakasız: yuvadaki kabartma "GTC" görünür
 
-Ön ve arka rozetlerde Opel şimşeği kabartma olarak bulunur; yazılar eklenmez.
+Ön ve arka rozetlerde Opel şimşeği kabartma olarak bulunur. Arkada fotoğraflardaki yerinde kabartma "opc"
+rozeti; plakasız seçenekte plaka yuvasında kabartma "GTC" yazısı (başka marka/model yazısı eklenmez).
 """
 import argparse
 import math
@@ -205,9 +208,12 @@ EGIM_X = Egri([(1500, 0.47), (2400, 0.50), (2900, 0.54), (3300, 0.64), (3650, 0.
                (4100, 0.55), (4250, 0.54)])
 
 
+SP_TASMA = 40.0          # OPC tavan spoyleri uçlarının kabin yan yüzeyinden dışa taşması (mm)
+
+
 def hw_kabin(x, z):
     """Kabin (cam) yan yüzeyi: içe eğim arkaya doğru artar (C direği içe yatar)."""
-    return HW_KABIN(x) - (z - 1000.0) * EGIM_X(x)
+    return HW_KABIN(x) - (z - 1000.0) * EGIM_X(x) - ust_duzeltme(x, z)
 
 
 # omuz çizgisi (fotoğraf eşlemesi): kapı boyunca ~860'ta yatay, kapı arkasından arka basene doğru yükselir
@@ -286,70 +292,14 @@ IZ_ALT_KROM = [(0, 661), (100, 662), (200, 666), (260, 672), (300, 681), (330, 6
 ALT_IZGARA = YPoligon([(-520, 462), (-330, 448), (0, 432), (330, 448), (520, 462), (470, 385), (410, 314),
                        (200, 302), (0, 300), (-200, 302), (-410, 314), (-470, 385)], 14)
 # plakanın oturduğu siyah tampon çıtası: köşe girişlerinin üst iç köşesine kadar uzanır
-# (dış ucu iki kalibre fotoğraftan: üst kenar düz z≈505, alt kenar gövde rengi sırtın kenarı; köşe girişinin
-# tepe noktasında sivri kama olarak biter)
-_CITA_UST = [(0, 500), (330, 507), (480, 507), (600, 504), (690, 499), (724, 491)]
-_CITA_ALT = [(718, 487), (672, 485), (620, 480), (568, 468), (520, 462), (330, 448), (0, 432)]
-SIYAH_CITA = YPoligon([(-y, z) for y, z in reversed(_CITA_UST[1:])] + _CITA_UST + _CITA_ALT
-                      + [(-y, z) for y, z in reversed(_CITA_ALT[:-1])], 3)
+SIYAH_CITA = YPoligon([(-622, 510), (-533, 530), (-330, 507), (0, 500), (330, 507), (533, 530), (622, 510),
+                       (572, 472), (520, 462), (330, 448), (0, 432), (-330, 448), (-520, 462), (-572, 472)], 5)
 KROM_DLO = [(1478, 1022), (1560, 1060), (1640, 1102), (1800, 1178), (2000, 1268), (2200, 1324), (2380, 1366),
             (2600, 1385), (2800, 1381), (2950, 1352), (3140, 1338), (3310, 1305), (3460, 1267), (3545, 1236), (3596, 1212)]
 YPoligon_AYNA = YPoligon([(1585, 990), (1718, 998), (1718, 1040)], 6)
-# OPC köşe hava girişi (fren soğutma). Ölçüler iki kalibre fotoğraftan (mavi OPC ön çapraz + lacivert OPC)
-# görünen kenarların gövde yüzeyine / derin parçalar için ofset yüzeye ışın izdüşümüyle, iki kamera ortalaması:
-#   KOSE_AGIZ   yuvarlak üçgen ağız (tepe y 722 z 484, iç alt köşe 580/315, dış alt köşe 824/312)
-#   KOSE_PLAKA  saten gümüş plaka: ağzın iç ve alt yanını saran "bumerang"; ağız kenarından basamakla
-#               başlar, çan ağzı gibi içe dönerek kanala iner (derinlik alanı _kose_t, Laplace çözümü)
-#   KOSE_KANAL  siyah kanal çerçevesinin dış hattı (yuvarlak üçgen, plakadan çıkıntılı); içinde petek ağ
-#   KOSE_KIRIM  ağzın tepesinden çamurluk/far alt köşesine yükselen keskin tampon kırımı; altı içe oyulur
-KOSE_AGIZ = YPoligon([(722, 484), (690, 472), (662, 458), (640, 432), (615, 395), (594, 362), (580, 334),
-                      (582, 314), (600, 302), (630, 298), (680, 295), (730, 296), (775, 298), (808, 302),
-                      (824, 316), (818, 342), (810, 370), (796, 405), (780, 440), (762, 465), (742, 480)], 6)
-KOSE_KANAL = YPoligon([(694, 452), (734, 451), (782, 334), (670, 338)], 13)
-KOSE_PLAKA = YPoligon([(540, 530), (735, 530), (733, 492), (707, 452), (679, 343), (765, 341), (790, 331),
-                       (815, 323), (860, 321), (860, 240), (540, 240)], 3)
-KOSE_KIRIM = Egri([(700, 478), (725, 486), (761, 498), (794, 511), (828, 529), (862, 543), (884, 554), (910, 562)])
-
-
-def _kose_plaka_alani(h=2.0):
-    """Plaka derinlik alanı t(y, z): ağız kenarında 0, kanal/boşluk sınırında 1. Laplace denkleminin çözümü
-    olduğundan köşelerde kırım (medial eksen izi) bırakmaz: plaka tek parça düzgün içbükey yüzey olur."""
-    from scipy.sparse import coo_matrix
-    from scipy.sparse.linalg import spsolve
-    ys = np.arange(540.0, 870.0, h)
-    zs = np.arange(266.0, 516.0, h)
-    Yg, Zg = np.meshgrid(ys, zs, indexing="ij")
-    a = KOSE_AGIZ(Yg, Zg)
-    pl = np.maximum(KOSE_PLAKA(Yg, Zg), -KOSE_KANAL(Yg, Zg))
-    ic = (a < 0) & (pl < 0)
-    sinir = np.where(a >= 0, 0.0, 1.0)
-    idx = -np.ones(Yg.shape, int)
-    n = int(ic.sum())
-    idx[ic] = np.arange(n)
-    I, J = np.nonzero(ic)
-    k = idx[I, J]
-    sat, sut, deg = [k], [k], [np.full(n, 4.0)]
-    b = np.zeros(n)
-    for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-        I2, J2 = I + di, J + dj
-        kom = idx[I2, J2]
-        m = kom >= 0
-        sat.append(k[m]); sut.append(kom[m]); deg.append(np.full(int(m.sum()), -1.0))
-        np.add.at(b, k[~m], sinir[I2[~m], J2[~m]])
-    A = coo_matrix((np.concatenate(deg), (np.concatenate(sat), np.concatenate(sut))), shape=(n, n)).tocsr()
-    t = sinir.copy()
-    t[ic] = spsolve(A, b)
-    return ys[0], zs[0], h, t
-
-
-_KOSE_T = _kose_plaka_alani()
-
-
-def kose_t(Y, Z):
-    from scipy.ndimage import map_coordinates
-    y0, z0, h, t = _KOSE_T
-    Yb, Zb = np.broadcast_arrays(Y, Z)
-    return map_coordinates(t, [(Yb - y0) / h, (Zb - z0) / h], order=1, mode="nearest")
+# OPC köşe hava girişi: üçgen ağız + iç ve alt kenarını saran gümüş "bumerang" bıçak
+KOSE_HAVA = YPoligon([(748, 471), (668, 356), (783, 360)], 9)
+KOSE_BICAK = YPoligon([(744, 492), (630, 402), (576, 318), (814, 292), (786, 372), (758, 472)], 10)
 # Arka stop (uzun bumerang): köşeyi saran lamba "açılmış" U koordinatında tanımlanır:
 #   U = |y| + max(0, 4400 - x)   (arka yüzde U≈|y|, köşeden sonra yan yüzde öne doğru artar)
 # Kenar ve iç grafik beyaz OPC tam arka + siyah OPC arka çapraz fotoğraflarındaki noktaların yeni gövde
@@ -402,7 +352,15 @@ DIFUZOR = YPoligon([(-724, 120), (724, 120), (722, 250), (712, 300), (690, 345),
                     (-300, 373), (-560, 370), (-650, 364), (-690, 345), (-712, 300), (-722, 250)], 18)
 EGZOZ = YPoligon([(444, 338), (618, 338), (682, 262), (478, 262)], 13)
 REFLEKTOR = YPoligon([(362, 600), (592, 585), (572, 569), (366, 575)], 5)
+# Arka yazılar (beyaz OPC tam arka + mavi/siyah OPC çapraz fotoğraflarından kalibre kamerayla yüzeye ışın izdüşümü):
+# "opc" kabartma rozeti sağ (+Y) stobun iç ucunun altında, bagaj kapağı aralığının ~28 mm üstünde (merkez y 370,
+# z 775, ~74 x 24 mm); plaka yuvasının tabanında kabartma italik "GTC" (merkez y 0, z 528, ~160 x 28 mm) —
+# plaka takılıyken görünmez, ARKA_PLAKA = False (--plakasiz) ile plakasız yuvada görünür. Başka yazı yok.
+ARKA_PLAKA = True
+OPC_ROZET = (370.0, 775.0)          # x yüksekliği merkezi (y, z)
+GTC_YAZI = (0.0, 528.0)             # yazı merkezi (y, z)
 DIF_KANAT = (0.0, 230.0)
+DIF_KANAT_ALT = 198.0     # kanatların alt kenarı (gerçek mm)
 SENSOR = ((222.0, 432.0), (625.0, 432.0))
 KAPI_CIZGILERI = [
     [(1368, 250), (1372, 700), (1400, 960), (1450, 1004), (1640, 1112), (1800, 1194), (2000, 1287),
@@ -480,6 +438,35 @@ def _eski_hw(X, Z):
         * sstep(700, 900, Z) * (1 - sstep(zc - 30.0, zc + 80.0, Z)) - kuyruk_daralma(X, Z)
 
 
+# üst arka yan düzeltmesi UD(x, z) [mm, + = içe çek]: üç kalibre fotoğrafın (beyaz OPC tam arka, siyah OPC ve mavi OPC
+# arka çapraz) siluet eşlemesinden. Gerçek araçta D direği camın kenarına kadar içe çekilir (bel), stobun üstünde
+# yuvarlak dolgun bir omuz kalır; spoyler uçları direğin dışına taşar. Tablo bikübik, x<3550 ve z<900'de sıfır.
+UD_X = [3480, 3580, 3650, 3720, 3820, 3950, 4100, 4250, 4350, 4450, 4550]
+UD_Z = [900, 960, 1000, 1040, 1080, 1120, 1160, 1200, 1250, 1300]
+UD = np.array([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, -3, -3, 10, 18, 18, 12, 5, 0, 0],
+    [0, -6, -6, 18, 30, 33, 26, 13, 3, 0],
+    [0, -8, -8, 22, 38, 42, 34, 20, 5, 0],
+    [0, -6, -6, 20, 33, 35, 28, 16, 4, 0],
+    [0, -3, -3, 12, 20, 22, 20, 14, 4, 0],
+    [0, -3, 0, 16, 22, 22, 18, 10, 2, 0],
+    [0, -4, 6, 34, 38, 28, 14, 4, 0, 0],
+    [0, -8, 10, 46, 44, 28, 12, 2, 0, 0],
+    [0, -8, 10, 46, 44, 28, 12, 2, 0, 0],
+    [0, -8, 10, 46, 44, 28, 12, 2, 0, 0]], float)
+_UD_SPL = None
+
+
+def ust_duzeltme(X, Z):
+    global _UD_SPL
+    if _UD_SPL is None:
+        from scipy.interpolate import RectBivariateSpline
+        _UD_SPL = RectBivariateSpline(UD_X, UD_Z, UD, kx=3, ky=3, s=0)
+    Xb, Zb = np.broadcast_arrays(np.clip(X, UD_X[0], UD_X[-1]), np.clip(Z, UD_Z[0], UD_Z[-1]))
+    return _UD_SPL.ev(Xb.ravel(), Zb.ravel()).reshape(Xb.shape)
+
+
 def arka_hw(X, Z):
     global _HA_SPL
     if _HA_SPL is None:
@@ -522,6 +509,8 @@ def govde_temel(X, Y, Z):
     w = sstep(3450, 3700, X)
     if np.any(w > 0):
         hw = hw + w * (arka_hw(X, Z) - _eski_hw(X, Z))   # omuz çizgisi ve çamurluk kabarıklığı korunur
+    if np.any(X > UD_X[0]):
+        hw = hw - ust_duzeltme(X, Z)   # D direği beli / stop üstü omuz (fotoğraf siluetleri)
     d_yan = (Y - hw) / np.sqrt(1 + (dhwx * fz) ** 2 + (hwx * dfz) ** 2)
 
     bombe = KAPUT_BOMBE(X)
@@ -561,12 +550,15 @@ def govde_temel(X, Y, Z):
     x_ak = 3992.0 + 26.0 * (1 - yy)
     kal = 30.0 + 75.0 * sstep(3880.0, 4010.0, X)
     sp = np.maximum(X - x_ak, 3790.0 - X)
-    sp = smax(sp, Y - (hw_kabin(X, sp_ust) - 4.0), 15.0)
+    # uçlar D direğinin dışına taşar (beyaz OPC tam arka: kanat ucu direğin ~40 mm dışında)
+    sp_ek = SP_TASMA * sstep(3800.0, 3900.0, X)
+    sp = smax(sp, Y - (hw_kabin(X, sp_ust) - 4.0 + sp_ek), 15.0)
     sp = smax(sp, np.maximum(Z - sp_ust, (sp_ust - kal) - Z), 8.0)
     # uç plakaları: kabin yan yüzeyine oturan 35 mm'lik kabuk, arkaya doğru aşağı iner
     hk = hw_kabin(X, Z)
     z_alt = 1300.0 - 105.0 * sstep(3880.0, 3995.0, X)
-    uc = smax(np.maximum(Y - (hk + 10.0), (hk - 26.0) - Y), np.maximum(z_alt - Z, Z - sp_ust), 6.0)
+    uc_ek = sp_ek * sstep(1180.0, 1310.0, Z)
+    uc = smax(np.maximum(Y - (hk + 10.0 + uc_ek), (hk - 26.0) - Y), np.maximum(z_alt - Z, Z - sp_ust), 6.0)
     uc = smax(uc, np.maximum(3860.0 - X, X - (x_ak - 6.0)), 8.0)
     sp = smin(sp, uc, 10.0)
     return smin(d, sp, p(0.5))
@@ -590,11 +582,13 @@ def camurluk_kuyusu(X, Y, Z, xa):
 # böylece 10 adet yuvarlatılmış üçgen pencere oluşur (çatal içi pencereler göbekten daha uzakta başlar).
 # Kol yüzleri derin içbükey (göbek yüzü dudaktan ~45 mm içeride), ön yüz düz "işlenmiş", kenarları pahlı ve arkaya doğru
 # genişleyen yan yüzler. Göbek: 5 bijon yuvası (kollar arasında, PCD 115), Opel şimşekli göbek kapağı.
-# Arkada 355 mm delikli/havalandırmalı disk ve Brembo 4 pistonlu kaliper (logo plakalı), sibop.
+# Ön aksta 355 mm delikli/havalandırmalı disk ve Brembo 4 pistonlu kaliper (logo plakalı); arka aksta 315 mm
+# ince (havalandırmasız) delikli disk ve tek pistonlu yüzer kaliper (logosuz, fotoğraf: mavi OPC arka teker); sibop.
 # Lastik 245/35 R20: jant koruma sırtı, şişkin yanak, yanak yazısı, 4 kanallı asimetrik diş deseni.
 # Koordinatlar: dx, dz göbekten düzlem içi (gerçek mm), t eksenel (+ dış yüz).
 JANT_FAZ = math.pi / 2                  # bir kol tam yukarı bakar
-KALIPER_ACI = math.radians(170.0)       # kaliper aksın önünde (dx < 0), saat 9 civarı
+KALIPER_ACI = math.radians(170.0)       # ön kaliper aksın önünde (dx < 0), saat 9 civarı
+ARKA_KALIPER_ACI = math.radians(12.0)   # arka kaliper aksın arkasında (dx > 0), hafif yukarıda
 JANT_SIMSEK = np.array([(-1.18, 0.03), (0.02, 0.30), (0.21, 0.06), (1.18, -0.03), (-0.02, -0.30), (-0.21, -0.06)])
 LASTIK_YAZI = (("245/35 ZR20 95Y", 90.0), ("245/35 ZR20 95Y", 270.0))   # (metin, görünüşte merkez açısı)
 YAZI_H, YAZI_R0, YAZI_IZ = 20.0, 295.0, 3.0     # harf yüksekliği, taban yarıçapı, çizgi yarı kalınlığı
@@ -618,7 +612,39 @@ _FONT = {
     "Z": [[(0, 1), (0.6, 1), (0, 0), (0.6, 0)]],
     "R": [[(0, 0), (0, 1), (0.44, 1), (0.6, 0.86), (0.6, 0.64), (0.44, 0.5), (0, 0.5)], [(0.3, 0.5), (0.6, 0)]],
     "Y": [[(0, 1), (0.3, 0.5), (0.6, 1)], [(0.3, 0.5), (0.3, 0)]],
+    "G": [[(0.6, 0.85), (0.45, 1), (0.15, 1), (0, 0.85), (0, 0.15), (0.15, 0), (0.45, 0), (0.6, 0.15), (0.6, 0.45), (0.34, 0.45)]],
+    "T": [[(0, 1), (0.6, 1)], [(0.3, 1), (0.3, 0)]],
+    "C": [[(0.6, 0.85), (0.45, 1), (0.15, 1), (0, 0.85), (0, 0.15), (0.15, 0), (0.45, 0), (0.6, 0.15)]],
 }
+
+
+def _elips_cizgi(cx, cy, a, b, t0, t1, n=28):
+    t = np.linspace(t0, t1, n)
+    return [(cx + a * math.cos(q), cy + b * math.sin(q)) for q in t]
+
+
+# küçük harfler (OPC logosu): x yüksekliği 0.42, inen çizgi -0.30; harfler logodaki gibi geniş ve yuvarlak
+_FONT["o"] = [_elips_cizgi(0.31, 0.21, 0.31, 0.21, 0.0, 2 * math.pi)]
+_FONT["p"] = [_elips_cizgi(0.31, 0.21, 0.31, 0.21, 0.0, 2 * math.pi), [(0.0, 0.42), (0.0, -0.30)]]
+_FONT["c"] = [_elips_cizgi(0.31, 0.21, 0.31, 0.21, math.radians(42), math.radians(318))]
+
+
+def duz_yazi_2d(u, v, metin, h, sx=1.0, egim=0.0, bosluk=0.0):
+    """Düz satır yazı: harf çizgilerine 2D uzaklık. u sağa, v yukarı (gerçek mm), (0, 0) ilk harfin taban
+    çizgisinin sol ucu; h: büyük harf yüksekliği (çizgi ekseni), sx: yatay ölçek, egim: italik, bosluk: ardışık harflerin
+    çizgi eksenleri arası aralık (mm; çizgi kalınlığını da karşılamalı). Döndürür: (uzaklık, toplam genişlik)."""
+    d = np.full(np.broadcast(u, v).shape, 1e3)
+    x0 = 0.0
+    for c in metin:
+        if c == " ":
+            x0 += 0.5 * h * sx
+            continue
+        lx = u - x0 - egim * v
+        gen = max(a for cz in _FONT[c] for a, _ in cz) * h * sx
+        for cz in _FONT[c]:
+            d = np.minimum(d, _cizgi_mesafe(lx, v, [(a * h * sx, b * h) for a, b in cz]))
+        x0 += gen + bosluk
+    return d, x0 - bosluk
 
 
 def _cizgi_mesafe(px, py, pts):
@@ -687,9 +713,73 @@ def _altigen(px, py, a):
     return np.sqrt(px * px + py * py) * np.sign(py)
 
 
-def tekerlek_sdf(dx, dz, t, yon=None):
+def _on_fren(r, th, t):
+    """Ön fren: disk Ø355, t -60..-18 (arka kapamaya oturur), kenarında havalandırma kanatları, yüzünde delik
+    grupları; Brembo 4 pistonlu kaliper."""
+    disk = sd_kutu2(r, t, 134.5, -39.0, 42.5, 21.0, 2.0)
+    sv = (np.mod(th * 40 / (2 * math.pi) + 0.5, 1.0) - 0.5) * (2 * math.pi * r / 40)
+    disk = np.maximum(disk, -np.maximum(np.maximum(np.abs(t + 39.0) - 6.0, 171.0 - r), 3.0 - np.abs(sv)))
+    G = 24
+    ag = np.mod(th, 2 * math.pi / G)
+    delik = 1e3
+    for rk, ak in ((116.0, 1.6), (137.0, 5.4), (158.0, 9.2)):
+        a_k = math.radians(ak)
+        delik = np.minimum(delik, np.sqrt((r - rk) ** 2 + (rk * (ag - a_k)) ** 2) - 4.2)
+    disk = np.maximum(disk, -np.maximum(delik, -32.0 - t))
+    sapka = sd_kutu2(r, t, 0.0, -36.0, 96.0, 28.0, 4.0)
+    # Brembo kaliper: disk kenarını saran yay biçimli gövde, kubbeli dış yüz, logo plakası, hava alma nipeli
+    dth = np.mod(th - KALIPER_ACI + math.pi, 2 * math.pi) - math.pi
+    s = r * dth
+    kal2 = sd_kutu2(r, s, 170.0, 0.0, 42.0, 125.0, 30.0)
+    tc = 32.0 + 6.0 * np.clip(1.0 - (s / 125.0) ** 2, 0.0, 1.0) - 4.0 * ((r - 170.0) / 42.0) ** 2
+    kaliper = smax(kal2, t - tc, 10.0)
+    kaliper = np.maximum(kaliper, -70.0 - t)
+    kaliper = np.maximum(kaliper, -np.maximum(np.maximum(np.abs(s) - 46.0, 203.0 - r), np.abs(t + 22.0) - 18.0))  # balata penceresi
+    plaka2 = sd_kutu2(r, s, 168.0, 0.0, 17.0, 84.0, 8.0)
+    plaka = np.maximum(plaka2, np.maximum(t - (tc + p(0.1)), (tc - 4.0) - t))
+    kaliper = np.minimum(kaliper, plaka)
+    nipel = np.maximum(np.sqrt((r - 196.0) ** 2 + (s + 106.0) ** 2) - 4.5, np.maximum(t - (tc + 7.0), 0.0 - t))
+    kaliper = np.minimum(kaliper, nipel)
+    return np.minimum(np.minimum(disk, sapka), kaliper)
+
+
+def _arka_fren(r, th, t):
+    """Arka fren (Astra J OPC): Ø315 ince havalandırmasız disk (t -38..-18), yüzünde küçük delik grupları;
+    disk kenarına binen kompakt tek pistonlu yüzer kaliper (logo plakası yok): dış yüzde iki parmaklı köprü,
+    iki ucunda kılavuz pimi körükleri ve taşıyıcı braket."""
+    disk = sd_kutu2(r, t, 125.0, -28.0, 32.5, 10.0, 2.0)
+    G = 20
+    ag = np.mod(th, 2 * math.pi / G)
+    delik = 1e3
+    for rk, ak in ((112.0, 2.0), (128.0, 6.5), (144.0, 11.0)):
+        a_k = math.radians(ak)
+        delik = np.minimum(delik, np.sqrt((r - rk) ** 2 + (rk * (ag - a_k)) ** 2) - 3.6)
+    disk = np.maximum(disk, -np.maximum(delik, -30.0 - t))
+    sapka = sd_kutu2(r, t, 0.0, -36.0, 96.0, 28.0, 4.0)
+    dth = np.mod(th - ARKA_KALIPER_ACI + math.pi, 2 * math.pi) - math.pi
+    s = r * dth
+    # gövde: disk kenarını saran (r 128..188), yay boyunca ±58 mm, dış yüzü t≈12 kubbeli
+    kal2 = sd_kutu2(r, s, 158.0, 0.0, 30.0, 58.0, 16.0)
+    tc = 8.0 + 4.0 * np.clip(1.0 - (s / 58.0) ** 2, 0.0, 1.0) - 3.0 * ((r - 158.0) / 30.0) ** 2
+    kaliper = smax(kal2, t - tc, 6.0)
+    kaliper = np.maximum(kaliper, -60.0 - t)
+    # parmaklar arası yarık (dış yüzde balata sırtı görünür)
+    kaliper = np.maximum(kaliper, -np.maximum(np.maximum(np.abs(s) - 9.0, 150.0 - r), -6.0 - t))
+    # taşıyıcı braket: kaliperin iki ucundan aks yönüne inen ince kulaklar
+    braket = np.maximum(sd_kutu2(r, s, 150.0, 0.0, 38.0, 82.0, 10.0), np.maximum(t - 0.0, -14.0 - t))
+    braket = np.maximum(braket, 112.0 - r)
+    # kılavuz pimi körükleri (iki uçta, dışa bakan kısa silindirler)
+    pim = 1e3
+    for sc in (-66.0, 66.0):
+        pim = np.minimum(pim, np.maximum(np.sqrt((r - 176.0) ** 2 + (s - sc) ** 2) - 7.0, np.maximum(t - 6.0, -20.0 - t)))
+    kaliper = np.minimum(np.minimum(kaliper, braket), pim)
+    return np.minimum(np.minimum(disk, sapka), kaliper)
+
+
+def tekerlek_sdf(dx, dz, t, yon=None, arka_aks=False):
     """yon: None -> ayna simetrik olmayan detaylar (yazı, şimşek) eklenmez (gövdede asimetrik() ekler);
-    +1/-1 -> dış yüze bakana göre sağ yön = yon * dx."""
+    +1/-1 -> dış yüze bakana göre sağ yön = yon * dx. arka_aks: True -> arka aks freni (küçük disk, tek pistonlu
+    yüzer kaliper), False -> ön aks Brembo freni."""
     r = np.sqrt(dx * dx + dz * dz)
     th = np.arctan2(dz, dx)
 
@@ -773,31 +863,10 @@ def tekerlek_sdf(dx, dz, t, yon=None):
     kapak = np.maximum(kapak, 40.0 - t)
 
     # ---------------------------------------------------------------- fren
-    # disk Ø355, t -60..-18 (arka kapamaya oturur), kenarında havalandırma kanatları, yüzünde delik grupları
-    disk = sd_kutu2(r, t, 134.5, -39.0, 42.5, 21.0, 2.0)
-    sv = (np.mod(th * 40 / (2 * math.pi) + 0.5, 1.0) - 0.5) * (2 * math.pi * r / 40)
-    disk = np.maximum(disk, -np.maximum(np.maximum(np.abs(t + 39.0) - 6.0, 171.0 - r), 3.0 - np.abs(sv)))
-    G = 24
-    ag = np.mod(th, 2 * math.pi / G)
-    delik = 1e3
-    for rk, ak in ((116.0, 1.6), (137.0, 5.4), (158.0, 9.2)):
-        a_k = math.radians(ak)
-        delik = np.minimum(delik, np.sqrt((r - rk) ** 2 + (rk * (ag - a_k)) ** 2) - 4.2)
-    disk = np.maximum(disk, -np.maximum(delik, -32.0 - t))
-    sapka = sd_kutu2(r, t, 0.0, -36.0, 96.0, 28.0, 4.0)
-    # Brembo kaliper: disk kenarını saran yay biçimli gövde, kubbeli dış yüz, logo plakası, hava alma nipeli
-    dth = np.mod(th - KALIPER_ACI + math.pi, 2 * math.pi) - math.pi
-    s = r * dth
-    kal2 = sd_kutu2(r, s, 170.0, 0.0, 42.0, 125.0, 30.0)
-    tc = 32.0 + 6.0 * np.clip(1.0 - (s / 125.0) ** 2, 0.0, 1.0) - 4.0 * ((r - 170.0) / 42.0) ** 2
-    kaliper = smax(kal2, t - tc, 10.0)
-    kaliper = np.maximum(kaliper, -70.0 - t)
-    kaliper = np.maximum(kaliper, -np.maximum(np.maximum(np.abs(s) - 46.0, 203.0 - r), np.abs(t + 22.0) - 18.0))  # balata penceresi
-    plaka2 = sd_kutu2(r, s, 168.0, 0.0, 17.0, 84.0, 8.0)
-    plaka = np.maximum(plaka2, np.maximum(t - (tc + p(0.1)), (tc - 4.0) - t))
-    kaliper = np.minimum(kaliper, plaka)
-    nipel = np.maximum(np.sqrt((r - 196.0) ** 2 + (s + 106.0) ** 2) - 4.5, np.maximum(t - (tc + 7.0), 0.0 - t))
-    kaliper = np.minimum(kaliper, nipel)
+    if arka_aks:
+        fren = _arka_fren(r, th, t)
+    else:
+        fren = _on_fren(r, th, t)
     # sibop: kol arası pencerede, çanaktan dışa eğik çıkar
     dv = np.mod(th - JANT_FAZ, 2 * math.pi) - math.pi / 5
     pr, ps = r * np.cos(dv), r * np.sin(dv)
@@ -811,7 +880,6 @@ def tekerlek_sdf(dx, dz, t, yon=None):
     jant = smax(jant, -yuva, 2.0)
     jant = np.maximum(jant, -oluk)
     jant = np.minimum(jant, np.minimum(np.minimum(bas, pul), kapak))
-    fren = np.minimum(np.minimum(disk, sapka), kaliper)
     sonuc = np.minimum(np.minimum(lastik, jant), np.minimum(fren, sibop))
     if yon is not None:
         sonuc = np.minimum(sonuc, teker_asimetrik_detay(yon * dx, dz + 0 * dx, t))
@@ -1001,28 +1069,16 @@ def detaylar(d, d0, b):
         m = np.maximum(ALT_IZGARA(Y, Z), on)
         dd = oyuk(dd, z0, m, p(1.6))
         dd = doldur(dd, z0, np.maximum(petek(Y / 2.1, Z, p(0.75)) - p(0.13), m), -p(0.6))   # yatay uzun altıgenler
-        # köşe girişleri (OPC fren soğutma)
-        A = KOSE_AGIZ(Y, Z)
-        # heykelsi oyuk: ağzın üst-dış yanında tampon yüzeyi içe çekilir (en çok 0.42 mm, ağız dudağında);
-        # üst sınırı KOSE_KIRIM boyunca eğim kırığı -> ağzın tepesinden çamurluğa yükselen keskin kırım
-        c = np.clip((KOSE_KIRIM(np.clip(Y, 700.0, 910.0)) - Z) / 75.0, 0.0, 1.0)
-        f = (p(0.42) * (1 - (1 - c) ** 2) * (1 - sstep(0.0, 150.0, A)) * sstep(706.0, 750.0, Y)
-             * (1 - sstep(870.0, 905.0, Y)) * sstep(255.0, 325.0, Z) * (1 - sstep(470.0, 540.0, X)))
-        dd = dd + f
-        zs = z0 + f
-        # derin, karanlık boşluk (dudak dik kenarlı); x<385: ön teker kuyusuna en az ~1.1 mm et kalır
-        on_k = X - 385.0
-        dd = oyuk(dd, zs, np.maximum(A, on_k), p(2.1))
-        # saten plaka: kenarda 0.25 mm basamak, kanala doğru çan ağzı gibi 1.3 mm'ye iner
-        kd = KOSE_KANAL(Y, Z)
-        pm = np.maximum(np.maximum(KOSE_PLAKA(Y, Z), -kd), np.maximum(A, on))
-        dd = doldur(dd, zs, pm, -(p(0.25) + p(1.05) * kose_t(Y, Z) ** 1.7))
-        # siyah kanal çerçevesi (0.38 mm et, yüzü -0.9 mm: plakadan ~0.4 mm, boşluktan 1.2 mm çıkıntılı) + içeride
-        # (-1.95 mm) petek ağ (et 0.26, delik 0.36 mm), arkası -2.6 mm
-        ic = kd + p(0.38)
-        dd = doldur(dd, zs, np.maximum(np.maximum(kd, -ic), on), -p(0.9))
-        dd = oyuk(dd, zs, np.maximum(ic, on_k), p(2.6))
-        dd = doldur(dd, zs, np.maximum(np.maximum(petek(Y, Z, p(0.36)) - p(0.13), ic), on), -p(1.95))
+        # köşe girişleri: çevresi içbükey çukur (heykelsi köşe), gümüş bıçak (kabarık) + üçgen ağız + kanatçık
+        kbd = KOSE_BICAK(Y, Z)
+        dd = dd + p(0.45) * (1 - sstep(0.0, 85.0, kbd)) * (1 - sstep(470.0, 540.0, X))
+        kb = np.maximum(kbd, on)
+        dd = doldur(dd, z0, kb, p(0.3) + p(0.25) * sstep(0.0, p(1.0), -kbd))   # pahlı kenar, ortası daha kabarık
+        dd = oyuk(dd, z0, np.maximum(np.abs(KOSE_BICAK(Y, Z) + p(0.1)) - p(0.1), on), p(0.2))
+        k = np.maximum(KOSE_HAVA(Y, Z), on)
+        dd = oyuk(dd, z0, k, p(1.6))
+        fin = np.maximum(np.abs(Y - 728.0 + 0.3 * (Z - 400.0)) - p(0.2), k)
+        dd = doldur(dd, z0, fin, -p(0.5))
         # far yıkama kapağı ve çeki kancası kapağı (ince panel çizgileri)
         def elips(u, v, a, b):
             k0 = np.sqrt((u / a) ** 2 + (v / b) ** 2)
@@ -1035,9 +1091,7 @@ def detaylar(d, d0, b):
         ck = sd_kutu2(u, v, 0.0, 0.0, 44.0, 13.0, 9.0)
         dd = oyuk(dd, z0, np.maximum(np.abs(ck) - p(0.11), on), p(0.25))
         # splitter: gövde renkli dudağın altında öne taşan keskin plaka, uçları köşe bıçaklarına kıvrılır
-        # (köşe tarafı iki fotoğraftan: girişin altındaki kırım z≈251-262, dış uçta 283'e kıvrılır)
-        dudak = np.maximum(sd_cizgi(np.abs(Y), Z, [(0, 226), (300, 240), (420, 250), (600, 256), (730, 260), (790, 267),
-                                                   (832, 283)]) - p(0.4), X - 420)
+        dudak = np.maximum(sd_cizgi(np.abs(Y), Z, [(0, 226), (420, 228), (600, 240), (760, 262), (830, 282)]) - p(0.4), X - 420)
         dd = doldur(dd, z0, dudak, p(0.7))
         return dd
     uygula((-60, 560, 0, 960, 150, 620), on_tampon)
@@ -1077,13 +1131,19 @@ def detaylar(d, d0, b):
             pl = sd_kutu2(ay, Z, yc, 604, 48, 5, 3)
             dd = oyuk(dd, z0, np.maximum(pl, on), p(0.75))
         # plaka: yuvadan 0.55 mm kabarık, kabartma kenar çerçevesi, solda AB şeridi, 2 vida başı
-        plaka = sd_kutu2(Y, Z, 0, 538, 260, 55, 8)
-        dd = doldur(dd, z0, np.maximum(plaka, on), p(0.05))
-        dd = doldur(dd, z0, np.maximum(np.abs(plaka + p(0.25)) - p(0.13), on), p(0.17))
-        dd = doldur(dd, z0, np.maximum(sd_kutu2(Y, Z, -232, 538, 17, 44, 4), on), p(0.12))
-        for yc in (-135.0, 135.0):
-            vd = np.sqrt((Y - yc) ** 2 + (Z - 538) ** 2)
-            dd = doldur(dd, z0, np.maximum(vd - p(0.32), on), p(0.05) + p(0.15) * np.sqrt(np.clip(1 - (vd / p(0.32)) ** 2, 0, 1)))
+        # (plakasız seçenekte yuvada yalnız iki vida deliği kalır; "GTC" kabartması asimetrik() içinde)
+        vidalar = (-135.0, 135.0)
+        if ARKA_PLAKA:
+            plaka = sd_kutu2(Y, Z, 0, 538, 260, 55, 8)
+            dd = doldur(dd, z0, np.maximum(plaka, on), p(0.05))
+            dd = doldur(dd, z0, np.maximum(np.abs(plaka + p(0.25)) - p(0.13), on), p(0.17))
+            dd = doldur(dd, z0, np.maximum(sd_kutu2(Y, Z, -232, 538, 17, 44, 4), on), p(0.12))
+            for yc in vidalar:
+                vd = np.sqrt((Y - yc) ** 2 + (Z - 538) ** 2)
+                dd = doldur(dd, z0, np.maximum(vd - p(0.32), on), p(0.05) + p(0.15) * np.sqrt(np.clip(1 - (vd / p(0.32)) ** 2, 0, 1)))
+        else:
+            for yc in vidalar:
+                dd = oyuk(dd, z0, np.maximum(np.sqrt((Y - yc) ** 2 + (Z - 505) ** 2) - p(0.22), on), p(0.6))
         # reflektörler: çukur yuva, içinde lens ve dikey prizma kaburgaları
         rf = REFLEKTOR(ay, Z)
         dd = oyuk(dd, z0, np.maximum(rf, on), p(0.45))
@@ -1099,11 +1159,12 @@ def detaylar(d, d0, b):
         dif = np.maximum(dfz, on)
         dd = oyuk(dd, z0, dif, p(0.75) + p(0.45) * sstep(300.0, 360.0, Z))
         dd = oyuk(dd, z0, np.maximum(np.abs(dfz + p(0.12)) - p(0.12), on), p(1.6))       # üst/yan kenar gölge oluğu
-        # dikey difüzör kanatları: tampon yüzeyine kadar çıkan 0.45 mm plakalar, alt kenarda gövdenin altına sarkar
+        # dikey difüzör kanatları: tampon yüzeyine kadar çıkan 0.45 mm plakalar; alt kenarları yatay (z DIF_KANAT_ALT),
+        # difüzör rampasının altında üçgen plaka olarak sarkar (beyaz OPC tam arka: kanat uçları z≈200'de biter)
         for yc in DIF_KANAT:
             kn = np.abs(ay - yc) - p(0.225)
-            dd = doldur(dd, z0, np.maximum(kn, np.maximum(dfz + p(0.3), Z - 352.0)), -p(0.08))
-            alt_ = np.maximum(kn, np.maximum(np.maximum(Z_ALT(X) - p(0.9) - Z, Z - Z_ALT(X) - 40.0),
+            dd = doldur(dd, z0, np.maximum(kn, np.maximum(dfz + p(0.3), np.maximum(Z - 352.0, DIF_KANAT_ALT - Z))), -p(0.08))
+            alt_ = np.maximum(kn, np.maximum(np.maximum(DIF_KANAT_ALT - Z, Z - 352.0),
                                              np.maximum(4240.0 - X, X - (4446.0 - 0.55 * np.maximum(0.0, 300.0 - Z)))))
             dd = smin(dd, alt_, 4.0)
         # trapez egzoz uçları: dışa taşan krom çerçeve (dış pah + iç basamak), ≥3 mm derin ağız, içinde yuvarlak boru
@@ -1270,6 +1331,23 @@ def asimetrik(d, x, y, z, mod):
         cur = d[sl]
         fis = np.maximum(np.sqrt((Y + 177.0) ** 2 + (Z - 1292.0) ** 2) - p(0.3), 3985.0 - X)
         d[sl] = np.maximum(cur, -np.maximum(fis, -(cur + p(0.4))))
+    # arka yazılar: "opc" rozeti (bagaj kapağı, +Y) ve plakasızsa yuvadaki "GTC"; çizgi yazı tipi (_FONT),
+    # çizgi kalınlığı 0.27 mm, 0.3 mm kabartma (arkadan bakınca sağ = +Y)
+    def kabartma_yazi(g, metin, h, sx, egim, bosluk, yc, zc, v_merkez, yari, yuk):
+        sl, X, Y, Z = g
+        _, gen = duz_yazi_2d(np.zeros(1), np.zeros(1), metin, h, sx, egim, bosluk)
+        u = Y - (yc - gen / 2) + 0 * X
+        v = Z - (zc - v_merkez * h) + 0 * X
+        dy, _ = duz_yazi_2d(u, v, metin, h, sx, egim, bosluk)
+        cur = d[sl]
+        d[sl] = np.minimum(cur, np.maximum(cur - yuk, dy - yari))
+    g = kes(4300, 4520, 300, 445, 735, 815)
+    if g:
+        kabartma_yazi(g, "opc", 28.0, 0.98, 0.0, 8.0, OPC_ROZET[0], OPC_ROZET[1], 0.21, p(0.135), p(0.3))
+    if not ARKA_PLAKA:
+        g = kes(4300, 4520, -100, 100, 500, 556)
+        if g:
+            kabartma_yazi(g, "GTC", 21.0, 3.65, 0.28, 9.5, GTC_YAZI[0], GTC_YAZI[1], 0.5, p(0.135), p(0.3))
     # çeki kancası kapağı (arka tampon, +Y tarafı): ince panel çizgisi
     g = kes(4300, 4520, 380, 540, 370, 500)
     if g:
@@ -1321,7 +1399,7 @@ def arac_sdf(b, mod):
         if mod == "tek":
             stub = np.maximum(r - p(2.0), np.maximum(615.0 - Ys, Ys - 700.0))
             d[sl] = np.minimum(d[sl], stub)
-            d[sl] = np.minimum(d[sl], tekerlek_sdf(Xs - xa, Zs - AKS_Z, Ys - TEKER_Y))
+            d[sl] = np.minimum(d[sl], tekerlek_sdf(Xs - xa, Zs - AKS_Z, Ys - TEKER_Y, arka_aks=(xa == AKS_ARKA)))
         else:
             boss = np.maximum(r - p(2.3), np.maximum(KUYU_Y - 12.0 - Ys, Ys - (TEKER_Y - TEKER_YG - 5.0)))
             d[sl] = np.minimum(d[sl], boss)
@@ -1420,7 +1498,8 @@ def kaydet(v, f, yol):
     return tm
 
 
-def teker_mesh(h_baski, n, tolerans, yol):
+def teker_mesh(h_baski, n, tolerans, yol, arka=False):
+    """Kit tekerleği; arka=True -> arka aks freni (küçük disk, tek pistonlu kaliper)."""
     from skimage.measure import marching_cubes
     h = h_baski * n
     a = np.arange(-360.0, 360.0 + h, h)
@@ -1430,7 +1509,7 @@ def teker_mesh(h_baski, n, tolerans, yol):
     for i0 in range(0, len(a), 24):
         DX = a[i0:i0 + 24, None, None]
         # baskıda yukarıdan bakınca sağ = +dx (dx, dz, t sağ elli eksen takımı)
-        v = tekerlek_sdf(DX, DZ, T, yon=1.0)
+        v = tekerlek_sdf(DX, DZ, T, yon=1.0, arka_aks=arka)
         delik = np.maximum(np.sqrt(DX ** 2 + DZ ** 2) - p(TEKER_DELIK_R), T - 40.0)
         vol[i0:i0 + 24] = np.maximum(v, -delik)
     vol[0] = vol[-1] = 1e3
@@ -1451,7 +1530,11 @@ def main():
     ap.add_argument("--h", type=float, default=0.15, help="baskı ölçeğinde ızgara aralığı (mm)")
     ap.add_argument("--tolerans", type=float, default=0.005, help="sadeleştirme toleransı (mm)")
     ap.add_argument("--onek", default="astra_gtc")
+    ap.add_argument("--plakasiz", action="store_true", help="arka plaka takılmaz; yuvadaki kabartma GTC yazısı görünür")
     a = ap.parse_args()
+    global ARKA_PLAKA
+    if a.plakasiz:
+        ARKA_PLAKA = False
     n = a.olcek
     if a.parca in ("tek", "hepsi"):
         print("[tek parça]")
@@ -1463,8 +1546,10 @@ def main():
         v, f = govde_mesh("kit", a.h, n)
         print(f"  {len(f)} üçgen -> sadeleştiriliyor (tolerans {a.tolerans} mm)")
         kaydet(*sadelestir(v, f, a.tolerans), f"{a.onek}_govde.stl")
-        print("[teker]")
-        teker_mesh(min(a.h, 0.07), n, a.tolerans, f"{a.onek}_teker.stl")
+        print("[teker: ön]")
+        teker_mesh(min(a.h, 0.07), n, a.tolerans, f"{a.onek}_teker_on.stl")
+        print("[teker: arka]")
+        teker_mesh(min(a.h, 0.07), n, a.tolerans, f"{a.onek}_teker_arka.stl", arka=True)
 
 
 if __name__ == "__main__":
