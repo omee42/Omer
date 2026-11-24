@@ -426,10 +426,14 @@ def kose_t(Y, Z):
 # dışa doğru 945-968'e yükselir, dış birim alttan sarkar (z≈797), yanda x≈3950'de (U≈1185) sivri biter.
 STOP_UST = Egri([(355, 825), (400, 858), (450, 888), (530, 920), (618, 945), (740, 957), (860, 962), (1000, 966),
                  (1120, 968), (1185, 966)])
-STOP_ALT = Egri([(355, 825), (400, 823), (450, 822), (560, 828), (650, 815), (740, 797), (800, 800), (869, 815),
-                 (980, 850), (1075, 893), (1160, 950), (1185, 966)])
+# dış birimin alt kenarı (U ≥ 740) dolgun: sivri ucun altında 25-35 mm aşağı ve dışa sarkar (mavi OPC 26608068581 ve
+# beyaz OPC 8366545858 kalibre kameralarında model alt kenarı fotoğraftaki lens kenarının üstünde kalıyordu); iç
+# birim noktaları aynı. Alt kenar poligona sık örneklenir (eskiden 3 kirişle köşeli çiziliyordu).
+STOP_ALT = Egri([(355, 825), (400, 823), (450, 822), (560, 828), (650, 815), (740, 790), (800, 788), (869, 795),
+                 (980, 820), (1075, 860), (1140, 915), (1185, 966)])
 _su = [(u, float(STOP_UST(u))) for u in (355, 380, 400, 450, 530, 618, 740, 860, 1000, 1120, 1165, 1190)]
-_sa = [(u, float(STOP_ALT(u))) for u in (1160, 1075, 980, 869, 800, 740, 650, 560, 450, 400)]
+_sa = [(u, float(STOP_ALT(u))) for u in (1175, 1160, 1140, 1120, 1100, 1075, 1050, 1025, 1000, 980, 955, 930, 900,
+                                         869, 835, 800, 770, 740, 650, 560, 450, 400)]
 STOP = YPoligon(_su + _sa, 5)
 
 
@@ -471,6 +475,20 @@ DIFUZOR = YPoligon([(-724, 120), (724, 120), (722, 250), (712, 300), (690, 345),
                     (-300, 373), (-560, 370), (-650, 364), (-690, 345), (-712, 300), (-722, 250)], 18)
 EGZOZ = YPoligon([(444, 338), (618, 338), (682, 262), (478, 262)], 13)
 REFLEKTOR = YPoligon([(362, 600), (592, 585), (572, 569), (366, 575)], 5)
+# tampon kırımı (beyaz OPC 8366545858, mavi OPC 26608068581): reflektörlerin üst kenarı hizasında tüm genişlikte
+# keskin yatay basamak; altındaki yüz 0.3 mm geride. Kırım yüksekliği |y|'ye göre: reflektör üst kenarını izler,
+# eğik dış ucundan sonra köşe boyunca ~45° aşağı iner (beyaz OPC'de sol köşeden geri izdüşüm: |y| 605/640/673/708 ->
+# z 547/533/519/501) ve |y| 700-780'de söner; basamak 7 mm'lik yumuşak geçişle iner. Plaka lambası yarıkları basamakta.
+KIRIM_Z = Egri([(0, 600), (362, 600), (560, 587), (592, 584), (606, 568), (625, 548), (640, 536), (673, 519),
+                (708, 502), (800, 470)])
+KIRIM_D = p(0.3)
+# plaka yuvası (plakasız fotoğraf 8366545858, kalibre kamerayla yüzeye ışın izdüşümü): yamuk, üst kenar 300 mm
+# (z 568), alt kenar 352 mm (z 497) — yan duvarlar aşağı doğru dışa açılır; tabanında iki koyu tapa (Ø20, |y| 130)
+PLAKA_YUVA = YPoligon([(-150, 568), (150, 568), (176, 497), (-176, 497)], 9)
+PLAKA_TAPA = ((-130.0, 505.0), (130.0, 505.0))
+# bagaj kapağı gülümsemesinin amblem altındaki çentiği: aralık ortada ~|y| 90 boyunca aşağı genişler, taban z≈695
+GULUMSEME_CENTIK = YPoligon([(-90, 714), (-78, 706), (-64, 698), (-50, 695), (50, 695), (64, 698), (78, 706),
+                             (90, 714)], 3)
 # Arka yazılar (beyaz OPC tam arka + mavi/siyah OPC çapraz fotoğraflarından kalibre kamerayla yüzeye ışın izdüşümü):
 # "opc" kabartma rozeti sağ (+Y) stobun iç ucunun altında, bagaj kapağı aralığının ~28 mm üstünde (merkez y 370,
 # z 775, ~74 x 24 mm); plaka yuvasının tabanında kabartma italik "GTC" (merkez y 0, z 528, ~160 x 28 mm) —
@@ -496,7 +514,9 @@ KAPI_CIZGILERI = [
     # 26608068581 kalibre kamerasından geri izdüşüm (4132,858) (4104,813) (4060,760) (4011,711) (3953,667)
     # (3933,645). Eski hat (4300,786)->(3948,562) ~170 mm aşağıdaydı, stoba değmiyor ve kemerin önünde bitiyordu.
     # Bu hat yanda yüzey normaline göre işlenir (detaylar(): arka_dikisler), kapilar() döngüsünde değil.
-    [(4150, 872), (4132, 858), (4104, 815), (4060, 762), (4011, 712), (3962, 678), (3930, 642), (3888, 596)],
+    # Stobun dolgun alt kenarıyla (STOP_ALT) hat, lambanın alt dış köşesinde (4135, 835) kenar oluğundan çıkar ve
+    # 45° düz iner; ilk nokta lens içinde, oluk ortasında kesilir.
+    [(4142, 842), (4135, 835), (4098, 799), (4060, 762), (4011, 712), (3962, 678), (3930, 642), (3888, 596)],
 ]
 KAPI_ON = yumusat(KAPI_CIZGILERI[0], 12.0)
 KAPI_ARKA = yumusat(KAPI_CIZGILERI[1] + KAPI_CIZGILERI[2][1:], 12.0)      # arka + alt: köşe teğet sürekli
@@ -1628,17 +1648,29 @@ def detaylar(d, d0, b):
         bagaj = sd_cizgi(stop_u(X, Y), Z, [(0, 712), (120, 716), (240, 727), (330, 739), (400, 750), (480, 771),
                                            (545, 799), uc_, (uc_[0] + 12.0, uc_[1] + 8.0)])
         dd = aralik_oluk(dd, z0, bagaj, np.maximum(4200 - X, -(stop_maske(X, Y, Z) + p(0.15))))
+        # amblem altında aralığın alt kenarı çentik gibi aşağı genişler (beyaz OPC 8366545858)
+        dd = oyuk(dd, z0, np.maximum(GULUMSEME_CENTIK(Y, Z), 4380 - X), ARALIK_D)
         # rozet: halka Ø~120, merkez z 876 (stoplar arasında, gülümsemenin üstünde)
         # rozet: amblem asimetrik() içindeki opel_amblem() ile işlenir (merkez y 0, z 876)
         on = 4250 - X
-        # plaka yuvası (tampona gömük, kenarları pahlı) + üst kenarında iki plaka lambası yarığı
-        yuva = sd_kutu2(Y, Z, 0, 540, 284, 66, 16)
-        dd = oyuk(dd, z0, np.maximum(yuva, on), p(0.3) + p(0.25) * sstep(-p(0.6), 0.0, yuva))
+        # tampon kırımı: KIRIM_Z altında yüz KIRIM_D geride (yüzey normali boyunca); alttaki tüm detaylar (plaka,
+        # reflektör, sensör, difüzör, egzoz) yeni yüze göre işlenir (z0 kaydırılır). Difüzörün altında (z < 200)
+        # ve köşede (|y| 700-780) söner.
+        z0u = z0
+        kz = KIRIM_Z(ay)
+        kd = KIRIM_D * (1.0 - sstep(kz - 3.5, kz + 3.5, Z)) * (1.0 - sstep(700.0, 780.0, ay)) * sstep(150.0, 200.0, Z)
+        dd = np.where(kd > 1e-6, np.maximum(dd, z0 + kd), dd)
+        z0 = z0 + kd
+        # plaka lambası yarıkları: kırım basamağında (üst yüze göre)
         for yc in (120.0,):
-            pl = sd_kutu2(ay, Z, yc, 604, 48, 5, 3)
-            dd = oyuk(dd, z0, np.maximum(pl, on), p(0.75))
-        # plaka: yuvadan 0.55 mm kabarık, kabartma kenar çerçevesi, solda AB şeridi, 2 vida başı
-        # (plakasız seçenekte yuvada yalnız iki vida deliği kalır; "GTC" kabartması asimetrik() içinde)
+            pl = sd_kutu2(ay, Z, yc, kz + 1.0, 48, 4.5, 3)
+            dd = oyuk(dd, z0u, np.maximum(pl, on), p(0.75))
+        # plaka yuvası: yamuk, tampona gömük, kenarları pahlı
+        yuva = PLAKA_YUVA(Y, Z)
+        dd = oyuk(dd, z0, np.maximum(yuva, on), p(0.3) + p(0.25) * sstep(-p(0.6), 0.0, yuva))
+        # plaka: kırımın hemen altında, yuvanın üstünü kapatır (520 mm AB plakası yuvadan geniş, alt yüze oturur);
+        # yüzden 0.05 mm kabarık, kabartma kenar çerçevesi, solda AB şeridi, 2 vida başı
+        # (plakasız seçenekte yuvada iki koyu tapa kalır; "GTC" kabartması asimetrik() içinde)
         vidalar = (-135.0, 135.0)
         if ARKA_PLAKA:
             plaka = sd_kutu2(Y, Z, 0, 538, 260, 55, 8)
@@ -1649,8 +1681,8 @@ def detaylar(d, d0, b):
                 vd = np.sqrt((Y - yc) ** 2 + (Z - 538) ** 2)
                 dd = doldur(dd, z0, np.maximum(vd - p(0.32), on), p(0.05) + p(0.15) * np.sqrt(np.clip(1 - (vd / p(0.32)) ** 2, 0, 1)))
         else:
-            for yc in vidalar:
-                dd = oyuk(dd, z0, np.maximum(np.sqrt((Y - yc) ** 2 + (Z - 505) ** 2) - p(0.22), on), p(0.6))
+            for yc, zc in PLAKA_TAPA:
+                dd = oyuk(dd, z0, np.maximum(np.sqrt((Y - yc) ** 2 + (Z - zc) ** 2) - 10.0, on), p(0.6))
         # reflektörler: çukur yuva, içinde lens ve dikey prizma kaburgaları
         rf = REFLEKTOR(ay, Z)
         dd = oyuk(dd, z0, np.maximum(rf, on), p(0.45))
