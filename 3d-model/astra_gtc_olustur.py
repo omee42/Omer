@@ -453,20 +453,27 @@ def kose_t(Y, Z):
     return map_coordinates(t, [(Yb - y0) / h, (Zb - z0) / h], order=1, mode="nearest")
 # Arka stop (uzun bumerang): köşeyi saran lamba "açılmış" U koordinatında tanımlanır:
 #   U = |y| + max(0, 4400 - x)   (arka yüzde U≈|y|, köşeden sonra yan yüzde öne doğru artar)
-# Kenar ve iç grafik beyaz OPC tam arka + siyah OPC arka çapraz fotoğraflarındaki noktaların yeni gövde
-# yüzeyine ışın izdüşümüyle (iki kamera ortalaması): iç sivri uç U 355 z 825 (alt kenar hizasında), üst kenar
-# dışa doğru 945-968'e yükselir, dış birim alttan sarkar (z≈797), yanda x≈3950'de (U≈1185) sivri biter.
-STOP_UST = Egri([(355, 825), (400, 858), (450, 888), (530, 920), (618, 945), (740, 957), (860, 962), (1000, 966),
-                 (1120, 968), (1185, 966)])
-# dış birimin alt kenarı (U ≥ 740) dolgun: sivri ucun altında 25-35 mm aşağı ve dışa sarkar (mavi OPC 26608068581 ve
-# beyaz OPC 8366545858 kalibre kameralarında model alt kenarı fotoğraftaki lens kenarının üstünde kalıyordu); iç
-# birim noktaları aynı. Alt kenar poligona sık örneklenir (eskiden 3 kirişle köşeli çiziliyordu).
-STOP_ALT = Egri([(355, 825), (400, 823), (450, 822), (560, 828), (650, 815), (740, 790), (800, 788), (869, 795),
-                 (980, 820), (1075, 860), (1140, 915), (1185, 966)])
-_su = [(u, float(STOP_UST(u))) for u in (355, 380, 400, 450, 530, 618, 740, 860, 1000, 1120, 1165, 1190)]
-_sa = [(u, float(STOP_ALT(u))) for u in (1175, 1160, 1140, 1120, 1100, 1075, 1050, 1025, 1000, 980, 955, 930, 900,
-                                         869, 835, 800, 770, 740, 650, 560, 450, 400)]
-STOP = YPoligon(_su + _sa, 5)
+# Kenarlar beyaz OPC tam arka (8366545858; kalibre kamera tekerlek + tavan noktalarıyla kurulu, lambadan ve
+# amblemden bağımsız) ve gri GTC arka çapraz (54188905081; kamera amblem merkezine göre yerel ötelendi)
+# fotoğraflarından yüzeye ışın izdüşümü; iki ölçüm 5-15 mm içinde örtüşür. Lamba eskisinden daha yatık: üst kenar
+# içten dışa yalnız ~45 mm yükselir (U 476 z 893 -> U 1031 z 940), alt kenar U 380-800 arasında neredeyse yatay
+# (~775-795), iç uç yuvarlak küt burun (U 335, z ~806). Eski tablo (siyah OPC kamerasıyla ortalama) dış üst kenarı
+# ~25 mm yüksek, iç alt kenarı ~30 mm yüksek ve dış alt kenarı ~40 mm sarkık çiziyordu: lamba dışa doğru dik
+# kalkıyor, dış ucu küt kalıyordu. Dış uç (U 1165, z 941; yüzeyde x≈3970) ~33°'lik sivri uçtur: alt kenar mavi OPC
+# (26608068581) ve gri GTC'de aynı eğimle (U 1004 z ~842, U 1089 z ~896) üst kenara kavuşur; bagaj kapağı D direği
+# aralığı (BAGAJ_YAN) tam bu uca iner.
+STOP_UST = Egri([(335, 806), (345, 826), (362, 848), (385, 866), (410, 878), (476, 893), (546, 909), (630, 918),
+                 (738, 928), (880, 937), (1031, 940), (1165, 941)])
+STOP_ALT = Egri([(335, 806), (350, 799), (380, 794), (430, 792), (480, 791), (526, 787), (570, 781), (620, 777),
+                 (680, 773), (740, 773), (800, 779), (860, 788), (920, 800), (960, 815), (1004, 840), (1050, 867),
+                 (1090, 893), (1125, 915), (1165, 941)])
+_su = [(u, float(STOP_UST(u))) for u in (335, 337, 340, 344, 349, 355, 362, 372, 385, 400, 430, 476, 546, 630, 738,
+                                         880, 1031, 1100, 1140, 1165)]
+_sa = [(u, float(STOP_ALT(u))) for u in (1155, 1145, 1135, 1125, 1110, 1090, 1070, 1050, 1027, 1004, 982, 960, 940,
+                                         920, 890, 860, 830, 800, 770, 740, 710, 680, 650, 620, 590, 560, 526, 500,
+                                         480, 455, 430, 405, 380, 365, 355, 348, 342, 338)]
+# köşe yuvarlatması 2 mm (eskiden 5 mm: 33°'lik uçta poligon ~20 mm geri çekilip küt bir burun bırakıyordu)
+STOP = YPoligon(_su + _sa, 2)
 
 
 def stop_u(X, Y):
@@ -489,14 +496,14 @@ def stop_uv(pts, adim=20.0):
 
 # lamba içi (U, v): iç/dış birim ayrımı (bagaj kapağı aralığı) eğik geçer; krom bıçak v≈0.36'da tüm boyu
 # geçip dış birimde "¬" LED bacağıyla birleşir (kanat grafiği); altında geri vites / sinyal odaları.
-STOP_ARALIK = [(585.0, 0.0), (676.0, 1.0)]
+STOP_ARALIK = [(526.0, 0.0), (612.0, 1.0)]   # beyaz OPC: alt ucu U 526 (gülümseme burada biter), üst ucu U ~605
 STOP_KROM = [(372, 0.42), (420, 0.38), (520, 0.36), (640, 0.36), (720, 0.37), (762, 0.40)]
-STOP_LED_IC = [(458, 0.60), (575, 0.62)]
+STOP_LED_IC = [(445, 0.60), (560, 0.62)]
 STOP_LED_DIS = [(628, 0.72), (760, 0.72), (835, 0.71), (812, 0.58), (786, 0.49), (762, 0.40)]
 STOP_KANAT = ([(900, 0.80), (1000, 0.80), (1100, 0.76), (1160, 0.70)], [(890, 0.46), (1000, 0.48), (1100, 0.52), (1150, 0.58)])
 STOP_CERCEVE = [(918, 1.05), (905, 0.80), (885, 0.45), (850, 0.22), (800, -0.05)]
-STOP_ODA_IC = [(370, -0.1), (580, -0.1), (630, 0.36), (520, 0.32), (420, 0.34), (370, 0.40)]
-STOP_ODA_DIS = [(612, -0.1), (700, -0.1), (700, 0.34), (640, 0.33)]
+STOP_ODA_IC = [(370, -0.1), (505, -0.1), (545, 0.36), (480, 0.32), (420, 0.34), (370, 0.40)]
+STOP_ODA_DIS = [(540, -0.1), (700, -0.1), (700, 0.34), (566, 0.33)]
 STOP_LED_ALT = [(716, 0.16), (762, 0.12)]
 # OPC arka: siyah alt difüzör (tampon alt kenarı z≈380), uçlarında tek trapez egzoz (y 436..645, z 250..330)
 # OPC arka tampon (beyaz OPC tam arka + siyah OPC çapraz fotoğraflarından yüzeye ışın izdüşümü, iki taraf simetrik):
@@ -523,10 +530,10 @@ GULUMSEME_CENTIK = YPoligon([(-90, 714), (-78, 706), (-64, 698), (-50, 695), (50
                              (90, 714)], 3)
 # Arka yazılar (beyaz OPC tam arka + mavi/siyah OPC çapraz fotoğraflarından kalibre kamerayla yüzeye ışın izdüşümü):
 # "opc" kabartma rozeti sağ (+Y) stobun iç ucunun altında, bagaj kapağı aralığının ~28 mm üstünde (merkez y 370,
-# z 775, ~74 x 24 mm); plaka yuvasının tabanında kabartma italik "GTC" (merkez y 0, z 528, ~160 x 28 mm) —
+# z 766, ~74 x 24 mm); plaka yuvasının tabanında kabartma italik "GTC" (merkez y 0, z 528, ~160 x 28 mm) —
 # plaka takılıyken görünmez, ARKA_PLAKA = False (--plakasiz) ile plakasız yuvada görünür. Başka yazı yok.
 ARKA_PLAKA = True
-OPC_ROZET = (370.0, 775.0)          # x yüksekliği merkezi (y, z)
+OPC_ROZET = (370.0, 766.0)          # x yüksekliği merkezi (y, z); beyaz OPC: gülümsemenin ~28 mm üstü
 GTC_YAZI = (0.0, 528.0)             # yazı merkezi (y, z)
 DIF_KANAT = (0.0, 230.0)
 DIF_KANAT_ALT = 198.0     # kanatların alt kenarı (gerçek mm)
@@ -554,7 +561,7 @@ KAPI_CIZGILERI = [
     # Bu hat yanda yüzey normaline göre işlenir (detaylar(): arka_dikisler), kapilar() döngüsünde değil.
     # Stobun dolgun alt kenarıyla (STOP_ALT) hat, lambanın alt dış köşesinde (4135, 835) kenar oluğundan çıkar ve
     # 45° düz iner; ilk nokta lens içinde, oluk ortasında kesilir.
-    [(4142, 842), (4135, 835), (4098, 799), (4060, 762), (4011, 712), (3962, 678), (3930, 642), (3888, 596)],
+    [(4152, 852), (4135, 835), (4098, 799), (4060, 762), (4011, 712), (3962, 678), (3930, 642), (3888, 596)],
 ]
 KAPI_ON = yumusat(KAPI_CIZGILERI[0], 12.0)
 KAPI_ARKA = yumusat(KAPI_CIZGILERI[1] + KAPI_CIZGILERI[2][1:], 12.0)      # arka + alt: köşe teğet sürekli
@@ -793,7 +800,12 @@ def govde_temel(X, Y, Z):
     alt = smax(alt, d_alt, p(1.2))
 
     zk = Z_KABIN(X) - 40.0 * (Y / 650.0) ** 2
-    d_kust = (Z - zk) / np.sqrt(1 + Z_KABIN.t(X) ** 2 + (80.0 * Y / 650.0 ** 2) ** 2)
+    # eğim (normalleştirme) tablonun arka ucunda (x 4420) sıfıra sıçramaz, 4400-4480 arasında söner: sıçrama
+    # d_kust'u 2.4 kat değiştiriyor, kabinin smin şişkinliği bagaj kapağında x≈4420'de 15 mm'lik dik bir duvar
+    # bırakıyordu (ortada z 955-970, yanlara inen yatay kırım; amblemin üstünden stopların üst kenarına uzanıyordu)
+    zk_t = np.where(X < Z_KABIN.hi - 20.0, Z_KABIN.t(X),
+                    float(Z_KABIN.df(Z_KABIN.hi - 20.0)) * (1 - sstep(Z_KABIN.hi - 20.0, Z_KABIN.hi + 60.0, X)))
+    d_kust = (Z - zk) / np.sqrt(1 + zk_t ** 2 + (80.0 * Y / 650.0 ** 2) ** 2)
     eg = EGIM_X(X)
     d_kyan = (Y - hw_kabin(X, Z)) / np.sqrt(1 + eg ** 2 + (HW_KABIN.t(X) - (Z - 1000.0) * EGIM_X.t(X)) ** 2)
     kabin = smax(d_kyan, d_kust, p(2.6))
@@ -915,8 +927,11 @@ def cizgi3(X, Y, Z, pts):
 # bagaj kapağı yan aralığı (D direği): cam alt dış köşesinden stobun sivri ön ucuna (mavi OPC 26608068581 ve beyaz
 # OPC tam arka kalibre kameralarından geri izdüşüm: (3933, 628, 1079), (3921, 668, 1046), (3974, 662, 1039),
 # (3955, 714, 999) -> stop ucu U 1185 z 966). (x, z) verilir, y yüzeyden okunur.
+# Alt ucu stobun sivri dış ucuna (U 1165 z 941, yüzeyde x≈3970) iner: mavi OPC'de aralık uca ~30 mm yukarıdan
+# gelip geriye doğru kıvrılarak kavuşur. Son nokta lensin uç kamasının içinde: oluk lens-gövde oluğunun ucuyla birleşir
+# (st_sinir oluk ortasında keser), arada çıkıntı kalmaz.
 BAGAJ_YAN = [(4021.0, 1100.0), (3985.0, 1084.0), (3950.0, 1062.0), (3932.0, 1040.0), (3933.0, 1015.0),
-             (3940.0, 990.0), (3948.0, 968.0)]
+             (3940.0, 990.0), (3948.0, 968.0), (3960.0, 951.0), (3970.0, 941.0), (3976.0, 938.5)]
 _BAGAJ_YAN_3B = None
 
 
@@ -1791,13 +1806,13 @@ def detaylar(d, d0, b):
         # stoba değiyordu. Uç stobun lens-gövde oluğunun ortasında kesilir.
         u0, v0 = STOP_ARALIK[0]
         uc_ = (u0, float(STOP_ALT(u0) + v0 * (STOP_UST(u0) - STOP_ALT(u0))))
-        bagaj = sd_cizgi(stop_u(X, Y), Z, [(0, 712), (120, 716), (240, 727), (330, 739), (400, 750), (480, 771),
-                                           (545, 799), uc_, (uc_[0] + 12.0, uc_[1] + 8.0)])
+        # (beyaz OPC 8366545858 geri izdüşümü: U 245 z 721, 316 728, 387 739, 433 751, 480 767, lambaya U 526'da varır)
+        bagaj = sd_cizgi(stop_u(X, Y), Z, [(0, 712), (120, 715), (245, 721), (316, 728), (387, 739), (433, 751),
+                                           (480, 767), uc_, (uc_[0] + 8.0, uc_[1] + 12.0)])
         dd = aralik_oluk(dd, z0, bagaj, np.maximum(4200 - X, -(stop_maske(X, Y, Z) + p(0.15))))
         # amblem altında aralığın alt kenarı çentik gibi aşağı genişler (beyaz OPC 8366545858)
         dd = oyuk(dd, z0, np.maximum(GULUMSEME_CENTIK(Y, Z), 4380 - X), ARALIK_D)
-        # rozet: halka Ø~120, merkez z 876 (stoplar arasında, gülümsemenin üstünde)
-        # rozet: amblem asimetrik() içindeki opel_amblem() ile işlenir (merkez y 0, z 876)
+        # rozet: amblem asimetrik() içindeki opel_amblem() ile işlenir (halka Ø110, merkez y 0, z 853)
         on = 4250 - X
         # tampon kırımı: KIRIM_Z altında yüz KIRIM_D geride (yüzey normali boyunca); alttaki tüm detaylar (plaka,
         # reflektör, sensör, difüzör, egzoz) yeni yüze göre işlenir (z0 kaydırılır). Difüzörün altında (z < 200)
@@ -1897,7 +1912,7 @@ def detaylar(d, d0, b):
         # kenarında çentik bırakıyordu); alt ucu bagaj kapağı yayının ucuyla aynı noktada
         dd = oyuk(dd, z0, np.maximum(sd_cizgi(U, Z, _aralik) - p(0.15), st + p(0.15)), p(1.2))
         return dd
-    uygula((3880, 4520, 300, 960, 760, 1000), stoplar)
+    uygula((3880, 4520, 300, 960, 745, 1000), stoplar)
 
     # ---------- 3. stop lambası: spoyler arka yüzünde ince yatay şerit
     def ucuncu_stop(dd, z0, X, Y, Z):
@@ -2074,12 +2089,15 @@ def asimetrik(d, x, y, z, mod):
         xp = yuzey_x(0.0, 686.0, -40, 320, -1)
         if xp is not None:
             opel_amblem(sl, X, -Y + 0 * X, Z - 686.0 + 0 * X, 48.0, xp - p(0.15), -1)
-    g = kes(4280, 4520, -90, 90, 800, 960)     # arka rozet: merkez (y 0, z 876), R 55; arkadan bakınca sağ = +Y
+    # arka rozet: merkez (y 0, z 853), R 55; arkadan bakınca sağ = +Y. Beyaz OPC tam arka kalibre kamerasında halka
+    # merkezi (729, 759) px -> z 853 (eskiden halkanın üst yarısındaki bir nokta merkez alınıp 876 yazılmıştı;
+    # gülümseme z 712, plaka yuvası, stoplar aynı kamerayla örtüşür, amblem onlara göre 23 mm yüksek kalıyordu)
+    g = kes(4280, 4520, -90, 90, 780, 940)
     if g:
         sl, X, Y, Z = g
-        xp = yuzey_x(0.0, 876.0, 4200, 4520, +1)
+        xp = yuzey_x(0.0, 853.0, 4200, 4520, +1)
         if xp is not None:
-            opel_amblem(sl, X, Y + 0 * X, Z - 876.0 + 0 * X, 55.0, xp + p(0.10), +1)
+            opel_amblem(sl, X, Y + 0 * X, Z - 853.0 + 0 * X, 55.0, xp + p(0.10), +1)
 
     # arka silecek (OPC aero kol): göbek camın alt kenarında ortanın hemen sağında, kol ve süpürge sola (-Y)
     # yatık; kalın kol kapağı + altında ince lastik süpürge + kubbeli göbek kapağı
