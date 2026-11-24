@@ -2304,6 +2304,51 @@ def sadelestir(v, f, tolerans):
     return np.asarray(g.vert_properties)[:, :3].astype(np.float64), np.asarray(g.tri_verts).astype(np.int64)
 
 
+def katlanma_cevir(V, F, tol=0.01, tur=12, log=print):
+    """Sadeleştirmenin bıraktığı ters dönmüş ince üçgenleri (dilimleyicide ve görüntüde çizik gibi görünür)
+    uzun kenarlarını komşu yüzle çevirerek giderir. Yalnız neredeyse düzlemsel dörtgenlerde (sapma < tol mm) ve
+    çevirme sonrası iki yüz birbirine <25° olduğunda uygulanır; köşeler yerinden oynamaz, topoloji manifold kalır."""
+    import trimesh
+    F = F.copy()
+    for it in range(tur):
+        t = trimesh.Trimesh(V, F, process=False)
+        ang = np.degrees(t.face_adjacency_angles); adj = t.face_adjacency
+        mn = np.full(len(F), 999.); np.minimum.at(mn, adj[:, 0], ang); np.minimum.at(mn, adj[:, 1], ang)
+        katl = mn > 60
+        sel = np.where((katl[adj[:, 0]] | katl[adj[:, 1]]) & (ang > 60))[0]
+        if len(sel) == 0: break
+        e = t.face_adjacency_edges[sel]; us = t.face_adjacency_unshared[sel]; f0 = adj[sel, 0]; f1 = adj[sel, 1]
+        a, b, c, d = e[:, 0], e[:, 1], us[:, 0], us[:, 1]
+        F0 = F[f0]; pos_a = np.argmax(F0 == a[:, None], axis=1)
+        ab = F0[np.arange(len(F0)), (pos_a + 1) % 3] == b
+        A = np.where(ab, a, b); B = np.where(ab, b, a)
+        N1 = np.c_[A, d, c]; N2 = np.c_[d, B, c]
+        def nrm(T):
+            n = np.cross(V[T[:, 1]] - V[T[:, 0]], V[T[:, 2]] - V[T[:, 0]]); l = np.linalg.norm(n, axis=1)
+            return n / (l[:, None] + 1e-15), l
+        n1, l1 = nrm(N1); n2, l2 = nrm(N2)
+        # referans: katlanmamış (büyük) yüzün normali
+        nf0, _ = nrm(F[f0]); nf1, _ = nrm(F[f1])
+        ref = np.where(katl[f0][:, None], nf1, nf0)
+        ok = ((n1 * n2).sum(1) > np.cos(np.radians(25))) & ((n1 * ref).sum(1) > 0.8) & ((n2 * ref).sum(1) > 0.8)
+        ok &= (l1 > 1e-9) & (l2 > 1e-9) & (c != d)
+        dist = np.abs(((V[d] - V[c]) * ref).sum(1))
+        ok &= dist < tol
+        ek = np.sort(t.edges_unique, axis=1); key = ek[:, 0].astype(np.int64) * len(V) + ek[:, 1]
+        cd = np.sort(np.c_[c, d], axis=1); kcd = cd[:, 0].astype(np.int64) * len(V) + cd[:, 1]
+        ok &= ~np.isin(kcd, key)
+        idx = np.where(ok)[0]
+        kul = np.zeros(len(F), bool); vk = np.zeros(len(V), bool); s = []
+        for i in idx:
+            if kul[f0[i]] or kul[f1[i]] or vk[c[i]] or vk[d[i]]: continue
+            kul[f0[i]] = kul[f1[i]] = True; vk[c[i]] = vk[d[i]] = True; s.append(i)
+        s = np.array(s, int)
+        if len(s) == 0: break
+        F[f0[s]] = N1[s]; F[f1[s]] = N2[s]
+    log(f"  katlanmış ince üçgen düzeltmesi: {int(katl.sum())} kaldı ({it + 1} tur)")
+    return F
+
+
 def kaydet(v, f, yol):
     import trimesh
     tm = trimesh.Trimesh(v, f, process=False)
@@ -2314,6 +2359,7 @@ def kaydet(v, f, yol):
         hacim = sum(abs(m.volume) for m in atilan)
         print(f"  uyarı: ana gövdeye bağlı olmayan {len(atilan)} parça atıldı "
               f"(toplam {hacim:.3f} mm3, en büyüğü {max(len(m.faces) for m in atilan)} üçgen)")
+    tm = trimesh.Trimesh(tm.vertices, katlanma_cevir(tm.vertices, tm.faces), process=False)
     tm.vertices[:, 2] -= tm.vertices[:, 2].min()
     tm.export(yol)
     e = tm.extents
