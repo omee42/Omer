@@ -192,6 +192,12 @@ ON_PLAN = Egri([(0, 0), (200, 20), (400, 75), (550, 138), (680, 212), (770, 288)
                 (905, 495), (918, 550), (926, 600)])
 ON_YAN = Egri([(100, 90), (150, 45), (200, 20), (300, 5), (400, 0), (520, 0), (600, 8), (680, 28),
                (760, 62), (840, 120)])
+# ön tampon splitter dudağının ALT (keskin) kenarı z(|y|): kalibre ön çapraz fotoğrafta (15922355098) tamponun en
+# alttaki öne bakan parlak kenarı, her y için yüzeye geri izdüşümle okundu (ortada ~230-238, ızgara köşesi altında
+# ~225'e hafifçe iner, köşeye doğru ~260'a yükselir). Gövdenin alt yüzü de (govde_temel z_alt) bu kenarın hemen
+# altına çekilir: dudak en alttaki öne bakan kenardır, altında ikinci bir "çene" kalmaz. Köşeyi dönüp yanda söner.
+ON_DUDAK_ALT = Egri([(0, 229), (200, 231), (320, 231), (430, 226), (500, 225), (600, 230), (690, 238), (780, 248),
+                     (830, 257), (870, 262), (920, 262)])
 ARKA_PLAN = Egri([(0, 0), (200, 5), (400, 20), (550, 50), (680, 100), (780, 175), (850, 270), (895, 380),
                   (915, 480), (925, 560)])
 ARKA_YAN = Egri([(100, 95), (150, 62), (200, 35), (250, 18), (300, 8), (400, 2), (450, 0), (700, 0),
@@ -297,6 +303,9 @@ FAR_HAZNE = YPoligon([(398, 676), (420, 686), (600, 687), (626, 678), (646, 665)
 # projektör altındaki noktalı alt yansıtıcı
 FAR_ALT_REF = YPoligon([(628, 676), (648, 664), (690, 657), (745, 657), (790, 667), (800, 680), (760, 672),
                         (700, 671), (660, 676), (640, 684)], 3)
+# far yıkama kapağı hattı (far haritası u, z): fotoğraftan geri izdüşüm, iç üst köşe pahlanıp yuvarlatıldı
+FAR_YIKAMA = YPoligon([(795.0, 637.5), (696.5, 625.2), (660.0, 606.0), (623.5, 564.5), (750.0, 577.8),
+                       (767.7, 589.5)], 9)
 FAR_PROJ = (716.0, 718.0)   # projektör merkezi (u, z)
 FAR_UZUN = (630.0, 722.0)   # uzun far çanağı merkezi
 _IZ_UST = [(0, 731), (150, 731), (260, 729), (330, 724), (362, 717)]
@@ -540,16 +549,30 @@ def cam_taban_x(y):
     return 1405.0 + 55.0 * (y / 650.0) ** 2
 
 
+# kaput-çamurluk aralığı (üstten, x, y): farın dış sivri ucundan (u 932 z 842 -> x 534 y 766) başlar, arkada
+# camın tabanına doğru içe kıvrılır (çamurluk A direği dibinde camın altına kadar uzanır). Kalibre ön çapraz
+# fotoğraftan (15922355098) yüzeye geri izdüşümle; eski hat (560,792)-(1425,694) farın ucunu ~25 mm dışından
+# geçiyor ve arkada A direği dibine düz gidiyordu (fotoğrafta y≈616'da cama varır; 6146990208'de de görülür).
+KAPUT_YAN = [(534.0, 766.0), (629.0, 764.0), (764.0, 762.0), (900.0, 755.0), (1000.0, 745.0), (1103.0, 729.0),
+             (1196.0, 697.0), (1290.0, 656.0), (1377.0, 618.0), (1450.0, 588.0)]
+KAPUT_YAN_Y = Egri(KAPUT_YAN)
+
+
 def kaput_poligon():
-    """Kaput çizgisinin plan poligonu: her y için gövde yüzeyinin KAPUT_ON_Z(y) yüksekliğine ulaştığı x."""
-    ys = np.array([0, 100, 200, 300, 366, 450, 530, 610, 650, 700, 740, 770, 785])
-    xs = np.arange(0.0, 900.0, 1.0)
+    """Kaput çizgisinin plan poligonu: her y için gövde yüzeyinin KAPUT_ON_Z(y) yüksekliğine ulaştığı x.
+    y ~10 mm aralıkla, x 0.1 mm adımla örneklenir ve Catmull-Rom ile yumuşatılır: eski 13 örnek (1 mm adım)
+    önden bakışta y ±200/366/530'da kırık/dalgalı bir kaput çizgisi bırakıyordu."""
+    ys = np.arange(0.0, 761.0, 10.0)
+    xs = np.arange(0.0, 900.0, 0.1)
     on = []
     for yv in ys:
         d = govde_temel(xs[:, None, None], np.array([[[float(yv)]]]), np.array([[[float(KAPUT_ON_Z(yv))]]]))[:, 0, 0]
         i = int(np.argmax(d < 0))
-        on.append((xs[i], float(yv)))
-    sag = on + [(560.0, 792.0), (900.0, 760.0), (1330.0, 705.0), (1425.0, 694.0)]
+        # alt-ızgara doğrusal ara değer: yüzeyin tam kesiştiği x
+        x0 = xs[i] - 0.1 * d[i] / (d[i] - d[i - 1]) if i > 0 and d[i - 1] > 0 else xs[i]
+        on.append((float(x0), float(yv)))
+    on = [tuple(q) for q in yumusat(np.array(on), 10.0)]
+    sag = on + [tuple(q) for q in yumusat(np.array(KAPUT_YAN), 10.0)]
     return np.array([(x, y) for x, y in sag] + [(x, -y) for x, y in reversed(sag) if y > 0])
 
 
@@ -707,11 +730,29 @@ def govde_temel(X, Y, Z):
     ext = np.maximum(X - L, 0.0)
     zu = Z_ALT_UST(X) + _ZU_EGIM_SON * ext - bombe * (Y / 900.0) ** 2
     kaput = sstep(120, 260, X) * (1 - sstep(1250, 1350, X))
-    zu = zu + kaput * (p(1.1) * np.maximum(0, 1 - (Y / 560.0) ** 2) ** 2 + p(0.3) * np.maximum(0, 1 - np.abs(Y - 690) / 110.0))
+    # kaput kenarı boyunca yumuşak şişkinlik (çan kesitli; eski üçgen "çadır" profil keskin bir kırım çiziyordu):
+    # y≈690'da, arkada kaput-çamurluk aralığı içe kıvrıldığında onun ~45 mm içinden izler
+    yr = smin(690.0, KAPUT_YAN_Y(X) - 45.0, 20.0)
+    zu = zu + kaput * (p(1.1) * np.maximum(0, 1 - (Y / 560.0) ** 2) ** 2 + p(0.3) * np.exp(-((Y - yr) / 65.0) ** 2))
     d_ust = (Z - zu) / np.sqrt(1 + (Z_ALT_UST.t(X) + _ZU_EGIM_SON * (X >= L)) ** 2 + (2 * bombe * Y / 900.0 ** 2) ** 2)
     # ön tampon alt kenarı köşelerde yükselir (köşe bıçaklarının altı z≈295)
     z_alt = Z_ALT(X) + 60.0 * sstep(470.0, 820.0, Y) * (1 - sstep(300.0, 540.0, X))
     d_alt = (z_alt - Z) / np.sqrt(1 + Z_ALT.t(X) ** 2)
+    if np.any(X < 600.0):
+        # tamponun alt yüzü dudağın altına çekilir: yüzün dönüş (alta kıvrılma) çizgisi ON_DUDAK_ALT'ın ~6 mm altında.
+        # Yükseltme yalnız yüzün hemen arkasındaki bantta (X - ON_PLAN 70..260), teker kemerine ve yan yüze (|y| > 870)
+        # varmadan söner; ortada (|y| < 120) alt hat (yandan görünen tampon alt çizgisi) değişmez;
+        # dudaksız eski hal y 300-830'da yüzü dudağın 30-50 mm altına indirip altında ikinci bir şişkinlik bırakıyordu.
+        def _z_alt(xx, yy):
+            z1 = Z_ALT(xx) + 60.0 * sstep(470.0, 820.0, yy) * (1 - sstep(300.0, 540.0, xx))
+            ek = np.maximum(0.0, ON_DUDAK_ALT(yy) - 6.0 - z1) * (1 - sstep(70.0, 260.0, xx - ON_PLAN(yy))) \
+                * (1 - sstep(440.0, 560.0, xx)) * sstep(120.0, 280.0, yy) * (1 - sstep(870.0, 930.0, yy))
+            return z1 + ek
+        Xa, Ya = np.broadcast_arrays(X, Y)
+        z2 = _z_alt(Xa, Ya)
+        gx = (_z_alt(Xa + 0.5, Ya) - _z_alt(Xa - 0.5, Ya))
+        gy = (_z_alt(Xa, Ya + 0.5) - _z_alt(Xa, Ya - 0.5))
+        d_alt = np.where(X < 600.0, (z2 - Z) / np.sqrt(1 + gx ** 2 + gy ** 2), d_alt)
     d_on = (ON_PLAN(Y) + ON_YAN(Z) - X) / np.sqrt(1 + ON_PLAN.t(Y) ** 2 + ON_YAN.t(Z) ** 2)
     d_arka = (X - (L - ARKA_PLAN(Y) - ARKA_YAN(Z))) / np.sqrt(1 + ARKA_PLAN.t(Y) ** 2 + ARKA_YAN.t(Z) ** 2)
 
@@ -1384,9 +1425,17 @@ def detaylar(d, d0, b):
 
     # ---------- kaput çizgisi (üstten)
     def kaput(dd, z0, X, Y, Z):
+        # U kesitli oluk (kenarı yüzeye teğet iner): dik duvarlı eski oluk eğik yüzeyde ızgarada kesik kesik/
+        # merdivenli çıkıyordu. Farın üst kenarı boyunca (y 600-780) kaput kenarı far camının kenarıdır: orada oluk
+        # söner ve far cam kenarı oluğu (farlar 11) tek çizgi olarak devam eder; eskiden kaput oluğu camın ~7 mm
+        # içinden, cam kenarı oluğuna paralel gidip ızgarada kesik kesik ikinci bir çizgi bırakıyordu.
         s = sd_poligon(X, Y, KAPUT)
-        m = np.maximum(np.maximum(np.abs(s) - p(0.22), 690 - Z), X - (kaput_arka_x(Y) - 2.0))
-        return oyuk(dd, z0, m, p(0.5))
+        w = p(0.26)
+        q = np.clip(1.0 - (s / w) ** 2, 0.0, 1.0)
+        fm = np.maximum(FAR_UZ(far_u(X, Y), Z), FAR_YAN(X, Z))
+        derin = p(0.5) * q * np.sqrt(q) * sstep(-4.0, 3.0, fm)
+        m = np.maximum(np.maximum(np.abs(s) - w, 690 - Z), X - (kaput_arka_x(Y) - 2.0))
+        return oyuk(dd, z0, m, derin)
     uygula((90, 1430, 0, 790, 680, 1040), kaput)
 
     # ---------- ön: üst ızgara (alt kenarı aşağı sarkan mercek/tekne şekli), krom kanat, rozet
@@ -1412,6 +1461,29 @@ def detaylar(d, d0, b):
     def farlar(dd, z0, X, Y, Z):
         U = far_u(X, Y)
         m = np.maximum(FAR_UZ(U, Z), FAR_YAN(X, Z))
+
+        def far_m(x, y, z):
+            return np.maximum(FAR_UZ(far_u(x, y), z), FAR_YAN(x, z))
+
+        # cam hattına yüzey üzerinde ölçülen işaretli uzaklık (yalnız hat ve yüzey yakınında; uzakta m)
+        ms = np.broadcast_to(m, z0.shape).astype(float).copy()
+        sec = (np.abs(z0) < 30.0) & (np.abs(ms) < 40.0)
+        if sec.any():
+            Xf, Yf, Zf = (np.broadcast_to(a, z0.shape)[sec].astype(float) for a in (X, Y, Z))
+            d = z0[sec]
+            g = [govde_temel(Xf + e[0], Yf + e[1], Zf + e[2]) - govde_temel(Xf - e[0], Yf - e[1], Zf - e[2])
+                 for e in ((1.0, 0, 0), (0, 1.0, 0), (0, 0, 1.0))]
+            nrm = np.sqrt(g[0] ** 2 + g[1] ** 2 + g[2] ** 2) + 1e-9
+            nx, ny, nz = g[0] / nrm, g[1] / nrm, g[2] / nrm
+            xb, yb, zb = Xf - d * nx, Yf - d * ny, Zf - d * nz
+            mb = far_m(xb, yb, zb)
+            h = 0.5
+            gm = [(far_m(xb + h, yb, zb) - far_m(xb - h, yb, zb)) / (2 * h),
+                  (far_m(xb, yb + h, zb) - far_m(xb, yb - h, zb)) / (2 * h),
+                  (far_m(xb, yb, zb + h) - far_m(xb, yb, zb - h)) / (2 * h)]
+            gn = gm[0] * nx + gm[1] * ny + gm[2] * nz
+            gt = np.sqrt(np.maximum(gm[0] ** 2 + gm[1] ** 2 + gm[2] ** 2 - gn ** 2, 0.0))
+            ms[sec] = mb / np.maximum(gt, 0.3)
 
         # kenarlar ~0.08 mm yuvarlatılır: baskıda keskin kalır, ağda merdivenlenme (testere dişi) olmaz
         YUM = p(0.08)
@@ -1442,10 +1514,12 @@ def detaylar(d, d0, b):
 
         # 1) siyah çerçeve: camın altında, gövdeden 0.35 mm keskin basamak
         dd = kat(dd, m, -p(0.35))
-        # 2) üst yansıtıcı (kaş üstü bant + dış uçta sinyal üçgeni): -0.7, üstünde 0.25 mm eğik optik dişler
+        # 2) üst yansıtıcı (kaş üstü bant + dış uçta sinyal üçgeni): -0.7, üstünde ince eğik optik doku. Fotoğrafta
+        # bu bant ince bir kumlama/benek dokusudur: eski 0.75 mm aralıklı 0.28 mm'lik dişler 6-7 kaba panjur gibi
+        # okunuyordu. Aralık 0.3 mm, yükseklik 0.06 mm.
         ust = FAR_UST(U, Z)
         dd = kat(dd, ust, -p(0.7))
-        dd = kabart(dd, dis(p(0.75), math.radians(-62)), p(0.16), ust + p(0.25), -p(0.7), -p(0.42))
+        dd = kabart(dd, dis(p(0.3), math.radians(-62)), p(0.1), ust + p(0.15), -p(0.7), -p(0.64))
         # 3) derin iç hazne
         hz = FAR_HAZNE(U, Z)
         dd = kat(dd, hz, -p(1.4))
@@ -1482,8 +1556,13 @@ def detaylar(d, d0, b):
         kas = sd_cizgi(U, Z, [(440, 724), (500, 736), (550, 743), (600, 748), (655, 755), (705, 764), (755, 772),
                                (797, 777), (806, 772), (809, 750), (807, 722), (800, 700)])
         dd = dol(dd, np.maximum(kas - p(0.21), m), -p(0.22) - p(0.12) * (kas / p(0.21)) ** 2)
-        # 11) cam kenarı: dış hatta 0.25 mm genişlik, 1.6 mm derin gölge oluğu (camın gövdeye oturduğu ek yeri)
-        dd = oy(dd, np.maximum(-m - p(0.25), m), p(1.6))
+        # 11) cam kenarı: dış hat boyunca 0.35 mm genişlik, 0.7 mm derin gölge oluğu (camın gövdeye oturduğu ek yeri).
+        # Genişlik yüzey üzerinde ölçülür: nokta detaysız yüzeye indirilir, far haritasındaki uzaklık yüzeydeki
+        # gradyanıyla bölünür. Eskiden (u, z) prizmasındaki 0.25 mm'lik bant, farın üst kenarında neredeyse yatay
+        # yüzeyi yalayarak kesilip ince bir yarık oluyor, ızgarada noktalı (- - -) delikler bırakıyordu.
+        # (kenarları ~0.14 mm yuvarlatılır: 0.08 mm'lik keskin dudak ızgarada testere dişli bir parlak çizgi bırakıyordu)
+        R = p(0.14)
+        dd = smax(dd, -smax(-(z0 + p(0.7)), np.maximum(-ms - p(0.35), ms), R), R)
         return dd
     uygula((-20, 600, 360, 960, 600, 880), farlar)
 
@@ -1526,25 +1605,37 @@ def detaylar(d, d0, b):
         dd = doldur(dd, zs, np.maximum(np.maximum(kd, -ic), on), -p(0.9))
         dd = oyuk(dd, zs, np.maximum(ic, on_k), p(2.6))
         dd = doldur(dd, zs, np.maximum(np.maximum(petek(Y, Z, p(0.36)) - p(0.13), ic), on), -p(1.95))
-        # far yıkama kapağı (ince panel çizgisi)
-        def elips(u, v, a, b):
-            k0 = np.sqrt((u / a) ** 2 + (v / b) ** 2)
-            k1 = np.sqrt((u / a ** 2) ** 2 + (v / b ** 2) ** 2)
-            return k0 * (k0 - 1.0) / np.maximum(k1, 1e-9)
-        ca, sa = math.cos(0.23), math.sin(0.23)
-        u, v = (Y - 693.0) * ca + (Z - 612.0) * sa, -(Y - 693.0) * sa + (Z - 612.0) * ca
-        dd = oyuk(dd, z0, np.maximum(np.abs(elips(u, v, 62.0, 22.0)) - p(0.11), on), p(0.25))
         # çeki kancası kapağı yalnız sağda (+Y): asimetrik()
-        # splitter: gövde renkli dudağın altında öne taşan keskin plaka, uçları köşe bıçaklarına kıvrılır
-        # (köşe tarafı iki fotoğraftan: girişin altındaki kırım z≈251-262, dış uçta 283'e kıvrılır)
-        # (kenarlar p(0.15) yuvarlatılır: sert max() ile alt yüzeye sıyırarak değen bandın kenarları ızgarada
-        # dalgalı/tırtıklı çıkıyordu)
+        # splitter dudağı: tampon yüzü aşağıya doğru giderek öne şişer ve ON_DUDAK_ALT'ta keskin bir alt kenarla
+        # biter (fotoğrafta en alttaki öne bakan kenar; üst yüzü yüze teğet akar, raf/basamak yok). Gövdenin alt yüzü
+        # bu kenarın hemen altına çekildiğinden (govde_temel z_alt) dudağın altında ikinci bir şişkinlik kalmaz.
+        # Dudak köşeyi döner ve yanda teker kemerine doğru (x 440-530) söner; eskiden x 420'de düzlemle kesilip
+        # köşede küt bir uç yüzü bırakıyordu.
         YD = p(0.15)
-        dudak = smax(sd_cizgi(np.abs(Y), Z, [(0, 226), (300, 240), (420, 250), (600, 256), (730, 260), (790, 267),
-                                             (832, 283)]) - p(0.4), X - 420, YD)
-        dd = smin(dd, smax(z0 - p(0.7), dudak, YD), YD)
+        zb = ON_DUDAK_ALT(np.abs(Y))
+        H = 42.0
+        t = np.clip((Z - zb) / H, 0.0, 1.0)
+        tas = p(0.7) * (1.0 - t) ** 2 * (1 - sstep(440.0, 530.0, X)) * (1 - sstep(880.0, 940.0, np.abs(Y)))
+        egim = p(0.7) * 2.0 * (1.0 - t) / H
+        # taban: köşe girişinin yanındaki heykelsi oyuklu yüzey (zs); z0 alınınca bandın üstünde oyuk kesilip basamak kalıyordu
+        dudak = smax((zs - tas) / np.sqrt(1.0 + egim ** 2), zb - Z, YD)
+        # yalnız şişkinlik bandında (üstte tas = 0: yüzeye teğet); bandın üstündeki oyuklar (ızgara, köşe girişi) dolmaz
+        dudak = smax(dudak, np.maximum(Z - (zb + H), X - 560.0), YD)
+        dd = smin(dd, dudak, YD)
         return dd
     uygula((-60, 560, 0, 960, 150, 620), on_tampon)
+
+    # ---------- far yıkama kapağı: farın altında, köşede yuvarlatılmış eğik paralelkenar (ince panel çizgisi).
+    # Hat kalibre ön çapraz fotoğraftan (15922355098) yüzeye geri izdüşümle, far haritasında (u, z) okundu:
+    # üst kenar dışa doğru hafif yükselir, iç yan ~50°, dış yan ~60° eğik; iç üst köşe geniş yuvarlak.
+    # Kendi kutusunda (eskiden on_tampon kutusu z 620'de kesip çizginin üst yarısını siliyordu). Kesit U (kenarı
+    # yüzeye teğet): ızgarada kesik kesik çıkmaz.
+    def far_yikama(dd, z0, X, Y, Z):
+        s = FAR_YIKAMA(far_u(X, Y), Z)
+        w = p(0.2)
+        q = np.clip(1.0 - (s / w) ** 2, 0.0, 1.0)
+        return oyuk(dd, z0, np.maximum(np.abs(s) - w, X - 400.0), p(0.3) * q * np.sqrt(q))
+    uygula((100, 360, 560, 820, 540, 665), far_yikama)
 
     # ---------- yan: kapı aralıkları, kol
     def kapilar(dd, z0, X, Y, Z):
@@ -2058,8 +2149,12 @@ def asimetrik(d, x, y, z, mod):
     g = kes(-40, 260, 360, 540, 455, 570)
     if g:
         sl, X, Y, Z = g
-        cur = d[sl]
         ck = sd_poligon(Y, Z, [(428.0, 543.0), (509.0, 544.0), (467.0, 481.0), (386.0, 481.0)])
+        # kapak siyah çıtanın üst kenarının ÜSTÜNE biner (fotoğrafta çıta kenarı kapağın altında kaybolur): kapak
+        # içinde çıta basamağı/oluğu gövde yüzeyine doldurulur; eskiden çıtanın kenar oluğu kapağı ortadan bölüyordu
+        z0 = govde_temel(X, Y, Z)
+        d[sl] = np.minimum(d[sl], np.maximum(z0, ck))
+        cur = d[sl]
         cy = np.maximum(np.abs(ck) - p(0.11), -(cur + p(0.25)))
         tirnak = np.maximum(sd_kutu2(Y, Z, 432.0, 487.0, 8.0, 2.2, 2.0), -(cur + p(0.3)))
         d[sl] = np.maximum(cur, -np.minimum(cy, tirnak))
