@@ -245,12 +245,16 @@ KAPI_W = p(0.30)   # kapı aralığı oluğunun yarı genişliği (kenarı yüze
 # KAPI_ARKA_X (z -> kapı arka kenarı x) kapı çizgileriyle aynı eğriden türetilir: KAPI_CIZGILERI'nin altında
 
 
-def esik_ust(X, Z):
-    # iki kırım kapı arka kenarında birleşir: geçiş oluğun arka duvarında (oluğun ortasında değil). Eskiden sert
-    # np.where oluğun tabanında basamak bırakıyor, köşede kırım oluğun içinden geçip boncuklanıyordu
+def esik_basamak(X, Z):
+    """Marşpiyel basamağının (10 mm dışa) yükseklik çarpanı: kapı altında kırım ESIK_KAPI, arka çamurlukta daha yüksek
+    'arka' kırım. Kapı arka aralığında iki kırımın basamak çarpanları x'te karıştırılır (kırım yüksekliği değil): arka
+    çamurluğun basamak ön yüzü oluğun arka kenarından ~18 mm'de eğik iner. Eskiden kırım yüksekliği karıştırıldığından
+    ön yüz x'te dikey bir duvardı; oluk izdüşümü bu duvarın köşesinde kopuk kıymıklar ve tırtıklı kenar bırakıyordu
+    (x 2661 z 283, x 2729 z 337)."""
     arka = 228.0 + 0.077 * (np.clip(X, 1290.0, 3240.0) - 1290.0)
-    t = sstep(1.0 * KAPI_W, 1.8 * KAPI_W, X - KAPI_ARKA_X(Z))
-    return ESIK_KAPI(X) * (1.0 - t) + arka * t
+    zk = ESIK_KAPI(X)
+    t = sstep(1.0 * KAPI_W, 3.5 * KAPI_W, X - KAPI_ARKA_X(Z))
+    return (1.0 - t) * (1.0 - sstep(zk - 8.0, zk, Z)) + t * (1.0 - sstep(arka - 8.0, arka, Z))
 
 
 # ============================================================ detay şekilleri (gerçek mm)
@@ -261,9 +265,14 @@ def esik_ust(X, Z):
 # poligonların üst kenarı kromun 4-16 mm altından geçiyordu (krom ile cam arasında gövde renkli, paralel olmayan
 # şerit), köşe yuvarlatması (r 20/14) ise ön üçgen camın ucunu kromun başlangıcından 70 mm, arka yan camın ucunu
 # krom ucundan 56 mm geride bitiriyordu. Burada yalnız alt kenarlar (x -> z) ve kapı camının eğik arka kenarı var;
-# ön üçgen camın alt kenarı uca doğru yukarı kıvrılıp krom başlangıcının altında sivri biter.
-ON_CAM_ALT = Egri([(1484, 1019.0), (1494, 1013.0), (1510, 1009.2), (1540, 1007.8), (1800, 1020), (2100, 1036),
-                   (2500, 1055), (2692, 1068), (2780, 1074)])
+# ön üçgen camın sivri ucu kromun uçtaki kıvrımının içinde biter.
+# Bel (cam alt kenarı) önde alçak: siyah OPC 34848925543 ve gri 54188905081 kalibre kameralarında ön kapı önünde
+# z ≈ 905-945, B direğinde ≈ 1045-1075 (eski hat önde 1008-1019'du: 60-90 mm yüksek). Ön üçgen camın ucu A direği
+# kromunun düz uzantısında x ≈ 1330, z ≈ 930'a iner; ön kapı çizgisi cam alt kenarına üçgen camın ortasının altında
+# değer (eski uç 1488'de, kapı çizgisi ucun hemen arkasındaydı). Gövde değişmez: cam önde A direği dibinin yuvarlak
+# yüzeyine oturur (gövde üstünü bele kadar indirmek kapı omzunda dalga bırakıyordu).
+ON_CAM_ALT = Egri([(1320, 926.0), (1385, 926.0), (1430, 927), (1500, 932), (1700, 958), (2000, 993),
+                   (2300, 1023), (2500, 1043), (2692, 1062), (2780, 1071)])
 ON_CAM_ARKA = ((2692.0, 1068.0), (2745.0, 1366.0))      # kapı camı arka kenarı (B direği kaplamasının önü)
 ARKA_CAM_ALT = Egri([(2800, 1080), (2818, 1082), (3010, 1098), (3240, 1134), (3410, 1174), (3520, 1199),
                      (3578, 1208), (3620, 1214)])
@@ -350,8 +359,12 @@ def yumusat(pts, adim=15.0):
 
 
 # GTC krom DLO kavisi (merkez çizgisi). Ön uç = ön üçgen camın ucu (A direği dibi), arka uç = arka yan camın ucu;
+# ön uç fotoğraflardaki gibi A direği kromunun düz (uca doğru hafif dikleşen) uzantısında x ≈ 1333, z ≈ 932'ye iner
+# (eski uç 1488/1026'da kütle bitiyordu); yuvarlak ucu cam alt kenarına (z 926) değer, camın sivri ucu ucun hemen
+# arkasında biter. krom_isaretli() x'e göre artan kısmı (en ön noktadan en arka noktaya) kullanır.
 # kontrol noktaları eğim sırası düzgün olacak şekilde yumuşatıldı (eski 1640/2950 noktaları kavisi dalgalandırıyordu)
-KROM_DLO = [(1488, 1026), (1560, 1060), (1640, 1099), (1800, 1178), (2000, 1268), (2200, 1324), (2380, 1366),
+KROM_DLO = [(1333, 932), (1408, 982), (1488, 1026), (1560, 1060), (1640, 1099), (1800, 1178), (2000, 1268),
+            (2200, 1324), (2380, 1366),
             (2600, 1385), (2800, 1381), (2950, 1358), (3140, 1334), (3310, 1303), (3460, 1266), (3545, 1236),
             (3578, 1220), (3589.5, 1214.5), (3592, 1209), (3590, 1204), (3585, 1201), (3570, 1198.5), (3558, 1196)]
 # arka uç: krom çıta arka yan camın sivri ucunu (x≈3584, z≈1209) camdan 8 mm uzaklıkta sarar ve camın alt kenarı
@@ -365,10 +378,12 @@ ANTEN_PROFIL = YPoligon([(3576, -10), (3577, 3), (3585, 10), (3600, 15), (3625, 
                          (3734, -10)], 4)
 # ayna ayağının oturduğu siyah taban plakası: ön üçgen camı bölen dikey çıtanın (x 1700-1715) dibinde, kapı
 # camının ön alt köşesinde, bel çizgisi üzerinde (fotoğraflar: 26608054501 mavi OPC, 54188905081 gri)
-YPoligon_AYNA = YPoligon([(1688, 996), (1792, 1004), (1778, 1030), (1735, 1056), (1688, 1062)], 5)
+YPoligon_AYNA = YPoligon([(1536, 906), (1697, 906), (1684, 990), (1553, 990)], 5)
 # sabit ön üçgen cam ayracı (x aralığı): kemer çizgisinden (taban plakası) A direği kromuna düz siyah çıta; ön
 # kenarı fotoğraflarda kapı camı kanalının ~25-30 mm önünde (eski 15 mm'lik çıta ince çubuk gibi okunuyordu)
-AYNA_CITA = (1688.0, 1715.0)
+# Siyah OPC (önden) ayracın ön kenarını, gri (arkadan) arka kenarını gösterir: ayraç aynanın dibinde geniş (x 1533-1700),
+# A direği kromuna doğru daralan (1605-1660) düz siyah yelkendir; eski 1688-1715 çıta yalnız arka kenara denk geliyordu
+AYNA_CITA = YPoligon([(1530, 900), (1702, 900), (1659, 1150), (1608, 1150)], 4)
 # yan sinyal (ön çamurluk, kapı çizgisinin ~15 mm önünde): yuvarlatılmış yamuk 75x35, üst kenar yatay, ön alt
 # köşesi geriye çekik (siyah OPC 34848925543 ve mavi OPC 15922355098 kalibre kameralarından geri izdüşüm:
 # üst kenar 1259..1342, alt 1277..1357, kapı çizgisine göre düzeltilmiş merkez x≈1320, z 690-737 -> 712)
@@ -515,7 +530,7 @@ SENSOR = ((222.0, 432.0), (625.0, 432.0))
 # oluğun alt duvarı kırımın kendisidir (eskiden oluk kırımın üstüne biniyor, kırım boncuk boncuk görünüyordu).
 _ka = lambda x: (float(x), float(ESIK_KAPI(x)) + KAPI_W)
 KAPI_CIZGILERI = [
-    [_ka(1368), (1370, 500), (1372, 700), (1388, 820), (1415, 910), (1450, 960), (1478, 992), (1500, 1010)],
+    [_ka(1368), (1370, 500), (1372, 700), (1388, 820), (1410, 895), (1426, 926)],
     [(2800, 1388), (2797, 1080), (2792, 700), (2780, 480), (2752, 400), (2722, 345), (2685, 309), _ka(2640)],
     [_ka(2640), _ka(2440), _ka(2120), _ka(1800), _ka(1368)],
     [(540, 818), (620, 735), (728, 652)],     # ön tampon - çamurluk (far arka alt ucundan teker kemerine)
@@ -631,9 +646,9 @@ UD_X = [3480, 3580, 3650, 3720, 3820, 3950, 4100, 4250, 4350, 4450, 4550]
 UD_Z = [900, 960, 1000, 1040, 1080, 1120, 1160, 1200, 1250, 1300]
 UD = np.array([
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, -3, -3, 10, 18, 18, 12, 5, 0, 0],
-    [0, -6, -6, 18, 30, 33, 26, 13, 3, 0],
-    [0, -8, -8, 22, 38, 42, 34, 20, 5, 0],
+    [0, -3, -3, 12, 21, 22, 15, 6, 0, 0],
+    [0, -5, -5, 17, 30, 32, 25, 13, 2, 0],
+    [0, -6, -6, 19, 32, 34, 27, 15, 4, 0],
     [0, -6, -6, 20, 33, 35, 28, 16, 4, 0],
     [0, -3, -3, 12, 20, 22, 20, 14, 4, 0],
     [0, -3, 0, 16, 22, 22, 18, 10, 2, 0],
@@ -699,8 +714,7 @@ def govde_temel(X, Y, Z):
     oy = 20.0 * (1.0 - (1.0 - tb) ** 2) * (1 - sstep(40.0, 235.0, alt_b))
     hw = hw - oy * sstep(-35.0, 45.0, X - BICAK_ON(Z)) * (1 - sstep(3080, 3330, X))
     # OPC marşpiyel
-    zt = esik_ust(X, Z)
-    hw = hw + 10.0 * sstep(Z_ALT(X) + 8.0, Z_ALT(X) + 38.0, Z) * (1 - sstep(zt - 8.0, zt, Z)) \
+    hw = hw + 10.0 * sstep(Z_ALT(X) + 8.0, Z_ALT(X) + 38.0, Z) * esik_basamak(X, Z) \
         * sstep(1262.0, 1292.0, X) * (1 - sstep(3228.0, 3262.0, X))
     # çamurluk kabarıklıkları (arka daha belirgin) + OPC kıvrık dudak: kemer kenarında ~10 mm'lik yuvarlak
     # bir sırt (kuyuya kıvrılan sac), arkasında sığ bir oluk, sonra kabarık yüzey
@@ -1375,9 +1389,9 @@ def detaylar(d, d0, b):
         pozitif."""
         sk = sd_cizgi(Xb, Zb, KROM_YOL)
         # kavis x'e göre artan kısımla (uçta camın sivri ucunu saran geri dönüş varsa o hariç) ayrılır
-        i1 = int(np.argmax(KROM_YOL[:, 0])) + 1
-        zc = np.interp(Xb, KROM_YOL[:i1, 0], KROM_YOL[:i1, 1])
-        alt = (Zb < zc) & (Xb > KROM_YOL[0, 0]) & (Xb < KROM_YOL[i1 - 1, 0])
+        i0, i1 = int(np.argmin(KROM_YOL[:, 0])), int(np.argmax(KROM_YOL[:, 0])) + 1
+        zc = np.interp(Xb, KROM_YOL[i0:i1, 0], KROM_YOL[i0:i1, 1])
+        alt = (Zb < zc) & (Xb > KROM_YOL[i0, 0]) & (Xb < KROM_YOL[i1 - 1, 0])
         return np.where(alt, -sk, sk), sk
 
     def kabin_kenari(X):
@@ -1403,10 +1417,10 @@ def detaylar(d, d0, b):
         # keskin; altta ayna taban plakasına (aynı seviye, ayna()), üstte A direği kromuna (krom merkez çizgisine
         # kadar uzanır, krom üstüne biner). Eskiden çıta gövde yüzeyinde kalıp 0.1 mm bombeyle camdan ~0.55 mm
         # kabarık yuvarlak çubuk gibi duruyordu.
-        cita = np.abs(Xb - 0.5 * (AYNA_CITA[0] + AYNA_CITA[1])) - 0.5 * (AYNA_CITA[1] - AYNA_CITA[0])
+        cita = AYNA_CITA(Xb, Zb)
         cm = np.maximum(np.maximum(cita, tk), np.maximum(ON_CAM_ALT(Xb) - 2.0 - Zb, dis))
         return doldur(dd, z0, cm, -(CAM - p(0.1)))
-    uygula((1440, 3620, 450, 900, 985, 1440), yan_cam)
+    uygula((1290, 3620, 450, 900, 880, 1440), yan_cam)
 
     # GTC'nin imzası olan krom DLO kavisi: cam üst kenarı boyunca A direğinden arka cam ucuna kabarık şerit.
     # 16 mm geniş, 0.3 mm yüksek; kesit yuvarlak sırtlı ve pahlı (yükseklik kenarda sıfıra iner: dik duvar ve
@@ -1421,7 +1435,7 @@ def detaylar(d, d0, b):
         b = np.abs(Xb - 2812.5)
         mb = np.maximum(np.maximum(b - 7.5, np.maximum(1078.0 - Zb, Zb - 1372.0)), (hw_kabin(X, Z) - p(1.5)) - Y)
         return doldur(dd, z0, mb, p(0.22) * sstep(0.0, 3.0, 7.5 - b))
-    uygula((1450, 3640, 450, 900, 1000, 1440), krom)
+    uygula((1290, 3640, 450, 900, 890, 1440), krom)
 
     # ---------- kaput çizgisi (üstten)
     def kaput(dd, z0, X, Y, Z):
@@ -1648,6 +1662,10 @@ def detaylar(d, d0, b):
         # yerine oluk derinliği yüzey normaline göre söner (yüzey yukarı döndükçe): eski sınır A direği dibinde
         # oluğun tabanını düz kesip tırtıklı, kör uçlu bırakıyordu. Kesit (1-q^2)^1.5: kenarda yüzeye teğet.
         Xb, Zb, ny = yuzey_izdusum(z0, X, Y, Z, normal=True)
+        # marşpiyel basamağının yakınında (z < ~420) izdüşüm kullanılmaz: basamak yüzeyinde gradyan sapıp oluk maskesini
+        # gövdenin içine taşıyor, kapı arka-alt köşesinde (x 2661-2729) kopuk kıymıklar/boşluklar bırakıyordu
+        wi = sstep(380.0, 460.0, Z)
+        Xb, Zb = X + wi * (Xb - X), Z + wi * (Zb - Z)
         mk = np.minimum(sd_cizgi(Xb, Zb, KAPI_ON), sd_cizgi(Xb, Zb, KAPI_ARKA))
         w = KAPI_W
         q = np.clip(1.0 - (mk / w) ** 2, 0.0, 1.0)
@@ -1871,52 +1889,61 @@ def detaylar(d, d0, b):
         return smin(dd, g, p(0.12))
     uygula((3555, 3755, 0, 45, 1330, 1470), anten)
 
-    # ---------- aynalar: uzun damla gövde + kalın kısa kama ayak (Astra J: sinyalsiz kapak, alt kısmı siyah taban)
-    # Plan: iç ucu |y| 830'da kısa (x boyu ~90), dış uca doğru uzar (x 1590-1745, ~155) ve dış uçta yuvarlanarak
-    # kapanır (|y| 1010 -> aynalarla genişlik 2020). Yandan: arkada düz cam yüzü (x 1745), önü süper elips
-    # bombeli (cam yüzü x≈1745, ~10° açılı); yükseklik iç uçta z 1000-1080, dış uçta 985-1115 (gri 54188905081 kalibre kamerası, cam çerçevesi
-    # ve kapak üst/alt sınırı). Cam 0.45 mm gömük, çevresinde 7 mm kapak dudağı. z≈1010'da siyah alt taban ayrım
-    # çizgisi (oluk + tabanda 0.08 mm içe basamak).
+    # ---------- aynalar: uzun damla gövde + ince kısa ayak (Astra J: sinyalsiz kapak, alt kısmı siyah taban)
+    # Plan: iç ucu |y| 830'da en uzun (x boyu ~160, burun), dış uca doğru kısalır (~120) ve dış uçta yarım daireye yakın
+    # kapanır (|y| 1010 -> aynalarla genişlik 2020). Yandan uzun damla: arkada düz cam yüzü (x 1745), üst çizgi buruna doğru
+    # alçalır, alt çizgi hafif yükselir; burun orta-alt yükseklikte (siyah OPC 34848925543 ve gri 54188905081
+    # fotoğrafları; eski kapak kısa, üstü düz bir kapsüldü). Yükseklik bele göre (cam alt kenarı önde z ≈ 930): iç uçta
+    # z 960-1040, dış uçta 940-1085. Cam yüzü D biçimli: iç kenar düz, dış uç yuvarlak. Cam 0.45 mm gömük, çevresinde
+    # 7 mm kapak dudağı. Siyah alt taban ayrım çizgisi (oluk + tabanda 0.08 mm içe basamak).
     AY_X, AY_Y0, AY_Y1 = 1745.0, 830.0, 1008.0
 
     def ay_yuz(Y):
-        # cam yüzü sürücüye dönük ~10° açılı: dış ucu daha geride (gri fotoğrafta cam hattı dar görünür)
-        return AY_X + 0.18 * (Y - 920.0)
+        # cam yüzü neredeyse enine (dış ucu ~3° önde): gri fotoğrafta arkadan cam yüzü geniş D olarak görünür (eski
+        # ~10° içe dönük yüz orada %40 dar kalıyordu)
+        return AY_X - 0.05 * (Y - 920.0)
 
     # dış uç: kesit AY_YE'den sonra küçülmez, süper elips kesit Y yönünde elipsle (AY_UC) kapanır -> yuvarlak,
-    # pürüzsüz uç. Eski kapakta kesit sıfıra küçültülüp |y| 1010'da düz kesiliyordu: uç küt, alan gradyanı bozuk
-    # (uç kapakta eş merkezli bantlar).
-    AY_YE = AY_Y0 + 0.72 * (AY_Y1 - AY_Y0)
+    # pürüzsüz uç (D biçimli cam yüzünün yuvarlak tarafı)
+    AY_YE = AY_Y0 + 0.58 * (AY_Y1 - AY_Y0)
     AY_UC = AY_Y1 - AY_YE
+    AY_US = 2.6                                                  # kesit üssü (eski kapsülle aynı; şekli damla profili verir)
 
     def ayna_kesit(Y):
         tau = np.clip((np.minimum(Y, AY_YE) - AY_Y0) / (AY_YE - AY_Y0), 0.0, 1.0)
-        boy = 90.0 + 70.0 * np.sqrt(tau)                       # x boyu (cam yüzünden öne)
-        zlo, zhi = 1000.0 - 17.0 * tau, 1080.0 + 38.0 * tau
+        # x boyu (cam yüzünden öne): burun iç uçta (kapıya yakın), dış uca doğru kısalır -> önden ve arkadan bakışta
+        # burun içe-öne bakan damla (gri fotoğrafta kapak dış uçta cam yüzünün yalnız ~20 mm dışına taşar)
+        boy = 160.0 - 40.0 * tau
+        e = 1.0 - (1.0 - tau) ** 2                             # D yüz: üst/alt kenar dış uca doğru kavisli
+        zlo, zhi = 955.0 - 25.0 * e, 1055.0 + 45.0 * e
         return boy, zlo, zhi
 
     def ayna_govde(X, Y, Z, duz=True):
         boy, zlo, zhi = ayna_kesit(Y)
-        a, b, zc = boy, 0.5 * (zhi - zlo), 0.5 * (zlo + zhi)
+        a = boy
         yz = ay_yuz(Y)
         u = np.maximum(yz - X, 0.0) / a
+        # damla: üst çizgi buruna doğru kesit yüksekliğinin %24'ü kadar alçalır (arka yarıda düz), alt çizgi %5 yükselir
+        hb = zhi - zlo
+        ust = zhi - 0.24 * hb * np.minimum(u, 1.0) ** 2.4
+        alt = zlo + 0.05 * hb * np.minimum(u, 1.0) ** 2
+        b, zc = 0.5 * (ust - alt), 0.5 * (ust + alt)
         v = np.abs(Z - zc) / b
         w = np.maximum(Y - AY_YE, 0.0) / AY_UC
-        f = np.sqrt((u ** 2.6 + v ** 2.6) ** (2.0 / 2.6) + w * w) - 1.0
-        g = f * np.minimum(np.minimum(a, b), AY_UC)
+        f = np.sqrt((u ** AY_US + v ** AY_US) ** (2.0 / AY_US) + w * w) - 1.0
+        g = f * np.minimum(np.minimum(a, 0.5 * hb), AY_UC)
         if duz:
             g = smax(g, X - yz, 6.0)                             # düz cam yüzü
-        return smax(g, AY_Y0 - Y, 18.0)                          # iç uç (yuvarlak)
+        return smax(g, AY_Y0 - Y, 30.0)                          # iç uç (geniş yuvarlak: cam yüzü köşeleri pahlı değil)
 
     # cam yüzündeki kapak dış hattı (y, z) ve 7 mm (0.29 mm) eşit kapak dudağıyla cam hattı: kapak kesitinden
-    # gerçek 2B uzaklık (eski cam = alan değeri + 7 idi; dış uçta alan uzaklık olmadığından dudak incelip
-    # tırtıklanıyor, cam dikey düz bir kenarla bitiyordu)
-    _yy = np.linspace(AY_Y0 + 6.0, AY_Y1, 48)
+    # gerçek 2B uzaklık. İç köşeler geniş yarıçaplı (22 mm): cam yuvası eskiden köşeli dikdörtgen gibiydi
+    _yy = np.linspace(AY_Y0 + 4.0, AY_Y1, 64)
     _b, _zl, _zh = ayna_kesit(_yy)
     _zc, _h = 0.5 * (_zl + _zh), 0.5 * (_zh - _zl) * np.sqrt(np.clip(1.0 - (np.maximum(_yy - AY_YE, 0.0) / AY_UC) ** 2,
                                                                        0.0, 1.0))
     AYNA_YUZ = YPoligon([(a_, c_ + h_) for a_, c_, h_ in zip(_yy, _zc, _h)][:-1]
-                        + [(a_, c_ - h_) for a_, c_, h_ in zip(_yy[::-1], _zc[::-1], _h[::-1])], 14.0)
+                        + [(a_, c_ - h_) for a_, c_, h_ in zip(_yy[::-1], _zc[::-1], _h[::-1])], 22.0)
 
     def ayna(dd, z0, X, Y, Z):
         # yaklaşık alanı noktadaki gradyanla ölçekle (uç kapakta basamaklanma olmaz)
@@ -1926,7 +1953,7 @@ def detaylar(d, d0, b):
         gz = ayna_govde(X, Y, Z + 0.5) - ayna_govde(X, Y, Z - 0.5)
         g = g / np.clip(np.sqrt(gx * gx + gy * gy + gz * gz), 0.3, 3.0)
         # siyah alt taban: ayrım çizgisinin altı 0.08 mm içeride, çizgide 0.5 mm genişlik oluk (cam yüzünde yok)
-        zs = 1013.0 - 5.0 * np.clip((Y - AY_Y0) / (AY_Y1 - AY_Y0), 0.0, 1.0)
+        zs = 968.0 - 8.0 * np.clip((Y - AY_Y0) / (AY_Y1 - AY_Y0), 0.0, 1.0)
         yz = ay_yuz(Y)
         # cam: kapak dış hattından 7 mm içeride, 0.45 mm gömük; kenarı 3 mm pahla iner (dudak kenarı temiz)
         c2 = AYNA_YUZ(Y, Z) + 7.0
@@ -1935,19 +1962,19 @@ def detaylar(d, d0, b):
         g = g + p(0.08) * (1.0 - sstep(zs - 1.5, zs + 1.5, Z)) * sstep(0.0, 3.0, cam)
         g = oyuk(g, g.copy(), np.maximum(np.abs(Z - zs) - p(0.25), kapak_yuzu), p(0.22))
         g = np.maximum(g, -np.maximum(cam, (yz - p(0.45) * sstep(0.0, 3.0, -c2)) - X))   # düz cam tabanı
-        # kama ayak: kapının bel çizgisinden (|y| 770, cam yüzeyinin içinden) kapağın iç alt ucuna; gövde tarafında
-        # kalın (x 1650-1735, z 985-1045), dışa doğru önden incelir
+        # ayak: siyah ayraç yelkeninin alt kısmından (|y| 770, cam yüzeyinin içinden) kapağın iç alt ucuna; ince
+        # (x 1652-1702, z 948-990), dışa doğru önden incelir. Eskiden 85 mm boyunda kutu gibi kalın bir ayaktı.
         ty = np.clip((Y - 770.0) / 70.0, 0.0, 1.0)
-        kama = smax(smax(1650.0 + 22.0 * ty - X, X - 1726.0, 10.0),
-                    smax(smax(985.0 - Z, Z - (1045.0 - 8.0 * ty), 10.0), np.maximum(770.0 - Y, Y - 845.0), 6.0), 10.0)
-        kama = smax(kama, (X - 1726.0) - 0.6 * (Z - 985.0) + 10.0, 6.0)   # arka alt köşe pahlı
-        g = smin(g, kama, 15.0)
+        kama = smax(smax(1652.0 + 18.0 * ty - X, X - 1702.0, 8.0),
+                    smax(smax(948.0 - Z, Z - (990.0 - 6.0 * ty), 8.0), np.maximum(770.0 - Y, Y - 845.0), 6.0), 8.0)
+        kama = smax(kama, (X - 1702.0) - 0.6 * (Z - 948.0) + 8.0, 6.0)   # arka alt köşe pahlı
+        g = smin(g, kama, 10.0)
         dd = smin(dd, g, p(0.3))
-        # ayak taban plakası (siyah yelken): ayraçla aynı düz parça, cam düzleminden 0.1 mm kabarık (eskiden gövde
-        # yüzeyinden 0.3 mm, camdan 0.75 mm kabarık ayrı bir blok gibiydi); bel çizgisinin altında gövdeye karışır
+        # ayak taban plakası (siyah yelken): ayraçla aynı düz parça, cam düzleminden 0.1 mm kabarık; bel çizgisinin
+        # altında gövdeye karışır
         yelken = np.maximum(YPoligon_AYNA(X, Z), 720.0 - Y)
         return doldur(dd, z0, yelken, -(CAM - p(0.1)))
-    uygula((1540, 1800, 660, 1060, 940, 1150), ayna)
+    uygula((1500, 1800, 660, 1060, 900, 1130), ayna)
     return d
 
 
