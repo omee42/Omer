@@ -2419,8 +2419,9 @@ def manifold_mu(f):
     return bool(np.all(c == 2))
 
 
-def sadelestir(v, f, tolerans):
-    """Su geçirmezliği koruyan sadeleştirme: yüzey en fazla 'tolerans' mm sapar."""
+def sadelestir(v, f, tolerans, duzenle=True):
+    """Su geçirmezliği koruyan sadeleştirme: yüzey en fazla 'tolerans' mm sapar.
+    duzenle=True: ardından ince uzun üçgen yelpazeleri ham yüzeye sadık kalarak düzeltilir (yuzey_duzenle)."""
     from manifold3d import Manifold, Mesh
     m = Manifold(Mesh(vert_properties=np.asarray(v, np.float32), tri_verts=np.asarray(f, np.uint32)))
     if m.status().name != "NoError":
@@ -2428,7 +2429,190 @@ def sadelestir(v, f, tolerans):
         return v, f
     m = m.simplify(tolerans)
     g = m.to_mesh()
-    return np.asarray(g.vert_properties)[:, :3].astype(np.float64), np.asarray(g.tri_verts).astype(np.int64)
+    del m
+    vs = np.asarray(g.vert_properties)[:, :3].astype(np.float64)
+    fs = np.asarray(g.tri_verts).astype(np.int64)
+    del g
+    if duzenle:
+        vs, fs = yuzey_duzenle(vs, fs, v, f, tolerans)
+    return vs, fs
+
+
+def _ham_normaller(v, f, parca=4_000_000):
+    """Ham MC ağının alan ağırlıklı köşe normalleri (float32); bellek için parça parça."""
+    N = np.zeros((len(v), 3))
+    for i0 in range(0, len(f), parca):
+        ff = f[i0:i0 + parca]
+        fn = np.cross(v[ff[:, 1]] - v[ff[:, 0]], v[ff[:, 2]] - v[ff[:, 0]])
+        for k in range(3):
+            for c in range(3):
+                N[:, c] += np.bincount(ff[:, k], fn[:, c], minlength=len(v))
+        del fn
+    N /= np.linalg.norm(N, axis=1, keepdims=True) + 1e-30
+    return N.astype(np.float32)
+
+
+def yuzey_duzenle(V, F, Vr, Fr, tol, tur=8, kilit_aci=20.0, log=print):
+    """Sadeleştirme sonrası üçgen kalitesi. simplify() düz/az eğrili kaportada köşeleri seyrek ve düzensiz
+    bırakır; aradaki ince uzun yelpaze üçgenlerinin normali (köşeleri yüzeyde olsa bile eğrilik yüzünden)
+    gerçek yüzeyden 5-50° sapar ve gölgede ışınsal çizgi / faset olarak görünür. Ham MC ağı bu hatayı taşımaz.
+    Her turda: (1) kenar çevirme (Delaunay: şekli düzelten; ya da yüz normalinin köşelerdeki ham normallerden
+    sapmasını belirgin azaltan), (2) köşeleri teğet düzlemde alan ağırlıklı ağırlık merkezine doğru
+    gevşetip ham MC yüzeyine (en yakın ham köşenin teğet düzlemi) geri izdüşürme. Her adımda yüz merkezi ve kenar
+    ortalarının ham yüzeyden sapması 'tol' (ya da yüzün sadeleştirmeden gelen sapması) ile sınırlı; yeni yüzün
+    normali köşelerindeki ham normallerden 25°'den fazla sapamaz (keskin kenar üzerinden çevirme/kayma olmaz).
+    Ham normalleri 0.15 mm çevrede 'kilit_aci'dan fazla dönen (keskin detay: derz, yazı, logo kenarı) köşeler
+    kilitli. Köşe sayısı ve topoloji (kapalı manifold) korunur; yalnız kenar çevrilir ve köşe kayar."""
+    from scipy.spatial import cKDTree
+    t0 = time.time()
+    V = np.asarray(V, np.float64).copy()
+    F = np.asarray(F, np.int64).copy()
+    nv = len(V)
+    Nr = _ham_normaller(Vr, Fr)
+    agac = cKDTree(Vr)
+    i0 = agac.query(V, k=1, workers=-1)[1]
+    n0 = Nr[i0].astype(np.float64)  # sadeleştirilmiş köşeler ham köşelerin alt kümesi
+    kilit = np.zeros(nv, bool)
+    for a in range(0, nv, 200_000):  # bellek: parça parça 16 komşu
+        ik = agac.query(V[a:a + 200_000], k=16, workers=-1)[1]
+        kilit[a:a + 200_000] = np.einsum('ikj,ij->ik', Nr[ik], n0[a:a + 200_000]).min(1) < np.cos(np.radians(kilit_aci))
+
+    def sapma(P):
+        i = agac.query(P, k=1, workers=-1)[1]
+        return np.abs(((P - Vr[i]) * Nr[i]).sum(1))
+
+    def izdus(P):
+        i = agac.query(P, k=1, workers=-1)[1]
+        n = Nr[i].astype(np.float64)
+        return P - ((P - Vr[i]) * n).sum(1)[:, None] * n, i
+
+    def yuz_normal(T, P):
+        n = np.cross(P[T[:, 1]] - P[T[:, 0]], P[T[:, 2]] - P[T[:, 0]])
+        l = np.linalg.norm(n, axis=1)
+        return n / (l[:, None] + 1e-30), l
+
+    def yuz_sapma(T, P):
+        a, b, c = P[T[:, 0]], P[T[:, 1]], P[T[:, 2]]
+        return sapma(np.concatenate([(a + b + c) / 3, (a + b) / 2, (b + c) / 2, (c + a) / 2])).reshape(4, -1).max(0)
+
+    cos_n = np.cos(np.radians(25.0))
+
+    def yuz_tutarli(T, P):
+        n, l = yuz_normal(T, P)
+        ok = l > 1e-12
+        for k in range(3):
+            ok &= (n * n0[T[:, k]]).sum(1) > cos_n
+        return ok
+
+    def nhata(T):  # yüz normalinin köşelerdeki ham normallerden en büyük sapması (°)
+        n, _ = yuz_normal(T, V)
+        c = np.minimum(np.minimum((n * n0[T[:, 0]]).sum(1), (n * n0[T[:, 1]]).sum(1)), (n * n0[T[:, 2]]).sum(1))
+        return np.degrees(np.arccos(np.clip(c, -1.0, 1.0)))
+
+    def aci(P, p, q, r):  # p köşesindeki iç açı
+        u = P[q] - P[p]
+        w = P[r] - P[p]
+        return np.arctan2(np.linalg.norm(np.cross(u, w), axis=1), (u * w).sum(1))
+
+    def minaci(T):
+        return np.minimum(np.minimum(aci(V, T[:, 0], T[:, 1], T[:, 2]), aci(V, T[:, 1], T[:, 2], T[:, 0])),
+                          aci(V, T[:, 2], T[:, 0], T[:, 1]))
+
+    tol_f = np.maximum(tol, yuz_sapma(F, V))  # sadeleştirmenin zaten aştığı yüzlerde mevcut sapmayı aşma
+    top_cev = 0
+    for it in range(tur):
+        # (1) kenar çevirme: karşı açılar toplamı > 180° (Delaunay) ya da normal hatası > 3°; en iyi adaylardan
+        #     bağımsız küme (her yüz tek çevirmede, aynı yeni kenar bir kez)
+        cev = 0
+        for _ in range(4):
+            E = np.concatenate([F[:, [0, 1]], F[:, [1, 2]], F[:, [2, 0]]])
+            fid = np.tile(np.arange(len(F)), 3)
+            ops = np.concatenate([F[:, 2], F[:, 0], F[:, 1]])
+            key = np.minimum(E[:, 0], E[:, 1]) * nv + np.maximum(E[:, 0], E[:, 1])
+            o = np.argsort(key, kind='stable')
+            ks = key[o]
+            if not np.array_equal(ks[0::2], ks[1::2]):
+                log("    uyarı: ağ kapalı manifold değil, yüzey düzenleme atlandı")
+                return np.asarray(V), F
+            ilk, iki = o[0::2], o[1::2]
+            f0, f1 = fid[ilk], fid[iki]
+            A, B, c, d = E[ilk, 0], E[ilk, 1], ops[ilk], ops[iki]  # f0 = (A, B, c), f1 = (B, A, d)
+            toplam = aci(V, c, A, B) + aci(V, d, A, B)
+            hf = nhata(F)
+            h_eski = np.maximum(hf[f0], hf[f1])
+            serb = ~(kilit[A] & kilit[B] & kilit[c] & kilit[d])
+            s = np.nonzero(((toplam > np.pi + 1e-3) | ((h_eski > 3.0) & serb)) & (c != d))[0]
+            N1 = np.c_[A[s], d[s], c[s]]
+            N2 = np.c_[d[s], B[s], c[s]]
+            ok = yuz_tutarli(N1, V) & yuz_tutarli(N2, V)
+            h_yeni = np.maximum(nhata(N1), nhata(N2))
+            # Delaunay (şekil) çevirmesi normal hatasını büyütmesin; ya da normal hatasını belirgin azaltan çevirme
+            delo = toplam[s] > np.pi + 1e-3
+            delo &= np.minimum(minaci(N1), minaci(N2)) > np.minimum(minaci(F[f0[s]]), minaci(F[f1[s]]))
+            ok &= (delo & (h_yeni <= h_eski[s] + 1.0)) | (h_yeni < h_eski[s] - 2.0)
+            oncelik = np.where(h_yeni < h_eski[s] - 2.0, 10.0 + h_eski[s] - h_yeni, toplam[s])
+            cd = np.minimum(c[s], d[s]) * nv + np.maximum(c[s], d[s])
+            ok &= ~np.isin(cd, ks)
+            k = np.nonzero(ok)[0]
+            tl = np.minimum(tol_f[f0[s[k]]], tol_f[f1[s[k]]])
+            ok[k] = (yuz_sapma(N1[k], V) <= tl) & (yuz_sapma(N2[k], V) <= tl)
+            s, N1, N2, cd, oncelik = s[ok], N1[ok], N2[ok], cd[ok], oncelik[ok]
+            if len(s) == 0:
+                break
+            o2 = np.argsort(-oncelik, kind='stable')
+            s, N1, N2, cd = s[o2], N1[o2], N2[o2], cd[o2]
+            sira = np.arange(len(s))
+            en_iyi = np.full(len(F), len(s))
+            np.minimum.at(en_iyi, f0[s], sira)
+            np.minimum.at(en_iyi, f1[s], sira)
+            sec = np.nonzero((en_iyi[f0[s]] == sira) & (en_iyi[f1[s]] == sira))[0]
+            sec = sec[np.unique(cd[sec], return_index=True)[1]]  # aynı yeni kenar iki kez oluşmasın
+            if len(sec) == 0:
+                break
+            a0, a1 = f0[s[sec]], f1[s[sec]]
+            F[a0] = N1[sec]
+            F[a1] = N2[sec]
+            tl = np.minimum(tol_f[a0], tol_f[a1])
+            tol_f[a0] = tl
+            tol_f[a1] = tl
+            cev += len(sec)
+        # (2) teğet gevşetme + ham yüzeye izdüşüm
+        n_eski, l2 = yuz_normal(F, V)
+        mer = (V[F[:, 0]] + V[F[:, 1]] + V[F[:, 2]]) / 3
+        W = np.zeros(nv)
+        T = np.zeros((nv, 3))
+        for k in range(3):
+            W += np.bincount(F[:, k], l2, minlength=nv)
+            for j in range(3):
+                T[:, j] += np.bincount(F[:, k], l2 * mer[:, j], minlength=nv)
+        dv = T / (W[:, None] + 1e-30) - V
+        dv -= (dv * n0).sum(1)[:, None] * n0
+        oynayan = ~kilit
+        Vn = V.copy()
+        Vn[oynayan], _ = izdus(V[oynayan] + 0.5 * dv[oynayan])
+        tut_eski = yuz_tutarli(F, V)
+        degisen = oynayan.copy()
+        while True:  # bozulan yüzlerin köşelerini geri al (her turda en az bir köşe; sonlu)
+            fm = np.nonzero(degisen[F].any(1) & oynayan[F].any(1))[0]  # yalnız son adımda değişen yüzler
+            Fm = F[fm]
+            n_yeni, l_yeni = yuz_normal(Fm, Vn)
+            bad = (l_yeni < 1e-12) | ((n_yeni * n_eski[fm]).sum(1) < 0.5) | (yuz_sapma(Fm, Vn) > tol_f[fm])
+            bad |= tut_eski[fm] & ~yuz_tutarli(Fm, Vn)
+            if not bad.any():
+                break
+            geri = np.unique(Fm[bad])
+            geri = geri[oynayan[geri]]
+            Vn[geri] = V[geri]
+            oynayan[geri] = False
+            degisen[:] = False
+            degisen[geri] = True
+        V = Vn
+        if oynayan.any():
+            n0[oynayan] = Nr[agac.query(V[oynayan], k=1, workers=-1)[1]]
+        top_cev += cev
+    log(f"  yüzey düzenleme: {tur} tur, {top_cev} kenar çevrildi, son turda {int(oynayan.sum())} köşe kaydı, "
+        f"{int(kilit.sum())}/{nv} keskin köşe kilitli ({time.time() - t0:.0f} sn)")
+    return V, F
 
 
 def katlanma_cevir(V, F, tol=0.01, tur=12, log=print):
