@@ -24,6 +24,7 @@ Kullanım:
 rozeti; plakasız seçenekte plaka yuvasında kabartma "GTC" yazısı (başka marka/model yazısı eklenmez).
 """
 import argparse
+import gc
 import math
 import time
 
@@ -2476,12 +2477,18 @@ def main():
         print("[tek parça]")
         v, f = govde_mesh("tek", a.h, n)
         print(f"  {len(f)} üçgen -> sadeleştiriliyor (tolerans {a.tolerans} mm)")
-        kaydet(*sadelestir(v, f, a.tolerans), f"{a.onek}_tek_parca.stl")
+        vs, fs = sadelestir(v, f, a.tolerans)
+        del v, f  # 24M üçgenlik ham ağı bırak; yoksa kayıtta bellek biter
+        gc.collect()
+        kaydet(vs, fs, f"{a.onek}_tek_parca.stl")
     if a.parca in ("kit", "hepsi"):
         print("[kit gövde]")
         v, f = govde_mesh("kit", a.h, n)
         print(f"  {len(f)} üçgen -> sadeleştiriliyor (tolerans {a.tolerans} mm)")
-        kaydet(*sadelestir(v, f, a.tolerans), f"{a.onek}_govde.stl")
+        vs, fs = sadelestir(v, f, a.tolerans)
+        del v, f  # 24M üçgenlik ham ağı bırak; yoksa kayıtta bellek biter
+        gc.collect()
+        kaydet(vs, fs, f"{a.onek}_govde.stl")
         print("[teker: ön]")
         teker_mesh(min(a.h, 0.07), n, a.tolerans, f"{a.onek}_teker_on.stl")
         print("[teker: arka]")
