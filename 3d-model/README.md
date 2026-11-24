@@ -49,7 +49,7 @@ Kit gövde ve teker **0.07 mm**, tek parça **0.08 mm** ızgarada çıkarıldı;
   - kapı aralıkları ve kapı kolu
   - sağ arkada yakıt kapağı
   - ön kapı camı, B direği ve sivri biten arka yan cam
-  - sinyal çizgili büyük aynalar
+  - sinyal çizgili, damla biçimli aynalar ve üçgen cam önündeki siyah panel
 - **Üst:**
   - girintili ön ve arka camlar
   - park konumunda iki silecek
@@ -64,7 +64,7 @@ Kit gövde ve teker **0.07 mm**, tek parça **0.08 mm** ızgarada çıkarıldı;
   - **çift trapez egzoz** çıkışı
   - reflektörler
 - **Tekerlek:**
-  - 20 inç, 5 çift kollu jant, bijonlar ve göbek kapağı
+  - 20 inç, 5 çift kollu jant (V biçimli boşluklar), bijonlar ve göbek kapağı
   - önde **355 mm delikli disk** ve Brembo kaliper, arkada **315 mm ince delikli disk** ve tek pistonlu kaliper
   - diş kanalları olan lastik
 
@@ -221,6 +221,30 @@ Ajanlar modeli bu kameralardan çizip fotoğrafın üzerine bindirdi ve farklar�
   - Difüzör kanatlarının alt kenarı fotoğraftaki difüzör alt hattına (z ≈ 200) çekildi.
   - Fotoğraftaki yerinde "opc" rozeti, plakasız yuvada "GTC".
   - Arka silecek, reflektörler ve park sensörleri.
+
+### Bağlantı noktaları turu
+
+Bu turda dört ajan ayrı bölgeleri inceledi: kapılar/yan, arka, ön ve jant. Bir denetçi ajan da modeli fotoğraflarla
+karşılaştırıp 12 bulgu çıkardı; hepsi düzeltildi. Odak, parçaların birleştiği yerlerdeki kaymalardı.
+
+- **Kapılar ve yan:**
+  - Kapı, cam ve marşpiyel çizgilerinin birleşim yerleri hizalandı; kapının arka-alt köşesindeki kopuk parçalar giderildi.
+  - Kapı camının alt çizgisi önde 60–80 mm indirildi.
+  - Üçgen cam büyütüldü. Ön direk kromu fotoğraftaki gibi öne ve aşağı uzanıyor.
+  - Üçgen camla kapı camı arasında, cam hizasında geniş siyah panel var.
+  - Ayna, uzun bir damla biçiminde: ön ucu basık, camı D biçimli.
+  - C direğindeki çukur düzeltildi.
+  - Kapı kilidi yalnız sürücü (sol) kapısında.
+- **Arka:**
+  - Spoyler uç plakası, öne bakan üçgen bir kanatçık olarak D direğine temiz oturuyor (eski buruşukluk giderildi).
+  - Tamponda kırım çizgisi, plaka yuvası (üstte 300 mm, altta 352 mm genişlikte trapez) ve stop alt kenarı fotoğraflara göre düzeltildi.
+- **Ön:**
+  - Alt dudak, fotoğraftan ölçülen hatta çekildi.
+  - Far oluğu ve reflektörü, far yıkama kapağı, kaput kenarı ve çamurluk sırtı düzeltildi.
+- **Jant:**
+  - Kollar, gerçek janttaki gibi r≈97'de kapanan V biçimli boşluklar, daralan gövde ve hafif kavisli çatallarla yeniden çizildi.
+
+Silecekler soldan direksiyonlu (Avrupa/Türkiye) araca göre park konumunda.
 
 ### Fotoğraf kaynakları (teşekkürler)
 
