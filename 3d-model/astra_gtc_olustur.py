@@ -84,6 +84,18 @@ def sstep(e0, e1, x):
     return t * t * (3 - 2 * t)
 
 
+def sstep5(e0, e1, x):
+    """beşinci derece yumuşak basamak (C2: uçlarda eğim ve eğrilik sıfır)."""
+    t = np.clip((x - e0) / (e1 - e0), 0.0, 1.0)
+    return t * t * t * (t * (6.0 * t - 15.0) + 10.0)
+
+
+def sstep5_t(e0, e1, x):
+    """sstep5'in x'e göre türevi."""
+    t = np.clip((x - e0) / (e1 - e0), 0.0, 1.0)
+    return 30.0 * t * t * (t - 1.0) ** 2 / (e1 - e0)
+
+
 def sd_poligon(px, py, v):
     v = np.asarray(v, float)
     d = (px - v[0, 0]) ** 2 + (py - v[0, 1]) ** 2
@@ -201,28 +213,80 @@ ON_DUDAK_ALT = Egri([(0, 229), (200, 231), (320, 231), (430, 226), (500, 225), (
                      (830, 257), (870, 262), (920, 262)])
 ARKA_PLAN = Egri([(0, 0), (200, 5), (400, 20), (550, 50), (680, 100), (780, 175), (850, 270), (895, 380),
                   (915, 480), (925, 560)])
-ARKA_YAN = Egri([(100, 95), (150, 62), (200, 35), (250, 18), (300, 8), (400, 2), (450, 0), (700, 0),
-                 (800, 4), (880, 13), (960, 30), (1015, 55), (1050, 90), (1100, 170)])
+# arka yüzün yandan profili ARKA_YAN(z) [mm, + = öne]: tampon altı (z<700) tablo; üstü (stop / bagaj kapağı / dudak,
+# z 700-1100) üstel eğri AY_A (e^u - 1 - u), u = (z - 700) / AY_B: eski PCHIP tablosunun (800: 4, 880: 13, 960: 30,
+# 1015: 55, 1050: 90, 1100: 170) ±6 mm içinde ama her yerde dışbükey ve C2 (PCHIP düğümler arasında eğriliği
+# işaret değiştiriyordu: parlak boyada bagaj kapağında yatay dalga şeritleri). z>1100'de uç eğimiyle doğrusal sürer.
+ARKA_YAN = Egri([(100, 95), (150, 62), (200, 35), (250, 18), (300, 8), (400, 2), (450, 0), (700, 0)])
+AY_A, AY_B = 1.19, 80.0
+
+
+def arka_yan(Z):
+    """(ARKA_YAN, d/dz) tüm z için."""
+    u = np.clip(Z - 700.0, 0.0, 400.0) / AY_B
+    s1 = AY_A * (math.exp(400.0 / AY_B) - 1.0) / AY_B
+    ek = np.maximum(Z - 1100.0, 0.0)
+    v = ARKA_YAN(Z) + AY_A * (np.exp(u) - 1.0 - u) + s1 * ek
+    dv = ARKA_YAN.t(Z) + np.where(ek > 0, s1, AY_A * (np.exp(u) - 1.0) / AY_B)
+    return v, dv
+
+
 # arka köşe çekmesi KOSE_CEK(y, z) [mm, + = öne]: Heiligenhaus tam yan fotoğrafında (siyah GTC, perspektif kamera
 # teker merkezleri + ön/arka uç noktalarıyla kurulu; ölçek jant kapağı ve yakıt kapağı halkasıyla ±%0.3 doğrulandı)
-# arka siluet stop/bagaj kapağı yüksekliğinde (z 740-1030) modelden 50-95 mm içeride, tampon (z 400-700) ve bagaj
-# kapağı dudağı (z ~1050) ise örtüşüyordu. Yandan siluet, perspektif nedeniyle arka köşeden (|y| 500-640) oluşur:
-# gerçek araçta bagaj kapağı/stop bölgesi planda belirgin yuvarlak, tampon köşesi stobun altında dışa taşar (beyaz
-# OPC arka çaprazda da tampon stop hizasından geniş/dolgun). Çekme köşede (|y| ~570) en büyük, ortada küçük (orta
-# hat ~30 mm: tampon üst kenarı bagaj kapağından taşar), z 700-770 arasında (tampon üst kenarı) başlar, dudağın (z 1050-1070) altında söner. Arka görünüşteki
-# genişlikler (HW_ARKA) değişmez; stop haritası (stop_u) arka yüzde çekmeyle birlikte kayar.
-KOSE_CEK_Z = Egri([(640, 0), (700, 14), (760, 48), (820, 76), (880, 89), (940, 92), (990, 87), (1030, 76),
-                   (1060, 62), (1090, 46), (1120, 22), (1150, 0)])
-# y dağılımı tekdüze artar (köşede tepe yapıp düşmez): tepe |y|≈580'de stop üstünde çapraz bir kırışık bırakıyordu
-_KCY = [(0, 0.35), (100, 0.38), (200, 0.48), (300, 0.64), (400, 0.80), (500, 0.92), (600, 0.985), (700, 1.0),
-        (900, 1.0)]
-KOSE_CEK_Y = Egri([(-y, e) for y, e in reversed(_KCY[1:])] + _KCY)
+# arka siluet stop/bagaj kapağı yüksekliğinde (z 740-1030) modelden 50-95 mm içerideydi; tampon (z 400-700) ve bagaj
+# kapağı dudağı örtüşüyordu. Yandan siluet, perspektif nedeniyle arka köşeden (|y| 400-550) oluşur: gerçek araçta
+# tampon üst köşesi stobun altında dışa taşar (siluette z≈735'te basamak), stop / bagaj kapağı yüzü geride kalır.
+# Çekme analitik ve C2 (kose_cek_z): tampon üst kenarında (z 640-840, sstep5) 0'dan KC_A'ya yükselir (tampon üst
+# köşesiyle stop / bagaj kapağı yüzü arasındaki yatay iç bükey geçiş yalnız buradadır), stop ve bagaj kapağı boyunca
+# (840-990) sabittir (orada yüzün eğriliği yalnız ARKA_YAN'dan gelir: dışbükey), dudakta ve üstünde (990-1190)
+# ARKA_YAN'ın büyümesiyle birlikte söner; y dağılımı ortada KC_ORTA, |y| KC_YG'ye doğru sstep5 ile 1'e çıkar.
+# Eski PCHIP tabloları (12 + 9 düğüm) arka çaprazda stop üstünde ve köşede dalgalı / çapraz bir çukur yansıması
+# bırakıyordu (eğrilik düğümler arasında işaret değiştiriyordu; z 880-1000'de köşede düşey bir duvar vardı). Aynı
+# fotoğrafta yandan siluet farkı z 735-1030 boyunca eski 6-19 px'ten 0-5 px'e iner. Arka görünüşteki genişlikler
+# (HW_ARKA) değişmez; stop haritası (stop_u) arka yüzde çekmeyle birlikte kayar.
+KC_A = 110.0
+KC_ALT = (640.0, 840.0)
+KC_SON = (960.0, 1020.0, 3.0)   # sönüm başlangıcı (yumuşak eşik aralığı) ve sönüm payı (KC_A katı)
+KC_ORTA, KC_YG = 0.35, 700.0
+
+
+def _kc_sonum_tablo():
+    """R(z) = iki kez integrali alınmış ARKA_YAN'' * eşik (z ekseninde 1 mm'lik tablo): R'' <= ARKA_YAN''."""
+    zg = np.arange(600.0, 1601.0, 1.0)
+    u = np.clip(zg - 700.0, 0.0, 400.0) / AY_B
+    ayy = np.where((zg > 700.0) & (zg < 1100.0), AY_A * np.exp(u) / AY_B ** 2, 0.0)
+    rpp = ayy * sstep5(KC_SON[0], KC_SON[1], zg)
+    rp = np.concatenate([[0.0], np.cumsum(0.5 * (rpp[1:] + rpp[:-1]))])
+    r = np.concatenate([[0.0], np.cumsum(0.5 * (rp[1:] + rp[:-1]))])
+    return zg, r, rp
+
+
+_KC_R = None
+
+
+def kose_cek_z(Z):
+    """köşe çekmesinin z profili ve türevi. Sönüm ARKA_YAN'ın büyümesine bağlı: KC = KC_A (1 - S(R / (KC_SON[2] KC_A))),
+    S(u) = 1 - (1 - u)^3. S' <= 3 olduğundan çekmenin eğriliği -ARKA_YAN'' * eşikten küçük olamaz: dudak bölgesinde
+    (z 990-1190) T = ARKA_YAN + e * KC her y için dışbükey kalır, sönüm de C2 biter."""
+    global _KC_R
+    if _KC_R is None:
+        _KC_R = _kc_sonum_tablo()
+    zg, r, rp = _KC_R
+    rmax = KC_SON[2] * KC_A
+    R = np.interp(Z, zg, r) + rp[-1] * np.maximum(Z - zg[-1], 0.0)
+    Rt = np.interp(Z, zg, rp)
+    u = np.clip(R / rmax, 0.0, 1.0)
+    S, St = 1.0 - (1.0 - u) ** 3, 3.0 * (1.0 - u) ** 2 * (R < rmax)
+    yuk, yuk_t = sstep5(*KC_ALT, Z), sstep5_t(*KC_ALT, Z)
+    return KC_A * yuk * (1.0 - S), KC_A * (yuk_t * (1.0 - S) - yuk * St * Rt / rmax)
 
 
 def kose_cek(Y, Z):
     """(çekme, d/dy, d/dz)"""
-    a, da = KOSE_CEK_Z(Z), KOSE_CEK_Z.t(Z)
-    e, de = KOSE_CEK_Y(Y), KOSE_CEK_Y.t(Y)
+    a, da = kose_cek_z(Z)
+    ay = np.abs(Y)
+    e = KC_ORTA + (1.0 - KC_ORTA) * sstep5(0.0, KC_YG, ay)
+    de = (1.0 - KC_ORTA) * sstep5_t(0.0, KC_YG, ay) * np.sign(Y)
     return a * e, a * de, da * e
 
 
@@ -802,21 +866,23 @@ def ust_duzeltme(X, Z):
 
 
 # arka omuz / C direği tabanı daralması [mm, + = içe]: beyaz OPC tam arka fotoğrafında (8366545858, kalibre kamera
-# arka/cam_w) uzak taraf siluetini z 990-1150 satırlarında basen tepesi ve C direği tabanı (x 3420-3620) oluşturuyor ve
-# model 30-45 mm geniş kalıyordu; yalnız HW_ARKA/UD (x>3450) daraltılınca siluet x<3450'deki basen tepesine kayıyordu.
-# Daralma gövdeye ve kabin yan yüzüne (hw_kabin, UD gibi) birlikte uygulanır: x 3150'den itibaren (basen tepesi) başlar,
-# x 4000-4200'de (stop üstü omuz, D direği) söner; z<960 (stop bandı, basen dolgunluğu) ve z>1230 (spoyler uç plakası,
-# arka cam) değişmez. Kesit z'de yumuşak, uçlarda eğimi sıfır (PCHIP uç noktaları tekrarlı): omuz kırımında ve üst
-# uçta kırık/raf kalmaz. Sonuç: z 965-1090 satırlarında siluet farkı ±15 mm; z 1105-1150'de (C direği tabanı, arka yan camın
-# ucunun arkası) 13-36 mm geniş kalır (eskiden 40-45): daha fazlası direkte içbükey bir bel (çukur) bırakıyordu.
-OD_Z = [930, 960, 990, 1020, 1050, 1080, 1110, 1140, 1170, 1200, 1230]
-OD_A = [0, 0, 12, 34, 40, 35, 25, 13, 4, 0, 0]
-OMUZ_DAR = Egri(list(zip(OD_Z, OD_A)))
+# arka/cam_w) uzak taraf siluetini z 965-1035'te basen tepesi, z 1050-1200'de C/D direği tabanı (arka yan camın ucunun
+# arkası, x 3540-4040) oluşturuyor. Daralma gövdeye ve kabin yan yüzüne (hw_kabin, UD gibi) birlikte uygulanır: x 3150'den
+# itibaren (basen tepesi) başlar, x 3950-4300'de (stop üstü omuz, D direği) söner. z profili tepe değil PLATO: z 940-1040
+# arasında artar, 1140'a kadar sabit kalır, direk boyunca 1140-1360 arasında yavaşça söner (spoyler hizasında <1 mm).
+# Sönüm kısa tutulunca (ör. 1140-1260) direkte uç plakasının ucundan arkaya yatay bir oluk, x'e bağlı yapılınca
+# (D direğinde kısa) uç plakasında çapraz bir kıvrım çıkıyordu. Eski tepe biçimli tablo (z 1050'de 40 mm, 1200'de 0) omuzda içbükey bir bel/çukur
+# bırakıyor, direk tabanını (z 1105-1195) ise 13-29 mm geniş bırakıyordu. Geçişler beşinci derece (sstep5, C2) basamakla:
+# eğrilik sıçraması / kırım çizgisi kalmaz; x'te de C2 (eski kübik sstep x 4000/4200'de eğrilik sıçratıyordu).
+# Siluet farkı (foto konturuna dik uzaklık) z 965-1195 boyunca -6..+6 mm (eski: -4..+23 mm).
+OD_A = 35.0
+OD_ALT = (940.0, 1040.0)
+OD_UST = (1140.0, 1360.0)
 
 
 def omuz_daralma(X, Z):
-    wx = sstep(3150.0, 3420.0, X) * (1.0 - sstep(4000.0, 4200.0, X))
-    return OMUZ_DAR(np.clip(Z, OD_Z[0], OD_Z[-1])) * wx
+    wx = sstep5(3150.0, 3420.0, X) * (1.0 - sstep5(3950.0, 4300.0, X))
+    return OD_A * sstep5(OD_ALT[0], OD_ALT[1], Z) * (1.0 - sstep5(OD_UST[0], OD_UST[1], Z)) * wx
 
 
 def arka_hw(X, Z):
@@ -912,8 +978,8 @@ def govde_temel(X, Y, Z):
         d_alt = np.where(X < 600.0, (z2 - Z) / np.sqrt(1 + gx ** 2 + gy ** 2), d_alt)
     d_on = (ON_PLAN(Y) + ON_YAN(Z) - X) / np.sqrt(1 + ON_PLAN.t(Y) ** 2 + ON_YAN.t(Z) ** 2)
     kc, kcy, kcz = kose_cek(Y, Z)
-    d_arka = (X - (L - ARKA_PLAN(Y) - ARKA_YAN(Z) - kc)) / np.sqrt(1 + (ARKA_PLAN.t(Y) + kcy) ** 2
-                                                                  + (ARKA_YAN.t(Z) + kcz) ** 2)
+    ay, ayt = arka_yan(Z)
+    d_arka = (X - (L - ARKA_PLAN(Y) - ay - kc)) / np.sqrt(1 + (ARKA_PLAN.t(Y) + kcy) ** 2 + (ayt + kcz) ** 2)
 
     alt = smax(d_yan, d_ust, p(4.5) - 38.0 * sstep(3900, 4150, X))   # arkada D direği kırımı daha belirgin
     alt = smax(alt, d_on, p(3.0))
