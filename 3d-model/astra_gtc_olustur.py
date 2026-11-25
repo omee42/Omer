@@ -285,8 +285,24 @@ def esik_basamak(X, Z):
 ON_CAM_ALT = Egri([(1240, 920.0), (1290, 906.0), (1340, 899.5), (1400, 898.0), (1450, 899), (1500, 903), (1700, 926),
                    (2000, 958), (2300, 984), (2500, 1003), (2692, 1022), (2780, 1031)])
 ON_CAM_ARKA = ((2692.0, 1068.0), (2745.0, 1366.0))      # kapı camı arka kenarı (B direği kaplamasının önü)
-ARKA_CAM_ALT = Egri([(2800, 1043), (2818, 1045), (3010, 1066), (3240, 1112), (3410, 1156), (3520, 1184),
-                     (3578, 1195), (3620, 1201)])
+# Arka yan cam 3. düzeltme (Heiligenhaus tam yan fotoğrafı, 94 mm odak, teker merkezleriyle ölçeklenmiş dik
+# izdüşüm; gövdeye göre kapı açıklığının yüksekliğiyle hizalandı, dz = -18 mm; derinlik için x'e +10..25 mm
+# perspektif düzeltmesi): arka yan camın açıklık alt kenarı (çerçeve/boya sınırı) kapı camının bel hattının düz
+# devamıdır (B direğinde aynı hizada, x 3280'e kadar aynı eğimle ~0.07) ve ancak camın son 250 mm'sinde uca doğru
+# kıvrılarak yükselir. Eski tablo B direğinden hemen sonra yükselmeye başlıyordu (x 3240'ta 50 mm yüksek): arka cam
+# alt kenarı kapı camıyla hizasız görünüyordu. Krom kuyruğu fotoğraftaki dış kontura göre 7-15 mm alçak ve uç
+# ~35 mm önde (3592 -> 3557).
+ARKA_CAM_ALT = Egri([(2800, 1030), (2818, 1031), (2872, 1035), (2947, 1040), (3021, 1045), (3095, 1050),
+                     (3170, 1056.6), (3244, 1061.7), (3281, 1065.4), (3320, 1071.7), (3358, 1079.2), (3396, 1091.6),
+                     (3435, 1107.8), (3473, 1126.4), (3518, 1150), (3532, 1163), (3545, 1172), (3560, 1182),
+                     (3590, 1195)])
+# arka yan camın kendisi (camın alt kenarı) siyah çerçevenin içinde: altta 45-60 mm, önde (B direği tarafı) ~70 mm
+# geniş çerçeve; camın sivri ucu çerçeve ucunun ~100 mm önünde biter (aynı fotoğraf)
+ARKA_CAM_IC = Egri([(2880, 1080), (2903, 1081), (2978, 1086), (3052, 1091), (3126, 1096), (3201, 1102.4),
+                    (3275, 1111.2), (3312, 1117.5), (3350, 1131), (3388, 1148.5), (3426, 1168.4), (3450, 1188),
+                    (3470, 1240)])
+ARKA_CAM_IC_ON_X = 2893.0
+KAPI_FITIL = 17.0     # kapı camı ile boya arasındaki siyah bel fitili (cam alt kenarı açıklığın 17 mm üstünde)
 ARKA_CAM_ON_X = 2821.0                                    # arka yan cam ön kenarı (B direği krom çıtasının arkası)
 FAR_ON = YPoligon([(384, 661), (430, 648), (522, 642), (652, 651), (739, 669), (790, 700), (815, 745),
                    (850, 800), (960, 846), (960, 856), (785, 845), (712, 830), (618, 806), (496, 762),
@@ -387,8 +403,8 @@ KROM_DLO = [(1226, 940.7), (1250, 946.9), (1275, 953.9), (1300, 960.7), (1325, 9
             (1850, 1219.1), (1875, 1228.8), (1900, 1237.9), (1925, 1246.3), (1950, 1254.5), (1975, 1262.4),
             (2000, 1270.0), (2025, 1277.5), (2050, 1284.7),
             (2200, 1316), (2380, 1344),
-            (2600, 1359), (2800, 1357), (2950, 1343), (3140, 1321), (3310, 1290), (3460, 1253), (3545, 1223),
-            (3578, 1207), (3589.5, 1201.5), (3592, 1196), (3590, 1191), (3585, 1188), (3570, 1185.5), (3558, 1183)]
+            (2600, 1359), (2800, 1357), (2950, 1342), (3150, 1311), (3340, 1270), (3462, 1238), (3523, 1219),
+            (3540, 1211), (3551, 1204), (3557, 1197.5), (3557, 1193), (3553, 1189), (3545, 1182), (3534, 1175)]
 # arka uç: krom çıta arka yan camın sivri ucunu (x≈3584, z≈1209) camdan 8 mm uzaklıkta sarar ve camın alt kenarı
 # boyunca ~30 mm gidip biter (mavi OPC 26608068581). Eskiden camın ucunun ~12 mm ötesinde (3596, 1212) yuvarlak
 # küt uçla C direği üstünde bitiyordu. krom_isaretli() x'e göre artan kısmı (ucun en arka noktasına kadar) kullanır;
@@ -418,7 +434,9 @@ AYNA_CITA = YPoligon([(1530, 900), (1702, 900), (1659, 1150), (1608, 1150)], 4)
 # yan sinyal (ön çamurluk, kapı çizgisinin ~15 mm önünde): yuvarlatılmış yamuk 75x35, üst kenar yatay, ön alt
 # köşesi geriye çekik (siyah OPC 34848925543 ve mavi OPC 15922355098 kalibre kameralarından geri izdüşüm:
 # üst kenar 1259..1342, alt 1277..1357, kapı çizgisine göre düzeltilmiş merkez x≈1320, z 690-737 -> 712)
-YAN_SINYAL = YPoligon([(1282.5, 729.5), (1357.5, 729.5), (1357.5, 694.5), (1300.5, 694.5)], 7)
+# Heiligenhaus tam yan fotoğrafı: merkez (1350, 746), 80x30 mm -> 34 mm yukarı, 15 mm geri (siyah OPC de ~45 mm alçak
+# gösteriyordu)
+YAN_SINYAL = YPoligon([(1297.5, 763.5), (1372.5, 763.5), (1372.5, 730.5), (1315.5, 730.5)], 7)
 # OPC köşe hava girişi (fren soğutma). Ölçüler iki kalibre fotoğraftan (mavi OPC ön çapraz + lacivert OPC)
 # görünen kenarların gövde yüzeyine / derin parçalar için ofset yüzeye ışın izdüşümüyle, iki kamera ortalaması:
 #   KOSE_AGIZ   yuvarlak üçgen ağız (tepe y 722 z 484, iç alt köşe 580/315, dış alt köşe 824/312)
@@ -1373,7 +1391,9 @@ def teker_asimetrik(d, kes):
 # Gri 54188905081 ve siyah OPC 34848925543 (ikisi de sol yan) fotoğraflarında kilit göbeği tutamağın arka
 # ucunda (önden ~160 mm); omuz çizgisine göre tutamak ~12 mm daha aşağıda (merkez z 803). Sol direksiyonlu
 # araçta yolcu (sağ, +Y) kapısının kolunda kilit yok.
-KOL_Z = 803.0
+# Heiligenhaus tam yan fotoğrafında (pencere açıklığına göre hizalı dik izdüşüm) tutamak çubuğunun merkezi z≈837,
+# cebin merkezi ≈819: model 28 mm alçaktı; siyah OPC kamerası da ~45 mm alçak gösteriyordu -> 831.
+KOL_Z = 831.0
 KILIT_X = 2643.0
 
 
@@ -1521,6 +1541,13 @@ def detaylar(d, d0, b):
         # keskin; altta ayna taban plakasına (aynı seviye, ayna()), üstte A direği kromuna (krom merkez çizgisine
         # kadar uzanır, krom üstüne biner). Eskiden çıta gövde yüzeyinde kalıp 0.1 mm bombeyle camdan ~0.55 mm
         # kabarık yuvarlak çubuk gibi duruyordu.
+        # siyah fitil/çerçeve: açıklık kenarı ile camın kendisi arasında kalan bant camdan 0.2 mm kabarık (kapıda
+        # altta 17 mm fitil, arka yan camda geniş çerçeve) - gerçekte olduğu gibi iki camın açıklıkları hizalı,
+        # camların kendisi çerçeve içinde ayrı görünür
+        bant_on = np.maximum(np.maximum(on, Zb - (bel + KAPI_FITIL)), 1702.0 - Xb)
+        cam_ar = np.maximum(ARKA_CAM_IC(Xb) - Zb, ARKA_CAM_IC_ON_X - Xb)
+        bant_ar = np.maximum(arka, -cam_ar)
+        dd = doldur(dd, z0, np.maximum(np.minimum(bant_on, bant_ar), dis), -(CAM - p(0.2)))
         cita = AYNA_CITA(Xb, Zb)
         cm = np.maximum(np.maximum(cita, tk), np.maximum(bel - 2.0 - Zb, dis))
         return doldur(dd, z0, cm, -(CAM - p(0.1)))
@@ -1537,7 +1564,7 @@ def detaylar(d, d0, b):
         dd = doldur(dd, z0, m, h)
         # B direği: arka yan camın ön kenarında ince dikey krom çıta (x 2805-2820), aynı kesit
         b = np.abs(Xb - 2812.5)
-        mb = np.maximum(np.maximum(b - 7.5, np.maximum(1042.0 - Zb, Zb - 1347.0)), (hw_kabin(X, Z) - p(1.5)) - Y)
+        mb = np.maximum(np.maximum(b - 7.5, np.maximum(1031.0 - Zb, Zb - 1347.0)), (hw_kabin(X, Z) - p(1.5)) - Y)
         return doldur(dd, z0, mb, p(0.22) * sstep(0.0, 3.0, 7.5 - b))
     uygula((1190, 3640, 450, 900, 890, 1440), krom)
 
@@ -1797,7 +1824,7 @@ def detaylar(d, d0, b):
         dd = oyuk(dd, z0, np.maximum(cep * 28.0, dis), p(0.6) * sstep(0.0, 0.25, -cep))
         k, zc, hk = kol_tutamak(X, Z)
         return doldur(dd, z0, np.maximum(k, dis), hk)
-    uygula((2440, 2720, 700, 960, 760, 870), kol)
+    uygula((2440, 2720, 700, 960, 785, 900), kol)
 
     # yan sinyal (ön çamurluk): 0.25 mm kabarık çerçeve (4 mm), içinde 0.15 mm çukur lens + ince dikey bölme
     def yan_sinyal(dd, z0, X, Y, Z):
@@ -1806,7 +1833,7 @@ def detaylar(d, d0, b):
         h = p(0.25) * sstep(0.0, 3.5, -s_) - p(0.15) * sstep(4.5, 6.0, -s_)
         h = h + p(0.06) * np.maximum(0.0, 1.0 - np.abs(Xb - 1325.0) / 3.0) * sstep(5.2, 7.0, -s_)
         return doldur(dd, z0, np.maximum(s_, 760.0 - Y), h)
-    uygula((1270, 1370, 760, 960, 685, 740), yan_sinyal)
+    uygula((1285, 1385, 760, 960, 719, 775), yan_sinyal)
 
     def yumusak_islemler(YUM):
         """oyuk/doldur'un kenarı YUM ile yuvarlatılmış halleri (farlardaki gibi): ince detay kenarları eğik geçtiği
