@@ -628,9 +628,21 @@ SENSOR = ((222.0, 432.0), (625.0, 432.0))
 # oluğun alt duvarı kırımın kendisidir (eskiden oluk kırımın üstüne biniyor, kırım boncuk boncuk görünüyordu).
 _ka = lambda x: (float(x), float(ESIK_KAPI(x)) + KAPI_W)
 KAPI_CIZGILERI = [
-    [_ka(1368), (1370, 500), (1372, 700), (1388, 820), (1404, 878), (1411, 899)],   # üst uç yeni bel hattında
-    [(2800, 1364), (2797, 1080), (2792, 700), (2780, 480), (2752, 400), (2722, 345), (2685, 309), _ka(2640)],
-    [_ka(2640), _ka(2440), _ka(2120), _ka(1800), _ka(1368)],
+    # Üç kalibre yan kamerada (siyah OPC 34848925543, gri GTC 54188905081, Heiligenhaus GTC) aralık pikselleri gövde
+    # yüzeyine ışınla izdüşürüldü; kameraların yerel x kayması komşu donanımla (yan sinyal, kapı kolu) giderildi.
+    # Ön aralık yandan düz değil, ortası öne bombeli: ön sinyalin arka ucunun 23-37 mm arkasından geçer (eski hat
+    # sinyale ~5 mm'de değiyordu), altta geriye kıvrılıp marşpiyel kırımına x≈1444'te iner. Eski hat (1368,250)
+    # (1370,500) (1372,700) (1388,820): z 750'de 17, 530'da 26, 440'ta 37, 330'da 54, 260'ta 70 mm öndeydi.
+    # Üst uç (cam alt kenarı) değişmedi.
+    [_ka(1444), (1432, 290), (1420, 340), (1406, 440), (1397, 540), (1392, 640), (1394, 750), (1399, 820),
+     (1404, 878), (1411, 899)],   # üst uç yeni bel hattında
+    # Arka aralık: bel hizasında (B direği kromunun önü) değişmedi; omuzun üstünden ~25 mm geriye kıvrılır
+    # (üç fotoğrafta z 820-930'da x 2819-2821, kapı kolu arka ucunun 116-126 mm arkası), aşağı doğru öne döner ve
+    # z ≈ 480'in altında eski hatta oturur. Eski hat (2797,1080) (2792,700) (2780,480): z 815'te 27, 710'da 22,
+    # 610'da 14 mm öndeydi. Alt köşe (z < 450) üç kamerada ±10 mm içinde doğruydu, değişmedi.
+    [(2800, 1364), (2797, 1080), (2805, 1010), (2815, 960), (2820, 900), (2821, 820), (2815, 710), (2803, 610),
+     (2787, 500), (2770, 440), (2752, 400), (2722, 345), (2685, 309), _ka(2640)],
+    [_ka(2640), _ka(2440), _ka(2120), _ka(1800), _ka(1444)],
     # ön tampon - çamurluk: farın dış ALT köşesinden (cam hattının u≈884, z≈735 noktası) aşağı-geriye, ön teker
     # kemerinin dudağına. Kalibre ön çapraz (15922355098: (383,803,736) (411,841,711) (459,871,685) (533,891,652)
     # (601,903,623)) ve siyah OPC yan (34848925543: (457,672) (493,654) (530,637) (567,619) (603,603) (632,590))
