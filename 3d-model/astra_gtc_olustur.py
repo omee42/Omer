@@ -558,11 +558,15 @@ KROM_DLO = [(1226, 940.7), (1250, 946.9), (1275, 953.9), (1300, 960.7), (1325, 9
             (2000, 1270.0), (2025, 1277.5), (2050, 1284.7),
             (2200, 1316), (2380, 1344),
             (2600, 1359), (2800, 1357), (2950, 1342), (3150, 1311), (3340, 1270), (3462, 1238), (3523, 1219),
-            (3540, 1211), (3551, 1204), (3557, 1197.5), (3557, 1193), (3553, 1189), (3545, 1182), (3534, 1175)]
-# arka uç: krom çıta arka yan camın sivri ucunu (x≈3584, z≈1209) camdan 8 mm uzaklıkta sarar ve camın alt kenarı
-# boyunca ~30 mm gidip biter (mavi OPC 26608068581). Eskiden camın ucunun ~12 mm ötesinde (3596, 1212) yuvarlak
-# küt uçla C direği üstünde bitiyordu. krom_isaretli() x'e göre artan kısmı (ucun en arka noktasına kadar) kullanır;
-# geri dönen kuyruk cam alt kenarını da kromla sınırlar.
+            (3540, 1211), (3551, 1204), (3557, 1197.5), (3557, 1193), (3554, 1188.5)]
+# arka uç: krom çıta arka yan camın sivri ucunu (x≈3584, z≈1209) camdan 8 mm uzaklıkta sarar ve ucun hemen altında
+# yuvarlak biter (mavi OPC 26608068581, mavi OPC sağ arka "2.0 Turbo OPC" ve siyah OPC 34848925543: krom ucu camın
+# sivri ucunda yuvarlak bir burunla kıvrılıp camın alt kenarına iner, alt kenar boyunca kromsuz siyah çerçeve
+# devam eder). Eskiden camın ucunun ~12 mm ötesinde (3596, 1212) yuvarlak küt uçla C direği üstünde bitiyordu;
+# sonra alt kenar boyunca ~30 mm geri dönüyordu: dönüş 5 mm yarıçaplı keskin kıvrımla 16 mm'lik şeridin
+# yarı genişliğinden dar olduğundan uçta topuz, arkasında ayrı bir kanca gibi okunuyordu (yandan ve arka çaprazdan
+# ~35 mm'lik "J"). Dönüş ~10 mm'ye indirildi: şeridin yuvarlak ucu camın alt kenarına (ARKA_CAM_ALT) değer.
+# krom_isaretli() x'e göre artan kısmı (ucun en arka noktasına kadar) kullanır.
 # Ön kısım (x ≤ 2050) 6 mm'de bir örneklenir (25 mm aralıklı kontrol noktaları arasında kiriş yerine eğri; uçtaki
 # kıvrım ve x 1420-1460 arasındaki büküm köşesiz). Arka kısım eskisi gibi (40 mm).
 # x > 2050 (kapı üstü ve arka yan cam): siyah OPC yan kamerasında (tavan siluetiyle doğrulanmış) kromun alt kenarı
@@ -574,9 +578,9 @@ _KY_ON, _KY_ARKA = yumusat(KROM_DLO, 6.0), yumusat(KROM_DLO, 40.0)
 KROM_YOL = np.vstack([_KY_ON[_KY_ON[:, 0] <= 2050.0 + 1e-6][:int(np.argmax(_KY_ON[:, 0] >= 2050.0 - 1e-6)) + 1],
                       _KY_ARKA[int(np.argmax(_KY_ARKA[:, 0] >= 2050.0 - 1e-6)) + 1:]])
 # köpekbalığı anten yan profili (x, tavandan yükseklik)
-ANTEN_PROFIL = YPoligon([(3576, -10), (3577, 3), (3585, 10), (3600, 15), (3625, 18), (3648, 21), (3668, 33),
-                         (3688, 46), (3706, 58), (3716, 65), (3723, 66), (3727, 60), (3728, 40), (3731, 15),
-                         (3734, -10)], 4)
+# beyaz OPC tam arka (kalibre, neredeyse ortografik) geri izdüşümü: tepe z ≈ 1416, z 1384'te genişlik ≈ 26 mm.
+# Eski yüzgeç 66 mm yüksek (tepe ~1432) ve tabanda 55 mm genişti: arkadan bakınca ~15 mm uzun, kalın görünüyordu.
+ANTEN_PROFIL = YPoligon([(3576, -10), (3577, 2.4), (3585, 7.9), (3600, 11.8), (3625, 14.2), (3648, 16.5), (3668, 26), (3688, 36.2), (3706, 45.7), (3716, 51.2), (3723, 52), (3727, 47.3), (3728, 31.5), (3731, 11.8), (3734, -10)], 4)
 # ayna ayağının oturduğu siyah taban plakası: ön üçgen camı bölen dikey çıtanın (x 1700-1715) dibinde, kapı
 # camının ön alt köşesinde, bel çizgisi üzerinde (fotoğraflar: 26608054501 mavi OPC, 54188905081 gri)
 YPoligon_AYNA = YPoligon([(1566, 906), (1727, 906), (1714, 990), (1583, 990)], 5)
@@ -590,7 +594,12 @@ AYNA_CITA = YPoligon([(1560, 900), (1732, 900), (1711, 1160), (1648, 1160)], 4)
 # üst kenar 1259..1342, alt 1277..1357, kapı çizgisine göre düzeltilmiş merkez x≈1320, z 690-737 -> 712)
 # Heiligenhaus tam yan fotoğrafı: merkez (1350, 746), 80x30 mm -> 34 mm yukarı, 15 mm geri (siyah OPC de ~45 mm alçak
 # gösteriyordu)
-YAN_SINYAL = YPoligon([(1297.5, 763.5), (1372.5, 763.5), (1372.5, 730.5), (1315.5, 730.5)], 7)
+# Boyut: lacivert OPC (17022087756), siyah OPC (34848925543) ve mavi OPC (26608054501) kameralarında parça
+# modelden yatayda ~%12, dikeyde ~%15-20 büyük görünür: 75 x 33 -> 84 x 38 mm. Konum: fotoğraftaki merkez
+# gövdeye (y 897 düzlemine) geri izdüşümle lacivert (1355, 738), mavi ön çapraz 15922355098 (1270, 746), siyah OPC
+# (1329, 708); x üç kamerada modelle ±15 mm içinde (kapı çizgisine göre de aynı: değişmedi), z üçünde de modelden
+# alçak (9-14, siyah OPC'de ~40 mm) -> merkez 10 mm aşağı (1335, 737).
+YAN_SINYAL = YPoligon([(1293.0, 756.0), (1377.0, 756.0), (1377.0, 718.0), (1313.2, 718.0)], 7)
 # OPC köşe hava girişi (fren soğutma). Ölçüler iki kalibre fotoğraftan (mavi OPC ön çapraz + lacivert OPC)
 # görünen kenarların gövde yüzeyine / derin parçalar için ofset yüzeye ışın izdüşümüyle, iki kamera ortalaması:
 #   KOSE_AGIZ   yuvarlak üçgen ağız (tepe y 722 z 484, iç alt köşe 580/315, dış alt köşe 824/312)
@@ -1077,8 +1086,12 @@ def govde_temel(X, Y, Z):
     hw = hw + 10.0 * sstep(Z_ALT(X) + 8.0, Z_ALT(X) + 38.0, Z) * esik_basamak(X, Z) \
         * sstep(1262.0, 1292.0, X) * (1 - sstep(3228.0, 3262.0, X))
     # çamurluk kabarıklıkları (arka daha belirgin) + OPC kıvrık dudak: kemer kenarında ~10 mm'lik yuvarlak
-    # bir sırt (kuyuya kıvrılan sac), arkasında sığ bir oluk, sonra kabarık yüzey
-    for xa, a in ((AKS_ON, 0.6), (AKS_ARKA, 0.85)):
+    # bir sırt (kuyuya kıvrılan sac), arkasında sığ bir oluk, sonra kabarık yüzey.
+    # Arka kabarıklık 20.4 mm'den (0.85) 7.2 mm'ye (0.30) indirildi: basenle üst üste binince gövde arka kemerin ön-üst
+    # köşesinde (x≈3450-3500, z≈690) |y| 935.7'ye, toplam genişlik 1871 mm'ye çıkıyordu (katalog 1840; ön kemerde 1838).
+    # Şimdi 1839 mm. Kalibre ön çapraz fotoğraflarda (Geneva 054 / 055, siyah OPC 34848925543) arka kemer çevresindeki
+    # yan siluette de model fotoğrafın dışına taşıyordu (aynı yön). Basen (32 mm) ve dudak sırtı aynı.
+    for xa, a in ((AKS_ON, 0.6), (AKS_ARKA, 0.30)):
         r = np.sqrt((X - xa) ** 2 + (Z - AKS_Z) ** 2)
         e = r - CAMUR_R
         kab = sstep(-12.0, 0.0, e) * (1 - sstep(p(1.4), p(4.0), e))
@@ -1190,68 +1203,80 @@ def govde_temel(X, Y, Z):
     return smin(d, spoyler(X, Y, Z, d), 3.0)
 
 
-# spoyler uç plakasının yandan görünüşü (x, z): sivri alt uç, ön kenarın üstü, alt kenarın arka ucu. Uç, cam yan
-# kenarının (direk yüzeyinde |y| ≈ ARKA_CAM_YAN eşyükselti çizgisi) ön ucundadır.
-UC_UC = (3815.0, 1192.0)
-UC_ON = (3790.0, 1345.0)
-UC_ARKA = (3988.0, 1262.0)
+# OPC tavan spoyleri (beyaz OPC 8366545858 kalibre tam arka, mavi OPC 2012-10-26_03 / 14891756067, siyah OPC yan
+# 34848925543, mavi OPC yan-arka "2.0 Turbo"): iki katlı. Üstte ince kanat (arka yüzü z 1354-1374), altında arkaya açık
+# ~35 mm'lik yarık (içinden tavan görünür, |y| ≈ 122-141'de iki dikme), yarığın altında 3. stoplu gövde bandı (z 1258-1319).
+# Arkadan bakınca kanat bir kemerdir: üst kenar ortada 1374, y 220'de 1361, 400'de 1339, 473'te 1315; uçlarda D direği
+# boyunca aşağı-öne kıvrılan siyah bir bıçakla (uç plakası) camın üst köşesinde (|y| ≈ 555, z ≈ 1208) sivri uçla biter.
+# Eski spoyler yarıksız, üstü düz bir kutuydu (arka yüz 1271-1376 tek parça, uçları köşeli kutu, plaka dikey ön kenarlı
+# kama); altındaki gövdeyle arasında ~60 cm³'lük kapalı ince boşluk kalıyordu (alt yüz x 3890-4010'da tavanın 2-10 mm
+# üstünde yüzüyordu). Yeni alt sınır ortada gövdenin içinden geçer: kapalı boşluk yok.
+# uç plakasının yandan görünüşü (x, z): sivri alt uç (UC_UC) üç kalibre kameranın kesişiminden (siyah OPC yan
+# 34848925543 + siyah OPC arka çapraz 8080939836 ışınları |y| ≈ 555'te kesişir, beyaz OPC tam arka: |y| 555, z 1208):
+# x ≈ 3811, z ≈ 1210. Alt-ön kenar uçtan öne doğru yavaş (UC_ORTA'ya), sonra dik yükselir (UC_ON, tavan kenarı);
+# arka (alt) kenar uçtan kanadın arka alt dudağına yavaşça yükselir (UC_ARKA; mavi OPC 03: siyah bıçağın cam tarafı);
+# altı camdır (cam yan kenarı uçtan başlar).
+UC_UC = (3811.0, 1210.0)
+UC_ORTA = (3715.0, 1240.0)
+UC_ON = (3600.0, 1350.0)
+UC_ARKA = (3990.0, 1265.0)
+SP_PLAKA_EK = 5.0            # plakanın direk yüzünden en az taşması (ön kenarda görünür ek yeri basamağı)
+SP_KEMER = Egri([(0, 0), (220, 13), (400, 35), (473, 59), (515, 88), (545, 125), (600, 220)])   # üst kenar düşüşü (|y|)
+SP_ALT = Egri([(0, 1258), (220, 1257), (365, 1256), (437, 1250), (508, 1232), (555, 1210), (620, 1190)])  # alt kenar
+SP_YARIK = Egri([(0, 1319), (220, 1310), (400, 1292), (470, 1280)])   # yarığın tabanı (gövde bandının üstü)
+SP_YARIK_Y = 468.0           # yarığın yarı genişliği
+SP_KANAT_T = 19.0            # kanadın arka yüz yüksekliği (yarığın tavanı = üst yüz - T)
+SP_DIKME = (131.5, 7.5, 10.5)   # dikme ekseni |y|, alt / üst yarı genişlik
+
+
+def _dogru(X, Z, P, Q):
+    """P->Q doğrusuna işaretli uzaklık (+ = yönün sağı: P->Q öne/yukarı giderken altı)."""
+    ax, az = Q[0] - P[0], Q[1] - P[1]
+    return ((Z - P[1]) * ax - (X - P[0]) * az) / math.hypot(ax, az)
 
 
 def _uc_kenar(X, Z):
-    """Uç plakasının ön kenarına (s_on, + = önde) ve alt kenarına (s_alt, + = altta) işaretli uzaklık (x-z düzlemi)."""
-    ax, az = UC_ON[0] - UC_UC[0], UC_ON[1] - UC_UC[1]
-    bx, bz = UC_ARKA[0] - UC_UC[0], UC_ARKA[1] - UC_UC[1]
-    la, lb = math.hypot(ax, az), math.hypot(bx, bz)
-    dx, dz = X - UC_UC[0], Z - UC_UC[1]
-    return (dz * ax - dx * az) / la, (dx * bz - dz * bx) / lb
+    """Uç plakasının alt-ön kenarına (s_on, + = altında / önünde) ve arka kenarına (s_alt, + = arkasında) işaretli
+    uzaklık. Alt-ön kenar iki doğrudan (uç -> orta -> ön) oluşur; aradaki kırık 25 mm yarıçapla yumuşatılır."""
+    s_on = smax(_dogru(X, Z, UC_UC, UC_ORTA), _dogru(X, Z, UC_ORTA, UC_ON), 25.0)
+    s_alt = -_dogru(X, Z, UC_UC, UC_ARKA)
+    return s_on, s_alt
 
 
 def spoyler(X, Y, Z, d_g=None):
-    # OPC tavan spoyleri: tavanın devamı, arka kenarda ~55 mm yüksek yüz (3. stop burada), dışbükey arka
-    # kenar, iki yanda D direği boyunca aşağı inen uç plakaları (fotoğraf: alt dudak z≈1275, uçlar |y|≈570)
+    ay = np.abs(Y)
     yy = np.minimum((Y / 560.0) ** 2, 1.0)
-    # arka kenarda yukarı kalkar (beyaz OPC: arka yüz z≈1265..1370, fren lambası 1280-1300)
-    sp_ust = 1356.0 + 0.10 * np.maximum(X - 3800.0, 0) - 26.0 * yy
+    # üst yüz: arkaya doğru hafif yükselir, kenarlara doğru kemer gibi düşer (SP_KEMER)
+    sp_ust = 1356.0 + 0.10 * np.maximum(X - 3800.0, 0) - SP_KEMER(ay)
     x_ak = 3992.0 + 26.0 * (1 - yy)
-    kal = 30.0 + 75.0 * sstep(3880.0, 4010.0, X)
-    # yan yüz C direği yüzeyinin devamıdır (mavi OPC yan-arka ve 26608068581: spoyler yanı direkle aynı hizada, ince
-    # bir ek yeri dışında basamak yok). Direk arkaya doğru içe kaçtığından kanat ucu planda neredeyse sabit genişlikte
-    # kalır (beyaz OPC tam arka: kanat ucu |y| ≈ 530-545): dış yüz = direk + sp_ofset (uç plakasının sivri ucunda sıfır,
-    # arkaya doğru direğin içe kaçışı kadar). Kanat önde (x 3700-3860) tavandan teğet çıkar: üst yüzü kabin tavanından
-    # (Z_KABIN) spoyler üst yüzüne, üst dış köşe yarıçapı tavan kenarınınkinden (62 mm) 15 mm'ye geçer. Eski kanat x 3790'da
-    # dik ön yüzle başlıyor, yan yüzü dikey ve direğin 30-55 mm dışında duruyordu: yuvarlak tavan kenarının üstünde
-    # kutu gibi taşan uç, daraltılmış direk üstünde altında koyu kama boşluk bırakıyordu.
+    # yan yüz C direği yüzeyinin devamıdır (dış yüz = direk + sp_ofset); kanat önde (x 3700-3860) tavandan teğet çıkar
     hk = hw_kabin(X, Z)
     zk = Z_KABIN(X) - 40.0 * (Y / 650.0) ** 2
     ramp = sstep5(3700.0, 3860.0, X)
     sp_ust = zk - 15.0 + (sp_ust + 15.0 - zk) * ramp
     eg = EGIM_X(X)
-    # d_g (gövde alanı) verilirse yan yüz gerçek direk yüzeyinden ofsetlenir (RS yüzeyi hw_kabin'den birkaç mm sapar);
-    # düzeltme yalnız yanda (|y| > 460) tam, tavan ortasında yok (orada d_g tavana uzaklıktır)
-    ofs = sp_ofset(X, Z, hk)
+    ofs = smax(sp_ofset(X, Z, hk), SP_PLAKA_EK * sstep(3600.0, 3700.0, X), 4.0)
     dk = (Y - hk) / np.sqrt(1.0 + eg * eg)
     if d_g is not None:
-        dk = dk + np.clip(d_g - dk, -15.0, 15.0) * sstep(380.0, 460.0, np.abs(Y))
+        dk = dk + np.clip(d_g - dk, -15.0, 15.0) * sstep(380.0, 460.0, ay)
     d_yan = dk - ofs
     d_ust = (Z - sp_ust) / np.sqrt(1.0 + ((1.0 - ramp) * Z_KABIN.t(X) + 0.1 * ramp) ** 2)
-    sp = smax(d_yan, d_ust, 62.0 - 47.0 * ramp)
+    sp = smax(d_yan, d_ust, 62.0 - 44.0 * ramp)
     sp = smax(sp, np.maximum(X - x_ak, 3690.0 - X), 8.0)
-    sp = smax(sp, (sp_ust - kal) - Z, 8.0)
-    # uç plakaları (mavi OPC 26608068581 ve siyah OPC 8080939836): spoylerin yan yüzünün altında, kabin yan yüzeyine
-    # oturan üçgen kanat. Ön kenarı spoylerin önünden (x≈3790) neredeyse dikey iner, sivri alt ucu (UC_UC) cam yan
-    # kenarının ön ucundadır; alt kenarı oradan spoylerin arka alt dudağına yükselir (altında siyah alt yüz + cam).
-    # Eskiden plaka arkada (x≈3995) z≈1145'e kadar inip direğe kaynıyordu; orası fotoğrafta camdır.
-    # Plaka kanadın aşağı uzantısıdır: dış yüzü kanadınkiyle aynı (direk + sp_ofset, en az SP_EK), ön sınırı eski ön
-    # kenarın ~45 mm önünde (orada ofset negatif: plaka direğin içinde kalır, ön kenarda basamak yok); görünen tek kenar
-    # alt kenardır (s_alt), kalınlığı direk içe kaçtıkça arkaya doğru büyür. Eski plaka ucun çevresinde direkle sıfır
-    # kalınlıkta çakışıyor, ızgarada kıymık/çentik bırakıyordu.
+    # alt sınır: ortada gövde bandının alt kenarı (SP_ALT, ileride gövdenin içinde kalır: kapalı boşluk yok), yanda
+    # (direk yüzü) uç plakasının ön ve arka kenarları sivri alt uçta (UC_UC) buluşur
     s_on, s_alt = _uc_kenar(X, Z)
-    uc_dis = dk - ofs
-    # plakanın üstü kanadın altından başlar: kanadın yuvarlak üst dış köşesinin üstüne taşıp ön üst köşede boynuz/çentik
-    # bırakmasın (kanat orada plakayla aynı yan yüze sahip)
-    uc = smax(np.maximum(uc_dis, (hk - 50.0) - Y), np.maximum(smax(s_on - 45.0, s_alt, 6.0), Z - (sp_ust - 0.5 * kal)), 4.0)
-    uc = smax(uc, X - (x_ak - 6.0), 8.0)
-    return np.minimum(sp, uc)
+    w = sstep(470.0, 525.0, ay)
+    plaka = smax(s_on, s_alt, 6.0) - 400.0 * (1.0 - w)
+    sp = smax(sp, smax(SP_ALT(ay) - Z, plaka, 6.0), 4.0)
+    # yarık: kanadın altı ile gövde bandının üstü arası, arkaya açık; önde tavanla kapanır (x 3870), uçlarda yuvarlak
+    zf = SP_YARIK(ay)
+    zt = sp_ust - SP_KANAT_T
+    yarik = smax(smax(zf - Z, Z - zt, 3.0), smax(3870.0 - X, ay - SP_YARIK_Y, 20.0), 3.0)
+    dy0, w0, w1 = SP_DIKME
+    dikme = np.abs(ay - dy0) - (w0 + (w1 - w0) * np.clip((Z - zf) / np.maximum(zt - zf, 1.0), 0.0, 1.0))
+    yarik = smax(yarik, -dikme, 2.0)
+    return smax(sp, -yarik, 2.0)
 
 
 # arka cam: yan kenar beyaz OPC tam arka fotoğrafında (kalibre kamera, arkadan bakış: y/z sağlam) |y|≈578'e kadar
@@ -1263,13 +1288,15 @@ ARKA_CAM_YAN = 578.0
 
 def arka_cam_maske(X, Y, Z):
     # yan kenar: direk yüzeyinde |y| ≈ ARKA_CAM_YAN eşyükselti çizgisi (köşeden uç plakasının sivri ucuna, mavi OPC);
-    # ön sınır uç plakasının ön kenarı: cam, plakanın altından ve arkasından spoylerin alt yüzüne kadar uzanır
+    # yanda ön sınır uç plakasının arka kenarı: cam plakanın arkasından spoylerin alt yüzüne kadar uzanır (siyah kama)
     hk = hw_kabin(X, Z)
     s_on, s_alt = _uc_kenar(X, Z)
     yk = smax(hk - p(1.0), ARKA_CAM_YAN, 12.0)
     # ortada (spoylerin altı) ön sınır eskisi gibi x 3930: plakanın ön kenarına kadar uzatılınca spoyler gövdesinin
     # altında kapalı bir boşluk kalıyordu
-    on = np.maximum(s_on, 3930.0 - X - 400.0 * sstep(500.0, 540.0, Y))
+    # yanda: bıçağın alt kenarının altında ve uçtan aşağı-arkaya inen cam yan kenarının arkasında
+    on_yan = smax(-s_alt, (UC_UC[0] + 0.5 * (UC_UC[1] - Z)) - X, 6.0)
+    on = np.maximum(on_yan, 3930.0 - X - 400.0 * sstep(500.0, 540.0, Y))
     m = smax(smax(on, X - 4400.0, p(1.2)), Y - yk, p(0.9))
     # plakanın yandan görünüşü de camdan hariç (ucun yakınında plaka direğin içine gömülü: cam tabanı orada plakanın
     # dış yüzüyle neredeyse çakışıp ızgarada hareli bir şerit bırakıyordu)
@@ -1412,7 +1439,7 @@ def _elips_cizgi(cx, cy, a, b, t0, t1, n=28):
 # küçük harfler (OPC logosu): x yüksekliği 0.42, inen çizgi -0.30; harfler logodaki gibi geniş ve yuvarlak
 _FONT["o"] = [_elips_cizgi(0.31, 0.21, 0.31, 0.21, 0.0, 2 * math.pi)]
 _FONT["p"] = [_elips_cizgi(0.31, 0.21, 0.31, 0.21, 0.0, 2 * math.pi), [(0.0, 0.42), (0.0, -0.30)]]
-_FONT["c"] = [_elips_cizgi(0.31, 0.21, 0.31, 0.21, math.radians(42), math.radians(318))]
+_FONT["c"] = [_elips_cizgi(0.31, 0.21, 0.31, 0.21, math.radians(58), math.radians(302))]   # logo: c ağzı geniş (eski ±42° kapalı "e" gibi okunuyordu)
 
 
 def duz_yazi_2d(u, v, metin, h, sx=1.0, egim=0.0, bosluk=0.0):
@@ -2049,8 +2076,11 @@ def detaylar(d, d0, b):
         ct = np.maximum(SIYAH_CITA(Y, Z), on)
         dd = oyuk(dd, z0, np.maximum(np.abs(SIYAH_CITA(Y, Z)) - p(0.12), on), p(0.8))
         dd = oyuk(dd, z0, ct, p(0.4) + p(0.25) * sstep(470, 520, Z))     # üst kenarda gölge veren basamak
-        # plaka (520x110), çıtanın üstüne oturur
-        plaka = sd_kutu2(Y, Z, 0, 507, 262, 56, 10)
+        # plaka tabanı (siyah çıtanın ortadaki dili), çıtanın üstüne oturur. Plakasız lacivert OPC (17022087756) ve
+        # plakalı mavi OPC (15922355098) kalibre kameralarında dilin yan kenarı yüzeye geri izdüşümle |y| 211-227, üst
+        # kenarı z 567-575 (iki kamera, iki yan): eski 524 x 112 mm (|y| 262, üst 563) dikdörtgen her yanda ~40 mm
+        # geniş ve ~9 mm alçaktı. 436 x 121 mm (|y| 218, z 451-572).
+        plaka = sd_kutu2(Y, Z, 0, 511.5, 218, 60.5, 10)
         dd = oyuk(dd, z0, np.maximum(np.abs(plaka + p(0.15)) - p(0.15), on), p(0.35))
         dd = doldur(dd, z0, np.maximum(plaka + p(0.3), on), p(0.15))
         # petek giriş: derin yamuk, dış çerçevesinde ince dudak
@@ -2140,12 +2170,16 @@ def detaylar(d, d0, b):
     # yuvarlak kesitli, arkaya doğru hafif kalınlaşır). Kilit göbeği yalnız sürücü kapısında: asimetrik().
     def kol(dd, z0, X, Y, Z):
         dis = 700 - Y
-        # cep tutamağın arkasında neredeyse eş merkezli: üstünde ve altında ~10-13 mm görünür (iki fotoğraf)
-        cep = np.sqrt(((X - 2575.0) / 68.0) ** 2 + ((Z - (KOL_Z - 6.0)) / 28.0) ** 2) - 1.0
-        dd = oyuk(dd, z0, np.maximum(cep * 28.0, dis), p(0.6) * sstep(0.0, 0.25, -cep))
+        # cep: tutamağın arkasında büyük oval çanak. Siyah OPC (34848925543, kalibre yan), lacivert OPC (17022087756,
+        # kalibre) ve mavi OPC (26608054501) fotoğraflarında cebin koyu çanağı tutamak çubuğunun ~27-31 mm üstüne,
+        # ~45-55 mm altına iner, boyu çubukla hemen hemen aynı (tam yan kamerada çubuğun ön ucundan arka başlığına):
+        # ~184 x 110 mm, merkezi çubuğun ~14 mm altında. Eski 136 x 56 mm cep tutamağın arkasında neredeyse
+        # kayboluyor, yalnız altında ince bir hilal kalıyordu.
+        cep = np.sqrt(((X - 2582.0) / 92.0) ** 2 + ((Z - (KOL_Z - 14.0)) / 55.0) ** 2) - 1.0
+        dd = oyuk(dd, z0, np.maximum(cep * 55.0, dis), p(0.6) * sstep(0.0, 0.2, -cep))
         k, zc, hk = kol_tutamak(X, Z)
         return doldur(dd, z0, np.maximum(k, dis), hk)
-    uygula((2440, 2720, 700, 960, 785, 900), kol)
+    uygula((2440, 2720, 700, 960, 750, 900), kol)
 
     # yan sinyal (ön çamurluk): 0.25 mm kabarık çerçeve (4 mm), içinde 0.15 mm çukur lens + ince dikey bölme
     def yan_sinyal(dd, z0, X, Y, Z):
@@ -2154,7 +2188,7 @@ def detaylar(d, d0, b):
         h = p(0.25) * sstep(0.0, 3.5, -s_) - p(0.15) * sstep(4.5, 6.0, -s_)
         h = h + p(0.06) * np.maximum(0.0, 1.0 - np.abs(Xb - 1325.0) / 3.0) * sstep(5.2, 7.0, -s_)
         return doldur(dd, z0, np.maximum(s_, 760.0 - Y), h)
-    uygula((1285, 1385, 760, 960, 719, 775), yan_sinyal)
+    uygula((1280, 1390, 760, 960, 705, 769), yan_sinyal)
 
     def yumusak_islemler(YUM):
         """oyuk/doldur'un kenarı YUM ile yuvarlatılmış halleri (farlardaki gibi): ince detay kenarları eğik geçtiği
@@ -2366,23 +2400,25 @@ def detaylar(d, d0, b):
         # spoyler arka yüzünde çukur lens (280x20), içinde 9 kabarık LED noktası. Yalnız arka yüzün ~15 mm
         # yakınında (spoyler arka kenarı burada x ≈ 4016): eskiden x 3985'ten itibaren kesip spoylerin alt yüzüne
         # yakın, gövde içinde kapalı bir boşluk bırakıyordu
+        # beyaz OPC kalibre geri izdüşümü: lamba (çerçevesiyle) |y| < 152, z 1267-1293; 9 LED ~31.6 mm aralıklı
+        # (eski lens z 1281-1301, |y| < 140: ~10 mm yüksek, dar)
         on = 4002 - X
-        m = np.maximum(sd_kutu2(Y, Z, 0, 1291, 140, 10, 6), on)
+        m = np.maximum(sd_kutu2(Y, Z, 0, 1280, 150, 12, 8), on)
         dd = oyuk(dd, z0, m, p(0.35))
-        q = np.mod(Y + 140.0, 31.0)
-        led = np.sqrt((q - 15.5) ** 2 + (Z - 1291) ** 2) - p(0.2)
+        q = np.mod(Y + 142.2, 31.6)
+        led = np.sqrt((q - 15.8) ** 2 + (Z - 1280) ** 2) - p(0.2)
         dd = doldur(dd, z0, np.maximum(led, np.maximum(m + p(0.08), on)), -p(0.15))
         return dd
-    uygula((3940, 4080, 0, 200, 1260, 1330), ucuncu_stop)
+    uygula((3940, 4080, 0, 200, 1250, 1315), ucuncu_stop)
 
     # ---------- köpekbalığı anten (26608068581): tavan ortasında, spoylerin ~60 mm önünde. Yandan: önde alçak
     # gövde (burnu yuvarlak, ~20 mm), üstünden ~33° (dikeyden ~57°) geriye yatık hücum kenarıyla yükselen yüzgeç,
-    # tepe tavandan 65 mm, arka kenar neredeyse dikey. Kesit tabanda 55 mm, ortada ~25, tepede ~10 mm'ye incelir.
+    # tepe tavandan 52 mm (z ≈ 1418), arka kenar neredeyse dikey. Kesit tabanda 44 mm, ortada ~22, tepede ~9 mm'ye incelir.
     def anten(dd, z0, X, Y, Z):
         H = Z - (Z_KABIN(X) - 40.0 * (Y / 650.0) ** 2)        # tavandan yükseklik
         prof = ANTEN_PROFIL(X, H)
-        t = np.clip(H / 66.0, 0.0, 1.0)
-        yari = (5.0 + 22.5 * (1.0 - t) ** 1.6) * np.sqrt(np.clip((X - 3574.0) / 45.0, 0.05, 1.0)) \
+        t = np.clip(H / 52.0, 0.0, 1.0)
+        yari = (4.5 + 17.5 * (1.0 - t) ** 1.6) * np.sqrt(np.clip((X - 3574.0) / 45.0, 0.05, 1.0)) \
             * (1.0 - 0.15 * sstep(3690.0, 3735.0, X))
         g = smax(prof, (np.abs(Y) - yari) * 0.85, 3.0)
         return smin(dd, g, p(0.12))
@@ -2431,7 +2467,11 @@ def detaylar(d, d0, b):
         hb = zhi - zlo
         # Heiligenhaus tam yan: kapağın arka-üst köşesi geniş yuvarlak (cam yüzünden ~60 mm önde tepe), üst çizgi
         # düz gidip buruna yakın dik iner
-        ust = zhi - 0.55 * hb * np.minimum(u, 1.0) ** 4.5 \
+        # lacivert OPC (17022087756, kalibre) ve siyah OPC (34848925543) fotoğraflarında kapağın üst çizgisi öne doğru
+        # yüksek kalır, burun dik ve dolgun yuvarlanır (önden çaprazda kapak üstü burnun ~20 mm gerisine kadar
+        # neredeyse yatay): eski %55'lik alçalma burnu damla gibi sivriltip kapağın ön üst kısmını ~20-25 mm
+        # oyuyordu -> %32
+        ust = zhi - 0.32 * hb * np.minimum(u, 1.0) ** 4.5 \
             - AY_YUV * (1.0 - np.clip(np.maximum(yz - X, 0.0) / 70.0, 0.0, 1.0)) ** 2
         alt = zlo + 0.05 * hb * np.minimum(u, 1.0) ** 2
         b, zc = 0.5 * (ust - alt), 0.5 * (ust + alt)
@@ -2573,11 +2613,12 @@ def asimetrik(d, x, y, z, mod):
         e = np.minimum(e, np.maximum(cur - p(0.25) - p(0.85) * np.sqrt(np.clip(-gob / p(0.55), 0, 1)), gob))
         d[sl] = np.minimum(cur, e)
     # arka cam fıskiyesi: spoyler arka yüzünde fren lambasının solunda küçük delik
-    g = kes(3940, 4080, -230, -120, 1250, 1330)
+    g = kes(3940, 4080, -230, -150, 1250, 1300)
     if g:
         sl, X, Y, Z = g
         cur = d[sl]
-        fis = np.maximum(np.sqrt((Y + 177.0) ** 2 + (Z - 1292.0) ** 2) - p(0.3), 4000.0 - X)
+        # beyaz OPC geri izdüşümü: lambanın 32 mm solunda (y -184), lamba ortasının 7 mm altında (z 1273)
+        fis = np.maximum(np.sqrt((Y + 184.0) ** 2 + (Z - 1273.0) ** 2) - p(0.3), 4000.0 - X)
         d[sl] = np.maximum(cur, -np.maximum(fis, -(cur + p(0.4))))
     # arka yazılar: "opc" rozeti (bagaj kapağı, +Y) ve plakasızsa yuvadaki "GTC"; çizgi yazı tipi (_FONT),
     # çizgi kalınlığı 0.27 mm, 0.3 mm kabartma (arkadan bakınca sağ = +Y)
