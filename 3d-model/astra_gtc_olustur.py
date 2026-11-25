@@ -203,10 +203,36 @@ ARKA_PLAN = Egri([(0, 0), (200, 5), (400, 20), (550, 50), (680, 100), (780, 175)
                   (915, 480), (925, 560)])
 ARKA_YAN = Egri([(100, 95), (150, 62), (200, 35), (250, 18), (300, 8), (400, 2), (450, 0), (700, 0),
                  (800, 4), (880, 13), (960, 30), (1015, 55), (1050, 90), (1100, 170)])
+# arka köşe çekmesi KOSE_CEK(y, z) [mm, + = öne]: Heiligenhaus tam yan fotoğrafında (siyah GTC, perspektif kamera
+# teker merkezleri + ön/arka uç noktalarıyla kurulu; ölçek jant kapağı ve yakıt kapağı halkasıyla ±%0.3 doğrulandı)
+# arka siluet stop/bagaj kapağı yüksekliğinde (z 740-1030) modelden 50-95 mm içeride, tampon (z 400-700) ve bagaj
+# kapağı dudağı (z ~1050) ise örtüşüyordu. Yandan siluet, perspektif nedeniyle arka köşeden (|y| 500-640) oluşur:
+# gerçek araçta bagaj kapağı/stop bölgesi planda belirgin yuvarlak, tampon köşesi stobun altında dışa taşar (beyaz
+# OPC arka çaprazda da tampon stop hizasından geniş/dolgun). Çekme köşede (|y| ~570) en büyük, ortada küçük (orta
+# hat ~30 mm: tampon üst kenarı bagaj kapağından taşar), z 700-770 arasında (tampon üst kenarı) başlar, dudağın (z 1050-1070) altında söner. Arka görünüşteki
+# genişlikler (HW_ARKA) değişmez; stop haritası (stop_u) arka yüzde çekmeyle birlikte kayar.
+KOSE_CEK_Z = Egri([(640, 0), (700, 14), (760, 48), (820, 76), (880, 89), (940, 92), (990, 87), (1030, 76),
+                   (1060, 62), (1090, 46), (1120, 22), (1150, 0)])
+# y dağılımı tekdüze artar (köşede tepe yapıp düşmez): tepe |y|≈580'de stop üstünde çapraz bir kırışık bırakıyordu
+_KCY = [(0, 0.35), (100, 0.38), (200, 0.48), (300, 0.64), (400, 0.80), (500, 0.92), (600, 0.985), (700, 1.0),
+        (900, 1.0)]
+KOSE_CEK_Y = Egri([(-y, e) for y, e in reversed(_KCY[1:])] + _KCY)
+
+
+def kose_cek(Y, Z):
+    """(çekme, d/dy, d/dz)"""
+    a, da = KOSE_CEK_Z(Z), KOSE_CEK_Z.t(Z)
+    e, de = KOSE_CEK_Y(Y), KOSE_CEK_Y.t(Y)
+    return a * e, a * de, da * e
+
+
 Z_KABIN = Egri([(900, 600), (1150, 880), (1300, 975), (1400, 1030), (1600, 1145), (1800, 1255),
                 (2000, 1350), (2150, 1410), (2300, 1447), (2450, 1466), (2600, 1472), (2800, 1466),
                 (3100, 1444), (3400, 1412), (3650, 1377), (3800, 1352), (3880, 1335), (3940, 1310),
-                (4020, 1262), (4120, 1196), (4220, 1128), (4300, 1075), (4360, 1030), (4420, 900)])
+                (4020, 1259), (4120, 1189), (4220, 1114), (4300, 1063), (4360, 1026), (4420, 900)])
+# x 4020-4360 (arka cam alt yarısı / bagaj kapağı üstü) 3-14 mm alçaltıldı: Heiligenhaus tam yan fotoğrafında arka cam
+# siluet hattı (|y|≈400'den oluşur) 6-25 px (8-32 mm) arkada kalıyordu. Eski: (4020, 1262), (4120, 1196),
+# (4220, 1128), (4300, 1075), (4360, 1030)
 # arkada D direği tabanı daralır, üstü (spoyler hizası z≈1350) aynı kalır: beyaz OPC tam arka ve siyah OPC
 # çapraz siluetlerinde stobun üstünde D direğine geçen belirgin bir omuz/raf var (direk tabanı |y|≈560-640)
 HW_KABIN = Egri([(1100, 665), (1350, 752), (1700, 788), (2300, 794), (2800, 795), (3200, 797),
@@ -425,12 +451,12 @@ ANTEN_PROFIL = YPoligon([(3576, -10), (3577, 3), (3585, 10), (3600, 15), (3625, 
                          (3734, -10)], 4)
 # ayna ayağının oturduğu siyah taban plakası: ön üçgen camı bölen dikey çıtanın (x 1700-1715) dibinde, kapı
 # camının ön alt köşesinde, bel çizgisi üzerinde (fotoğraflar: 26608054501 mavi OPC, 54188905081 gri)
-YPoligon_AYNA = YPoligon([(1536, 906), (1697, 906), (1684, 990), (1553, 990)], 5)
+YPoligon_AYNA = YPoligon([(1566, 906), (1727, 906), (1714, 990), (1583, 990)], 5)
 # sabit ön üçgen cam ayracı (x aralığı): kemer çizgisinden (taban plakası) A direği kromuna düz siyah çıta; ön
 # kenarı fotoğraflarda kapı camı kanalının ~25-30 mm önünde (eski 15 mm'lik çıta ince çubuk gibi okunuyordu)
 # Siyah OPC (önden) ayracın ön kenarını, gri (arkadan) arka kenarını gösterir: ayraç aynanın dibinde geniş (x 1533-1700),
 # A direği kromuna doğru daralan (1605-1660) düz siyah yelkendir; eski 1688-1715 çıta yalnız arka kenara denk geliyordu
-AYNA_CITA = YPoligon([(1530, 900), (1702, 900), (1659, 1150), (1608, 1150)], 4)
+AYNA_CITA = YPoligon([(1560, 900), (1732, 900), (1711, 1160), (1648, 1160)], 4)
 # yan sinyal (ön çamurluk, kapı çizgisinin ~15 mm önünde): yuvarlatılmış yamuk 75x35, üst kenar yatay, ön alt
 # köşesi geriye çekik (siyah OPC 34848925543 ve mavi OPC 15922355098 kalibre kameralarından geri izdüşüm:
 # üst kenar 1259..1342, alt 1277..1357, kapı çizgisine göre düzeltilmiş merkez x≈1320, z 690-737 -> 712)
@@ -506,22 +532,31 @@ def kose_t(Y, Z):
 # İç uç (burun) 10 mm içe uzatıldı (U 335 -> 325; burun bölgesi U 476/480'e kadar doğrusal sönen kaydırmayla, biçim
 # aynı): beyaz OPC tam arkada (8366545858, en güvenilir kamera) amblem ve reflektörlere göre sol iç uç ~16 mm, sağ iç
 # uç ~3 mm kısa kalıyordu; araç simetrik olduğundan iki taraf ortalaması (~10 mm) simetrik uygulandı.
+# Yan kısım (U > 800) Heiligenhaus tam yan fotoğrafından (perspektif kamera, gövdeye ışın izdüşümü): yandan stobun üst
+# kenarı z 975-984 (eski 937-941, ~40 mm alçak), dış sivri uç (3945, 721, 980) -> U 1176 z 980 (eski U 1165 z 941);
+# alt kenar U 935-1054'te örtüşüyor, uca yakın kısım daha dik kalkar. Arka yüz (U < 800) beyaz OPC ölçümü, değişmedi.
 STOP_UST = Egri([(325, 806), (335.7, 826), (353.9, 848), (378.5, 866), (405.3, 878), (476, 893), (546, 909), (630, 918),
-                 (738, 928), (880, 937), (1031, 940), (1165, 941)])
+                 (738, 928), (800, 935), (840, 946), (880, 958), (922, 970), (979, 979), (1040, 983), (1106, 983),
+                 (1150, 982), (1176, 980)])
 STOP_ALT = Egri([(325, 806), (341, 799), (373.1, 794), (426.6, 792), (480, 791), (526, 787), (570, 781), (620, 777),
-                 (680, 773), (740, 773), (800, 779), (860, 788), (920, 800), (960, 815), (1004, 840), (1050, 867),
-                 (1090, 893), (1125, 915), (1165, 941)])
+                 (680, 773), (740, 773), (800, 779), (860, 788), (920, 800), (960, 815), (1004, 840), (1050, 860),
+                 (1095, 877), (1128, 902), (1155, 940), (1176, 980)])
 _su = [(u, float(STOP_UST(u))) for u in (325, 327.1, 330.4, 334.6, 340, 346.4, 353.9, 364.6, 378.5, 394.6, 426.7, 476,
-                                         546, 630, 738, 880, 1031, 1100, 1140, 1165)]
-_sa = [(u, float(STOP_ALT(u))) for u in (1155, 1145, 1135, 1125, 1110, 1090, 1070, 1050, 1027, 1004, 982, 960, 940,
+                                         546, 630, 738, 880, 1031, 1100, 1140, 1160, 1176)]
+_sa = [(u, float(STOP_ALT(u))) for u in (1170, 1162, 1155, 1145, 1135, 1125, 1110, 1090, 1070, 1050, 1027, 1004, 982, 960, 940,
                                          920, 890, 860, 830, 800, 770, 740, 710, 680, 650, 620, 590, 560, 526, 500,
                                          480, 453.3, 426.6, 399.8, 373.1, 357.1, 346.4, 338.9, 332.5, 328.2)]
 # köşe yuvarlatması 2 mm (eskiden 5 mm: 33°'lik uçta poligon ~20 mm geri çekilip küt bir burun bırakıyordu)
 STOP = YPoligon(_su + _sa, 2)
 
 
-def stop_u(X, Y):
-    return np.abs(Y) + np.maximum(0.0, 4400.0 - X)
+def stop_u(X, Y, Z=None):
+    # arka yüzde köşe çekmesi (kose_cek) kadar kaydırılır: lamba deseni arka görünüşteki (y, z) yerinde kalır;
+    # köşeyi dönünce (|y| 580-700) kaydırma söner, yan yüzdeki desen (yandan görünüş x, z) yerinde kalır
+    if Z is None:
+        return np.abs(Y) + np.maximum(0.0, 4400.0 - X)
+    kc = kose_cek(Y, Z)[0] * (1.0 - sstep(580.0, 700.0, np.abs(Y)))
+    return np.abs(Y) + np.maximum(0.0, 4400.0 - kc - X)
 
 
 def stop_uv(pts, adim=20.0):
@@ -609,7 +644,11 @@ KAPI_CIZGILERI = [
     # Bu hat yanda yüzey normaline göre işlenir (detaylar(): arka_dikisler), kapilar() döngüsünde değil.
     # Stobun dolgun alt kenarıyla (STOP_ALT) hat, lambanın alt dış köşesinde (4135, 835) kenar oluğundan çıkar ve
     # 45° düz iner; ilk nokta lens içinde, oluk ortasında kesilir.
-    [(4152, 852), (4135, 835), (4098, 799), (4060, 762), (4011, 712), (3962, 678), (3930, 642), (3888, 596)],
+    # Heiligenhaus tam yan fotoğrafı (perspektif kamera, gövdeye ışın izdüşümü): dikiş stobun alt kenarından (U≈1050,
+    # z≈862) düz 45° iner, eski hattın 40-70 mm üstünde/önünde; alt ucu modeldeki kemer dudağına uzatıldı (kemer
+    # değişmedi). Eski hat: (4152,852) (4135,835) (4098,799) (4060,762) (4011,712) (3962,678) (3930,642) (3888,596).
+    [(4116, 884), (4099, 864), (4073, 838), (4044, 809), (4015, 780), (3987, 751), (3951, 715), (3919, 683),
+     (3890, 652), (3866, 627), (3850, 610)],
 ]
 KAPI_ON = yumusat(KAPI_CIZGILERI[0], 12.0)
 KAPI_ARKA = yumusat(KAPI_CIZGILERI[1] + KAPI_CIZGILERI[2][1:], 12.0)      # arka + alt: köşe teğet sürekli
@@ -860,7 +899,9 @@ def govde_temel(X, Y, Z):
         gy = (_z_alt(Xa, Ya + 0.5) - _z_alt(Xa, Ya - 0.5))
         d_alt = np.where(X < 600.0, (z2 - Z) / np.sqrt(1 + gx ** 2 + gy ** 2), d_alt)
     d_on = (ON_PLAN(Y) + ON_YAN(Z) - X) / np.sqrt(1 + ON_PLAN.t(Y) ** 2 + ON_YAN.t(Z) ** 2)
-    d_arka = (X - (L - ARKA_PLAN(Y) - ARKA_YAN(Z))) / np.sqrt(1 + ARKA_PLAN.t(Y) ** 2 + ARKA_YAN.t(Z) ** 2)
+    kc, kcy, kcz = kose_cek(Y, Z)
+    d_arka = (X - (L - ARKA_PLAN(Y) - ARKA_YAN(Z) - kc)) / np.sqrt(1 + (ARKA_PLAN.t(Y) + kcy) ** 2
+                                                                  + (ARKA_YAN.t(Z) + kcz) ** 2)
 
     alt = smax(d_yan, d_ust, p(4.5) - 38.0 * sstep(3900, 4150, X))   # arkada D direği kırımı daha belirgin
     alt = smax(alt, d_on, p(3.0))
@@ -885,7 +926,9 @@ def govde_temel(X, Y, Z):
     # kabinin arka ucu (x 4380 düzlemi) yumuşak kesilir: sert max'ın kırığı, arkada geniş (k≈86 mm) smin
     # harmanlamasıyla gövdeye taşınıp stopların iç ucundan dış üst köşesine (y 260 z 777 -> y 605 z 868, x 4444-4406)
     # uzanan testere dişli bir kırım çizgisi bırakıyordu
-    kabin = smax(kabin, X - 4380.0, 40.0)
+    # köşe çekmesi kabin kesimine de uygulanır: yoksa kabinin (D direği) yumuşak birleşimi stobun üstünde, köşede
+    # çekilmiş arka yüzün dışında bir şişkinlik bırakıyordu
+    kabin = smax(kabin, X - (4380.0 - kc), 40.0)
     kabin = np.maximum(kabin, 950.0 - X)
 
     d = smin(alt, kabin, p(0.9) + 40.0 * sstep(3620, 3900, X) + 25.0 * sstep(3900, 4150, X))   # arkada D direği - basen geçişi yumuşak
@@ -998,8 +1041,12 @@ def cizgi3(X, Y, Z, pts):
 # Alt ucu stobun sivri dış ucuna (U 1165 z 941, yüzeyde x≈3970) iner: mavi OPC'de aralık uca ~30 mm yukarıdan
 # gelip geriye doğru kıvrılarak kavuşur. Son nokta lensin uç kamasının içinde: oluk lens-gövde oluğunun ucuyla birleşir
 # (st_sinir oluk ortasında keser), arada çıkıntı kalmaz.
-BAGAJ_YAN = [(4021.0, 1100.0), (3985.0, 1084.0), (3950.0, 1062.0), (3932.0, 1040.0), (3933.0, 1015.0),
-             (3940.0, 990.0), (3948.0, 968.0), (3960.0, 951.0), (3970.0, 941.0), (3976.0, 938.5)]
+# Heiligenhaus tam yan fotoğrafı (perspektif kamera, gövdeye ışın izdüşümü): aralık ~36 mm önde ve 25-40 mm yukarıda;
+# üst ucu cam köşesinde değil, cam yan kenarında köşenin ~80 mm önünde (3941, 1137) başlar, öne doğru şişip
+# (x 3896, z 1040) stobun yeni sivri ucuna (3945, 980) iner. Eski hat: (4021,1100) (3985,1084) (3950,1062)
+# (3932,1040) (3933,1015) (3940,990) (3948,968) (3960,951) (3970,941) (3976,938.5).
+BAGAJ_YAN = [(3946.0, 1141.0), (3919.0, 1110.0), (3904.0, 1085.0), (3897.0, 1061.0), (3896.0, 1039.0),
+             (3906.0, 1021.0), (3919.0, 1003.0), (3934.0, 988.0), (3945.0, 980.5), (3951.0, 978.5)]
 _BAGAJ_YAN_3B = None
 
 
@@ -1544,7 +1591,7 @@ def detaylar(d, d0, b):
         # siyah fitil/çerçeve: açıklık kenarı ile camın kendisi arasında kalan bant camdan 0.2 mm kabarık (kapıda
         # altta 17 mm fitil, arka yan camda geniş çerçeve) - gerçekte olduğu gibi iki camın açıklıkları hizalı,
         # camların kendisi çerçeve içinde ayrı görünür
-        bant_on = np.maximum(np.maximum(on, Zb - (bel + KAPI_FITIL)), 1702.0 - Xb)
+        bant_on = np.maximum(np.maximum(on, Zb - (bel + KAPI_FITIL)), 1732.0 - Xb)
         cam_ar = np.maximum(ARKA_CAM_IC(Xb) - Zb, ARKA_CAM_IC_ON_X - Xb)
         bant_ar = np.maximum(arka, -cam_ar)
         dd = doldur(dd, z0, np.maximum(np.minimum(bant_on, bant_ar), dis), -(CAM - p(0.2)))
@@ -1875,7 +1922,7 @@ def detaylar(d, d0, b):
     uygula((330, 720, 640, 960, 540, 790), on_dikis)
 
     def stop_maske(X, Y, Z):
-        return STOP(stop_u(X, Y), Z)
+        return STOP(stop_u(X, Y, Z), Z)
 
     def arka_dikisler(dd, z0, X, Y, Z):
         # 3B çizgiye uzaklığın yüzeye teğet bileşeni (normal bileşen ~ z0): oluk genişliği yüzey eğiminden bağımsız.
@@ -1892,7 +1939,7 @@ def detaylar(d, d0, b):
         # tampon dikişinin üst ucu stobun dış-alt kenarının altındaki gölge bandına (stoplar(): alt_bant) girer: bant
         # yüzeyi sonradan 10 mm'ye kadar içeri alınınca oluk bant tabanına göre sığlaşıp daralıyor, bandın içinde
         # basamakla kesiliyordu. Dikiş oluğu bant tabanından ölçülür (aynı derinlik profili): bant içinde de tam kesit.
-        U_ = stop_u(X, Y)
+        U_ = stop_u(X, Y, Z)
         s_alt = STOP_ALT(U_) - Z
         ab = 1.0 - np.clip(s_alt / 26.0, 0.0, 1.0)
         bant = p(0.42) * ab * ab * sstep(600.0, 700.0, U_) * (1.0 - sstep(1080.0, 1150.0, U_)) \
@@ -1906,7 +1953,7 @@ def detaylar(d, d0, b):
         dd = dd.copy()
         dd[sec] = out
         return dd
-    uygula((3860, 4200, 520, 960, 560, 1140), arka_dikisler)
+    uygula((3830, 4200, 520, 960, 560, 1155), arka_dikisler)
 
     # ---------- arka
     def arka(dd, z0, X, Y, Z):
@@ -1920,7 +1967,7 @@ def detaylar(d, d0, b):
         u0, v0 = STOP_ARALIK[0]
         uc_ = (u0, float(STOP_ALT(u0) + v0 * (STOP_UST(u0) - STOP_ALT(u0))))
         # (beyaz OPC 8366545858 geri izdüşümü: U 245 z 721, 316 728, 387 739, 433 751, 480 767, lambaya U 526'da varır)
-        bagaj = sd_cizgi(stop_u(X, Y), Z, [(0, 712), (120, 715), (245, 721), (316, 728), (387, 739), (433, 751),
+        bagaj = sd_cizgi(stop_u(X, Y, Z), Z, [(0, 712), (120, 715), (245, 721), (316, 728), (387, 739), (433, 751),
                                            (480, 767), uc_, (uc_[0] + 8.0, uc_[1] + 12.0)])
         dd = aralik_oluk(dd, z0, bagaj, np.maximum(4200 - X, -(stop_maske(X, Y, Z) + p(0.15))))
         # amblem altında aralığın alt kenarı çentik gibi aşağı genişler (beyaz OPC 8366545858)
@@ -2001,7 +2048,7 @@ def detaylar(d, d0, b):
 
     def stoplar(dd, z0, X, Y, Z):
         oyuk, doldur = yumusak_islemler(p(0.08))
-        U = stop_u(X, Y)
+        U = stop_u(X, Y, Z)
         st = np.maximum(STOP(U, Z), 3880.0 - X)
         dd = oyuk(dd, z0, st, p(0.45) * sstep(-0.5, 4.0, -st))                   # lens yüzeyi (kenarda 4 mm pah)
         dd = doldur(dd, z0, np.maximum(_cer(U, Z), st + p(0.3)), -p(0.28))       # dış (yan) kırmızı çerçeve kademesi
@@ -2038,7 +2085,7 @@ def detaylar(d, d0, b):
         # kenarında çentik bırakıyordu); alt ucu bagaj kapağı yayının ucuyla aynı noktada
         dd = oyuk(dd, z0, np.maximum(sd_cizgi(U, Z, _aralik) - p(0.15), st + p(0.15)), p(1.2))
         return dd
-    uygula((3880, 4520, 260, 960, 745, 1000), stoplar)   # iç uç U 325: kutu |y| 260'tan başlar (pah/oluk kesilmesin)
+    uygula((3880, 4520, 260, 960, 745, 1008), stoplar)   # iç uç U 325: kutu |y| 260'tan başlar (pah/oluk kesilmesin)
 
     # ---------- 3. stop lambası: spoyler arka yüzünde ince yatay şerit
     def ucuncu_stop(dd, z0, X, Y, Z):
@@ -2078,7 +2125,7 @@ def detaylar(d, d0, b):
     # ikisinde de 0-6 mm içinde: üst 35-38 mm indirildi, alt aynı. Cam yüzü D biçimli: iç kenar düz, dış uç yuvarlak.
     # Cam 0.45 mm gömük, çevresinde
     # 7 mm kapak dudağı. Siyah alt taban ayrım çizgisi (oluk + tabanda 0.08 mm içe basamak).
-    AY_X, AY_Y0, AY_Y1 = 1745.0, 830.0, 1008.0
+    AY_X, AY_Y0, AY_Y1 = 1805.0, 830.0, 1008.0
 
     def ay_yuz(Y):
         # cam yüzü neredeyse enine (dış ucu ~3° önde): gri fotoğrafta arkadan cam yüzü geniş D olarak görünür (eski
@@ -2089,15 +2136,16 @@ def detaylar(d, d0, b):
     # pürüzsüz uç (D biçimli cam yüzünün yuvarlak tarafı)
     AY_YE = AY_Y0 + 0.58 * (AY_Y1 - AY_Y0)
     AY_UC = AY_Y1 - AY_YE
+    AY_YUV = 32.0                                                # arka-üst köşe yuvarlaklığının cam yüzündeki alçalması
     AY_US = 2.6                                                  # kesit üssü (eski kapsülle aynı; şekli damla profili verir)
 
     def ayna_kesit(Y):
         tau = np.clip((np.minimum(Y, AY_YE) - AY_Y0) / (AY_YE - AY_Y0), 0.0, 1.0)
         # x boyu (cam yüzünden öne): burun iç uçta (kapıya yakın), dış uca doğru kısalır -> önden ve arkadan bakışta
         # burun içe-öne bakan damla (gri fotoğrafta kapak dış uçta cam yüzünün yalnız ~20 mm dışına taşar)
-        boy = 160.0 - 40.0 * tau
+        boy = 220.0 - 50.0 * tau
         e = 1.0 - (1.0 - tau) ** 2                             # D yüz: üst/alt kenar dış uca doğru kavisli
-        zlo, zhi = 955.0 - 25.0 * e, 1020.0 + 42.0 * e
+        zlo, zhi = 965.0 - 25.0 * e, 1058.0 + 44.0 * e
         return boy, zlo, zhi
 
     def ayna_govde(X, Y, Z, duz=True):
@@ -2107,7 +2155,10 @@ def detaylar(d, d0, b):
         u = np.maximum(yz - X, 0.0) / a
         # damla: üst çizgi buruna doğru kesit yüksekliğinin %24'ü kadar alçalır (arka yarıda düz), alt çizgi %5 yükselir
         hb = zhi - zlo
-        ust = zhi - 0.24 * hb * np.minimum(u, 1.0) ** 2.4
+        # Heiligenhaus tam yan: kapağın arka-üst köşesi geniş yuvarlak (cam yüzünden ~60 mm önde tepe), üst çizgi
+        # düz gidip buruna yakın dik iner
+        ust = zhi - 0.55 * hb * np.minimum(u, 1.0) ** 4.5 \
+            - AY_YUV * (1.0 - np.clip(np.maximum(yz - X, 0.0) / 70.0, 0.0, 1.0)) ** 2
         alt = zlo + 0.05 * hb * np.minimum(u, 1.0) ** 2
         b, zc = 0.5 * (ust - alt), 0.5 * (ust + alt)
         v = np.abs(Z - zc) / b
@@ -2122,6 +2173,7 @@ def detaylar(d, d0, b):
     # gerçek 2B uzaklık. İç köşeler geniş yarıçaplı (22 mm): cam yuvası eskiden köşeli dikdörtgen gibiydi
     _yy = np.linspace(AY_Y0 + 4.0, AY_Y1, 64)
     _b, _zl, _zh = ayna_kesit(_yy)
+    _zh = _zh - AY_YUV                                           # cam yüzünde kapak üstü yuvarlak köşe kadar alçak
     _zc, _h = 0.5 * (_zl + _zh), 0.5 * (_zh - _zl) * np.sqrt(np.clip(1.0 - (np.maximum(_yy - AY_YE, 0.0) / AY_UC) ** 2,
                                                                        0.0, 1.0))
     AYNA_YUZ = YPoligon([(a_, c_ + h_) for a_, c_, h_ in zip(_yy, _zc, _h)][:-1]
@@ -2135,7 +2187,7 @@ def detaylar(d, d0, b):
         gz = ayna_govde(X, Y, Z + 0.5) - ayna_govde(X, Y, Z - 0.5)
         g = g / np.clip(np.sqrt(gx * gx + gy * gy + gz * gz), 0.3, 3.0)
         # siyah alt taban: ayrım çizgisinin altı 0.08 mm içeride, çizgide 0.5 mm genişlik oluk (cam yüzünde yok)
-        zs = 968.0 - 8.0 * np.clip((Y - AY_Y0) / (AY_Y1 - AY_Y0), 0.0, 1.0)
+        zs = 1012.0 - 8.0 * np.clip((Y - AY_Y0) / (AY_Y1 - AY_Y0), 0.0, 1.0)
         yz = ay_yuz(Y)
         # cam: kapak dış hattından 7 mm içeride, 0.45 mm gömük; kenarı 3 mm pahla iner (dudak kenarı temiz)
         c2 = AYNA_YUZ(Y, Z) + 7.0
@@ -2147,16 +2199,16 @@ def detaylar(d, d0, b):
         # ayak: siyah ayraç yelkeninin alt kısmından (|y| 770, cam yüzeyinin içinden) kapağın iç alt ucuna; ince
         # (x 1652-1702, z 948-990), dışa doğru önden incelir. Eskiden 85 mm boyunda kutu gibi kalın bir ayaktı.
         ty = np.clip((Y - 770.0) / 70.0, 0.0, 1.0)
-        kama = smax(smax(1652.0 + 18.0 * ty - X, X - 1702.0, 8.0),
-                    smax(smax(948.0 - Z, Z - (990.0 - 6.0 * ty), 8.0), np.maximum(770.0 - Y, Y - 845.0), 6.0), 8.0)
-        kama = smax(kama, (X - 1702.0) - 0.6 * (Z - 948.0) + 8.0, 6.0)   # arka alt köşe pahlı
+        kama = smax(smax(1682.0 + 18.0 * ty - X, X - 1732.0, 8.0),
+                    smax(smax(948.0 - Z, Z - (1000.0 - 6.0 * ty), 8.0), np.maximum(770.0 - Y, Y - 845.0), 6.0), 8.0)
+        kama = smax(kama, (X - 1732.0) - 0.6 * (Z - 948.0) + 8.0, 6.0)   # arka alt köşe pahlı
         g = smin(g, kama, 10.0)
         dd = smin(dd, g, p(0.3))
         # ayak taban plakası (siyah yelken): ayraçla aynı düz parça, cam düzleminden 0.1 mm kabarık; bel çizgisinin
         # altında gövdeye karışır
         yelken = np.maximum(YPoligon_AYNA(X, Z), 720.0 - Y)
         return doldur(dd, z0, yelken, -(CAM - p(0.1)))
-    uygula((1500, 1800, 660, 1060, 900, 1130), ayna)
+    uygula((1500, 1860, 660, 1060, 900, 1145), ayna)
     return d
 
 
@@ -2271,16 +2323,18 @@ def asimetrik(d, x, y, z, mod):
 
     # yakıt kapağı (sağ arka, +Y): yuvarlak Ø176, arka teker aksının arkasında, stobun sivri ucunun önünde.
     # Mavi OPC 26608068581 kalibre kamerasında kapak kenarından 8 noktanın gövdeye geri izdüşümü:
-    # x 3740..3902, z 813..979, |y| 752..833; 3B daire uydurma -> merkez (3817, 792, 895), R 88.8 (artık ±4.5),
+    # Heiligenhaus tam yan fotoğrafında (perspektif kamera: teker merkezleri + uç noktalar) kapak halkası elipsle
+    # uyduruldu: yarıçap modelle aynı (70.4 / 70.6 px), merkez 16 mm önde, 8 mm yukarıda -> (3801, 903).
+    # Eski ölçüm: x 3740..3902, z 813..979, |y| 752..833; 3B daire uydurma -> merkez (3817, 792, 895), R 88.8 (artık ±4.5),
     # düzlem normali gövde normaliyle aynı (0.26, 0.89, 0.38). Kapak gövde yüzeyine teğet düzlemde yuvarlak
     # (yüzey normali boyunca silindir). Oluk analitik uzaklık alanıdır: (s, yüzeyden derinlik) düzleminde yuvarlak
     # dipli kapsül, gövdeden ağız kenarı yuvarlatılarak (smax) çıkarılır; kapak yüzünün hafif kubbesi oluğa teğet
     # söner. Eskiden kubbe 0.04 mm'lik dik basamakla başlıyor, oluk sqrt profiliyle dik iniyor ve ikisi sert
     # max/min ile birleşiyordu: ızgarada (1.92 mm) oluğun iki kenarı yakından testere dişli çıkıyordu.
-    g = kes(3680, 3935, 640, 960, 790, 1015)
+    g = kes(3664, 3935, 640, 960, 790, 1025)
     if g:
         sl, X, Y, Z = g
-        xc, zc, rk = 3817.0, 895.0, 88.0
+        xc, zc, rk = 3801.0, 903.0, 88.0
         ys = np.arange(600.0, 960.0, 0.25)
         dv = govde_temel(np.array([[[xc]]]), ys[None, :, None], np.array([[[zc]]]))[0, :, 0]
         yc = float(ys[np.nonzero(dv < 0)[0][-1]])
