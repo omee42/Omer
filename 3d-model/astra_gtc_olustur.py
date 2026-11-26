@@ -317,7 +317,11 @@ _YUM_W /= _YUM_W.sum()
 
 def yum_maske(X, Y, Z):
     ay = np.abs(Y)
-    w = sstep5(2950.0, 3150.0, X) * (1.0 - sstep5(4390.0, 4450.0, X)) * sstep5(430.0, 540.0, ay) \
+    # omuz yüksekliğinde (z > ~860) geçiş kapının üstüne uzanır: yumuşatma çamurluk omzunu 3-5 mm içeri alır; geçiş
+    # kapı aralığının (x ~2820) 130-330 mm arkasında olunca kapı omzu dolgun, çamurluk çökük kalıyordu (kapı arkasında
+    # koyu leke, kapıdan çamurluğa sert geçiş). Alçakta kapının alt kılıç çizgisine dokunmamak için eski başlangıç kalır.
+    xb = 2950.0 - 600.0 * sstep5(780.0, 880.0, Z)
+    w = sstep5(xb, 3150.0, X) * (1.0 - sstep5(4390.0, 4450.0, X)) * sstep5(430.0, 540.0, ay) \
         * sstep5(560.0, 660.0, Z)
     # üst sınır: C direğinde 1250, spoyler ucu / bagaj kapağı köşesinde (x > 3700) 1110'a iner (orada kırışık bırakıyordu)
     zu = 1250.0 - 140.0 * sstep5(3600.0, 3800.0, X)
