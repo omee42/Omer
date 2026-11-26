@@ -324,8 +324,11 @@ def yum_maske(X, Y, Z):
     w = w * (1.0 - sstep5(zu - 90.0, zu, Z))
     aca = ARKA_CAM_ALT(np.minimum(X, 3600.0))
     w = w * (1.0 - (1.0 - sstep5(3480.0, 3660.0, X)) * sstep5(aca - 70.0, aca - 30.0, Z))
+    # stop altı / tampon üstü köşesi dışarıda: oradaki kırım çizgileri yumuşatmada dalga bırakıyordu
+    w = w * (1.0 - sstep5(4120.0, 4220.0, X) * (1.0 - sstep5(860.0, 940.0, Z)))
+    # kemer dudağından uzak başla: şablon (±87 mm) dudağa/boşluğa uzanınca kemere paralel 2 mm'lik kırışık çıkıyordu
     e = np.sqrt((X - AKS_ARKA) ** 2 + (Z - AKS_Z) ** 2) - CAMUR_R
-    return w * sstep5(55.0, 110.0, e)
+    return w * sstep5(150.0, 260.0, e)
 
 
 def govde_temel(X, Y, Z):
