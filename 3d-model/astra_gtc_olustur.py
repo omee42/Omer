@@ -305,6 +305,47 @@ EGIM_X = Egri([(1500, 0.47), (2400, 0.50), (2900, 0.54), (3300, 0.64), (3650, 0.
                (4100, 0.55), (4250, 0.54)])
 
 
+# arka çeyrek yumuşatması (YUM): arka çamurluk, C/D direği tabanı ve arka köşe bölgesinde gövde alanı 3B Gauss çekirdeğiyle
+# (3x3x3 örnek, aralık YUM_A) ortalanır. Üst üste binen düzeltme tablolarının bıraktığı topaklar (depo kapağı arkasında
+# kabarıklık, stop önünde çapraz çukur, omuzda keskin kırım) 10-20 cm ölçeğinde silinir; düzlem ve büyük yarıçaplı
+# yüzeyler değişmez. Kemer dudağı, yan cam kenarı, arka yüz ortası ve tavan bölge dışındadır (yumuşak maske).
+YUM_A = 50.0
+_YUM_OF = np.array([(i, j, k) for i in (-1, 0, 1) for j in (-1, 0, 1) for k in (-1, 0, 1)], float)
+_YUM_W = np.exp(-0.5 * (_YUM_OF ** 2).sum(1) / 0.85 ** 2)
+_YUM_W /= _YUM_W.sum()
+
+
+def yum_maske(X, Y, Z):
+    ay = np.abs(Y)
+    w = sstep5(2950.0, 3150.0, X) * (1.0 - sstep5(4390.0, 4450.0, X)) * sstep5(430.0, 540.0, ay) \
+        * sstep5(560.0, 660.0, Z)
+    # üst sınır: C direğinde 1250, spoyler ucu / bagaj kapağı köşesinde (x > 3700) 1110'a iner (orada kırışık bırakıyordu)
+    zu = 1250.0 - 140.0 * sstep5(3600.0, 3800.0, X)
+    w = w * (1.0 - sstep5(zu - 90.0, zu, Z))
+    aca = ARKA_CAM_ALT(np.minimum(X, 3600.0))
+    w = w * (1.0 - (1.0 - sstep5(3480.0, 3660.0, X)) * sstep5(aca - 70.0, aca - 30.0, Z))
+    e = np.sqrt((X - AKS_ARKA) ** 2 + (Z - AKS_Z) ** 2) - CAMUR_R
+    return w * sstep5(55.0, 110.0, e)
+
+
+def govde_temel(X, Y, Z):
+    d = _govde_temel_ham(X, Y, Z)
+    if _HAM:
+        return d
+    Xb, Yb, Zb = np.broadcast_arrays(X, Y, Z)
+    wb = yum_maske(Xb, Yb, Zb)
+    sec = wb > 1e-4
+    if not np.any(sec):
+        return d
+    d = np.array(np.broadcast_to(d, Xb.shape), dtype=float)
+    xs, ys, zs = Xb[sec], Yb[sec], Zb[sec]
+    acc = np.zeros(xs.shape)
+    for (ox, oy, oz), wk in zip(_YUM_OF * YUM_A, _YUM_W):
+        acc += wk * _govde_temel_ham(xs + ox, ys + oy, zs + oz)
+    d[sec] = d[sec] + wb[sec] * (acc - d[sec])
+    return d
+
+
 # OPC tavan spoyleri yan yüzü: kabin yan yüzeyinden (hw_kabin) dışa ofset. SP_EK sabit ince ek yeri payı; kanat ucu
 # planda SP_W(z) genişliğine kadar dolgun kalır (direk içe kaçtıkça ofset büyür), önde (x 3780-3880) sıfırdan başlar.
 SP_EK = 3.0
@@ -1061,7 +1102,7 @@ def rs_agirlik(X, Y, Z):
 _HAM = False
 
 
-def govde_temel(X, Y, Z):
+def _govde_temel_ham(X, Y, Z):
     hwx, dhwx = HW_PLAN(X), HW_PLAN.t(X)
     fz, dfz = F_DIKEY(Z), F_DIKEY.t(Z)
     # F_DIKEY z=1100'de biter: üstünde sabit kalınca hem genişlik kırılıyor hem de d_yan'ın eğim düzeltmesi
@@ -1074,7 +1115,8 @@ def govde_temel(X, Y, Z):
     zc = omuz_z(X)
     # arkada stobun sivri ön ucunda (x≈3950) söner: stobun üst kenarı bu çizginin devamıdır
     # kapıda (x 1150-2600) omuz kırımı yok: yerine yan_dolgu (yuvarlak bel altı); arka çamurluğa yükselen kısmı aynı
-    w_om = 1.0 - sstep(950.0, 1150.0, X) * (1.0 - sstep(3000.0, 3300.0, X))
+    # omuz şeridi yalnız ön çamurlukta: arka çamurlukta stoptan kapıya uzanan sivri sırt fotoğraflarda yok (yuvarlak basen)
+    w_om = 1.0 - sstep(950.0, 1150.0, X)
     serit = p(0.35) * np.maximum(0, 1 - np.abs(Z - zc) / p(1.7)) * sstep(500, 900, X) * (1 - sstep(3820, 4120, X)) * w_om
     hw = hw + serit
     hw = hw + yan_dolgu(X, Z)
@@ -1153,7 +1195,9 @@ def govde_temel(X, Y, Z):
     # traş sınırı bombe terimi yüzünden çapraz gidiyordu (|y| 440 z 640 -> |y| 100 z 800): arkadan parlak boyada
     # amblemin altında "X" biçimli yansıma. Bu bantta (z < 780) üst yüz arka yüzü etkilemez; z > 920 (omuz) aynı.
     d_ust = d_ust - 150.0 * (1.0 - sstep5(780.0, 920.0, Z)) * sstep5(4380.0, 4440.0, X)
-    r_alt = p(4.5) - 38.0 * sstep(3900, 4150, X)   # arkada D direği kırımı daha belirgin
+    # arka çamurluk omzu (gövde yanı - üst yüz birleşimi) arkaya doğru daha geniş yuvarlanır: gerçek araçta basen D direğine
+    # tek yuvarlak yayla bağlanır (eski: x 3900-4150'de 70 mm'ye inen keskin kırım, arka çaprazdan sert omuz çizgisi)
+    r_alt = p(4.5) + 30.0 * sstep(3700, 4100, X)
     alt_u = smax(smax(d_yan, d_ust, r_alt), d_on, p(3.0))
     alt = smax(alt_u, d_arka, p(3.5))
     alt = smax(alt, d_alt, p(1.2))
