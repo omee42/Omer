@@ -2855,8 +2855,18 @@ def _ters(v, f):
     return np.einsum("ij,ij->i", a, np.cross(b, c)).sum() < 0
 
 
-def govde_mesh(mod, h_baski, n, parca=96, dilim=8):
+def _dilim_sdf(a):
+    xs, yh, z, mod = a
+    return arac_sdf(Blok(xs, yh, z), mod).astype(np.float32)
+
+
+def govde_mesh(mod, h_baski, n, parca=96, dilim=4):
+    """İşlemci çekirdeği sayısı ASTRA_NP ortam değişkeniyle seçilir (varsayılan: tüm çekirdekler)."""
+    import os
+    import multiprocessing as mp
     from skimage.measure import marching_cubes
+    np_say = int(os.environ.get("ASTRA_NP", str(os.cpu_count() or 1)))
+    havuz = mp.get_context("fork").Pool(np_say) if np_say > 1 else None
     h = h_baski * n  # gerçek mm cinsinden ızgara
     x = np.arange(-40.0, 4520.0, h)
     yh = np.arange(0.0, 1060.0, h)
@@ -2869,9 +2879,10 @@ def govde_mesh(mod, h_baski, n, parca=96, dilim=8):
         c1 = min(nx - 1, c0 + parca)
         xs = x[c0:c1 + 1]
         yarim = np.empty((len(xs), len(yh), len(z)), np.float32)
-        for i0 in range(0, len(xs), dilim):
-            i1 = min(len(xs), i0 + dilim)
-            yarim[i0:i1] = arac_sdf(Blok(xs[i0:i1], yh, z), mod)
+        isler = [(xs[i0:i0 + dilim], yh, z, mod) for i0 in range(0, len(xs), dilim)]
+        sonuc = havuz.map(_dilim_sdf, isler) if havuz is not None else map(_dilim_sdf, isler)
+        for i0, blok in zip(range(0, len(xs), dilim), sonuc):
+            yarim[i0:i0 + len(blok)] = blok
         tam = np.concatenate([yarim[:, :0:-1, :], yarim], axis=1)
         del yarim
         asimetrik(tam, xs, y, z, mod)
@@ -2889,6 +2900,9 @@ def govde_mesh(mod, h_baski, n, parca=96, dilim=8):
             F.append(f + ofs)
             ofs += len(v)
         print(f"    {mod}: %{100 * c1 / (nx - 1):.0f} ({time.time() - t0:.0f} sn)", flush=True)
+    if havuz is not None:
+        havuz.close()
+        havuz.join()
     v = np.concatenate(V)
     f = np.concatenate(F)
     # parça sınırlarındaki ortak köşeleri birleştir (indeks uzayında birebir aynıdır)
