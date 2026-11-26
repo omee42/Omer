@@ -30,8 +30,8 @@ for ad in dosyalar:
     sayfa = next(iter(d["query"]["pages"].values()))
     ii = sayfa["imageinfo"][0]
     url = ii.get("thumburl") or ii["url"]
-    if "upload.wikimedia.org" not in url:   # thumb.wikimedia.org ağda kapalı olabilir: özgün dosyayı al
-        url = ii["url"]
+    # küçük boy görseller thumb.wikimedia.org'dan gelir (ortamın izinli alan adlarında olmalı); özgün dosyalar
+    # upload.wikimedia.org'da paylaşılan bulut IP'lerine sık sık 429 + Retry-After 600 döner
     em = ii.get("extmetadata", {})
     lis = em.get("LicenseShortName", {}).get("value", "?")
     yazar = em.get("Artist", {}).get("value", "?")
